@@ -1,6 +1,7 @@
 // --- CONFIGURATION ---
 const itemsPerPage = 8;
-let currentPage = 1;
+let currentPage = 1;      // The actual page of articles being viewed
+let centerPage = 1;       // The page number currently shown in the center button
 let allArticles = [];
 let totalPages = 0;
 
@@ -25,7 +26,6 @@ function init() {
 function renderContent() {
     const articlesContainer = document.getElementById('articles-list');
     const pagesContainer = document.getElementById('pages-container');
-    const pageIndicator = document.getElementById('page-indicator');
 
     if (!articlesContainer) return;
 
@@ -48,12 +48,11 @@ function renderContent() {
         `).join('');
     }
 
-    // C. Update UI
-
-    //Updating the Title Number
-    // if(pageIndicator) pageIndicator.textContent = currentPage;
-
-    //Updating the Bottom Buttons
+    // C. Update Pagination Buttons
+    // When content changes, we usually want to re-center the buttons on the new page
+    // (Optional: You can remove this line if you want the numbers to stay still when content changes)
+    centerPage = currentPage; 
+    
     if (pagesContainer && totalPages > 0) {
         renderPaginationButtons(pagesContainer);
     }
@@ -72,24 +71,34 @@ function renderPaginationButtons(container) {
         container.appendChild(btn);
     };
 
-    // Left Slot
-    if (currentPage > 1) {
-        createBtn(currentPage - 1, 'inactive', () => setPage(currentPage - 1));
+    // --- LOGIC: Show 3 buttons centered around "centerPage" ---
+    
+    // 1. LEFT SLOT (centerPage - 1)
+    const prevNum = centerPage - 1;
+    if (prevNum >= 1) {
+        // If this number happens to be the active content page, make it RED (active)
+        const style = (prevNum === currentPage) ? 'active' : 'inactive';
+        createBtn(prevNum, style, () => setPage(prevNum));
     } else {
         createBtn('', 'placeholder', null);
     }
 
-    // Middle Slot (Active)
-    createBtn(currentPage, 'active', null);
+    // 2. MIDDLE SLOT (centerPage)
+    const midStyle = (centerPage === currentPage) ? 'active' : 'inactive';
+    createBtn(centerPage, midStyle, () => setPage(centerPage));
 
-    // Right Slot
-    if (currentPage < totalPages) {
-        createBtn(currentPage + 1, 'inactive', () => setPage(currentPage + 1));
+    // 3. RIGHT SLOT (centerPage + 1)
+    const nextNum = centerPage + 1;
+    if (nextNum <= totalPages) {
+        const style = (nextNum === currentPage) ? 'active' : 'inactive';
+        createBtn(nextNum, style, () => setPage(nextNum));
     } else {
         createBtn('', 'placeholder', null);
     }
 }
 
+// Function called when clicking a NUMBER bubble
+// This updates the content.
 function setPage(num) {
     if (num < 1 || num > totalPages) return;
     currentPage = num;
@@ -98,11 +107,17 @@ function setPage(num) {
     if (mainArea) mainArea.scrollIntoView({ behavior: 'smooth' });
 }
 
+// Function called when clicking ARROWS
+// This only updates the numbers shown (slides them).
 function changePage(direction) {
-    if (direction === 'prev' && currentPage > 1) {
-        setPage(currentPage - 1);
-    } else if (direction === 'next' && currentPage < totalPages) {
-        setPage(currentPage + 1);
+    const pagesContainer = document.getElementById('pages-container');
+
+    if (direction === 'prev' && centerPage > 1) {
+        centerPage--; // Slide numbers Left
+        renderPaginationButtons(pagesContainer);
+    } else if (direction === 'next' && centerPage < totalPages) {
+        centerPage++; // Slide numbers Right
+        renderPaginationButtons(pagesContainer);
     }
 }
 

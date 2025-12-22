@@ -1532,3 +1532,200 @@ footer h2 {
 .otp-digit[type="number"] {
   -moz-appearance: textfield;
 }
+
+/* ==========================================
+   RESPONSIVE POPUP STYLES (Tablets & Mobile)
+   ========================================== */
+
+/* --- 1. TABLET & SMALL LAPTOPS (max-width: 1024px) --- */
+@media (max-width: 1024px) {
+    .popup.pop-card {
+        height: auto;          /* Fix the "30%" height issue so content isn't cut off */
+        min-height: 300px;     /* Ensure it looks substantial */
+        max-height: 90vh;      /* Allow scrolling if it gets too tall */
+        overflow-y: auto;
+        width: 70%;            /* Slightly wider on tablets */
+        padding: 40px;         /* comfortable padding */
+    }
+
+    /* Fix the "Back" button floating weirdly on tablets */
+    /* .pop-back-wrap {
+        position: static;      
+        text-align: right;
+        margin-top: 20px;
+        width: 100%;
+    } */
+
+    #view-email{
+      padding-bottom: 5px;
+    }
+
+    .popup.pop-card{
+      padding-bottom: 20px;
+    }
+
+}
+
+/* --- 2. LARGE PHONES & PORTRAIT TABLETS (max-width: 768px) --- */
+@media (max-width: 768px) {
+    .popup.pop-card {
+        width: 85%;            /* Take more width */
+        padding: 30px 25px;
+    }
+
+    /* Adjust OTP boxes to fit narrower screens */
+    .otp-digit {
+        width: 60px;           /* Shrink from 65px -> 50px */
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    
+    .otp-input-group {
+        gap: 10px;              /* Reduce gap */
+    }
+
+    #view-email{
+      padding-bottom: 5px;
+    }
+
+    .popup.pop-card{
+      padding-bottom: 10px;
+    }
+
+    /* Stack the Email Form (Input on top of Button) */
+    /* .pop-form {
+        flex-direction: column;
+        gap: 15px;
+    } */
+    
+    /* .pop-input, 
+    .pop-btn-continue {
+        width: 100%;
+        box-sizing: border-box;
+    } */
+}
+
+
+/* ==========================================
+   MOBILE RESPONSIVE: SUBSCRIBE POPUP
+   ========================================== */
+@media (max-width: 550px) {
+
+    /* 1. Main Card Adjustment */
+    .popup.pop-card {
+        width: 95%;        /* Take up almost full width */
+        height: auto;      /* Grow with content instead of fixed 30% */
+        min-height: 30%;   /* Minimum height */
+        max-height: 85vh;  /* Prevent it from going off-screen vertically */
+        overflow-y: auto;  /* Add scroll if content is too long */
+        padding: 20px 15px; /* Reduce padding for more space */
+    }
+
+    /* 2. Header & Logo */
+    .pop-header {
+        margin-bottom: 20px;
+    }
+    .pop-logo {
+        font-size: 1.2rem;
+    }
+
+    /* 3. Social Buttons (Fix overflow) */
+    .sm-btn {
+        width: 100%;       /* Fix the 120% issue */
+        max-width: 100%;
+        font-size: 0.85rem;
+        padding: 10px;
+    }
+
+    /* 4. Email Form (Stack vertically) */
+    /* .pop-form {
+        flex-direction: column;
+        gap: 10px;
+    } */
+    .pop-input {
+        width: 100%;
+        box-sizing: border-box; /* Ensures padding doesn't widen element */
+    }
+    /* .pop-btn-continue {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+    } */
+
+    /* 5. Back Button (Fix floating issue) */
+    /* .pop-back-wrap {
+        position: static; 
+        text-align: right;
+        margin-top: 15px;
+        width: 100%;
+    } */
+
+    /* 6. OTP Section (Critical Fix for 6 boxes) */
+    .otp-input-group {
+        gap: 8px; /* Reduce gap between boxes */
+    }
+
+    .otp-digit {
+        width: 50px;  /* Shrink from 65px to 40px */
+        height: 45px; /* Make slightly taller for touch */
+        font-size: 1rem;
+        padding: 0;
+        border-radius: 6px;
+    }
+    
+    .otp-heading {
+        font-size: 1rem;
+    }
+
+    #view-email{
+      padding-bottom: 5px;
+    }
+
+}
+
+
+/* --- 3. MOBILE PHONES (max-width: 480px) --- */
+@media (max-width: 480px) {
+    .popup.pop-card {
+        width: 95%;            /* Full width on phone */
+        padding: 20px 15px;
+        min-height: 30%;
+    }
+
+    /* Make buttons full width */
+    .sm-btn {
+        width: 100%;
+        max-width: 100%;
+        font-size: 0.9rem;
+    }
+
+    /* Shrink OTP further for small screens */
+    .otp-digit {
+        width: 50px;           /* Shrink to fit iPhone SE/small Androids */
+        height: 45px;
+        font-size: 1rem;
+    }
+    
+    .otp-input-group {
+        gap: 8px;              /* Tight gap */
+    }
+
+    .pop-header {
+        margin-bottom: 20px;
+    }
+
+    .pop-logo {
+        font-size: 1.2rem;
+    }
+
+    /* Center the back button on mobile */
+    /* .pop-back-wrap {
+        text-align: right; 
+        margin-top: 25px;
+    } */
+
+    #view-email{
+      padding-bottom: 5px;
+    }
+}
+

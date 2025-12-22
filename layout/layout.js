@@ -396,12 +396,64 @@ function initPopupLogic() {
     const formEmail = document.getElementById('form-email');
     const inputEmail = document.getElementById('email-input');
     const displayEmail = document.getElementById('display-email');
+    const newsletterCheck = document.getElementById('newsletter-check');
+    const checkboxRow = document.querySelector('.checkbox-row');
     
     const otpInputs = document.querySelectorAll('.otp-digit');
     const otpToast = document.getElementById('otp-toast');
     const resendWrapper = document.querySelector('.resend-wrapper');
     const resendTimerDisplay = document.getElementById('resend-timer');
     const resendText = document.getElementById('resend-text');
+
+    // ==========================================
+    // TOGGLE: SIGN UP <-> SIGN IN
+    // ==========================================
+    
+    // 1. Select Elements
+    const toggleLink = document.getElementById('toggle-auth-mode');
+    const footerPrompt = document.getElementById('text-footer-prompt');
+    
+    const txtGoogle = document.getElementById('text-google');
+    const txtTwitter = document.getElementById('text-twitter');
+    const txtEmail = document.getElementById('text-email');
+
+    let isLoginMode = false; // False = Sign Up Mode (Default)
+
+    // 2. The Toggle Function
+    if (toggleLink) {
+        toggleLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            isLoginMode = !isLoginMode; // Switch true/false
+
+            if (isLoginMode) {
+                // --- SWITCH TO LOGIN MODE Change Text ---
+                if(txtGoogle) txtGoogle.textContent = "Sign in with Google";
+                if(txtTwitter) txtTwitter.textContent = "Sign in with X";
+                if(txtEmail) txtEmail.textContent = "Sign in with email";
+                
+                if(footerPrompt) footerPrompt.textContent = "New here? ";
+                toggleLink.textContent = "Create an account";
+
+                // 2. Hide Newsletter Checkbox (Don't need it for login)
+                if(checkboxRow) checkboxRow.classList.add('hidden');
+                
+            } else {
+                // --- SWITCH TO SIGN UP MODE ---
+                if(txtGoogle) txtGoogle.textContent = "Sign up with Google";
+                if(txtTwitter) txtTwitter.textContent = "Sign up with X";
+                if(txtEmail) txtEmail.textContent = "Sign up with email";
+                
+                if(footerPrompt) footerPrompt.textContent = "Already have an account? ";
+                toggleLink.textContent = "Sign in";
+
+                // 2. Show Newsletter Checkbox
+                if(checkboxRow) checkboxRow.classList.remove('hidden');
+                
+                // Reset Title
+                // if(popTitle) popTitle.innerHTML = 'b<span class="text-red">ai</span>.news';
+            }
+        });
+    }
 
     let timerInterval = null;
 
@@ -416,12 +468,29 @@ function initPopupLogic() {
         if(viewEmail) viewEmail.classList.add('hidden');
         if(viewOtp) viewOtp.classList.add('hidden');
 
+        isLoginMode = false;
+        if(toggleLink) toggleLink.textContent = "Sign in";
+
         // Clear Inputs
         if(inputEmail) inputEmail.value = "";
         otpInputs.forEach(input => input.value = "");
 
+        //Uncheck the box
+        if(newsletterCheck) newsletterCheck.checked = false;
+
         // Reset Timer
         if (timerInterval) clearInterval(timerInterval);
+
+        // RESET TO DEFAULT (Sign Up Mode)
+        isLoginMode = false;
+        if(toggleLink) toggleLink.textContent = "Sign in";
+        if(footerPrompt) footerPrompt.textContent = "Already have an account? ";
+        if(checkboxRow) checkboxRow.classList.remove('hidden');
+        
+        // Reset Button Text
+        if(txtGoogle) txtGoogle.textContent = "Sign up with Google";
+        if(txtTwitter) txtTwitter.textContent = "Sign up with X";
+        if(txtEmail) txtEmail.textContent = "Sign up with email";
     }
 
     // --- C. OPEN POPUP (Event Delegation) ---
@@ -460,30 +529,50 @@ function initPopupLogic() {
         });
     }
 
-    // --- F. TIMER FUNCTION ---
+// --- F. NEW TIMER FUNCTION (With Locking Logic) ---
     function startOtpTimer() {
-        let timeLeft = 30;
+        // We use the variables you already selected at the top of initPopupLogic
+        if (!resendWrapper || !resendTimerDisplay) return;
+
+        // 1. LOCK THE BUTTON (Visuals)
+        resendWrapper.style.pointerEvents = "none"; // Stop clicks
+        resendWrapper.style.opacity = "0.75";        // Fade it out
+        resendWrapper.classList.add('disabled');    // Add status class
         
-        // Reset Timer UI
-        if(resendWrapper) resendWrapper.classList.remove('resend-active');
+        // Optional: Change cursor
+        resendWrapper.style.cursor = "default";
         if(resendText) resendText.textContent = "resend ";
-        if(resendTimerDisplay) {
-            resendTimerDisplay.style.display = "inline";
-            resendTimerDisplay.textContent = "00 : 30";
-        }
-        
+
+        let timeLeft = 30; // 30 Seconds
+
+        // 2. START COUNTDOWN
+        // Clear any existing timer using the variable defined at line 378
         if (timerInterval) clearInterval(timerInterval);
+        
+        // Show initial text
+        resendTimerDisplay.style.display = "inline";
+        resendTimerDisplay.textContent = "(00:30)"; 
 
         timerInterval = setInterval(() => {
             timeLeft--;
+            
+            // Format "00:09"
             const seconds = timeLeft < 10 ? `0${timeLeft}` : timeLeft;
-            if(resendTimerDisplay) resendTimerDisplay.textContent = `00 : ${seconds}`;
+            resendTimerDisplay.textContent = `(${seconds}s)`;
 
+            // 3. UNLOCK WHEN FINISHED
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                if(resendTimerDisplay) resendTimerDisplay.style.display = "none";
+                
+                // Restore Clickability
+                resendWrapper.style.pointerEvents = "auto"; 
+                resendWrapper.style.opacity = "1";          
+                resendWrapper.style.cursor = "pointer";
+                resendWrapper.classList.remove('disabled');
+                
+                // Reset Text
+                resendTimerDisplay.style.display = "none"; 
                 if(resendText) resendText.textContent = "resend";
-                if(resendWrapper) resendWrapper.classList.add('resend-active');
             }
         }, 1000);
     }
@@ -507,20 +596,36 @@ function initPopupLogic() {
         });
     }
 
-    // --- H. RESEND CLICK ---
-    if (resendWrapper) {
-        resendWrapper.addEventListener('click', () => {
-            if (resendWrapper.classList.contains('resend-active')) {
-                // Show Toast
+    // --- H. RESEND CLICK (Delegated & Functional) ---
+    // We listen on the document so it works even if elements refresh
+    document.addEventListener('click', (e) => {
+        // Target the wrapper div provided in your HTML
+        const wrapper = e.target.closest('.resend-wrapper');
+
+        if (wrapper) {
+            // Safety Check: If it's disabled (greyed out), stop.
+            if (wrapper.style.pointerEvents === 'none' || wrapper.classList.contains('disabled')) {
+                return;
+            }
+
+            // 1. ACTION: Send the email
+            // We use the email input variable defined at top of function
+            if (inputEmail && inputEmail.value) {
+                console.log("Resending code to:", inputEmail.value);
+                sendOTP(inputEmail.value); // Calls your existing send function
+                
+                // Show Toast (Optional feedback)
                 if(otpToast) {
+                    otpToast.textContent = "Code Resent!";
                     otpToast.classList.add('show');
                     setTimeout(() => otpToast.classList.remove('show'), 2000);
                 }
-                // Restart Timer
-                startOtpTimer();
             }
-        });
-    }
+
+            // 2. ACTION: Restart the timer lock
+            startOtpTimer();
+        }
+    });
 
     // --- I. OTP INPUT LOGIC ---
     otpInputs.forEach((input, index) => {
@@ -598,7 +703,7 @@ function initPopupLogic() {
         });
     }
 
-    // 3. VERIFY OTP FUNCTION
+// 3. VERIFY OTP FUNCTION
     function verifyOTP() {
         // 1. Get the numbers from boxes
         let enteredCode = "";
@@ -610,29 +715,46 @@ function initPopupLogic() {
         // 2. Check Match
         if (enteredCode === generatedOTP) {
             
-            // 3. Authenticate (MODULAR SYNTAX FIX)
+            // 3. Authenticate
             signInAnonymously(auth)
                 .then((result) => {
-                    // A. Get Email for Name
                     const userEmail = document.getElementById('email-input').value;
                     const derivedName = userEmail.split('@')[0];
 
-                    // B. Update Profile (MODULAR SYNTAX FIX)
+                    // --- CHECKBOX LOGIC START ---
+                    // We only care about the newsletter if they are SIGNING UP (not login)
+                    if (!isLoginMode && newsletterCheck && newsletterCheck.checked) {
+                        console.log("User joined the mailing list!");
+                        localStorage.setItem('baiNewsletter', 'true');
+                    } else if (!isLoginMode) {
+                        localStorage.setItem('baiNewsletter', 'false');
+                    }
+                    // --- CHECKBOX LOGIC END ---
+
+                    // B. Update Profile
                     updateProfile(result.user, { 
                         displayName: derivedName 
                     }).then(() => {
                         
                         // C. UPDATE UI
-                        // (Ensure this function is available globally)
                         if (typeof updateUIForUser === "function") {
                             updateUIForUser(result.user);
                         }
                         
                         // D. CLOSE POPUP
-                        // Use resetPopupState since closePopup isn't defined in your code
                         resetPopupState(); 
                         
-                        alert("Account Created Successfully!"); 
+                        // --- CUSTOM MESSAGE BASED ON MODE ---
+                        if (isLoginMode) {
+                            alert("Welcome back! You have successfully signed in.");
+                        } else {
+                            // If they checked the box, mention it
+                            if (newsletterCheck && newsletterCheck.checked) {
+                                alert("Account Created! You are subscribed to updates.");
+                            } else {
+                                alert("Account Created Successfully!");
+                            }
+                        }
                     });
                 })
                 .catch((error) => {
@@ -642,8 +764,10 @@ function initPopupLogic() {
 
         } else {
             alert("Incorrect Code. Please try again.");
-            // Optional: Clear inputs on fail
+            // Clear inputs on fail
             inputs.forEach(input => input.value = "");
+            // Focus back on first box
+            if(inputs.length > 0) inputs[0].focus();
         }
     }
 
