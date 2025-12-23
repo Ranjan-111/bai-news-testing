@@ -100,226 +100,7 @@ function resetUI() {
 }
 
 
-
-
-// ==========================================
-// 1. HAMBURGER MENU LOGIC
-// ==========================================
-document.addEventListener('DOMContentLoaded', function () {
-    const btn = document.querySelector('.menu__icon');
-    if (btn) {
-        btn.addEventListener('click', () => {
-            btn.classList.toggle('active');
-        });
-    }
-});
-
-// ==========================================
-// 2. SEARCH AND FILTER TOGGLE LOGIC
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    // Select Elements
-    const searchWrapper = document.querySelector('.search-wrapper');
-    const searchToggleBtn = document.getElementById('search-toggle-btn');
-    const searchPopupContainer = document.getElementById('search-popup-container');
-    const filterOptionsContainer = document.getElementById('filter-options-container');
-
-    // Select Icons
-    // We use optional chaining (?.) or checks inside the function to prevent crashes
-    if (!searchToggleBtn) return; // Stop if button doesn't exist
-
-    const imgSearch = searchToggleBtn.querySelector('.search-icon');
-    const imgFilterEmpty = searchToggleBtn.querySelector('.filter-icon1');
-    const imgFilterFilled = searchToggleBtn.querySelector('.filter-icon2');
-
-    let clickCount = 0;
-
-    // Helper to swap images safely
-    function updateImages(showImage) {
-        if (imgSearch) imgSearch.style.display = 'none';
-        if (imgFilterEmpty) imgFilterEmpty.style.display = 'none';
-        if (imgFilterFilled) imgFilterFilled.style.display = 'none';
-
-        if (showImage === 1 && imgSearch) imgSearch.style.display = 'block';
-        if (showImage === 2 && imgFilterEmpty) imgFilterEmpty.style.display = 'block';
-        if (showImage === 3 && imgFilterFilled) imgFilterFilled.style.display = 'block';
-    }
-
-    // Set initial state
-    updateImages(1);
-
-    searchToggleBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        clickCount++;
-
-        // --- CLICK 1 (Start Search) ---
-        if (clickCount === 1) {
-            searchWrapper.classList.add('active');
-            searchPopupContainer.classList.add('active');
-            filterOptionsContainer.classList.remove('visible');
-            updateImages(2);
-        }
-        // --- LOOPING CLICKS (2, 3...) ---
-        else {
-            if (clickCount % 2 === 0) {
-                // Even: Open Filter
-                filterOptionsContainer.classList.add('visible');
-                updateImages(3);
-            } else {
-                // Odd: Close Filter
-                filterOptionsContainer.classList.remove('visible');
-                updateImages(2);
-            }
-        }
-    });
-
-    // --- CLICK OUTSIDE LOGIC ---
-    document.addEventListener('click', (e) => {
-        if (!searchWrapper || !searchWrapper.classList.contains('active')) return;
-
-        // 1. Clicked Completely Outside
-        if (!searchWrapper.contains(e.target)) {
-            searchWrapper.classList.remove('active');
-            searchPopupContainer.classList.remove('active');
-            filterOptionsContainer.classList.remove('visible');
-            clickCount = 0;
-            updateImages(1);
-        }
-        // 2. Clicked Inside Search but Outside Filter
-        else if (!filterOptionsContainer.contains(e.target) && e.target !== searchToggleBtn) {
-            if (filterOptionsContainer.classList.contains('visible')) {
-                filterOptionsContainer.classList.remove('visible');
-                clickCount = 1;
-                updateImages(2);
-            }
-        }
-    });
-
-    // Prevent closing when clicking inside
-    if (searchPopupContainer) searchPopupContainer.addEventListener('click', e => e.stopPropagation());
-    if (filterOptionsContainer) filterOptionsContainer.addEventListener('click', e => e.stopPropagation());
-});
-
-// ==========================================
-// 3. SEARCH INPUT FILTERING LOGIC
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('searchInput');
-    const filterCheckboxes = document.querySelectorAll('input[name="filter-tags"]');
-    const articles = document.querySelectorAll('.article-card');
-
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            filterContent(searchTerm, getSelectedFilters());
-        });
-    }
-
-    filterCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
-            filterContent(searchTerm, getSelectedFilters());
-        });
-    });
-
-    function getSelectedFilters() {
-        const selected = [];
-        filterCheckboxes.forEach(checkbox => {
-            if (checkbox.checked) selected.push(checkbox.value);
-        });
-        return selected;
-    }
-
-    function filterContent(searchTerm, selectedFilters) {
-        articles.forEach(article => {
-            const tags = article.getAttribute('data-tags') || '';
-            const text = article.textContent.toLowerCase();
-            const matchesSearch = !searchTerm || text.includes(searchTerm);
-            const matchesFilter = selectedFilters.length === 0 || selectedFilters.some(filter => tags.includes(filter));
-
-            if (matchesSearch && matchesFilter) {
-                article.classList.remove('hidden');
-                if (article.nextElementSibling && article.nextElementSibling.tagName === 'HR') {
-                    article.nextElementSibling.style.display = '';
-                }
-            } else {
-                article.classList.add('hidden');
-                if (article.nextElementSibling && article.nextElementSibling.tagName === 'HR') {
-                    article.nextElementSibling.style.display = 'none';
-                }
-            }
-        });
-    }
-});
-
-// ==========================================
-// 4. SHARE ICON LOGIC (Safeguarded)
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    // We verify the element exists BEFORE trying to use it
-    const shareLink = document.querySelector('a:has(.s-icon1)');
-    const shareIcon = shareLink ? shareLink.querySelector('.s-icon1') : null;
-
-    if (shareLink && shareIcon) {
-        const unfilledIconPath = "../assets/share icon unfilled.png";
-        const filledIconPath = "../assets/share icon filled.png";
-
-        shareLink.addEventListener('click', function (event) {
-            event.preventDefault();
-            if (shareIcon.src.includes("unfilled")) {
-                shareIcon.src = filledIconPath;
-            } else {
-                shareIcon.src = unfilledIconPath;
-            }
-        });
-
-        document.addEventListener('click', function (event) {
-            if (!shareLink.contains(event.target)) {
-                if (shareIcon.src.includes("filled")) {
-                    shareIcon.src = unfilledIconPath;
-                }
-            }
-        });
-    }
-});
-
-// ==========================================
-// 5. SHARE FUNCTIONALITY (Safeguarded)
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    const shareIconEl = document.querySelector('.s-icon1');
-    
-    // SAFETY CHECK: Only run if icon exists
-    if (shareIconEl) {
-        const shareBtnParent = shareIconEl.parentElement;
-        
-        shareBtnParent.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const articleTitle = document.querySelector('#news-headline')?.textContent || document.title;
-            const articleUrl = window.location.href;
-
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: articleTitle,
-                        text: `${articleTitle}\n\nRead more here:`,
-                        url: articleUrl
-                    });
-                } catch (error) {
-                    if (error.name !== 'AbortError') console.error('Error sharing:', error);
-                }
-            } else {
-                alert('Share not supported');
-            }
-        });
-    }
-});
-
-
-
-
+// ==================------------------======================
 
 
 
@@ -333,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 async function loadLayout() {
     try {
-        // Fetch the common layout file
         const response = await fetch('../layout/layout.html');
         if (!response.ok) throw new Error('Could not load layout.html');
         
@@ -341,19 +121,23 @@ async function loadLayout() {
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
 
-        // A. Inject Header (Top of page)
+        // A. Inject Header
         const headerContent = doc.getElementById('source-header').innerHTML;
         document.getElementById('global-header').innerHTML = headerContent;
 
-        // B. Inject Footer (Bottom of page)
+        // B. Inject Footer
         const footerContent = doc.getElementById('source-footer').innerHTML;
         document.getElementById('global-footer').innerHTML = footerContent;
 
-        // C. Inject Popup (Append to bottom of body)
+        // C. Inject Popup (Append to bottom)
         const popupContent = doc.getElementById('source-popup').innerHTML;
         document.body.insertAdjacentHTML('beforeend', popupContent);
 
-        // D. START LOGIC (Now that elements exist)
+        // D. INJECT SEARCH WRAPPER (New!)
+        const searchContent = doc.getElementById('source-search').innerHTML;
+        document.body.insertAdjacentHTML('beforeend', searchContent);
+
+        // E. START LOGIC (Now that all elements exist)
         initGlobalLogic();
 
     } catch (error) {
@@ -365,10 +149,13 @@ async function loadLayout() {
 // 2. GLOBAL INIT (The Coordinator)
 // ==========================================
 function initGlobalLogic() {
-    // 1. Initialize the Popup Logic
+    // 1. Initialize Popup
     initPopupLogic();
 
-    // 2. Highlight the active page link in Sidebar
+    // 2. Initialize Search (We call the new function here!)
+    initSearchLogic();
+
+    // 3. Highlight Sidebar Link
     const currentPage = window.location.pathname.split("/").pop() || 'index.html';
     const menuLinks = document.querySelectorAll('.menu-item');
     menuLinks.forEach(link => {
@@ -376,7 +163,178 @@ function initGlobalLogic() {
             link.classList.add('active-page');
         }
     });
+
+    // 4. Hamburger Menu Logic
+    const btn = document.querySelector('.menu__icon');
+    if (btn) {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('active');
+        });
+    }
 }
+
+// ==========================================
+// 3. SEARCH LOGIC (Consolidated Function)
+// ==========================================
+function initSearchLogic() {
+    const searchWrapper = document.querySelector('.search-wrapper');
+    const searchToggleBtn = document.getElementById('search-toggle-btn');
+    const searchPopupContainer = document.getElementById('search-popup-container');
+    const filterOptionsContainer = document.getElementById('filter-options-container');
+    const searchInput = document.getElementById('searchInput');
+    const resultsBox = document.getElementById('search-results-box');
+    const filterCheckboxes = document.querySelectorAll('input[name="filter-tags"]');
+
+    if (!searchToggleBtn || !searchInput) return; // Safety Exit
+
+    // --- A. TOGGLE BUTTON VISUALS ---
+    const imgSearch = searchToggleBtn.querySelector('.search-icon');
+    const imgFilterEmpty = searchToggleBtn.querySelector('.filter-icon1');
+    const imgFilterFilled = searchToggleBtn.querySelector('.filter-icon2');
+    let clickCount = 0;
+
+    function updateImages(showImage) {
+        if (imgSearch) imgSearch.style.display = 'none';
+        if (imgFilterEmpty) imgFilterEmpty.style.display = 'none';
+        if (imgFilterFilled) imgFilterFilled.style.display = 'none';
+
+        if (showImage === 1 && imgSearch) imgSearch.style.display = 'block';
+        if (showImage === 2 && imgFilterEmpty) imgFilterEmpty.style.display = 'block';
+        if (showImage === 3 && imgFilterFilled) imgFilterFilled.style.display = 'block';
+    }
+    updateImages(1);
+
+    // --- B. TOGGLE CLICK HANDLER ---
+    searchToggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        clickCount++;
+
+        if (clickCount === 1) { // Open Search
+            searchWrapper.classList.add('active');
+            searchPopupContainer.classList.add('active');
+            filterOptionsContainer.classList.remove('visible');
+            updateImages(2);
+        } else { // Toggle Filter
+            if (clickCount % 2 === 0) {
+                filterOptionsContainer.classList.add('visible');
+                updateImages(3);
+            } else {
+                filterOptionsContainer.classList.remove('visible');
+                updateImages(2);
+            }
+        }
+    });
+
+    // --- C. CLOSE ON CLICK OUTSIDE ---
+    document.addEventListener('click', (e) => {
+        if (!searchWrapper || !searchWrapper.classList.contains('active')) return;
+
+        if (!searchWrapper.contains(e.target)) {
+            // Clicked completely outside
+            searchWrapper.classList.remove('active');
+            searchPopupContainer.classList.remove('active');
+            filterOptionsContainer.classList.remove('visible');
+            resultsBox.classList.remove('active'); // Close results too
+            clickCount = 0;
+            updateImages(1);
+        } else if (!filterOptionsContainer.contains(e.target) && e.target !== searchToggleBtn && !resultsBox.contains(e.target)) {
+            // Clicked inside search but not on filter/results
+            if (filterOptionsContainer.classList.contains('visible')) {
+                filterOptionsContainer.classList.remove('visible');
+                clickCount = 1;
+                updateImages(2);
+            }
+        }
+    });
+
+    // --- D. PERFORM SEARCH (Typing + Filters) ---
+    function performSearch() {
+        const query = searchInput.value.toLowerCase().trim();
+        
+        // Get Selected Tags
+        const selectedTags = Array.from(filterCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value.toLowerCase());
+
+        // Hide if empty
+        if (query.length === 0) {
+             resultsBox.classList.remove('active');
+             resultsBox.innerHTML = "";
+             return;
+        }
+
+        // Check Data
+        if (typeof articleDatabase === 'undefined') {
+            console.warn("Search Error: articleDatabase not found.");
+            return;
+        }
+
+        // Filter Data
+        const filteredData = articleDatabase.filter(article => {
+            const plainTitle = article.title.replace(/(<([^>]+)>)/gi, "").toLowerCase();
+            const plainSummary = article.summary.replace(/(<([^>]+)>)/gi, "").toLowerCase();
+            const articleTags = (article.tags || "").toLowerCase();
+
+            const matchesText = plainTitle.includes(query) || plainSummary.includes(query);
+            const matchesTags = selectedTags.length === 0 || 
+                                selectedTags.some(tag => articleTags.includes(tag));
+
+            return matchesText && matchesTags;
+        });
+
+        displaySearchResults(filteredData, query);
+    }
+
+    // Connect Listeners
+    searchInput.addEventListener('input', performSearch);
+    filterCheckboxes.forEach(cb => cb.addEventListener('change', performSearch));
+    
+    // Stop clicks inside specific boxes from closing the UI
+    if (searchPopupContainer) searchPopupContainer.addEventListener('click', e => e.stopPropagation());
+    if (filterOptionsContainer) filterOptionsContainer.addEventListener('click', e => e.stopPropagation());
+    if (resultsBox) resultsBox.addEventListener('click', e => e.stopPropagation());
+
+    // --- E. DISPLAY RESULTS ---
+    function displaySearchResults(data, query) {
+        if (data.length === 0) {
+            resultsBox.innerHTML = `<div style="text-align:center; color:#888; padding:10px;">No matching results.</div>`;
+            resultsBox.classList.add('active');
+            return;
+        }
+
+        const html = data.map(article => {
+            const plainTitle = article.title.replace(/(<([^>]+)>)/gi, "");
+            const plainSummary = article.summary.replace(/(<([^>]+)>)/gi, "");
+            const hlTitle = highlightText(plainTitle, query);
+            const hlSummary = highlightText(plainSummary, query);
+
+            return `
+            <a href="../docs/index.html" class="result-card">
+                <h4>${hlTitle}</h4>
+                <p>${hlSummary}</p>
+                <span class="result-date">${article.date}</span>
+            </a>
+            `;
+        }).join('');
+
+        resultsBox.innerHTML = html;
+        resultsBox.classList.add('active');
+    }
+
+    function highlightText(text, query) {
+        if (!query) return text;
+        const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(${safeQuery})`, 'gi');
+        return text.replace(regex, '<span class="highlight-red">$1</span>');
+    }
+}
+
+
+
+
+
+
 
 // ==========================================
 // 3. DETAILED POPUP LOGIC

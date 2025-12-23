@@ -29,6 +29,11 @@
             text-decoration: none;
         }
 
+        /* =====---- REMOVE SEARCH AND FILTER ------===== */
+        .search-wrapper{
+            display: none;
+        }
+
         /*.  =============== SIDE-BAR ============================ */
 
         /* HIDE CHECKBOX */

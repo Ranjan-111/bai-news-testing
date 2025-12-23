@@ -47,3 +47,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // ... your other init functions ...
     initFollowButton();
 });
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.title);
+
+    // 1. WhatsApp
+    const wa = document.getElementById('share-wa');
+    if(wa) wa.href = `https://api.whatsapp.com/send?text=${title}%20${url}`;
+
+    // 2. X (Twitter)
+    const x = document.getElementById('share-x');
+    if(x) x.href = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
+
+    // 3. LinkedIn
+    const li = document.getElementById('share-li');
+    if(li) li.href = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+
+    // 4. Copy Link
+    const copyBtn = document.getElementById('share-copy');
+    if(copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link copied!"); // Or use your Toast
+        });
+    }
+});
