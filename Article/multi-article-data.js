@@ -6,37 +6,43 @@ const articleDatabase = [
         "title": "The Rise of AI: <span class='text-red'>Transforming Industries</span> and Daily Life",
         "date": "8 AUG 2025",
         "summary": "Artificial Intelligence (AI) is revolutionizing various sectors, from healthcare to finance, enhancing efficiency and creating new opportunities.",
-        "tags": "tech india"
+        "tags": "tech india Priyanshu",
+        "author": "Priyanshu"
     },
     {
         "title": "Sustainable Tech: Innovations for a <span class='text-red'>Greener Future</span>",
         "date": "8 AUG 2025",
         "summary": "Explore the latest advancements in sustainable technology that are helping to combat climate change and promote environmental conservation.",
-        "tags": "tech ai"
+        "tags": "tech ai Priyanshu",
+        "author": "Priyanshu"
     },
     {
         "title": "Blockchain Beyond <span class='text-red'>Cryptocurrency</span>: Real-World Applications",
         "date": "9 AUG 2025",
         "summary": "Discover how blockchain technology is being utilized in various industries beyond cryptocurrency, including supply chain management and healthcare.",
-        "tags": "ai tech"
+        "tags": "ai tech Priyanshu",
+        "author": "Priyanshu"
     },
     {
         "title": "Quantum Computing: The <span class='text-red'>Next Frontier</span>",
         "date": "10 AUG 2025",
         "summary": "Quantum computers are poised to solve problems that are currently impossible for classical computers, impacting cryptography and materials science.",
-        "tags": "tech science"
+        "tags": "tech science Tiara",
+        "author": "Tiara"
     },
     {
         "title": "The Future of <span class='text-red'>Remote Work</span>",
         "date": "11 AUG 2025",
         "summary": "How digital nomadism and remote work technologies are reshaping urban planning and work-life balance globally.",
-        "tags": "work tech"
+        "tags": "work tech Tiara",
+        "author": "Tiara"
     },
     {
         "title": "Cybersecurity in <span class='text-red'>2025</span>",
         "date": "12 AUG 2025",
         "summary": "New threats require new defenses. Understanding the landscape of digital security in an increasingly connected world.",
-        "tags": "security tech"
+        "tags": "security tech Tiara",
+        "author": "Tiara"
     },
     {
         "title": "Mars Colonization: <span class='text-red'>A Reality?</span>",

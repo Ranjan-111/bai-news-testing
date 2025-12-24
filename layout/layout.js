@@ -2,15 +2,15 @@
 // 0. FIREBASE CONFIGURATION & IMPORTS
 // ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, signInAnonymously, updateProfile} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, signInAnonymously, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC_Q3p2dyKwUOUv5O-gIMNI8vv6RrD0IZY",
-  authDomain: "bai-news-9e4cf.firebaseapp.com",
-  projectId: "bai-news-9e4cf",
-  storageBucket: "bai-news-9e4cf.firebasestorage.app",
-  messagingSenderId: "1056453543830",
-  appId: "1:1056453543830:web:c40a8c1e5bb582f2c63fb7"
+    apiKey: "AIzaSyC_Q3p2dyKwUOUv5O-gIMNI8vv6RrD0IZY",
+    authDomain: "bai-news-9e4cf.firebaseapp.com",
+    projectId: "bai-news-9e4cf",
+    storageBucket: "bai-news-9e4cf.firebasestorage.app",
+    messagingSenderId: "1056453543830",
+    appId: "1:1056453543830:web:c40a8c1e5bb582f2c63fb7"
 };
 
 // Initialize
@@ -37,14 +37,14 @@ function handleGoogleLogin() {
         .then((result) => {
             const user = result.user;
             console.log("Login Success:", user.displayName);
-            
+
             // A. Close the Popup
             const overlay = document.getElementById('popupOverlay');
-            if(overlay) overlay.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
 
             // B. Update the UI immediately (Turn button black)
             updateUIForUser(user);
-            
+
             // Note: We DO NOT use window.location.href here. 
             // We want to stay on the page and show the user they are subscribed.
         })
@@ -57,7 +57,7 @@ function handleGoogleLogin() {
 // 3. CHECK LOGIN STATE (Runs on page load)
 onAuthStateChanged(auth, (user) => {
     const subscribeBtn = document.getElementById('openPopupBtn');
-    
+
     if (user) {
         // User is logged in -> Set Black Button
         updateUIForUser(user);
@@ -77,13 +77,13 @@ function updateUIForUser(user) {
     const subscribeBtn = document.getElementById('openPopupBtn');
     if (subscribeBtn) {
         // Change Styles to Black
-        subscribeBtn.style.backgroundColor = "#000"; 
+        subscribeBtn.style.backgroundColor = "#000";
         subscribeBtn.style.color = "#fff";
-        
+
         // Change Text
         // We use innerHTML to keep the styling, or just text
         subscribeBtn.innerHTML = '<span class="text">Subscribed</span>';
-        
+
         // Optional: Disable click so popup doesn't open again
         subscribeBtn.style.pointerEvents = "none";
     }
@@ -93,7 +93,7 @@ function resetUI() {
     const subscribeBtn = document.getElementById('openPopupBtn');
     if (subscribeBtn) {
         subscribeBtn.style.backgroundColor = ""; // Revert to CSS default (Red)
-        subscribeBtn.style.color = ""; 
+        subscribeBtn.style.color = "";
         subscribeBtn.innerHTML = '<span class="text">Subscribe</span> <span class="icon"><svg viewBox="0 0 448 512" class="bell"><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"></path></svg></span>';
         subscribeBtn.style.pointerEvents = "auto";
     }
@@ -101,6 +101,74 @@ function resetUI() {
 
 
 // ==================------------------======================
+
+
+// ==========================================
+//  SHARE ICON LOGIC (Safeguarded)
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    // We verify the element exists BEFORE trying to use it
+    const shareLink = document.querySelector('a:has(.s-icon1)');
+    const shareIcon = shareLink ? shareLink.querySelector('.s-icon1') : null;
+
+    if (shareLink && shareIcon) {
+        const unfilledIconPath = "../assets/share icon unfilled.png";
+        const filledIconPath = "../assets/share icon filled.png";
+
+        shareLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (shareIcon.src.includes("unfilled")) {
+                shareIcon.src = filledIconPath;
+            } else {
+                shareIcon.src = unfilledIconPath;
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!shareLink.contains(event.target)) {
+                if (shareIcon.src.includes("filled")) {
+                    shareIcon.src = unfilledIconPath;
+                }
+            }
+        });
+    }
+});
+
+
+
+// ==========================================
+//  SHARE FUNCTIONALITY (Safeguarded)
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const shareIconEl = document.querySelector('.s-icon1');
+    // SAFETY CHECK: Only run if icon exists
+
+    if (shareIconEl) {
+        const shareBtnParent = shareIconEl.parentElement;
+        shareBtnParent.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const articleTitle = document.querySelector('#news-headline')?.textContent || document.title;
+            const articleUrl = window.location.href;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: articleTitle,
+                        text: `${articleTitle}\n\nRead more here:`,
+                        url: articleUrl
+                    });
+                } catch (error) {
+                    if (error.name !== 'AbortError') console.error('Error sharing:', error);
+                }
+            } else {
+                alert('Share not supported');
+            }
+        });
+    }
+});
+
+
+
 
 
 
@@ -116,7 +184,7 @@ async function loadLayout() {
     try {
         const response = await fetch('../layout/layout.html');
         if (!response.ok) throw new Error('Could not load layout.html');
-        
+
         const text = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
@@ -251,7 +319,7 @@ function initSearchLogic() {
     // --- D. PERFORM SEARCH (Typing + Filters) ---
     function performSearch() {
         const query = searchInput.value.toLowerCase().trim();
-        
+
         // Get Selected Tags
         const selectedTags = Array.from(filterCheckboxes)
             .filter(cb => cb.checked)
@@ -259,9 +327,9 @@ function initSearchLogic() {
 
         // Hide if empty
         if (query.length === 0) {
-             resultsBox.classList.remove('active');
-             resultsBox.innerHTML = "";
-             return;
+            resultsBox.classList.remove('active');
+            resultsBox.innerHTML = "";
+            return;
         }
 
         // Check Data
@@ -277,8 +345,8 @@ function initSearchLogic() {
             const articleTags = (article.tags || "").toLowerCase();
 
             const matchesText = plainTitle.includes(query) || plainSummary.includes(query);
-            const matchesTags = selectedTags.length === 0 || 
-                                selectedTags.some(tag => articleTags.includes(tag));
+            const matchesTags = selectedTags.length === 0 ||
+                selectedTags.some(tag => articleTags.includes(tag));
 
             return matchesText && matchesTags;
         });
@@ -289,7 +357,7 @@ function initSearchLogic() {
     // Connect Listeners
     searchInput.addEventListener('input', performSearch);
     filterCheckboxes.forEach(cb => cb.addEventListener('change', performSearch));
-    
+
     // Stop clicks inside specific boxes from closing the UI
     if (searchPopupContainer) searchPopupContainer.addEventListener('click', e => e.stopPropagation());
     if (filterOptionsContainer) filterOptionsContainer.addEventListener('click', e => e.stopPropagation());
@@ -350,13 +418,13 @@ function initPopupLogic() {
     const viewOtp = document.getElementById('view-otp');
 
     const btnToEmail = document.getElementById('btn-to-email');
-    const btnBack = document.getElementById('btn-back'); 
+    const btnBack = document.getElementById('btn-back');
     const formEmail = document.getElementById('form-email');
     const inputEmail = document.getElementById('email-input');
     const displayEmail = document.getElementById('display-email');
     const newsletterCheck = document.getElementById('newsletter-check');
     const checkboxRow = document.querySelector('.checkbox-row');
-    
+
     const otpInputs = document.querySelectorAll('.otp-digit');
     const otpToast = document.getElementById('otp-toast');
     const resendWrapper = document.querySelector('.resend-wrapper');
@@ -366,11 +434,11 @@ function initPopupLogic() {
     // ==========================================
     // TOGGLE: SIGN UP <-> SIGN IN
     // ==========================================
-    
+
     // 1. Select Elements
     const toggleLink = document.getElementById('toggle-auth-mode');
     const footerPrompt = document.getElementById('text-footer-prompt');
-    
+
     const txtGoogle = document.getElementById('text-google');
     const txtTwitter = document.getElementById('text-twitter');
     const txtEmail = document.getElementById('text-email');
@@ -385,28 +453,28 @@ function initPopupLogic() {
 
             if (isLoginMode) {
                 // --- SWITCH TO LOGIN MODE Change Text ---
-                if(txtGoogle) txtGoogle.textContent = "Sign in with Google";
-                if(txtTwitter) txtTwitter.textContent = "Sign in with X";
-                if(txtEmail) txtEmail.textContent = "Sign in with email";
-                
-                if(footerPrompt) footerPrompt.textContent = "New here? ";
+                if (txtGoogle) txtGoogle.textContent = "Sign in with Google";
+                if (txtTwitter) txtTwitter.textContent = "Sign in with X";
+                if (txtEmail) txtEmail.textContent = "Sign in with email";
+
+                if (footerPrompt) footerPrompt.textContent = "New here? ";
                 toggleLink.textContent = "Create an account";
 
                 // 2. Hide Newsletter Checkbox (Don't need it for login)
-                if(checkboxRow) checkboxRow.classList.add('hidden');
-                
+                if (checkboxRow) checkboxRow.classList.add('hidden');
+
             } else {
                 // --- SWITCH TO SIGN UP MODE ---
-                if(txtGoogle) txtGoogle.textContent = "Sign up with Google";
-                if(txtTwitter) txtTwitter.textContent = "Sign up with X";
-                if(txtEmail) txtEmail.textContent = "Sign up with email";
-                
-                if(footerPrompt) footerPrompt.textContent = "Already have an account? ";
+                if (txtGoogle) txtGoogle.textContent = "Sign up with Google";
+                if (txtTwitter) txtTwitter.textContent = "Sign up with X";
+                if (txtEmail) txtEmail.textContent = "Sign up with email";
+
+                if (footerPrompt) footerPrompt.textContent = "Already have an account? ";
                 toggleLink.textContent = "Sign in";
 
                 // 2. Show Newsletter Checkbox
-                if(checkboxRow) checkboxRow.classList.remove('hidden');
-                
+                if (checkboxRow) checkboxRow.classList.remove('hidden');
+
                 // Reset Title
                 // if(popTitle) popTitle.innerHTML = 'b<span class="text-red">ai</span>.news';
             }
@@ -418,37 +486,37 @@ function initPopupLogic() {
     // --- B. HELPER: RESET STATE ---
     function resetPopupState() {
         if (!overlay) return;
-        
+
         overlay.classList.remove('active');
-        
+
         // Reset Views
-        if(viewOptions) viewOptions.classList.add('hidden');
-        if(viewEmail) viewEmail.classList.add('hidden');
-        if(viewOtp) viewOtp.classList.add('hidden');
+        if (viewOptions) viewOptions.classList.add('hidden');
+        if (viewEmail) viewEmail.classList.add('hidden');
+        if (viewOtp) viewOtp.classList.add('hidden');
 
         isLoginMode = false;
-        if(toggleLink) toggleLink.textContent = "Sign in";
+        if (toggleLink) toggleLink.textContent = "Sign in";
 
         // Clear Inputs
-        if(inputEmail) inputEmail.value = "";
+        if (inputEmail) inputEmail.value = "";
         otpInputs.forEach(input => input.value = "");
 
         //Uncheck the box
-        if(newsletterCheck) newsletterCheck.checked = false;
+        if (newsletterCheck) newsletterCheck.checked = false;
 
         // Reset Timer
         if (timerInterval) clearInterval(timerInterval);
 
         // RESET TO DEFAULT (Sign Up Mode)
         isLoginMode = false;
-        if(toggleLink) toggleLink.textContent = "Sign in";
-        if(footerPrompt) footerPrompt.textContent = "Already have an account? ";
-        if(checkboxRow) checkboxRow.classList.remove('hidden');
-        
+        if (toggleLink) toggleLink.textContent = "Sign in";
+        if (footerPrompt) footerPrompt.textContent = "Already have an account? ";
+        if (checkboxRow) checkboxRow.classList.remove('hidden');
+
         // Reset Button Text
-        if(txtGoogle) txtGoogle.textContent = "Sign up with Google";
-        if(txtTwitter) txtTwitter.textContent = "Sign up with X";
-        if(txtEmail) txtEmail.textContent = "Sign up with email";
+        if (txtGoogle) txtGoogle.textContent = "Sign up with Google";
+        if (txtTwitter) txtTwitter.textContent = "Sign up with X";
+        if (txtEmail) txtEmail.textContent = "Sign up with email";
     }
 
     // --- C. OPEN POPUP (Event Delegation) ---
@@ -464,7 +532,7 @@ function initPopupLogic() {
 
     // --- D. CLOSE HANDLERS ---
     if (closeBtn) closeBtn.addEventListener('click', resetPopupState);
-    
+
     if (overlay) {
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) resetPopupState();
@@ -476,7 +544,7 @@ function initPopupLogic() {
         btnToEmail.addEventListener('click', () => {
             viewOptions.classList.add('hidden');
             viewEmail.classList.remove('hidden');
-            if(inputEmail) inputEmail.focus();
+            if (inputEmail) inputEmail.focus();
         });
     }
 
@@ -487,7 +555,7 @@ function initPopupLogic() {
         });
     }
 
-// --- F. NEW TIMER FUNCTION (With Locking Logic) ---
+    // --- F. NEW TIMER FUNCTION (With Locking Logic) ---
     function startOtpTimer() {
         // We use the variables you already selected at the top of initPopupLogic
         if (!resendWrapper || !resendTimerDisplay) return;
@@ -496,24 +564,24 @@ function initPopupLogic() {
         resendWrapper.style.pointerEvents = "none"; // Stop clicks
         resendWrapper.style.opacity = "0.75";        // Fade it out
         resendWrapper.classList.add('disabled');    // Add status class
-        
+
         // Optional: Change cursor
         resendWrapper.style.cursor = "default";
-        if(resendText) resendText.textContent = "resend ";
+        if (resendText) resendText.textContent = "resend ";
 
         let timeLeft = 30; // 30 Seconds
 
         // 2. START COUNTDOWN
         // Clear any existing timer using the variable defined at line 378
         if (timerInterval) clearInterval(timerInterval);
-        
+
         // Show initial text
         resendTimerDisplay.style.display = "inline";
-        resendTimerDisplay.textContent = "(00:30)"; 
+        resendTimerDisplay.textContent = "(00:30)";
 
         timerInterval = setInterval(() => {
             timeLeft--;
-            
+
             // Format "00:09"
             const seconds = timeLeft < 10 ? `0${timeLeft}` : timeLeft;
             resendTimerDisplay.textContent = `(${seconds}s)`;
@@ -521,16 +589,16 @@ function initPopupLogic() {
             // 3. UNLOCK WHEN FINISHED
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                
+
                 // Restore Clickability
-                resendWrapper.style.pointerEvents = "auto"; 
-                resendWrapper.style.opacity = "1";          
+                resendWrapper.style.pointerEvents = "auto";
+                resendWrapper.style.opacity = "1";
                 resendWrapper.style.cursor = "pointer";
                 resendWrapper.classList.remove('disabled');
-                
+
                 // Reset Text
-                resendTimerDisplay.style.display = "none"; 
-                if(resendText) resendText.textContent = "resend";
+                resendTimerDisplay.style.display = "none";
+                if (resendText) resendText.textContent = "resend";
             }
         }, 1000);
     }
@@ -541,14 +609,14 @@ function initPopupLogic() {
             e.preventDefault();
             if (inputEmail && inputEmail.value.trim() !== "") {
                 // Update Display Email
-                if(displayEmail) displayEmail.textContent = inputEmail.value;
-                
+                if (displayEmail) displayEmail.textContent = inputEmail.value;
+
                 // Switch Views
                 viewEmail.classList.add('hidden');
                 viewOtp.classList.remove('hidden');
-                
+
                 // Focus & Start Timer
-                if(otpInputs[0]) otpInputs[0].focus();
+                if (otpInputs[0]) otpInputs[0].focus();
                 startOtpTimer();
             }
         });
@@ -571,9 +639,9 @@ function initPopupLogic() {
             if (inputEmail && inputEmail.value) {
                 console.log("Resending code to:", inputEmail.value);
                 sendOTP(inputEmail.value); // Calls your existing send function
-                
+
                 // Show Toast (Optional feedback)
-                if(otpToast) {
+                if (otpToast) {
                     otpToast.textContent = "Code Resent!";
                     otpToast.classList.add('show');
                     setTimeout(() => otpToast.classList.remove('show'), 2000);
@@ -608,11 +676,11 @@ function initPopupLogic() {
         displayEmail.addEventListener('click', () => {
             viewOtp.classList.add('hidden');
             viewEmail.classList.remove('hidden');
-            
+
             // Clear timer and inputs
             if (timerInterval) clearInterval(timerInterval);
             otpInputs.forEach(input => input.value = "");
-            if(inputEmail) inputEmail.focus();
+            if (inputEmail) inputEmail.focus();
         });
     }
 
@@ -622,7 +690,7 @@ function initPopupLogic() {
 
     // 1. CONFIGURATION
     // PASTE YOUR GOOGLE SCRIPT URL HERE
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZ5TN8yWPNlKnqWIwZY1EETxkp8X_MtHKanSD9m5KtexX23zTFlH-Hs9M_RUz03Oq0-w/exec"; 
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZ5TN8yWPNlKnqWIwZY1EETxkp8X_MtHKanSD9m5KtexX23zTFlH-Hs9M_RUz03Oq0-w/exec";
 
     let generatedOTP = null; // To store the code we sent
 
@@ -634,9 +702,9 @@ function initPopupLogic() {
 
         // B. Show user we are working
         const toast = document.getElementById('otp-toast'); // Ensure you have this HTML element
-        if(toast) { 
-            toast.textContent = "Sending Code..."; 
-            toast.classList.add('show'); 
+        if (toast) {
+            toast.textContent = "Sending Code...";
+            toast.classList.add('show');
         }
 
         // C. Send to Google
@@ -645,34 +713,34 @@ function initPopupLogic() {
             // We send it as text/plain to avoid CORS "preflight" issues with Google
             body: JSON.stringify({ email: email, otp: generatedOTP }),
         })
-        .then(response => response.text()) // Read response as text
-        .then(result => {
-            console.log("Google Response:", result);
-            
-            // Update UI
-            if(toast) { 
-                toast.textContent = "Code Sent!"; 
-                setTimeout(() => toast.classList.remove('show'), 3000);
-            }
-        })
-        .catch(error => {
-            console.error("Error sending email:", error);
-            alert("Could not send email. Check console.");
-        });
+            .then(response => response.text()) // Read response as text
+            .then(result => {
+                console.log("Google Response:", result);
+
+                // Update UI
+                if (toast) {
+                    toast.textContent = "Code Sent!";
+                    setTimeout(() => toast.classList.remove('show'), 3000);
+                }
+            })
+            .catch(error => {
+                console.error("Error sending email:", error);
+                alert("Could not send email. Check console.");
+            });
     }
 
-// 3. VERIFY OTP FUNCTION
+    // 3. VERIFY OTP FUNCTION
     function verifyOTP() {
         // 1. Get the numbers from boxes
         let enteredCode = "";
         const inputs = document.querySelectorAll('.otp-digit');
         inputs.forEach(input => enteredCode += input.value);
 
-        console.log("Checking:", enteredCode, "vs", generatedOTP); 
+        console.log("Checking:", enteredCode, "vs", generatedOTP);
 
         // 2. Check Match
         if (enteredCode === generatedOTP) {
-            
+
             // 3. Authenticate
             signInAnonymously(auth)
                 .then((result) => {
@@ -690,18 +758,18 @@ function initPopupLogic() {
                     // --- CHECKBOX LOGIC END ---
 
                     // B. Update Profile
-                    updateProfile(result.user, { 
-                        displayName: derivedName 
+                    updateProfile(result.user, {
+                        displayName: derivedName
                     }).then(() => {
-                        
+
                         // C. UPDATE UI
                         if (typeof updateUIForUser === "function") {
                             updateUIForUser(result.user);
                         }
-                        
+
                         // D. CLOSE POPUP
-                        resetPopupState(); 
-                        
+                        resetPopupState();
+
                         // --- CUSTOM MESSAGE BASED ON MODE ---
                         if (isLoginMode) {
                             alert("Welcome back! You have successfully signed in.");
@@ -725,7 +793,7 @@ function initPopupLogic() {
             // Clear inputs on fail
             inputs.forEach(input => input.value = "");
             // Focus back on first box
-            if(inputs.length > 0) inputs[0].focus();
+            if (inputs.length > 0) inputs[0].focus();
         }
     }
 
@@ -740,17 +808,17 @@ function initPopupLogic() {
         formEmail.addEventListener('submit', (e) => {
             e.preventDefault();
             const email = inputEmail.value.trim();
-            
+
             if (email) {
                 // 1. Switch View (Hide Email Form, Show OTP Form)
                 document.getElementById('view-email').classList.add('hidden');
                 document.getElementById('view-otp').classList.remove('hidden');
-                
+
                 // 2. Send the Code!
                 sendOTP(email);
-                
+
                 // 3. Start Timer (Optional)
-                startOtpTimer(); 
+                startOtpTimer();
             }
         });
     }
@@ -762,11 +830,11 @@ function initPopupLogic() {
             if (input.value.length === 1 && index < otpInputs.length - 1) {
                 otpInputs[index + 1].focus();
             }
-            
+
             // Check if all filled -> Verify automatically
             // We delay slightly to let the last number appear
             if (index === 5 && input.value !== "") {
-                setTimeout(verifyOTP, 100); 
+                setTimeout(verifyOTP, 100);
             }
         });
     });
@@ -778,9 +846,9 @@ function initPopupLogic() {
         // Check if the thing clicked is the verify button (or inside it)
         if (e.target.closest('#btn-verify-otp')) {
             e.preventDefault(); // Stop page reload
-            
+
             console.log("Create Button Clicked! (Via Delegation)");
-            
+
             // Run the verification function
             verifyOTP();
         }

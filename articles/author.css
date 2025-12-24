@@ -1,0 +1,396 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    text-decoration: none;
+    color: #000;
+}
+
+img{
+    filter: grayscale(90%);
+}
+
+/* ==========================================
+   AUTHOR PROFILE STYLES
+   ========================================== */
+
+.profile-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    min-height: 80vh;
+}
+
+/* --- 1. HEADER SECTION --- */
+.profile-header {
+    display: flex;
+    justify-content: flex-start; /* Aligns left like your reference image */
+    padding: 1rem 0 2rem 0;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    width: 100%;
+}
+
+.profile-img-container img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-info h1 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 2.5rem; /* Larger Name */
+    font-weight: 400;  /* Thinner font like image */
+    margin: 0 0 0.2rem 0;
+    letter-spacing: -0.5px;
+}
+
+.p-tag {
+    font-family: "Roboto", sans-serif;
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    margin-top: 0;
+}
+
+.p-stats {
+    font-family: "Roboto", sans-serif;
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* --- BUTTONS & SOCIALS (Requests #2 & #3) --- */
+.p-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Exact "Follow" button style */
+/* .btn-follow {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+    transition: background 0.2s;
+}
+
+.btn-follow:hover {
+    background-color: #333;
+} */
+
+.follow-btn {
+    background-color: transparent;
+    border: 0px solid #aaa; 
+    border-radius: 20px; /* Pill shape */
+    padding: 4px 14px;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.follow-btn:hover {
+    background-color: #e95454;
+    color: white;
+    /* border-color: #711a1a; */
+        border: 0px solid #aaa; 
+
+}
+
+/* Default Style (Unfollowed) */
+.follow-btn {
+    padding: 6px 16px;
+    border: 1px solid #000;
+    background: transparent;
+    color: #000;
+    cursor: pointer;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* Active Style (Followed) */
+.follow-btn.following {
+    background-color: #000;
+    color: #fff;
+    content: "Followed"; /* Optional helper */
+}
+
+
+
+.p-socials {
+    display: flex;
+    gap: 12px;
+}
+
+.social-icon {
+    color: #555;
+    transition: color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.social-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.social-icon:hover {
+    color: #000;
+    transform: scale(1.1);
+}
+
+/* Add this to your existing .social-icon styles */
+
+.youtube-icon:hover {
+    color: #FF0000; /* YouTube Red */
+}
+
+.linkedin-icon:hover {
+    color: #0077b5; /* LinkedIn Blue */
+}
+
+.x-icon:hover {
+    color: #000; /* X Black */
+}
+
+
+/* --- 2. TABS (Request #4) --- */
+.profile-tabs {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: -1px; /* Overlap with divider */
+    position: relative;
+    z-index: 2;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: #888;
+    cursor: pointer;
+    padding: 10px 0;
+    font-family: "Roboto", sans-serif;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.tab-btn.active {
+    color: #000;
+    font-weight: 500;
+}
+
+/* Underline for active tab */
+.tab-btn.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+}
+
+.profile-divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin-bottom: 3rem;
+}
+
+/* --- 3. GRID LAYOUT --- */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+}
+
+.section-title {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+/* --- CONTENT: ABOUT TAB --- */
+.hidden { display: none; }
+.active { display: block; }
+
+.about-bio {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.detail-row {
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.detail-label {
+    width: 100px;
+    color: #888;
+    font-weight: 500;
+}
+
+.about-tags-container {
+    margin-top: 2rem;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.about-tag {
+    background: #f5f5f5;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* --- ARTICLES LIST --- */
+.auth-article-card {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    color: inherit;
+    align-items: flex-start;
+}
+
+.auth-article-card img {
+    width: 180px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.auth-card-content h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.auth-card-content p {
+    color: #666;
+    font-size: 0.95rem;
+    margin: 0 0 0.8rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.auth-date {
+    font-size: 0.8rem;
+    color: #d73634;
+    font-weight: 600;
+}
+
+/* --- SIDEBAR --- */
+.following-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.following-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.following-card img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.f-info h4 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.f-info p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.btn-sm-follow {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid #ddd;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-sm-follow:hover {
+    border-color: #000;
+    background-color: #f9f9f9;
+}
+
+
+.see-all-link {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 10px;
+    display: block;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .profile-info {
+        text-align: left;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .auth-sidebar {
+        order: 2;
+        border-top: 1px solid #eee;
+        padding-top: 2rem;
+        max-width: 300px;
+    }
+    
+    .section-title {
+        display: block; /* Show titles on mobile for clarity */
+    }
+}
+
+
+
+
+

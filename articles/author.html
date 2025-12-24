@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Profile | BAI.NEWS</title>
+    <link rel="stylesheet" href="../layout/layout.css">
+    <link rel="stylesheet" href="author.css">
+</head>
+<body>
+
+    <div id="global-header"></div>
+
+    <main class="profile-container">
+        
+        <section class="profile-header">
+            <div class="header-content">
+                <div class="profile-img-container">
+                    <img src="../assets/author-profile.jpeg" alt="Author" id="p-image">
+                </div>
+                
+                <div class="profile-info">
+                    <h1 id="p-name"> </h1>
+                    <p id="p-tag">AI Reseaher</p> 
+                    
+                    <div class="p-stats">
+                        <span id="p-followers"> followers</span> • 
+                        <span id="p-articles-count">0 articles</span>
+                    </div>
+                    
+                    <div class="p-actions">
+                        <button class="follow-btn">Follow</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="profile-tabs">
+            <button class="tab-btn active" data-tab="home">Home</button>
+            <button class="tab-btn" data-tab="about">About</button>
+        </div>
+
+        <hr class="profile-divider">
+
+        <div class="profile-grid">
+            
+            <section class="auth-content-area">
+                
+                <div id="tab-home" class="tab-content active">
+                    <h3 class="section-title">Latest Articles from<h3 id="p-name"> </h3></h3>
+                    <div id="author-articles-list">
+                        </div>
+                </div>
+
+                <div id="tab-about" class="tab-content hidden">
+                    <h3 class="section-title">About Priyanshu</h3>
+                    <div class="about-details">
+                        <p class="about-bio">
+                            Tech Journalist & AI Enthusiast with over 5 years of experience covering the future of deep learning, generative AI, and sustainable energy solutions. Passionate about making complex tech accessible to everyone.
+                        </p>
+                        
+                        <div class="detail-row">
+                            <span class="detail-label">Email:</span>
+                            <span class="detail-value">priyanshu@bai.news</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Location:</span>
+                            <span class="detail-value">Bangalore, India</span>
+                        </div>
+
+                        <div class="about-socials-group">
+                            <h4 class="socials-title">Connect</h4>
+                            
+                            <a href="#" id="social-link-x" class="about-social-row" target="_blank" style="display:none;">
+                                <div class="social-icon-box">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                                </div>
+                                <span id="social-text-x">@username</span>
+                            </a>
+
+                            <a href="#" id="social-link-li" class="about-social-row" target="_blank" style="display:none;">
+                                <div class="social-icon-box">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path></svg>
+                                </div>
+                                <span id="social-text-li">Linkedin Profile</span>
+                            </a>
+                        </div>
+                        
+                        <div class="about-tags-container">
+                            <span class="about-tag">AI Researcher</span>
+                            <span class="about-tag">Tech Writer</span>
+                            <span class="about-tag">Speaker</span>
+                            <span class="about-tag">Futurist</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <aside class="auth-sidebar">
+                <h3 class="section-title">Following</h3>
+                <div class="following-list">
+                    <div class="following-card">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Editor">
+                        <div class="f-info">
+                            <h4>Navid Nathoo</h4>
+                            <p>Senior Editor</p>
+                        </div>
+                        <button class="btn-sm-follow">Follow</button>
+                    </div>
+
+                    <div class="following-card">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Editor">
+                        <div class="f-info">
+                            <h4>Tiara</h4>
+                            <p>AI Researcher</p>
+                        </div>
+                        <button class="btn-sm-follow">Follow</button>
+                    </div>
+
+                    <a href="#" class="see-all-link">See all (9)</a>
+                </div>
+            </aside>
+
+        </div>
+
+    </main>
+
+    <div id="global-footer"></div>
+
+    <script src="../Article/authors-data.js"></script>
+    <script src="../Article/multi-article-data.js"></script>
+    <script defer type="module" src="../layout/layout.js"></script>
+    <script src="author.js"></script>
+
+</body>
+</html>

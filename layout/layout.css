@@ -1921,12 +1921,12 @@ footer h2 {
   z-index: 90;
   scrollbar-width: thin; /* For Firefox */
 
-    background: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.3);
+    /* box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
     border-radius: 0.8rem;
     border: 2px solid rgba(255, 255, 255, 0.5);
     border-right: 2px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2); */
     backdrop-filter: blur(10px);
 }
 
