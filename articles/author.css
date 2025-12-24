@@ -393,4 +393,65 @@ img{
 
 
 
+/* --- NEW SOCIALS IN ABOUT SECTION --- */
+.about-socials-group {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.socials-title {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.about-social-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: #333;
+    font-size: 0.95rem;
+    font-weight: 500;
+    width: fit-content;
+    padding: 5px 10px 5px 0;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.about-social-row:hover {
+    color: #d73634; /* Theme red */
+    background-color: #f9f9f9;
+    padding-left: 10px; /* Slight nudge effect */
+}
+
+.social-icon-box {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+}
+
+.social-icon-box svg {
+    width: 20px;
+    height: 20px;
+}
+
+.about-social-row:hover .social-icon-box {
+    color: #d73634;
+}
+
+/* Fix for tags container margin */
+.about-tags-container {
+    margin-top: 2rem;
+}
+
+
+
+
 
