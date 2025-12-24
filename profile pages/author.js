@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. GET AUTHOR NAME FROM URL ---
     const urlParams = new URLSearchParams(window.location.search);
-    const authorKeyParam = urlParams.get('name'); 
+    const authorKeyParam = urlParams.get('name');
 
     // --- 2. CHECK DATA SOURCE ---
     if (typeof authorProfiles === 'undefined') {
@@ -20,36 +20,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 3. FILL HEADER DETAILS ---
     document.title = `${currentAuthor.name} | BAI.NEWS`;
-    
+
     const pImage = document.getElementById('p-image');
-    if(pImage && currentAuthor.image) pImage.src = currentAuthor.image;
-    
+    if (pImage && currentAuthor.image) pImage.src = currentAuthor.image;
+
     const pName = document.getElementById('p-name');
-    if(pName) pName.textContent = currentAuthor.name;
-    
+    if (pName) pName.textContent = currentAuthor.name;
+
     const homeHeaderName = document.getElementById('home-header-name');
-    if(homeHeaderName) homeHeaderName.textContent = currentAuthor.name;
+    if (homeHeaderName) homeHeaderName.textContent = currentAuthor.name;
 
     const aboutHeaderName = document.getElementById('about-header-name');
-    if(aboutHeaderName) aboutHeaderName.textContent = currentAuthor.name;
-    
-    const pTag = document.getElementById('p-tag');
-    if(pTag) pTag.textContent = currentAuthor.tag;
-    
-    const pFollowers = document.getElementById('p-followers');
-    if(pFollowers) pFollowers.textContent = `${currentAuthor.followers} followers`;
+    if (aboutHeaderName) aboutHeaderName.textContent = currentAuthor.name;
 
-    // --- 4. FILL ABOUT TAB DETAILS ---
+    const pTag = document.getElementById('p-tag');
+    if (pTag) pTag.textContent = currentAuthor.tag;
+
+    const pFollowers = document.getElementById('p-followers');
+    if (pFollowers) pFollowers.textContent = `${currentAuthor.followers} followers`;
+
+    // --- 4. INIT MAIN FOLLOW BUTTON (Header) ---
+    // We attach the author's name to the button so our Global Click Listener knows who to follow
+    const mainFollowBtn = document.querySelector('.profile-header .follow-btn');
+    if (mainFollowBtn) {
+        mainFollowBtn.dataset.author = currentAuthor.name; // Attach "Priyanshu" to button
+        updateFollowButtonState(mainFollowBtn, currentAuthor.name); // Check storage immediately
+    }
+
+    // --- 5. FILL ABOUT DETAILS ---
     const pBio = document.getElementById('p-bio');
-    if(pBio) pBio.textContent = currentAuthor.bio;
+    if (pBio) pBio.textContent = currentAuthor.bio;
 
     const pEmail = document.getElementById('p-email');
-    if(pEmail) pEmail.textContent = currentAuthor.stats?.email || "N/A";
+    if (pEmail) pEmail.textContent = currentAuthor.stats?.email || "N/A";
 
     const pLocation = document.getElementById('p-location');
-    if(pLocation) pLocation.textContent = currentAuthor.stats?.location || "N/A";
+    if (pLocation) pLocation.textContent = currentAuthor.stats?.location || "N/A";
 
-    // --- 5. FILL SOCIAL LINKS ---
+    // --- 6. FILL SOCIAL LINKS ---
     const getHandle = (url) => {
         try {
             const parts = url.split('/');
@@ -60,15 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const setSocial = (linkId, textId, linkUrl) => {
         const linkEl = document.getElementById(linkId);
         const textEl = document.getElementById(textId);
-        
         if (!linkEl) return;
-
         if (linkUrl && linkUrl !== "#") {
             linkEl.href = linkUrl;
-            linkEl.style.display = "flex"; 
-            if(textEl) textEl.textContent = getHandle(linkUrl);
+            linkEl.style.display = "flex";
+            if (textEl) textEl.textContent = getHandle(linkUrl);
         } else {
-            linkEl.style.display = "none"; 
+            linkEl.style.display = "none";
         }
     }
 
@@ -76,10 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
     setSocial('social-link-li', 'social-text-li', currentAuthor.socials?.linkedin);
     setSocial('social-link-yt', 'social-text-yt', currentAuthor.socials?.youtube);
 
-    // --- 5B. FILL ABOUT TAGS ---
+    // --- 7. FILL ABOUT TAGS ---
     const tagsContainer = document.getElementById('about-tags-container');
     if (tagsContainer) {
-        tagsContainer.innerHTML = ''; 
+        tagsContainer.innerHTML = '';
         if (currentAuthor.aboutTags && Array.isArray(currentAuthor.aboutTags)) {
             currentAuthor.aboutTags.forEach(tagText => {
                 const span = document.createElement('span');
@@ -90,45 +96,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 6. FILTER ARTICLES (Tag-Based) ---
+    // --- 8. FILTER ARTICLES (Tag-Based) ---
     const articlesList = document.getElementById('author-articles-list');
     const articlesCountSpan = document.getElementById('p-articles-count');
 
-    if (typeof articleDatabase === 'undefined') {
-        console.error("Article Database not loaded.");
-        if(articlesList) articlesList.innerHTML = "<p>Error loading articles.</p>";
-        return;
-    }
+    if (typeof articleDatabase !== 'undefined') {
+        const nameToSearch = currentAuthor.name.toLowerCase();
+        const authorArticles = articleDatabase.filter(article => {
+            const tags = (article.tags || "").toLowerCase();
+            return tags.includes(nameToSearch);
+        });
 
-    const nameToSearch = currentAuthor.name.toLowerCase();
-    const authorArticles = articleDatabase.filter(article => {
-        const tags = (article.tags || "").toLowerCase();
-        return tags.includes(nameToSearch);
-    });
+        if (articlesCountSpan) articlesCountSpan.textContent = `${authorArticles.length} articles`;
 
-    if(articlesCountSpan) {
-        articlesCountSpan.textContent = `${authorArticles.length} articles`;
-    }
-
-    if(articlesList) {
-        if (authorArticles.length === 0) {
-            articlesList.innerHTML = `<div style="padding:20px; background:#f9f9f9; border-radius:8px; color:#666;">No articles found.</div>`;
-        } else {
-            articlesList.innerHTML = authorArticles.map(article => `
-                <a href="../docs/index.html" class="auth-article-card">
-                    <img src="../assets/img1.jpg" alt="Article Thumb"> 
-                    <div class="auth-card-content">
-                        <h3>${article.title}</h3>
-                        <p>${article.summary}</p>
-                        <span class="auth-date">${article.date}</span>
-                    </div>
-                </a>
-                <hr style="border:0; border-top:1px solid #f5f5f5; margin-bottom:2rem;">
-            `).join('');
+        if (articlesList) {
+            if (authorArticles.length === 0) {
+                articlesList.innerHTML = `<div style="padding:20px; color:#666;">No articles found.</div>`;
+            } else {
+                articlesList.innerHTML = authorArticles.map(article => `
+                    <a href="../main/index.html" class="auth-article-card">
+                        <img src="../assets/img1.jpg" alt="Article Thumb"> 
+                        <div class="auth-card-content">
+                            <h3>${article.title}</h3>
+                            <p>${article.summary}</p>
+                            <span class="auth-date">${article.date}</span>
+                        </div>
+                    </a>
+                    <hr style="border:0; border-top:1px solid #f5f5f5; margin-bottom:2rem;">
+                `).join('');
+            }
         }
     }
 
-    // --- 7. AUTOMATE FOLLOWING SIDEBAR ---
+    // --- 9. AUTOMATE FOLLOWING SIDEBAR ---
     const followingContainer = document.getElementById('following-list');
     const seeAllLink = document.getElementById('see-all-count');
 
@@ -143,6 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
             otherAuthors.forEach(auth => {
                 const card = document.createElement('div');
                 card.className = 'following-card';
+
+                // IMPORTANT: We add class="follow-btn" and data-author="Name"
                 card.innerHTML = `
                     <a href="author.html?name=${auth.name}" style="display:flex; align-items:center; gap:12px; flex-grow:1;">
                         <img src="${auth.image}" alt="${auth.name}">
@@ -151,56 +153,59 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p>${auth.tag}</p>
                         </div>
                     </a>
-                    <button class="btn-sm-follow">Follow</button>
+                    <button class="follow-btn" data-author="${auth.name}">Follow</button>
                 `;
+
+                // Check state immediately for this button
+                const btn = card.querySelector('.follow-btn');
+                updateFollowButtonState(btn, auth.name);
+
                 followingContainer.appendChild(card);
             });
         }
         if (seeAllLink) seeAllLink.textContent = `See all (${allAuthors.length})`;
     }
 
-    // --- 8. MAIN FOLLOW BUTTON LOGIC (NEW!) ---
-    const followBtn = document.querySelector('.follow-btn');
-    
-    // Safety Check: Ensure button exists
-    if (followBtn) {
-        const storageKey = `isFollowing_${currentAuthor.name}`; // e.g. "isFollowing_Priyanshu"
-        
-        // A. Check State on Load
-        if (localStorage.getItem(storageKey) === 'true') {
-            setFollowedState();
-        } else {
-            setUnfollowedState();
-        }
+    // --- 10. GLOBAL FOLLOW BUTTON CLICK LISTENER ---
+    // This handles clicks for BOTH the main button AND sidebar buttons
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('follow-btn')) {
+            const btn = e.target;
+            const authorName = btn.dataset.author; // Gets "Priyanshu" or "Tiara"
 
-        // B. Handle Click
-        followBtn.addEventListener('click', () => {
-            const isFollowing = followBtn.classList.contains('following');
-            
+            if (!authorName) return;
+
+            const storageKey = `isFollowing_${authorName}`;
+            const isFollowing = localStorage.getItem(storageKey) === 'true';
+
             if (isFollowing) {
                 // UNFOLLOW
                 localStorage.removeItem(storageKey);
-                setUnfollowedState();
             } else {
                 // FOLLOW
                 localStorage.setItem(storageKey, 'true');
-                setFollowedState();
             }
-        });
 
-        // Helpers
-        function setFollowedState() {
-            followBtn.textContent = 'Following';
-            followBtn.classList.add('following');
+            // Update UI immediately
+            updateFollowButtonState(btn, authorName);
         }
+    });
 
-        function setUnfollowedState() {
-            followBtn.textContent = 'Follow';
-            followBtn.classList.remove('following');
+    // --- HELPER: Update UI based on Storage ---
+    function updateFollowButtonState(btn, authorName) {
+        const storageKey = `isFollowing_${authorName}`;
+        const isFollowing = localStorage.getItem(storageKey) === 'true';
+
+        if (isFollowing) {
+            btn.textContent = 'Following';
+            btn.classList.add('following');
+        } else {
+            btn.textContent = 'Follow';
+            btn.classList.remove('following');
         }
     }
 
-    // --- 9. TAB SWITCHING LOGIC ---
+    // --- 11. TAB SWITCHING ---
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -213,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
             const targetId = `tab-${btn.dataset.tab}`;
             const targetContent = document.getElementById(targetId);
-            if(targetContent) {
+            if (targetContent) {
                 targetContent.classList.remove('hidden');
                 targetContent.classList.add('active');
             }

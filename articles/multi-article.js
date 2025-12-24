@@ -64,15 +64,15 @@ function applyFilters() {
     // --- THE CORE FILTERING ---
     filteredArticles = allArticles.filter(article => {
         // 1. Check Text Match (Title or Summary)
-        const textMatch = !searchTerm || 
-                          article.title.toLowerCase().includes(searchTerm) || 
-                          article.summary.toLowerCase().includes(searchTerm);
+        const textMatch = !searchTerm ||
+            article.title.toLowerCase().includes(searchTerm) ||
+            article.summary.toLowerCase().includes(searchTerm);
 
         // 2. Check Tag Match (If tags selected, article must have at least one)
         // Note: data-tags="tech india" usually comes as a string in your data object
-        const articleTags = (article.tags || "").toLowerCase(); 
-        const tagMatch = selectedTags.length === 0 || 
-                         selectedTags.some(tag => articleTags.includes(tag));
+        const articleTags = (article.tags || "").toLowerCase();
+        const tagMatch = selectedTags.length === 0 ||
+            selectedTags.some(tag => articleTags.includes(tag));
 
         return textMatch && tagMatch;
     });
@@ -105,10 +105,10 @@ function renderContent() {
             </div>`;
     } else {
         articlesContainer.innerHTML = visibleArticles.map((article, index) => `
-            <a class="article-card" href="../docs/index.html" data-tags="${article.tags}">
-                <h3 class="article-title">${article.title}</h3>
-                <p class="date">${article.date}</p>
-                <p class="article-summary">${article.summary}</p>
+            <a class="article-card" href="../main/index.html" data-tags="${article.tags}">
+                        <h3 class="article-title">${article.title}</h3>
+                        <p class="date">${article.date}</p>
+                        <p class="article-summary">${article.summary}</p>
             </a>
             ${index < visibleArticles.length - 1 ? '<hr>' : ''} 
         `).join('');
@@ -117,7 +117,7 @@ function renderContent() {
     // C. Update Pagination
     // If current page > total pages (e.g. after filtering), reset to 1
     if (currentPage > totalPages) currentPage = 1;
-    
+
     // Only update centerPage if it's out of bounds
     if (centerPage > totalPages) centerPage = totalPages;
     if (centerPage < 1) centerPage = 1;
@@ -133,16 +133,16 @@ function renderContent() {
 window.clearSearch = function() {
     const searchInput = document.getElementById('searchInput');
     const checkboxes = document.querySelectorAll('input[name="filter-tags"]');
-    
+
     if(searchInput) searchInput.value = "";
     checkboxes.forEach(cb => cb.checked = false);
-    
+
     applyFilters();
 };
 
 function renderPaginationButtons(container) {
     container.innerHTML = '';
-    
+
     if (totalPages <= 1) return; // Don't show buttons if only 1 page
 
     const createBtn = (text, type, onClick) => {

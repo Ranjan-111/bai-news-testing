@@ -13,9 +13,21 @@ a{
     margin: 2rem auto;
   }
 
-  .Line1{
-    margin-top: 0;
-  }
+  .topic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 200;
+  font-size: 1.4em;
+}
+
+
+.Line1 {
+  position: absolute;
+  border: none;
+  border-top: 0.5px solid #ccc;
+  width: 70vw;
+  left: 15vw;
+  /* margin: 10px auto; */
+}
 
 .articles-container{
     margin: 6rem 0 2rem 0;
@@ -203,6 +215,18 @@ p + a{
                 font-size: 1.1rem;
             }
         }
+
+        @media (max-width: 550px) {
+              .Line1 {
+                    width: 100vw;
+                    left: 0;
+                }
+
+                .topic {
+                    font-size: 0.95rem;
+                }
+        }
+
 
         /* Mobile Devices (max-width: 480px) */
         @media (max-width: 480px) {

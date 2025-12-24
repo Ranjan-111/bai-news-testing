@@ -378,7 +378,7 @@ function initSearchLogic() {
             const hlSummary = highlightText(plainSummary, query);
 
             return `
-            <a href="../docs/index.html" class="result-card">
+            <a href="../main/index.html" class="result-card">
                 <h4>${hlTitle}</h4>
                 <p>${hlSummary}</p>
                 <span class="result-date">${article.date}</span>
