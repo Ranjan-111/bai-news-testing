@@ -366,7 +366,7 @@ function initSearchLogic() {
     // --- E. DISPLAY RESULTS ---
     function displaySearchResults(data, query) {
         if (data.length === 0) {
-            resultsBox.innerHTML = `<div style="text-align:center; color:#888; padding:10px;">No matching results.</div>`;
+            resultsBox.innerHTML = `<div class="search-scroll-view"><div style="text-align:center; color:#888; padding:10px;">No matching results.</div></div>`;
             resultsBox.classList.add('active');
             return;
         }
@@ -386,7 +386,11 @@ function initSearchLogic() {
             `;
         }).join('');
 
-        resultsBox.innerHTML = html;
+        // Helper class for short lists
+        const viewClass = data.length < 5 ? "search-scroll-view few-results" : "search-scroll-view";
+
+        const wrapper = `<div class="${viewClass}">${html}</div>`;
+        resultsBox.innerHTML = wrapper;
         resultsBox.classList.add('active');
     }
 

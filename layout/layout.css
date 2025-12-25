@@ -447,15 +447,16 @@
 
 /* 1. Hide the button by default so no one sees the 'wrong' color */
 #openPopupBtn {
-    visibility: hidden; 
-    opacity: 0;
-    transition: opacity 0.3s ease; /* Smooth fade-in */
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  /* Smooth fade-in */
 }
 
 /* 2. We will add this class via JS when Firebase is ready */
 #openPopupBtn.auth-ready {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
 
@@ -1539,66 +1540,74 @@ footer h2 {
 
 /* --- 1. TABLET & SMALL LAPTOPS (max-width: 1024px) --- */
 @media (max-width: 1024px) {
-    .popup.pop-card {
-        height: auto;          /* Fix the "30%" height issue so content isn't cut off */
-        min-height: 300px;     /* Ensure it looks substantial */
-        max-height: 90vh;      /* Allow scrolling if it gets too tall */
-        overflow-y: auto;
-        width: 70%;            /* Slightly wider on tablets */
-        padding: 40px;         /* comfortable padding */
-    }
+  .popup.pop-card {
+    height: auto;
+    /* Fix the "30%" height issue so content isn't cut off */
+    min-height: 300px;
+    /* Ensure it looks substantial */
+    max-height: 90vh;
+    /* Allow scrolling if it gets too tall */
+    overflow-y: auto;
+    width: 70%;
+    /* Slightly wider on tablets */
+    padding: 40px;
+    /* comfortable padding */
+  }
 
-    /* Fix the "Back" button floating weirdly on tablets */
-    /* .pop-back-wrap {
+  /* Fix the "Back" button floating weirdly on tablets */
+  /* .pop-back-wrap {
         position: static;      
         text-align: right;
         margin-top: 20px;
         width: 100%;
     } */
 
-    #view-email{
-      padding-bottom: 5px;
-    }
+  #view-email {
+    padding-bottom: 5px;
+  }
 
-    .popup.pop-card{
-      padding-bottom: 20px;
-    }
+  .popup.pop-card {
+    padding-bottom: 20px;
+  }
 
 }
 
 /* --- 2. LARGE PHONES & PORTRAIT TABLETS (max-width: 768px) --- */
 @media (max-width: 768px) {
-    .popup.pop-card {
-        width: 85%;            /* Take more width */
-        padding: 30px 25px;
-    }
+  .popup.pop-card {
+    width: 85%;
+    /* Take more width */
+    padding: 30px 25px;
+  }
 
-    /* Adjust OTP boxes to fit narrower screens */
-    .otp-digit {
-        width: 60px;           /* Shrink from 65px -> 50px */
-        height: 45px;
-        font-size: 1.1rem;
-    }
-    
-    .otp-input-group {
-        gap: 10px;              /* Reduce gap */
-    }
+  /* Adjust OTP boxes to fit narrower screens */
+  .otp-digit {
+    width: 60px;
+    /* Shrink from 65px -> 50px */
+    height: 45px;
+    font-size: 1.1rem;
+  }
 
-    #view-email{
-      padding-bottom: 5px;
-    }
+  .otp-input-group {
+    gap: 10px;
+    /* Reduce gap */
+  }
 
-    .popup.pop-card{
-      padding-bottom: 10px;
-    }
+  #view-email {
+    padding-bottom: 5px;
+  }
 
-    /* Stack the Email Form (Input on top of Button) */
-    /* .pop-form {
+  .popup.pop-card {
+    padding-bottom: 10px;
+  }
+
+  /* Stack the Email Form (Input on top of Button) */
+  /* .pop-form {
         flex-direction: column;
         gap: 15px;
     } */
-    
-    /* .pop-input, 
+
+  /* .pop-input, 
     .pop-btn-continue {
         width: 100%;
         box-sizing: border-box;
@@ -1611,122 +1620,138 @@ footer h2 {
    ========================================== */
 @media (max-width: 550px) {
 
-    /* 1. Main Card Adjustment */
-    .popup.pop-card {
-        width: 95%;        /* Take up almost full width */
-        height: auto;      /* Grow with content instead of fixed 30% */
-        min-height: 30%;   /* Minimum height */
-        max-height: 85vh;  /* Prevent it from going off-screen vertically */
-        overflow-y: auto;  /* Add scroll if content is too long */
-        padding: 20px 15px; /* Reduce padding for more space */
-    }
+  /* 1. Main Card Adjustment */
+  .popup.pop-card {
+    width: 95%;
+    /* Take up almost full width */
+    height: auto;
+    /* Grow with content instead of fixed 30% */
+    min-height: 30%;
+    /* Minimum height */
+    max-height: 85vh;
+    /* Prevent it from going off-screen vertically */
+    overflow-y: auto;
+    /* Add scroll if content is too long */
+    padding: 20px 15px;
+    /* Reduce padding for more space */
+  }
 
-    /* 2. Header & Logo */
-    .pop-header {
-        margin-bottom: 20px;
-    }
-    .pop-logo {
-        font-size: 1.2rem;
-    }
+  /* 2. Header & Logo */
+  .pop-header {
+    margin-bottom: 20px;
+  }
 
-    /* 3. Social Buttons (Fix overflow) */
-    .sm-btn {
-        width: 100%;       /* Fix the 120% issue */
-        max-width: 100%;
-        font-size: 0.85rem;
-        padding: 10px;
-    }
+  .pop-logo {
+    font-size: 1.2rem;
+  }
 
-    /* 4. Email Form (Stack vertically) */
-    /* .pop-form {
+  /* 3. Social Buttons (Fix overflow) */
+  .sm-btn {
+    width: 100%;
+    /* Fix the 120% issue */
+    max-width: 100%;
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  /* 4. Email Form (Stack vertically) */
+  /* .pop-form {
         flex-direction: column;
         gap: 10px;
     } */
-    .pop-input {
-        width: 100%;
-        box-sizing: border-box; /* Ensures padding doesn't widen element */
-    }
-    /* .pop-btn-continue {
+  .pop-input {
+    width: 100%;
+    box-sizing: border-box;
+    /* Ensures padding doesn't widen element */
+  }
+
+  /* .pop-btn-continue {
         width: 100%;
         padding: 12px;
         margin-top: 5px;
     } */
 
-    /* 5. Back Button (Fix floating issue) */
-    /* .pop-back-wrap {
+  /* 5. Back Button (Fix floating issue) */
+  /* .pop-back-wrap {
         position: static; 
         text-align: right;
         margin-top: 15px;
         width: 100%;
     } */
 
-    /* 6. OTP Section (Critical Fix for 6 boxes) */
-    .otp-input-group {
-        gap: 8px; /* Reduce gap between boxes */
-    }
+  /* 6. OTP Section (Critical Fix for 6 boxes) */
+  .otp-input-group {
+    gap: 8px;
+    /* Reduce gap between boxes */
+  }
 
-    .otp-digit {
-        width: 50px;  /* Shrink from 65px to 40px */
-        height: 45px; /* Make slightly taller for touch */
-        font-size: 1rem;
-        padding: 0;
-        border-radius: 6px;
-    }
-    
-    .otp-heading {
-        font-size: 1rem;
-    }
+  .otp-digit {
+    width: 50px;
+    /* Shrink from 65px to 40px */
+    height: 45px;
+    /* Make slightly taller for touch */
+    font-size: 1rem;
+    padding: 0;
+    border-radius: 6px;
+  }
 
-    #view-email{
-      padding-bottom: 5px;
-    }
+  .otp-heading {
+    font-size: 1rem;
+  }
+
+  #view-email {
+    padding-bottom: 5px;
+  }
 
 }
 
 
 /* --- 3. MOBILE PHONES (max-width: 480px) --- */
 @media (max-width: 480px) {
-    .popup.pop-card {
-        width: 85%;            /* Full width on phone */
-        padding: 20px 15px;
-        min-height: 30%;
-    }
+  .popup.pop-card {
+    width: 85%;
+    /* Full width on phone */
+    padding: 20px 15px;
+    min-height: 30%;
+  }
 
-    /* Make buttons full width */
-    .sm-btn {
-        width: 85%;
-        max-width: 100%;
-        font-size: 0.9rem;
-    }
+  /* Make buttons full width */
+  .sm-btn {
+    width: 85%;
+    max-width: 100%;
+    font-size: 0.9rem;
+  }
 
-    /* Shrink OTP further for small screens */
-    .otp-digit {
-        width: 50px;           /* Shrink to fit iPhone SE/small Androids */
-        height: 45px;
-        font-size: 1rem;
-    }
-    
-    .otp-input-group {
-        gap: 8px;              /* Tight gap */
-    }
+  /* Shrink OTP further for small screens */
+  .otp-digit {
+    width: 50px;
+    /* Shrink to fit iPhone SE/small Androids */
+    height: 45px;
+    font-size: 1rem;
+  }
 
-    .pop-header {
-        margin-bottom: 20px;
-    }
+  .otp-input-group {
+    gap: 8px;
+    /* Tight gap */
+  }
 
-    .pop-logo {
-        font-size: 1.2rem;
-    }
+  .pop-header {
+    margin-bottom: 20px;
+  }
 
-    /* Center the back button on mobile */
-    /* .pop-back-wrap {
+  .pop-logo {
+    font-size: 1.2rem;
+  }
+
+  /* Center the back button on mobile */
+  /* .pop-back-wrap {
         text-align: right; 
         margin-top: 25px;
     } */
 
-    #view-email{
-      padding-bottom: 5px;
-    }
+  #view-email {
+    padding-bottom: 5px;
+  }
 }
 
 
@@ -1816,7 +1841,8 @@ footer h2 {
 }
 
 /* --- Filter Icon --- */
-.filter-icon1, .filter-icon2 {
+.filter-icon1,
+.filter-icon2 {
   display: none;
   /* Hidden by default */
   width: 1.5rem;
@@ -1824,7 +1850,7 @@ footer h2 {
   filter: invert(100%);
 }
 
-.filter-icon2{
+.filter-icon2 {
   width: 1.48rem;
   height: 1.48rem;
 
@@ -1909,22 +1935,46 @@ footer h2 {
 
 .search-results-box {
   position: absolute;
-  bottom: 7vh; /* Positions it above filters and input */
+  bottom: 7vh;
   right: 0;
   width: 380px;
-  max-height: 82vh; /* Limit height so it scrolls if many results */
-  overflow-y: auto;
-  /* background-color: #f2f2f2;  */
-  border-radius: 12px;
-  /* box-shadow: 0px -3px 0px rgba(0, 0, 0, 0.15); */
-  /* padding: 15px; */
-  display: none; /* Hidden by default */
+  display: none;
   z-index: 90;
-  scrollbar-width: thin; /* For Firefox */
-
-    background: rgba(255, 255, 255, 0.3);
-    /* backdrop-filter: blur(10px); */
+  background: rgba(255, 255, 255, 0.95);
+  /* High opacity to block back page */
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.001); */
+  /* border: 1px solid rgba(0, 0, 0, 0.05); */
+  overflow: hidden;
+  /* Contains the scroll view */
 }
+
+.search-scroll-view {
+  max-height: 82vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 10px 0;
+  /* Padding inside the scroll area */
+
+  /* Mask effect on content only */
+  mask-image: linear-gradient(to bottom, transparent 0%, black 80%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 80%, black 100%);
+}
+
+.search-scroll-view.few-results {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
+}
+
+@media (max-height: 850px) {
+  .search-scroll-view {
+    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
+  }
+}
+
+
 
 .search-results-box.active {
   display: block;
@@ -1932,8 +1982,15 @@ footer h2 {
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* --- INDIVIDUAL RESULT CARD --- */
@@ -1942,17 +1999,18 @@ footer h2 {
   border-radius: 8px;
   padding: 12px 15px;
   margin-bottom: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s;
   cursor: pointer;
   text-decoration: none;
-  display: block; /* Make anchor behave like block */
+  display: block;
+  /* Make anchor behave like block */
   color: inherit;
 }
 
 .result-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .result-card h4 {
@@ -1970,7 +2028,7 @@ footer h2 {
   color: #555;
   margin: 0 0 8px 0;
   line-height: 1.4;
-  
+
   /* Limit to 3 lines */
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -1981,7 +2039,8 @@ footer h2 {
 .result-date {
   font-size: 0.75rem;
   font-weight: bold;
-  color: #d73634; /* Theme Red */
+  color: #d73634;
+  /* Theme Red */
   text-align: right;
   display: block;
 }
@@ -2004,88 +2063,100 @@ footer h2 {
 
 /* --- 1. TABLET & SMALL LAPTOPS (max-width: 1024px) --- */
 @media (max-width: 1024px) {
-    /* Slightly shift results box if needed */
-    .search-results-box {
-        width: 340px; /* Shrink slightly from 380px */
-    }
+
+  /* Slightly shift results box if needed */
+  .search-results-box {
+    width: 340px;
+    /* Shrink slightly from 380px */
+  }
 }
 
 /* --- 2. TABLET PORTRAIT (max-width: 768px) --- */
 @media (max-width: 768px) {
-    .search-wrapper {
-        bottom: 2rem;
-        right: 2rem;
-    }
+  .search-wrapper {
+    bottom: 2rem;
+    right: 2rem;
+  }
 
-    /* Prevent results from being too wide */
-    .search-results-box {
-        width: 320px;
-        bottom: 80px; /* Push it up a bit more */
-    }
+  /* Prevent results from being too wide */
+  .search-results-box {
+    width: 320px;
+    bottom: 80px;
+    /* Push it up a bit more */
+  }
 }
 
 /* --- 3. MOBILE DEVICES (max-width: 550px) --- */
 @media (max-width: 550px) {
 
-    /* A. Reposition Main Wrapper */
-    .search-wrapper {
-        bottom: 1rem;
-        right: 1rem;
-    }
+  /* A. Reposition Main Wrapper */
+  .search-wrapper {
+    bottom: 1rem;
+    right: 1rem;
+  }
 
-    /* B. Shrink the Toggle Button */
-    .search-toggle-btn {
-        width: 50px;
-        height: 50px;
-    }
+  /* B. Shrink the Toggle Button */
+  .search-toggle-btn {
+    width: 50px;
+    height: 50px;
+  }
 
-    /* C. Search Input Bar */
-    .search-popup-container {
-        bottom: 5px;
-        right: 60px; /* Distance from the smaller button */
-        height: 42px;
-    }
-    
-    .search-popup-container.active {
-        width: auto;
-        min-width: 65vw; /* Take up 65% of screen width */
-    }
+  /* C. Search Input Bar */
+  .search-popup-container {
+    bottom: 5px;
+    right: 60px;
+    /* Distance from the smaller button */
+    height: 42px;
+  }
 
-    /* D. Filter Tags Container */
-    .filter-options-container {
-        bottom: 60px;
-        right: 0;
-        width: max-content;
-        max-width: 85vw; /* Prevent overflow off screen */
-        padding: 8px;
-    }
-    
-    .filter-tag label {
-        padding: 4px 10px;
-        font-size: 0.85rem;
-    }
+  .search-popup-container.active {
+    width: auto;
+    min-width: 65vw;
+    /* Take up 65% of screen width */
+  }
 
-    /* E. Search Results Box (CRITICAL FIX) */
-    .search-results-box {
-        width: 91.2vw;       /* Take up 90% of the screen width */
-        right: -5px;       /* Align slightly to the right edge */
-        bottom: 70px;      /* Position above the buttons */
-        max-height: 82vh;  /* Don't cover the whole screen */
-        border-radius: 12px;
-    }
-    
-    /* Adjust text inside results for mobile */
-    .result-card h4 {
-        font-size: 0.9rem;
-    }
-    
-    .result-card p {
-        font-size: 0.8rem;
-        -webkit-line-clamp: 2; /* Show only 2 lines of summary on mobile */
-    }
+  /* D. Filter Tags Container */
+  .filter-options-container {
+    bottom: 60px;
+    right: 0;
+    width: max-content;
+    max-width: 85vw;
+    /* Prevent overflow off screen */
+    padding: 8px;
+  }
+
+  .filter-tag label {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+  }
+
+  /* E. Search Results Box (CRITICAL FIX) */
+  .search-results-box {
+    width: 91.2vw;
+    /* Take up 90% of the screen width */
+    right: -5px;
+    /* Align slightly to the right edge */
+    bottom: 70px;
+    /* Position above the buttons */
+    max-height: 82vh;
+    /* Don't cover the whole screen */
+    border-radius: 12px;
+  }
+
+  /* Adjust text inside results for mobile */
+  .result-card h4 {
+    font-size: 0.9rem;
+  }
+
+  .result-card p {
+    font-size: 0.8rem;
+    -webkit-line-clamp: 2;
+    /* Show only 2 lines of summary on mobile */
+  }
 }
 
 @media (max-width: 550px) {
+
   /* == Search Button and Popup == */
   .search-wrapper {
     bottom: 1rem;
@@ -2126,12 +2197,12 @@ footer h2 {
 
 /* --- 4. SMALL MOBILE (iPhone SE, etc.) (max-width: 375px) --- */
 @media (max-width: 375px) {
-    /* .search-popup-container.active {
+  /* .search-popup-container.active {
         min-width: 60vw;
     } */
-    
-    .search-results-box {
-        width: 92vw;
-        right: -5px;
-    }
+
+  .search-results-box {
+    width: 92vw;
+    right: -5px;
+  }
 }
