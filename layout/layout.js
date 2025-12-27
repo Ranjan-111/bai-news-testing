@@ -242,9 +242,10 @@ function initGlobalLogic() {
 }
 
 // ==========================================
-// 3. SEARCH LOGIC (Consolidated Function)
+// 3. SEARCH LOGIC (Unified: Toggle + Input + Fade)
 // ==========================================
 function initSearchLogic() {
+    // --- Selectors ---
     const searchWrapper = document.querySelector('.search-wrapper');
     const searchToggleBtn = document.getElementById('search-toggle-btn');
     const searchPopupContainer = document.getElementById('search-popup-container');
@@ -253,13 +254,17 @@ function initSearchLogic() {
     const resultsBox = document.getElementById('search-results-box');
     const filterCheckboxes = document.querySelectorAll('input[name="filter-tags"]');
 
-    if (!searchToggleBtn || !searchInput) return; // Safety Exit
+    // Safety Exit
+    if (!searchToggleBtn || !searchInput || !resultsBox) return;
 
-    // --- A. TOGGLE BUTTON VISUALS ---
+    // --- State Variables ---
+    let clickCount = 0;
+    let hasTyped = false; // Flag for fade effect
+
+    // --- A. TOGGLE BUTTON VISUALS (Icons) ---
     const imgSearch = searchToggleBtn.querySelector('.search-icon');
     const imgFilterEmpty = searchToggleBtn.querySelector('.filter-icon1');
     const imgFilterFilled = searchToggleBtn.querySelector('.filter-icon2');
-    let clickCount = 0;
 
     function updateImages(showImage) {
         if (imgSearch) imgSearch.style.display = 'none';
@@ -270,7 +275,7 @@ function initSearchLogic() {
         if (showImage === 2 && imgFilterEmpty) imgFilterEmpty.style.display = 'block';
         if (showImage === 3 && imgFilterFilled) imgFilterFilled.style.display = 'block';
     }
-    updateImages(1);
+    updateImages(1); // Default state
 
     // --- B. TOGGLE CLICK HANDLER ---
     searchToggleBtn.addEventListener('click', (e) => {
@@ -282,6 +287,7 @@ function initSearchLogic() {
             searchWrapper.classList.add('active');
             searchPopupContainer.classList.add('active');
             filterOptionsContainer.classList.remove('visible');
+            searchInput.focus(); // Good UX: focus input automatically
             updateImages(2);
         } else { // Toggle Filter
             if (clickCount % 2 === 0) {
@@ -296,43 +302,49 @@ function initSearchLogic() {
 
     // --- C. CLOSE ON CLICK OUTSIDE ---
     document.addEventListener('click', (e) => {
+        // If search isn't open, ignore
         if (!searchWrapper || !searchWrapper.classList.contains('active')) return;
 
+        // 1. Check if clicked completely outside
         if (!searchWrapper.contains(e.target)) {
-            // Clicked completely outside
             searchWrapper.classList.remove('active');
             searchPopupContainer.classList.remove('active');
             filterOptionsContainer.classList.remove('visible');
-            resultsBox.classList.remove('active'); // Close results too
+            resultsBox.classList.remove('active');
+            
             clickCount = 0;
+            hasTyped = false; // Reset fade flag
+            searchInput.value = ''; // Optional: clear input on close
             updateImages(1);
-        } else if (!filterOptionsContainer.contains(e.target) && e.target !== searchToggleBtn && !resultsBox.contains(e.target)) {
-            // Clicked inside search but not on filter/results
+        } 
+        // 2. Check if clicked inside search but NOT on filter or results
+        else if (!filterOptionsContainer.contains(e.target) && e.target !== searchToggleBtn && !resultsBox.contains(e.target)) {
             if (filterOptionsContainer.classList.contains('visible')) {
                 filterOptionsContainer.classList.remove('visible');
-                clickCount = 1;
+                clickCount = 1; // Reset to "Search Open" state
                 updateImages(2);
             }
         }
     });
 
-    // --- D. PERFORM SEARCH (Typing + Filters) ---
+    // --- D. REAL-TIME SEARCH LOGIC ---
+    
     function performSearch() {
         const query = searchInput.value.toLowerCase().trim();
+        hasTyped = true; // User has interacted
 
-        // Get Selected Tags
+        // Get Active Filters
         const selectedTags = Array.from(filterCheckboxes)
             .filter(cb => cb.checked)
             .map(cb => cb.value.toLowerCase());
 
-        // Hide if empty
+        // Clear if empty
         if (query.length === 0) {
-            resultsBox.classList.remove('active');
-            resultsBox.innerHTML = "";
-            return;
+             resultsBox.classList.remove('active');
+             resultsBox.innerHTML = "";
+             return;
         }
 
-        // Check Data
         if (typeof articleDatabase === 'undefined') {
             console.warn("Search Error: articleDatabase not found.");
             return;
@@ -345,8 +357,8 @@ function initSearchLogic() {
             const articleTags = (article.tags || "").toLowerCase();
 
             const matchesText = plainTitle.includes(query) || plainSummary.includes(query);
-            const matchesTags = selectedTags.length === 0 ||
-                selectedTags.some(tag => articleTags.includes(tag));
+            const matchesTags = selectedTags.length === 0 || 
+                                selectedTags.some(tag => articleTags.includes(tag));
 
             return matchesText && matchesTags;
         });
@@ -354,23 +366,24 @@ function initSearchLogic() {
         displaySearchResults(filteredData, query);
     }
 
-    // Connect Listeners
+    // Attach Input Listeners
     searchInput.addEventListener('input', performSearch);
-    filterCheckboxes.forEach(cb => cb.addEventListener('change', performSearch));
+    
+    filterCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', performSearch);
+    });
 
-    // Stop clicks inside specific boxes from closing the UI
-    if (searchPopupContainer) searchPopupContainer.addEventListener('click', e => e.stopPropagation());
-    if (filterOptionsContainer) filterOptionsContainer.addEventListener('click', e => e.stopPropagation());
-    if (resultsBox) resultsBox.addEventListener('click', e => e.stopPropagation());
-
-    // --- E. DISPLAY RESULTS ---
+    // --- E. DISPLAY & FADE LOGIC ---
     function displaySearchResults(data, query) {
+        
+        // 1. Handle No Results
         if (data.length === 0) {
             resultsBox.innerHTML = `<div class="search-scroll-view"><div style="text-align:center; color:#888; padding:10px;">No matching results.</div></div>`;
             resultsBox.classList.add('active');
             return;
         }
 
+        // 2. Build HTML
         const html = data.map(article => {
             const plainTitle = article.title.replace(/(<([^>]+)>)/gi, "");
             const plainSummary = article.summary.replace(/(<([^>]+)>)/gi, "");
@@ -378,7 +391,7 @@ function initSearchLogic() {
             const hlSummary = highlightText(plainSummary, query);
 
             return `
-            <a href="../main/index.html" class="result-card">
+            <a href="../docs/index.html" class="result-card">
                 <h4>${hlTitle}</h4>
                 <p>${hlSummary}</p>
                 <span class="result-date">${article.date}</span>
@@ -386,14 +399,39 @@ function initSearchLogic() {
             `;
         }).join('');
 
-        // Helper class for short lists
+        // 3. Inject
         const viewClass = data.length < 5 ? "search-scroll-view few-results" : "search-scroll-view";
-
-        const wrapper = `<div class="${viewClass}">${html}</div>`;
-        resultsBox.innerHTML = wrapper;
+        resultsBox.innerHTML = `<div class="${viewClass}">${html}</div>`;
         resultsBox.classList.add('active');
+
+        // 4. Scroll Fade Logic
+        const scrollView = resultsBox.querySelector('.search-scroll-view');
+        
+        if (scrollView) {
+            // Reset Immediately
+            scrollView.style.maskImage = "none";
+            scrollView.style.webkitMaskImage = "none";
+
+            // Attach Listener only if list is long
+            if (data.length >= 5) {
+                scrollView.addEventListener('scroll', function() {
+                    if (hasTyped && this.scrollTop > 0) {
+                        const fadeDistance = 60; 
+                        let alpha = 1 - Math.min(this.scrollTop / fadeDistance, 1);
+                        const mask = `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%, black 80%, black 100%)`;
+                        
+                        this.style.maskImage = mask;
+                        this.style.webkitMaskImage = mask;
+                    } else {
+                        this.style.maskImage = "none";
+                        this.style.webkitMaskImage = "none";
+                    }
+                });
+            }
+        }
     }
 
+    // Helper: Highlight Text
     function highlightText(text, query) {
         if (!query) return text;
         const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -694,7 +732,7 @@ function initPopupLogic() {
 
     // 1. CONFIGURATION
     // PASTE YOUR GOOGLE SCRIPT URL HERE
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZ5TN8yWPNlKnqWIwZY1EETxkp8X_MtHKanSD9m5KtexX23zTFlH-Hs9M_RUz03Oq0-w/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyL2BWoLKA7nNoAEV80NeaU66zp3p-drCsQKHOgAfw43FPWH3f5XcNTBYlJUGtzCyaGzg/exec";
 
     let generatedOTP = null; // To store the code we sent
 

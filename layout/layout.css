@@ -540,6 +540,7 @@ footer h2 {
   font-weight: 100;
   opacity: 0.85;
   margin-bottom: 2rem;
+  text-transform: lowercase;
 }
 
 .footer-container {
@@ -1950,17 +1951,15 @@ footer h2 {
   /* Contains the scroll view */
 }
 
-.search-scroll-view {
-  max-height: 82vh;
+/* .search-scroll-view {
+  max-height: 80vh;
   overflow-y: auto;
   scrollbar-width: thin;
   padding: 10px 0;
-  /* Padding inside the scroll area */
 
-  /* Mask effect on content only */
   mask-image: linear-gradient(to bottom, transparent 0%, black 80%, black 100%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 80%, black 100%);
-}
+} */
 
 .search-scroll-view.few-results {
   mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
@@ -1968,11 +1967,31 @@ footer h2 {
 }
 
 @media (max-height: 850px) {
+  .search-wrapper{
+    bottom: 1rem;
+  }
   .search-scroll-view {
     mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
   }
 }
+
+/* 2. INNER SCROLLER */
+.search-scroll-view {
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 10px 0;
+  
+  /* Ensure NO mask is set here by default */
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+
+
+
+
 
 
 
@@ -2050,8 +2069,8 @@ footer h2 {
   color: #d73634;
   font-weight: bold;
   /* background-color: rgba(215, 54, 52, 0.1);  */
-  padding: 0 2px;
-  border-radius: 2px;
+  /* padding: 0 2px; */
+  /* border-radius: 2px; */
 }
 
 
@@ -2074,14 +2093,15 @@ footer h2 {
 /* --- 2. TABLET PORTRAIT (max-width: 768px) --- */
 @media (max-width: 768px) {
   .search-wrapper {
-    bottom: 2rem;
+    bottom: 1rem;
     right: 2rem;
   }
 
   /* Prevent results from being too wide */
   .search-results-box {
+    min-height: 78vh;
     width: 320px;
-    bottom: 80px;
+    bottom: 60px;
     /* Push it up a bit more */
   }
 }
@@ -2136,7 +2156,7 @@ footer h2 {
     /* Take up 90% of the screen width */
     right: -5px;
     /* Align slightly to the right edge */
-    bottom: 70px;
+    bottom: 55px;
     /* Position above the buttons */
     max-height: 82vh;
     /* Don't cover the whole screen */

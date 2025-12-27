@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // IMPORTANT: We add class="follow-btn" and data-author="Name"
                 card.innerHTML = `
                     <a href="author.html?name=${auth.name}" style="display:flex; align-items:center; gap:12px; flex-grow:1;">
-                        <img src="${auth.image}" alt="${auth.name}">
+                        <img src="${auth.image}" alt="${auth.name}" style="object-fit: cover; object-position: center;">
                         <div class="f-info">
                             <h4>${auth.name}</h4>
                             <p>${auth.tag}</p>
