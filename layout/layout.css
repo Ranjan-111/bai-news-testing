@@ -2043,6 +2043,30 @@ footer h2 {
   }
 }
 
+
+/* --- Read More Button in Search --- */
+.btn-read-more {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  border-top: 1px solid #eee;
+  color: #d73634; /* Your Theme Red */
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  font-family: inherit;
+  margin-top: 5px;
+  transition: background 0.2s;
+}
+
+.btn-read-more:hover {
+  background-color: #f9f9f9;
+  text-decoration: underline;
+}
+
 /* --- INDIVIDUAL RESULT CARD --- */
 .result-card {
   background-color: #f2f1f1;

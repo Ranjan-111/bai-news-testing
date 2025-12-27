@@ -331,9 +331,21 @@ function initSearchLogic() {
         }
     });
 
-    // --- D. REAL-TIME SEARCH LOGIC ---
+// --- D. REAL-TIME SEARCH LOGIC ---
     
     function performSearch() {
+        // --- 1. SPECIAL CHECK: MULTI-ARTICLE PAGE ---
+        // If user is on the 'multi-article' page, we STOP here.
+        // We do NOT want the popup results box to appear.
+        // The 'multi-article.js' script is already listening to this input
+        // and will filter the main list in the background.
+        if (window.location.pathname.includes('multi-article')) {
+            // Optional: Ensure the popup is hidden just in case
+            resultsBox.classList.remove('active'); 
+            return; 
+        }
+
+        // --- 2. STANDARD POPUP LOGIC (For all other pages) ---
         const query = searchInput.value.toLowerCase().trim();
         hasTyped = true; // User has interacted
 
@@ -369,7 +381,7 @@ function initSearchLogic() {
 
         displaySearchResults(filteredData, query);
     }
-
+    
     // Attach Input Listeners
     searchInput.addEventListener('input', performSearch);
     
@@ -377,7 +389,7 @@ function initSearchLogic() {
         checkbox.addEventListener('change', performSearch);
     });
 
-    // --- E. DISPLAY & FADE LOGIC ---
+// --- E. DISPLAY & FADE LOGIC (PAGINATED) ---
     function displaySearchResults(data, query) {
         
         // 1. Handle No Results
@@ -387,51 +399,99 @@ function initSearchLogic() {
             return;
         }
 
-        // 2. Build HTML
-        const html = data.map(article => {
-            const plainTitle = article.title.replace(/(<([^>]+)>)/gi, "");
-            const plainSummary = article.summary.replace(/(<([^>]+)>)/gi, "");
-            const hlTitle = highlightText(plainTitle, query);
-            const hlSummary = highlightText(plainSummary, query);
-
-            return `
-            <a href="../docs/index.html" class="result-card">
-                <h4 style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">${hlTitle}</h4>
-                <p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 300">${hlSummary}</p>
-                <span class="result-date">${article.date}</span>
-            </a>
-            `;
-        }).join('');
-
-        // 3. Inject
+        // 2. Setup Container (Clear previous results)
+        resultsBox.innerHTML = ''; 
+        
+        // Decide if we need the 'few-results' class based on TOTAL data length
         const viewClass = data.length < 5 ? "search-scroll-view few-results" : "search-scroll-view";
-        resultsBox.innerHTML = `<div class="${viewClass}">${html}</div>`;
+        
+        // Create the scroll view element manually
+        const scrollView = document.createElement('div');
+        scrollView.className = viewClass;
+        resultsBox.appendChild(scrollView);
         resultsBox.classList.add('active');
 
-        // 4. Scroll Fade Logic
-        const scrollView = resultsBox.querySelector('.search-scroll-view');
-        
-        if (scrollView) {
-            // Reset Immediately
-            scrollView.style.maskImage = "none";
-            scrollView.style.webkitMaskImage = "none";
+        // 3. Pagination Configuration
+        const batchSize = 7;
+        let currentCount = 0;
 
-            // Attach Listener only if list is long
-            if (data.length >= 5) {
-                scrollView.addEventListener('scroll', function() {
-                    if (hasTyped && this.scrollTop > 0) {
-                        const fadeDistance = 60; 
-                        let alpha = 1 - Math.min(this.scrollTop / fadeDistance, 1);
-                        const mask = `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%, black 10%, black 100%)`;
-                        
-                        this.style.maskImage = mask;
-                        this.style.webkitMaskImage = mask;
-                    } else {
-                        this.style.maskImage = "none";
-                        this.style.webkitMaskImage = "none";
-                    }
-                });
+        // 4. Render Function (Adds 7 items at a time)
+        function renderBatch() {
+            // Get the next chunk of data
+            const nextBatch = data.slice(currentCount, currentCount + batchSize);
+            
+            // Generate HTML for this chunk
+            const batchHtml = nextBatch.map(article => {
+                const plainTitle = article.title.replace(/(<([^>]+)>)/gi, "");
+                const plainSummary = article.summary.replace(/(<([^>]+)>)/gi, "");
+                const hlTitle = highlightText(plainTitle, query);
+                const hlSummary = highlightText(plainSummary, query);
+
+                return `
+                <a href="../docs/index.html" class="result-card">
+                    <h4 style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">${hlTitle}</h4>
+                    <p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 300">${hlSummary}</p>
+                    <span class="result-date">${article.date}</span>
+                </a>
+                `;
+            }).join('');
+
+            // Insert before the button if it exists, otherwise just append to bottom
+            const btn = scrollView.querySelector('.btn-read-more');
+            if (btn) {
+                btn.insertAdjacentHTML('beforebegin', batchHtml);
+            } else {
+                scrollView.insertAdjacentHTML('beforeend', batchHtml);
             }
+
+            // Update Count
+            currentCount += nextBatch.length;
+
+            // Handle Button Visibility
+            if (currentCount < data.length) {
+                // If button doesn't exist yet, create it
+                if (!scrollView.querySelector('.btn-read-more')) {
+                    const moreBtn = document.createElement('button');
+                    moreBtn.className = 'btn-read-more';
+                    moreBtn.innerText = 'Read More';
+                    
+                    // Click Event
+                    moreBtn.onclick = (e) => {
+                        e.preventDefault(); 
+                        e.stopPropagation(); // Prevent closing the popup
+                        renderBatch();       // Load next 7
+                    };
+                    scrollView.appendChild(moreBtn);
+                }
+            } else {
+                // If we reached the end, remove the button
+                if (btn) btn.remove();
+            }
+        }
+
+        // 5. Initial Render (Show first 7)
+        renderBatch();
+
+        // 6. Re-attach Scroll Fade Logic (Preserved from your code)
+        // Reset Immediately
+        scrollView.style.maskImage = "none";
+        scrollView.style.webkitMaskImage = "none";
+
+        // Attach Listener only if total list is long enough
+        if (data.length >= 5) {
+            scrollView.addEventListener('scroll', function() {
+                if (hasTyped && this.scrollTop > 0) {
+                    const fadeDistance = 60; 
+                    let alpha = 1 - Math.min(this.scrollTop / fadeDistance, 1);
+                    const mask = `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%, black 10%, black 100%)`;
+                    
+                    this.style.maskImage = mask;
+                    this.style.webkitMaskImage = mask;
+                } else {
+                    this.style.maskImage = "none";
+                    this.style.webkitMaskImage = "none";
+                }
+            });
         }
     }
 

@@ -1,5 +1,5 @@
 // --- CONFIGURATION ---
-const itemsPerPage = 8;
+const itemsPerPage = 7;
 let currentPage = 1;      // The actual page being viewed
 let centerPage = 1;       // The pagination center number
 let allArticles = [];     // The MASTER list (loaded from file)
@@ -33,23 +33,26 @@ function recalculatePages() {
     if (totalPages === 0) totalPages = 1; // Prevent 0 pages error
 }
 
-// --- NEW: FILTERING LOGIC ---
+// --- NEW: FILTERING LOGIC (With Event Delegation) ---
 function setupFilterListeners() {
-    const searchInput = document.getElementById('searchInput');
-    const filterCheckboxes = document.querySelectorAll('input[name="filter-tags"]');
+    // We listen to the entire DOCUMENT because #searchInput 
+    // is injected dynamically by layout.js and doesn't exist yet 
+    // when this script first runs.
 
-    // Listener 1: Search Bar
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
+    // 1. Search Input Listener
+    document.addEventListener('input', (e) => {
+        // Check if the event came from our search input
+        if (e.target && e.target.id === 'searchInput') {
             applyFilters();
-        });
-    }
+        }
+    });
 
-    // Listener 2: Tag Checkboxes
-    filterCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
+    // 2. Tag Checkbox Listener
+    document.addEventListener('change', (e) => {
+        // Check if the event came from our filter tags
+        if (e.target && e.target.name === 'filter-tags') {
             applyFilters();
-        });
+        }
     });
 }
 
