@@ -273,6 +273,24 @@
   margin-bottom: 0.1rem;
 }
 
+.profile-btn {
+  margin-top: auto;      /* Pushes the button to the very bottom */
+  margin-bottom: 0rem;   /* Adds breathing room from the bottom edge */
+}
+
+/* Optional: If you want the profile icon slightly larger or adjusted */
+.profile-btn .icon4 {
+  width: 5rem;
+  height: 6rem;
+}
+
+/* Mobile Adjustment: Ensure it stays visible on small screens */
+@media (max-width: 550px) {
+  .profile-btn {
+    margin-bottom: 6rem; /* Push up slightly so it doesn't hit mobile browser bars */
+  }
+}
+
 /* Hide labels initially */
 .label {
   position: absolute;
@@ -1166,7 +1184,7 @@ footer h2 {
   filter: grayscale(100%);
 }
 
-.sm-btn:hover {
+.sm-btn:hover,#text-twitter:hover {
   background-color: #d73634;
   color: white;
   border-color: #d73634;
@@ -1937,8 +1955,8 @@ footer h2 {
 .search-results-box {
   position: absolute;
   bottom: 7vh;
-  right: 0;
-  width: 380px;
+  right: 10px;
+  width: 390px;
   display: none;
   z-index: 90;
   background: rgba(255, 255, 255, 0.95);
@@ -1951,16 +1969,6 @@ footer h2 {
   /* Contains the scroll view */
 }
 
-/* .search-scroll-view {
-  max-height: 80vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  padding: 10px 0;
-
-  mask-image: linear-gradient(to bottom, transparent 0%, black 80%, black 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 80%, black 100%);
-} */
-
 .search-scroll-view.few-results {
   mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
@@ -1968,11 +1976,14 @@ footer h2 {
 
 @media (max-height: 850px) {
   .search-wrapper{
-    bottom: 1rem;
+    bottom: 0.7rem;
   }
   .search-scroll-view {
-    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%) !important;
+  }
+  .search-results-box {
+    min-height: 72vh;
   }
 }
 
@@ -2068,9 +2079,6 @@ footer h2 {
 .highlight-red {
   color: #d73634;
   font-weight: bold;
-  /* background-color: rgba(215, 54, 52, 0.1);  */
-  /* padding: 0 2px; */
-  /* border-radius: 2px; */
 }
 
 
@@ -2082,11 +2090,13 @@ footer h2 {
 
 /* --- 1. TABLET & SMALL LAPTOPS (max-width: 1024px) --- */
 @media (max-width: 1024px) {
-
-  /* Slightly shift results box if needed */
   .search-results-box {
     width: 340px;
-    /* Shrink slightly from 380px */
+    right: 59px;
+  }
+  .search-wrapper {
+    bottom: 1.5rem;
+    right: 2rem;
   }
 }
 
@@ -2099,10 +2109,10 @@ footer h2 {
 
   /* Prevent results from being too wide */
   .search-results-box {
-    min-height: 78vh;
-    width: 320px;
+    min-height: 80vh;
+    width: 340px;
     bottom: 60px;
-    /* Push it up a bit more */
+    right: 62px;
   }
 }
 
@@ -2131,7 +2141,7 @@ footer h2 {
 
   .search-popup-container.active {
     width: auto;
-    min-width: 65vw;
+    min-width: 85vw;
     /* Take up 65% of screen width */
   }
 
@@ -2152,7 +2162,7 @@ footer h2 {
 
   /* E. Search Results Box (CRITICAL FIX) */
   .search-results-box {
-    width: 91.2vw;
+    width: 92.2vw;
     /* Take up 90% of the screen width */
     right: -5px;
     /* Align slightly to the right edge */
@@ -2161,6 +2171,7 @@ footer h2 {
     max-height: 82vh;
     /* Don't cover the whole screen */
     border-radius: 12px;
+    backdrop-filter: blur(12px);
   }
 
   /* Adjust text inside results for mobile */
@@ -2225,4 +2236,12 @@ footer h2 {
     width: 92vw;
     right: -5px;
   }
+}
+
+@media (max-width: 650px), (max-height: 850px) {
+    .search-scroll-view {
+        /* We use !important to override the inline JS styles */
+        mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%) !important;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%) !important;
+    }
 }

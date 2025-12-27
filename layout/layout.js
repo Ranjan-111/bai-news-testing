@@ -392,8 +392,8 @@ function initSearchLogic() {
 
             return `
             <a href="../docs/index.html" class="result-card">
-                <h4>${hlTitle}</h4>
-                <p>${hlSummary}</p>
+                <h4 style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">${hlTitle}</h4>
+                <p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 300">${hlSummary}</p>
                 <span class="result-date">${article.date}</span>
             </a>
             `;
@@ -418,7 +418,7 @@ function initSearchLogic() {
                     if (hasTyped && this.scrollTop > 0) {
                         const fadeDistance = 60; 
                         let alpha = 1 - Math.min(this.scrollTop / fadeDistance, 1);
-                        const mask = `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%, black 80%, black 100%)`;
+                        const mask = `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%, black 70%, black 100%)`;
                         
                         this.style.maskImage = mask;
                         this.style.webkitMaskImage = mask;

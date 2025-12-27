@@ -109,6 +109,7 @@ img{
     color: white;
     /* border-color: #711a1a; */
         border: 0px solid #aaa; 
+    margin: 1px 0;
 
 }
 
@@ -393,65 +394,53 @@ img{
 
 
 
-/* --- NEW SOCIALS IN ABOUT SECTION --- */
-.about-socials-group {
+
+
+
+
+
+
+/* --- NEW EDUCATION SECTION --- */
+.education-section {
     margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 1px solid #f0f0f0;
 }
 
-.socials-title {
+.subsection-title {
     font-size: 0.95rem;
     text-transform: uppercase;
     color: #888;
     margin-bottom: 1rem;
     letter-spacing: 0.5px;
+    font-family: "Roboto", sans-serif;
 }
 
-.about-social-row {
+.education-list {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.edu-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.edu-school {
+    font-size: 1rem;
+    font-weight: 600;
     color: #333;
+    margin-bottom: 2px;
+}
+
+.edu-degree {
     font-size: 0.95rem;
-    font-weight: 500;
-    width: fit-content;
-    padding: 5px 10px 5px 0;
-    border-radius: 8px;
-    transition: all 0.2s;
-}
-
-.about-social-row:hover {
-    color: #d73634; /* Theme red */
-    background-color: #f9f9f9;
-    padding-left: 10px; /* Slight nudge effect */
-}
-
-.social-icon-box {
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: #555;
+    margin-bottom: 2px;
 }
 
-.social-icon-box svg {
-    width: 20px;
-    height: 20px;
+.edu-year {
+    font-size: 0.85rem;
+    color: #999;
 }
-
-.about-social-row:hover .social-icon-box {
-    color: #d73634;
-}
-
-/* Fix for tags container margin */
-.about-tags-container {
-    margin-top: 2rem;
-}
-
-
-
-
-

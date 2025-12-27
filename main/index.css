@@ -454,7 +454,7 @@ h3 {
 /* ======. MEDIA QUERY FOR MOBILE ====== */
 
 
-@media (max-width: 550px) {
+@media (max-width: 600px) {
 
   .link1 {
     font-size: 0.98rem;

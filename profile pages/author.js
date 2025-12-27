@@ -39,64 +39,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const pFollowers = document.getElementById('p-followers');
     if (pFollowers) pFollowers.textContent = `${currentAuthor.followers} followers`;
 
-    // --- 4. INIT MAIN FOLLOW BUTTON (Header) ---
-    // We attach the author's name to the button so our Global Click Listener knows who to follow
-    const mainFollowBtn = document.querySelector('.profile-header .follow-btn');
-    if (mainFollowBtn) {
-        mainFollowBtn.dataset.author = currentAuthor.name; // Attach "Priyanshu" to button
-        updateFollowButtonState(mainFollowBtn, currentAuthor.name); // Check storage immediately
-    }
-
-    // --- 5. FILL ABOUT DETAILS ---
+    // --- 4. FILL ABOUT DETAILS ---
     const pBio = document.getElementById('p-bio');
     if (pBio) pBio.textContent = currentAuthor.bio;
 
-    const pEmail = document.getElementById('p-email');
-    if (pEmail) pEmail.textContent = currentAuthor.stats?.email || "N/A";
-
     const pLocation = document.getElementById('p-location');
-    if (pLocation) pLocation.textContent = currentAuthor.stats?.location || "N/A";
+    if (pLocation) pLocation.textContent = currentAuthor.location || "N/A";
 
-    // --- 6. FILL SOCIAL LINKS ---
-    const getHandle = (url) => {
-        try {
-            const parts = url.split('/');
-            return "@" + parts[parts.length - 1];
-        } catch (e) { return "View Profile"; }
-    };
+    /* REMOVED USELESS CODE: 
+       - Email Logic (ID 'p-email' removed from HTML)
+       - Social Links Logic (IDs 'social-link-x' etc. removed from HTML)
+       - Tags Logic (ID 'about-tags-container' removed from HTML)
+    */
 
-    const setSocial = (linkId, textId, linkUrl) => {
-        const linkEl = document.getElementById(linkId);
-        const textEl = document.getElementById(textId);
-        if (!linkEl) return;
-        if (linkUrl && linkUrl !== "#") {
-            linkEl.href = linkUrl;
-            linkEl.style.display = "flex";
-            if (textEl) textEl.textContent = getHandle(linkUrl);
-        } else {
-            linkEl.style.display = "none";
-        }
-    }
-
-    setSocial('social-link-x', 'social-text-x', currentAuthor.socials?.x);
-    setSocial('social-link-li', 'social-text-li', currentAuthor.socials?.linkedin);
-    setSocial('social-link-yt', 'social-text-yt', currentAuthor.socials?.youtube);
-
-    // --- 7. FILL ABOUT TAGS ---
-    const tagsContainer = document.getElementById('about-tags-container');
-    if (tagsContainer) {
-        tagsContainer.innerHTML = '';
-        if (currentAuthor.aboutTags && Array.isArray(currentAuthor.aboutTags)) {
-            currentAuthor.aboutTags.forEach(tagText => {
-                const span = document.createElement('span');
-                span.className = 'about-tag';
-                span.textContent = tagText;
-                tagsContainer.appendChild(span);
+    // --- 5. FILL EDUCATION (NEW) ---
+    const eduList = document.getElementById('p-education-list');
+    
+    if (eduList) {
+        eduList.innerHTML = ''; // Clear existing
+        if (currentAuthor.education && Array.isArray(currentAuthor.education)) {
+            currentAuthor.education.forEach(edu => {
+                const item = document.createElement('div');
+                item.className = 'edu-item';
+                item.innerHTML = `
+                    <span class="edu-school">${edu.school}</span>
+                    <span class="edu-degree">${edu.degree}</span>
+                    <span class="edu-year">${edu.year}</span>
+                `;
+                eduList.appendChild(item);
             });
+        } else {
+            eduList.innerHTML = '<span style="color:#999; font-size:0.9rem;">No education details listed.</span>';
         }
     }
 
-    // --- 8. FILTER ARTICLES (Tag-Based) ---
+    // --- 6. INIT MAIN FOLLOW BUTTON ---
+    const mainFollowBtn = document.querySelector('.profile-header .follow-btn');
+    if (mainFollowBtn) {
+        mainFollowBtn.dataset.author = currentAuthor.name; 
+        updateFollowButtonState(mainFollowBtn, currentAuthor.name);
+    }
+
+    // --- 7. FILTER ARTICLES (Tag-Based) ---
     const articlesList = document.getElementById('author-articles-list');
     const articlesCountSpan = document.getElementById('p-articles-count');
 
@@ -128,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 9. AUTOMATE FOLLOWING SIDEBAR ---
+    // --- 8. AUTOMATE FOLLOWING SIDEBAR ---
     const followingContainer = document.getElementById('following-list');
     const seeAllLink = document.getElementById('see-all-count');
 
@@ -144,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = document.createElement('div');
                 card.className = 'following-card';
 
-                // IMPORTANT: We add class="follow-btn" and data-author="Name"
                 card.innerHTML = `
                     <a href="author.html?name=${auth.name}" style="display:flex; align-items:center; gap:12px; flex-grow:1;">
                         <img src="${auth.image}" alt="${auth.name}" style="object-fit: cover; object-position: center;">
@@ -156,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button class="follow-btn" data-author="${auth.name}">Follow</button>
                 `;
 
-                // Check state immediately for this button
                 const btn = card.querySelector('.follow-btn');
                 updateFollowButtonState(btn, auth.name);
 
@@ -166,12 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (seeAllLink) seeAllLink.textContent = `See all (${allAuthors.length})`;
     }
 
-    // --- 10. GLOBAL FOLLOW BUTTON CLICK LISTENER ---
-    // This handles clicks for BOTH the main button AND sidebar buttons
+    // --- 9. GLOBAL FOLLOW BUTTON CLICK LISTENER ---
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('follow-btn')) {
             const btn = e.target;
-            const authorName = btn.dataset.author; // Gets "Priyanshu" or "Tiara"
+            const authorName = btn.dataset.author; 
 
             if (!authorName) return;
 
@@ -179,14 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const isFollowing = localStorage.getItem(storageKey) === 'true';
 
             if (isFollowing) {
-                // UNFOLLOW
                 localStorage.removeItem(storageKey);
             } else {
-                // FOLLOW
                 localStorage.setItem(storageKey, 'true');
             }
-
-            // Update UI immediately
             updateFollowButtonState(btn, authorName);
         }
     });
@@ -205,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 11. TAB SWITCHING ---
+    // --- 10. TAB SWITCHING ---
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
 
