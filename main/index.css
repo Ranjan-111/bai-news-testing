@@ -124,6 +124,9 @@ h3 {
   height: none;
   width: 100%;
 }
+.page1 {
+  margin-bottom: 7rem;
+}
 /* =========================article responsive=========== */
 
 @media (max-width: 992px) {

@@ -280,8 +280,8 @@
 
 /* Optional: If you want the profile icon slightly larger or adjusted */
 .profile-btn .icon4 {
-  width: 5rem;
-  height: 6rem;
+  width: 3.8rem;
+  height: 4.5rem;
 }
 
 /* Mobile Adjustment: Ensure it stays visible on small screens */
@@ -303,6 +303,11 @@
   /* label color */
   font-family: Arial, sans-serif;
   width: max-content;
+}
+
+.lst-lbl{
+  left: 70px;
+  top: 20.5px;
 }
 
 /* Show label when hovering on menu item */
@@ -898,6 +903,21 @@ footer h2 {
     color: white;
   }
 
+  .profile-btn {
+    margin-bottom: 3rem;
+    margin-left: 7px;
+  }
+
+  .profile-btn .icon4 {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .lst-lbl{
+    /* margin-left: 10px; */
+    top: 8px;
+  }
+
   .btn_toggle {
     left: 0;
   }
@@ -1165,7 +1185,7 @@ footer h2 {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 120%;
+  width: 300px;
   max-width: 300px;
   padding: 12px 20px;
   background-color: white;
@@ -1666,7 +1686,7 @@ footer h2 {
 
   /* 3. Social Buttons (Fix overflow) */
   .sm-btn {
-    width: 100%;
+    width: 450px;
     /* Fix the 120% issue */
     max-width: 100%;
     font-size: 0.85rem;
@@ -1736,7 +1756,7 @@ footer h2 {
 
   /* Make buttons full width */
   .sm-btn {
-    width: 85%;
+    width: 275px;
     max-width: 100%;
     font-size: 0.9rem;
   }
@@ -1989,7 +2009,7 @@ footer h2 {
 
 /* 2. INNER SCROLLER */
 .search-scroll-view {
-  max-height: 80vh;
+  max-height: 57vh;
   overflow-y: auto;
   scrollbar-width: thin;
   padding: 10px 0;

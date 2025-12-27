@@ -103,6 +103,7 @@ function resetUI() {
 // ==================------------------======================
 
 
+
 // ==========================================
 //  SHARE ICON LOGIC (Safeguarded)
 // ==========================================
@@ -222,6 +223,9 @@ function initGlobalLogic() {
 
     // 2. Initialize Search (We call the new function here!)
     initSearchLogic();
+
+    // 3. Initialize Responsive Profile Image (ADD THIS LINE)
+    initResponsiveProfile();
 
     // 3. Highlight Sidebar Link
     const currentPage = window.location.pathname.split("/").pop() || 'index.html';
@@ -418,7 +422,7 @@ function initSearchLogic() {
                     if (hasTyped && this.scrollTop > 0) {
                         const fadeDistance = 60; 
                         let alpha = 1 - Math.min(this.scrollTop / fadeDistance, 1);
-                        const mask = `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%, black 70%, black 100%)`;
+                        const mask = `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%, black 10%, black 100%)`;
                         
                         this.style.maskImage = mask;
                         this.style.webkitMaskImage = mask;
@@ -438,7 +442,10 @@ function initSearchLogic() {
         const regex = new RegExp(`(${safeQuery})`, 'gi');
         return text.replace(regex, '<span class="highlight-red">$1</span>');
     }
+
+    
 }
+
 
 
 
@@ -895,6 +902,40 @@ function initPopupLogic() {
             verifyOTP();
         }
     });
+}
+
+// ==========================================
+// 5. RESPONSIVE PROFILE IMAGE
+// ==========================================
+function initResponsiveProfile() {
+    const myImg = document.getElementById('responsiveImg');
+    
+    // REPLACE with your actual image paths
+    const desktopImg = "../assets/profile Image.png"; 
+    const mobileImg  = "../assets/Customer Icon Windows 10.png"; // Make sure you have this file!
+
+    function updateImageSource() {
+        if (!myImg) return; // Safety check if element is missing
+
+        // Check viewport width (550px breakpoint)
+        if (window.innerWidth <= 550) {
+            // Mobile: Only change if not already set (prevents flickering)
+            if (!myImg.src.includes("Customer Icon Windows 10")) {
+                myImg.src = mobileImg;
+            }
+        } else {
+            // Desktop: Only change if not already set
+            if (!myImg.src.includes("profile Image")) {
+                myImg.src = desktopImg;
+            }
+        }
+    }
+
+    // 1. Run immediately
+    updateImageSource();
+
+    // 2. Listen for resize (in case user rotates phone or resizes browser)
+    window.addEventListener('resize', updateImageSource);
 }
 
 // ==========================================
