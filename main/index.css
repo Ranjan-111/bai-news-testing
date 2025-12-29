@@ -12,6 +12,10 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+img{
+      filter: grayscale(100%);
+}
+
 /* FONT FAMILY */
 p {
   font-family: "Roboto", sans-serif;
@@ -106,6 +110,12 @@ h3 {
   font-size: 85%;
 }
 
+.date+p {
+    display: -webkit-box;
+    -webkit-line-clamp: 7; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis}
 
 .info1 {
   padding: 10px;

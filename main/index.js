@@ -1,151 +1,82 @@
+import { getFeaturedNews, subscribeLatestNews } from '../Article/firebase-db.js';
 
-// ######################===== UPDATE FEATURE NEWS CODE =====#########################################
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Featured News
+    try {
+        const featuredArticles = await getFeaturedNews();
+        if (featuredArticles.length >= 1) updateFeaturedCard('.Article.LEFT', featuredArticles[0]);
+        if (featuredArticles.length >= 2) updateFeaturedCard('.Article.RIGHT', featuredArticles[1]);
+    } catch (e) { console.error(e); }
 
-// Function to replace LEFT article content
-function replaceLeftArticle(newData) {
-  const article = document.querySelector('.Article.LEFT');
+    // 2. Latest News Ticker
+    initLatestNews();
+});
 
-  if (!article) {
-    console.error('Left article not found');
-    return;
-  }
+function updateFeaturedCard(selector, data) {
+    const card = document.querySelector(selector);
+    if (!card) return;
 
-  const img = article.querySelector('.img');
-  if (img && newData.image) {
-    img.src = newData.image;
-    img.alt = newData.imageAlt || 'img';
-  }
+    const img = card.querySelector('.img');
+    if (img && data.imageUrl) img.src = data.imageUrl;
 
-  const heading = article.querySelector('h3');
-  if (heading && newData.title) {
-    heading.textContent = newData.title;
-  }
+    const title = card.querySelector('h3');
+    if (title) title.innerText = data.title;
 
-  const date = article.querySelector('.date');
-  if (date && newData.date) {
-    date.textContent = newData.date;
-  }
-
-  const description = article.querySelector('.info p:not(.date)');
-  if (description && newData.description) {
-    description.textContent = newData.description;
-  }
-}
-
-// Function to replace RIGHT article content
-function replaceRightArticle(newData) {
-  const article = document.querySelector('.Article.RIGHT');
-
-  if (!article) {
-    console.error('Right article not found');
-    return;
-  }
-
-  const img = article.querySelector('.img');
-  if (img && newData.image) {
-    img.src = newData.image;
-    img.alt = newData.imageAlt || 'img';
-  }
-
-  const heading = article.querySelector('h3');
-  if (heading && newData.title) {
-    heading.textContent = newData.title;
-  }
-
-  const date = article.querySelector('.date');
-  if (date && newData.date) {
-    date.textContent = newData.date;
-  }
-
-  const description = article.querySelector('.info p:not(.date)');
-  if (description && newData.description) {
-    description.textContent = newData.description;
-  }
-}
-
-// Function to parse CSV - handles the exact format from your file
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  const data = [];
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-
-    // Split only first 3 commas for image,date,title then rest is description
-    const parts = [];
-    let currentPart = '';
-    let commaCount = 0;
-
-    for (let j = 0; j < line.length; j++) {
-      if (line[j] === ',' && commaCount < 3) {
-        parts.push(currentPart.trim());
-        currentPart = '';
-        commaCount++;
-      } else {
-        currentPart += line[j];
-      }
-    }
-    // Add the last part (description)
-    parts.push(currentPart.trim());
-
-    if (parts.length >= 4) {
-      const row = {
-        image: parts[0],
-        date: parts[1],
-        title: parts[2],
-        description: parts[3]
-      };
-      data.push(row);
-    }
-  }
-
-  return data;
-}
-
-// Main function to load CSV and update articles
-async function updateArticlesFromCSV() {
-  try {
-    const response = await fetch('../Article/feature.csv');
-    const csvText = await response.text();
-    const data = parseCSV(csvText);
-
-    if (data.length < 2) {
-      console.error('CSV must contain at least 2 data rows');
-      return;
+    // --- DATE FIX ---
+    const dateEl = card.querySelector('.date');
+    if (dateEl && data.datePosted) {
+        let dateObj = typeof data.datePosted.toDate === 'function' ? data.datePosted.toDate() : new Date(data.datePosted);
+        // Format: 18 Nov 2025
+        dateEl.innerText = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
     }
 
-    // Get last two rows
-    const lastRow = data[data.length - 1];
-    const secondLastRow = data[data.length - 2];
+    // Summary Fix
+    const summaryEl = card.querySelector('.info p:not(.date)');
+    if (summaryEl && data.summary) summaryEl.innerText = data.summary;
 
-    // Update LEFT article with last row
-    replaceLeftArticle({
-      image: lastRow.image,
-      title: lastRow.title.toUpperCase(),
-      date: lastRow.date,
-      description: lastRow.description
+    card.style.cursor = "pointer";
+    card.onclick = () => window.location.href = `../articles/article.html?id=${data.id}`;
+}
+
+function initLatestNews() {
+    const container = document.getElementById('latest-news-container');
+    if (!container) return;
+
+    subscribeLatestNews((articles) => {
+        container.innerHTML = ''; 
+        if (articles.length === 0) { container.innerHTML = '<p style="padding:20px;">No updates yet.</p>'; return; }
+
+        articles.forEach(article => {
+            let dateObj = typeof article.datePosted.toDate === 'function' ? article.datePosted.toDate() : new Date(article.datePosted);
+            const timeAgo = getTimeAgo(dateObj);
+            // Format: 18 Nov 2025
+            const dateString = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+            const html = `
+                <section class="timeline-item">
+                    <section class="time">${timeAgo}</section>
+                    <section class="news-card">
+                        <a href="../articles/article.html?id=${article.id}" style="text-decoration:none; color:inherit;">
+                            <h3>${article.title}</h3>
+                        </a>
+                        <section class="details">
+                            <p><em>Reported: ${dateString}</em></p>
+                            <p><em>${article.summary}</em></p>
+                        </section>
+                    </section>
+                </section>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+        });
     });
-
-    // Update RIGHT article with second last row
-    replaceRightArticle({
-      image: secondLastRow.image,
-      title: secondLastRow.title.toUpperCase(),
-      date: secondLastRow.date,
-      description: secondLastRow.description
-    });
-
-    console.log('Articles updated successfully!');
-  } catch (error) {
-    console.error('Error loading CSV:', error);
-  }
 }
 
-// Call the function when page loads
-document.addEventListener('DOMContentLoaded', updateArticlesFromCSV);
-
-
-
-
-
-
+function getTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    let interval = seconds / 3600;
+    if (interval > 24) return Math.floor(interval / 24) + " days";
+    if (interval > 1) return Math.floor(interval) + " hours";
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " mins";
+    return "Just now";
+}

@@ -30,7 +30,7 @@
      <section class="main">
         <h1 id="news-headline">BBC NOW FACES TOUGH LEGAL BATTLE WITH WORLD'S MOST POWERFUL MAN. WHAT HAPPENS NEXT?</h1>
         <br>
-        <p class="date">18 AUG 2025</p>
+        <p id="news-date" class="date">18 AUG 2025</p>
         <hr class="last-hr">
         <div class="article-meta">
             
@@ -51,9 +51,9 @@
 
         <figure>
             <img src="../assets/img1.jpg" alt="Article Image" id="news-img"><br>
-            <figcaption><em>Image Caption: BBC Headquarters in London</em></figcaption>
+            <!-- <figcaption><em>Image Caption: BBC Headquarters in London</em></figcaption> -->
         </figure>
-        <p>
+        <div id="article-content">
             Anyone who thought the BBC's apology to Donald Trump was going to stop his threat of a lawsuit was, quite frankly, deluded.
             <br>
             The BBC chairman Samir Shah perhaps summed it up in the interview he gave me the day after the director general and the CEO of News resigned. He called the president "a litigious fellow".
@@ -69,7 +69,7 @@
             On Friday, Trump said: "They changed the words coming out of my mouth." He wants to know why Panorama edited two clips of his speech together to give a "totally different meaning".
             <br>
             He doesn't accept the BBC's response that what happened was unintentional.
-            <br><br>
+            <br>
             This is a very serious moment in the history of the BBC. It stands or falls by being viewed as impartial - a source to trust in a world where trust in institutions is falling.
             <br>
             Instead, the corporation is being accused of the opposite - and faces an expensive and very public battle with the most powerful man in the world.
@@ -88,7 +88,7 @@
             As one former senior BBC executive put it to me, after the BBC had rejected offering compensation, "they've made the right call". But this person also said, if the president did decide to sue, the BBC would have to "batten down - and get the best lawyers in Florida".
             <br>
             The reason to settle would have been to bring down costs in the long run.
-            <br><br>
+            <br>
             Now it looks as if the BBC will be involved in a protracted, costly court battle at a time when it should be 100% focused on the discussions over the renewal of its charter, which are ramping up.
             <br>
             The people at the top of the BBC should be fully concentrating on what is, in normal times, a fundamental moment for the corporation - when what it's for, its scope, how it will be funded, the details of its very existence are all hammered out between government and BBC in time for a new charter at the start of 2028.
@@ -102,7 +102,7 @@
             But there may be routes off it.
             <br>
             Might the BBC ask the UK government to step in through back channels? Would a call from Prime Minister Keir Starmer persuade Trump to change his mind? Would Starmer even want to get involved and expend his own political capital with the US president?
-            <br><br>
+            <br>
             One positive for the BBC this week was the robust nature in which the culture secretary Lisa Nandy defended the corporation.
             <br>
             She talked about the widespread trust in BBC News and described the corporation as "a light on the hill for people in times of darkness" which brings the country together, whether through Celebrity Traitors or its VE Day coverage.
@@ -110,7 +110,7 @@
             Donald Trump, on the other hand, has called the BBC "worse than fake news". He claims the corporation and its journalists are corrupt.
             <br>
             The fight is well and truly on.
-        </p>
+        </div>
 
         <hr class="last-hr">
 
@@ -127,13 +127,12 @@
 
         </section>
 
-
      </section>
 
      <section class="more-news">
         <hr class="more">
         <h2>Related News</h2>
-        <div class="related-articles">
+        <div id="related-container" class="related-articles">
 
             <div>
                 <img src="../assets/img2.jpg" alt="Related Article 1">
@@ -165,6 +164,6 @@
     
     <!-- IMPORT LOGIC SECOND -->
     <script defer type="module" src="../layout/layout.js"></script>
-    <script src="article.js"></script>
+    <script type="module" src="article.js"></script>
 </body>
 </html>

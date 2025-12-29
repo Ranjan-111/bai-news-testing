@@ -1,21 +1,9 @@
 // ==========================================
 // 0. FIREBASE CONFIGURATION & IMPORTS
 // ==========================================
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, signInAnonymously, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { auth } from '../Article/firebase-db.js'; // Import auth from DB file
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, signInAnonymously, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyC_Q3p2dyKwUOUv5O-gIMNI8vv6RrD0IZY",
-    authDomain: "bai-news-9e4cf.firebaseapp.com",
-    projectId: "bai-news-9e4cf",
-    storageBucket: "bai-news-9e4cf.firebasestorage.app",
-    messagingSenderId: "1056453543830",
-    appId: "1:1056453543830:web:c40a8c1e5bb582f2c63fb7"
-};
-
-// Initialize
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 // ==========================================
@@ -245,10 +233,12 @@ function initGlobalLogic() {
     }
 }
 
+import { fetchAllSearchData } from '../Article/firebase-db.js';
+
 // ==========================================
-// 3. SEARCH LOGIC (Unified: Toggle + Input + Fade)
+// 3. SEARCH LOGIC (Unified: Client-Side)
 // ==========================================
-function initSearchLogic() {
+export function initSearchLogic() {
     // --- Selectors ---
     const searchWrapper = document.querySelector('.search-wrapper');
     const searchToggleBtn = document.getElementById('search-toggle-btn');
@@ -257,15 +247,15 @@ function initSearchLogic() {
     const searchInput = document.getElementById('searchInput');
     const resultsBox = document.getElementById('search-results-box');
     const filterCheckboxes = document.querySelectorAll('input[name="filter-tags"]');
-
+    
     // Safety Exit
     if (!searchToggleBtn || !searchInput || !resultsBox) return;
 
     // --- State Variables ---
     let clickCount = 0;
-    let hasTyped = false; // Flag for fade effect
+    let hasTyped = false;
 
-    // --- A. TOGGLE BUTTON VISUALS (Icons) ---
+    // --- A. TOGGLE BUTTON VISUALS ---
     const imgSearch = searchToggleBtn.querySelector('.search-icon');
     const imgFilterEmpty = searchToggleBtn.querySelector('.filter-icon1');
     const imgFilterFilled = searchToggleBtn.querySelector('.filter-icon2');
@@ -279,20 +269,27 @@ function initSearchLogic() {
         if (showImage === 2 && imgFilterEmpty) imgFilterEmpty.style.display = 'block';
         if (showImage === 3 && imgFilterFilled) imgFilterFilled.style.display = 'block';
     }
-    updateImages(1); // Default state
+    updateImages(1); // Default
 
-    // --- B. TOGGLE CLICK HANDLER ---
-    searchToggleBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+    // --- B. TOGGLE CLICK HANDLER (UPDATED) ---
+    searchToggleBtn.addEventListener('click', async (e) => {
+        e.preventDefault(); e.stopPropagation();
         clickCount++;
 
         if (clickCount === 1) { // Open Search
             searchWrapper.classList.add('active');
             searchPopupContainer.classList.add('active');
             filterOptionsContainer.classList.remove('visible');
-            searchInput.focus(); // Good UX: focus input automatically
+            searchInput.focus();
             updateImages(2);
+
+            // PRE-FETCH DATA NOW (So it's ready when they type)
+            if (!window.cachedSearchData) {
+                resultsBox.innerHTML = '<p style="padding:10px; color:#888;">Loading Search Index...</p>';
+                await fetchAllSearchData();
+                resultsBox.innerHTML = ''; // Clear loading message
+            }
+
         } else { // Toggle Filter
             if (clickCount % 2 === 0) {
                 filterOptionsContainer.classList.add('visible');
@@ -306,75 +303,64 @@ function initSearchLogic() {
 
     // --- C. CLOSE ON CLICK OUTSIDE ---
     document.addEventListener('click', (e) => {
-        // If search isn't open, ignore
         if (!searchWrapper || !searchWrapper.classList.contains('active')) return;
 
-        // 1. Check if clicked completely outside
         if (!searchWrapper.contains(e.target)) {
-            searchWrapper.classList.remove('active');
-            searchPopupContainer.classList.remove('active');
-            filterOptionsContainer.classList.remove('visible');
-            resultsBox.classList.remove('active');
-            
-            clickCount = 0;
-            hasTyped = false; // Reset fade flag
-            searchInput.value = ''; // Optional: clear input on close
-            updateImages(1);
-        } 
-        // 2. Check if clicked inside search but NOT on filter or results
-        else if (!filterOptionsContainer.contains(e.target) && e.target !== searchToggleBtn && !resultsBox.contains(e.target)) {
+            closeSearch();
+        } else if (!filterOptionsContainer.contains(e.target) && e.target !== searchToggleBtn && !resultsBox.contains(e.target)) {
             if (filterOptionsContainer.classList.contains('visible')) {
                 filterOptionsContainer.classList.remove('visible');
-                clickCount = 1; // Reset to "Search Open" state
+                clickCount = 1; 
                 updateImages(2);
             }
         }
     });
 
-// --- D. REAL-TIME SEARCH LOGIC ---
-    
-    function performSearch() {
-        // --- 1. SPECIAL CHECK: MULTI-ARTICLE PAGE ---
-        // If user is on the 'multi-article' page, we STOP here.
-        // We do NOT want the popup results box to appear.
-        // The 'multi-article.js' script is already listening to this input
-        // and will filter the main list in the background.
+    function closeSearch() {
+        searchWrapper.classList.remove('active');
+        searchPopupContainer.classList.remove('active');
+        filterOptionsContainer.classList.remove('visible');
+        resultsBox.classList.remove('active');
+        clickCount = 0;
+        hasTyped = false;
+        updateImages(1);
+    }
+
+    // --- D. REAL-TIME SEARCH LOGIC (CLIENT SIDE) ---
+    async function performSearch() {
+        // If on multi-article page, do nothing (let that script handle it)
         if (window.location.pathname.includes('multi-article')) {
-            // Optional: Ensure the popup is hidden just in case
-            resultsBox.classList.remove('active'); 
+            resultsBox.classList.remove('active');
             return; 
         }
 
-        // --- 2. STANDARD POPUP LOGIC (For all other pages) ---
         const query = searchInput.value.toLowerCase().trim();
-        hasTyped = true; // User has interacted
+        hasTyped = true;
 
-        // Get Active Filters
         const selectedTags = Array.from(filterCheckboxes)
             .filter(cb => cb.checked)
             .map(cb => cb.value.toLowerCase());
 
-        // Clear if empty
-        if (query.length === 0) {
+        if (query.length === 0 && selectedTags.length === 0) {
              resultsBox.classList.remove('active');
              resultsBox.innerHTML = "";
              return;
         }
 
-        if (typeof articleDatabase === 'undefined') {
-            console.warn("Search Error: articleDatabase not found.");
-            return;
+        // Get Data
+        let database = window.cachedSearchData;
+        if (!database) {
+            database = await fetchAllSearchData();
         }
 
         // Filter Data
-        const filteredData = articleDatabase.filter(article => {
-            const plainTitle = article.title.replace(/(<([^>]+)>)/gi, "").toLowerCase();
-            const plainSummary = article.summary.replace(/(<([^>]+)>)/gi, "").toLowerCase();
-            const articleTags = (article.tags || "").toLowerCase();
+        const filteredData = database.filter(article => {
+            const matchesText = !query || 
+                                article.searchTitle.includes(query) || 
+                                article.searchSummary.includes(query);
 
-            const matchesText = plainTitle.includes(query) || plainSummary.includes(query);
             const matchesTags = selectedTags.length === 0 || 
-                                selectedTags.some(tag => articleTags.includes(tag));
+                                selectedTags.some(tag => article.searchTags.includes(tag));
 
             return matchesText && matchesTags;
         });
@@ -382,109 +368,59 @@ function initSearchLogic() {
         displaySearchResults(filteredData, query);
     }
     
-    // Attach Input Listeners
+    // Attach Listeners
     searchInput.addEventListener('input', performSearch);
-    
-    filterCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', performSearch);
-    });
+    filterCheckboxes.forEach(cb => cb.addEventListener('change', performSearch));
 
-// --- E. DISPLAY & FADE LOGIC (PAGINATED) ---
+
+// --- E. DISPLAY LOGIC (With Highlighting) ---
     function displaySearchResults(data, query) {
         
-        // 1. Handle No Results
         if (data.length === 0) {
             resultsBox.innerHTML = `<div class="search-scroll-view"><div style="text-align:center; color:#888; padding:10px;">No matching results.</div></div>`;
             resultsBox.classList.add('active');
             return;
         }
 
-        // 2. Setup Container (Clear previous results)
         resultsBox.innerHTML = ''; 
-        
-        // Decide if we need the 'few-results' class based on TOTAL data length
         const viewClass = data.length < 5 ? "search-scroll-view few-results" : "search-scroll-view";
         
-        // Create the scroll view element manually
         const scrollView = document.createElement('div');
         scrollView.className = viewClass;
         resultsBox.appendChild(scrollView);
         resultsBox.classList.add('active');
 
-        // 3. Pagination Configuration
-        const batchSize = 7;
-        let currentCount = 0;
-
-        // 4. Render Function (Adds 7 items at a time)
-        function renderBatch() {
-            // Get the next chunk of data
-            const nextBatch = data.slice(currentCount, currentCount + batchSize);
-            
-            // Generate HTML for this chunk
-            const batchHtml = nextBatch.map(article => {
-                const plainTitle = article.title.replace(/(<([^>]+)>)/gi, "");
-                const plainSummary = article.summary.replace(/(<([^>]+)>)/gi, "");
-                const hlTitle = highlightText(plainTitle, query);
-                const hlSummary = highlightText(plainSummary, query);
-
-                return `
-                <a href="../docs/index.html" class="result-card">
-                    <h4 style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">${hlTitle}</h4>
-                    <p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 300">${hlSummary}</p>
-                    <span class="result-date">${article.date}</span>
-                </a>
-                `;
-            }).join('');
-
-            // Insert before the button if it exists, otherwise just append to bottom
-            const btn = scrollView.querySelector('.btn-read-more');
-            if (btn) {
-                btn.insertAdjacentHTML('beforebegin', batchHtml);
-            } else {
-                scrollView.insertAdjacentHTML('beforeend', batchHtml);
+        // Render Items
+        const html = data.map(article => {
+            // 1. Date Logic
+            let dateStr = "";
+            if (article.datePosted) {
+                let dateObj = typeof article.datePosted.toDate === 'function' ? article.datePosted.toDate() : new Date(article.datePosted);
+                dateStr = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
             }
 
-            // Update Count
-            currentCount += nextBatch.length;
+            // 2. Highlight Logic (Title & Summary)
+            const hlTitle = highlightText(article.title, query);
+            const hlSummary = highlightText(article.summary, query);
 
-            // Handle Button Visibility
-            if (currentCount < data.length) {
-                // If button doesn't exist yet, create it
-                if (!scrollView.querySelector('.btn-read-more')) {
-                    const moreBtn = document.createElement('button');
-                    moreBtn.className = 'btn-read-more';
-                    moreBtn.innerText = 'Read More';
-                    
-                    // Click Event
-                    moreBtn.onclick = (e) => {
-                        e.preventDefault(); 
-                        e.stopPropagation(); // Prevent closing the popup
-                        renderBatch();       // Load next 7
-                    };
-                    scrollView.appendChild(moreBtn);
-                }
-            } else {
-                // If we reached the end, remove the button
-                if (btn) btn.remove();
-            }
-        }
+            return `
+            <a href="../articles/article.html?id=${article.id}" class="result-card">
+                <h4 style="font-family: 'Inter', sans-serif;">${hlTitle}</h4>
+                <p style="font-family: sans-serif; font-weight: 300">${hlSummary}</p>
+                <span class="result-date">${dateStr}</span>
+            </a>
+            `;
+        }).join('');
 
-        // 5. Initial Render (Show first 7)
-        renderBatch();
+        scrollView.innerHTML = html;
 
-        // 6. Re-attach Scroll Fade Logic (Preserved from your code)
-        // Reset Immediately
-        scrollView.style.maskImage = "none";
-        scrollView.style.webkitMaskImage = "none";
-
-        // Attach Listener only if total list is long enough
+        // Fade Logic
         if (data.length >= 5) {
             scrollView.addEventListener('scroll', function() {
                 if (hasTyped && this.scrollTop > 0) {
                     const fadeDistance = 60; 
                     let alpha = 1 - Math.min(this.scrollTop / fadeDistance, 1);
                     const mask = `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%, black 10%, black 100%)`;
-                    
                     this.style.maskImage = mask;
                     this.style.webkitMaskImage = mask;
                 } else {
@@ -495,19 +431,22 @@ function initSearchLogic() {
         }
     }
 
-    // Helper: Highlight Text
+    // --- HELPER: HIGHLIGHT TEXT ---
     function highlightText(text, query) {
-        if (!query) return text;
+        if (!query || !text) return text || "";
+        // Clean the text of HTML tags first (optional safety)
+        const safeText = text.replace(/(<([^>]+)>)/gi, "");
+        
+        // Escape special regex characters in query
         const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        
+        // Create Regex (Case Insensitive)
         const regex = new RegExp(`(${safeQuery})`, 'gi');
-        return text.replace(regex, '<span class="highlight-red">$1</span>');
+        
+        // Wrap match in span
+        return safeText.replace(regex, '<span class="highlight-red">$1</span>');
     }
-
-    
 }
-
-
-
 
 
 

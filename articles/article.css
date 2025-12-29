@@ -8,12 +8,11 @@ body{
   margin: 0;
 }
 
+img{
+  filter: grayscale(100%);
+}
+
 /* article start */
-.main h1 ~ div {
-    display: flex;
-    justify-content: space-between;
-    
-  }
 
   h1 {
     font-size: 2rem;
@@ -26,6 +25,7 @@ body{
   .article-meta{
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
 
   .date{
@@ -142,6 +142,22 @@ figcaption {
         height: 16px;
         margin: 0 0 0.3rem 0.4rem;
         vertical-align: middle;
+    }
+
+    #article-content {
+        display: block !important;
+        width: 100%;
+        margin: 0 auto;   
+    }
+
+    #article-content p {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px; 
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #333;
+        text-align: left;   
     }
 
 /* Responsive adjustments for smaller screens */
