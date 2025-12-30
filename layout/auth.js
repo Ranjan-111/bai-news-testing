@@ -371,6 +371,40 @@ export function initPopupLogic() {
         });
     }
 
+    // --- K. PASTE SUPPORT (NEW) ---
+    otpInputs.forEach((input) => {
+        input.addEventListener('paste', (e) => {
+            e.preventDefault(); // Stop default behavior
+            
+            // Get pasted data
+            const paste = (e.clipboardData || window.clipboardData).getData('text');
+            // Clean it: Remove non-numbers and limit to 6 digits
+            const cleanPaste = paste.replace(/[^0-9]/g, '').slice(0, 6);
+
+            if (cleanPaste) {
+                // Fill inputs starting from the FIRST box (Index 0)
+                // This ensures it works even if they paste into the 3rd box
+                cleanPaste.split('').forEach((char, index) => {
+                    if (otpInputs[index]) {
+                        otpInputs[index].value = char;
+                    }
+                });
+
+                // Focus logic: Move to the next empty box or the last box
+                const nextIndex = cleanPaste.length;
+                if (nextIndex < otpInputs.length) {
+                    otpInputs[nextIndex].focus();
+                } else {
+                    otpInputs[otpInputs.length - 1].focus();
+                    // OPTIONAL: Auto-verify if they pasted a full 6-digit code
+                    if (cleanPaste.length === 6) {
+                        setTimeout(window.verifyOTP, 100);
+                    }
+                }
+            }
+        });
+    });
+
     // ==========================================
     // GOOGLE APPS SCRIPT AUTH LOGIC
     // ==========================================
@@ -464,9 +498,9 @@ export function initPopupLogic() {
                         alert("Welcome back! You have successfully signed in.");
                     } else {
                         if (newsletterCheck && newsletterCheck.checked) {
-                            alert("Account Created! You are subscribed to updates.");
+                            // alert("Account Created! You are subscribed to updates.");
                         } else {
-                            alert("Account Created Successfully!");
+                            // alert("Account Created Successfully!");
                         }
                     }
                 })

@@ -284,18 +284,18 @@ export function initSearchLogic() {
     filterCheckboxes.forEach(cb => cb.addEventListener('change', performSearch));
 
 
-    // --- E. DISPLAY LOGIC (With Highlighting) ---
+// --- E. DISPLAY LOGIC (Updated: Title Red, Summary Bold) ---
     function displaySearchResults(data, query) {
-
+        
         if (data.length === 0) {
             resultsBox.innerHTML = `<div class="search-scroll-view"><div style="text-align:center; color:#888; padding:10px;">No matching results.</div></div>`;
             resultsBox.classList.add('active');
             return;
         }
 
-        resultsBox.innerHTML = '';
+        resultsBox.innerHTML = ''; 
         const viewClass = data.length < 5 ? "search-scroll-view few-results" : "search-scroll-view";
-
+        
         const scrollView = document.createElement('div');
         scrollView.className = viewClass;
         resultsBox.appendChild(scrollView);
@@ -310,9 +310,12 @@ export function initSearchLogic() {
                 dateStr = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
             }
 
-            // 2. Highlight Logic (Title & Summary)
-            const hlTitle = highlightText(article.title, query);
-            const hlSummary = highlightText(article.summary, query);
+            // 2. Highlight Logic (DIFFERENT STYLES)
+            // Title uses 'highlight-red' class
+            const hlTitle = highlightText(article.title, query, 'red');
+            
+            // Summary uses '<b>' tag for Bold
+            const hlSummary = highlightText(article.summary, query, 'bold');
 
             return `
             <a href="../articles/article.html?id=${article.id}" class="result-card">
@@ -325,11 +328,11 @@ export function initSearchLogic() {
 
         scrollView.innerHTML = html;
 
-        // Fade Logic
+        // Fade Logic (Keep existing)
         if (data.length >= 5) {
-            scrollView.addEventListener('scroll', function () {
+            scrollView.addEventListener('scroll', function() {
                 if (hasTyped && this.scrollTop > 0) {
-                    const fadeDistance = 60;
+                    const fadeDistance = 60; 
                     let alpha = 1 - Math.min(this.scrollTop / fadeDistance, 1);
                     const mask = `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%, black 10%, black 100%)`;
                     this.style.maskImage = mask;
@@ -342,20 +345,21 @@ export function initSearchLogic() {
         }
     }
 
-    // --- HELPER: HIGHLIGHT TEXT ---
-    function highlightText(text, query) {
+    // --- HELPER: HIGHLIGHT TEXT (Updated with 'type') ---
+    function highlightText(text, query, type) {
         if (!query || !text) return text || "";
-        // Clean the text of HTML tags first (optional safety)
+        
         const safeText = text.replace(/(<([^>]+)>)/gi, "");
-
-        // Escape special regex characters in query
         const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-        // Create Regex (Case Insensitive)
         const regex = new RegExp(`(${safeQuery})`, 'gi');
-
-        // Wrap match in span
-        return safeText.replace(regex, '<span class="highlight-red">$1</span>');
+        
+        if (type === 'red') {
+            // Returns RED text (For Titles)
+            return safeText.replace(regex, '<span class="highlight-red">$1</span>');
+        } else {
+            // Returns BOLD text (For Summaries)
+            return safeText.replace(regex, '<strong>$1</strong>');
+        }
     }
 }
 

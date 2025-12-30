@@ -2151,6 +2151,10 @@ footer h2 {
     right: 2rem;
   }
 
+  .search-scroll-view{
+    max-height: 80vh;
+  }
+
   /* Prevent results from being too wide */
   .search-results-box {
     min-height: 80vh;
