@@ -63,19 +63,42 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // 4. FUNCTION TO UPDATE THE BUTTON (Red -> Black)
+// This function is called by the Auth Listener
 function updateUIForUser(user) {
     const subscribeBtn = document.getElementById('openPopupBtn');
-    if (subscribeBtn) {
-        // Change Styles to Black
-        subscribeBtn.style.backgroundColor = "#000";
-        subscribeBtn.style.color = "#fff";
+    const profileTrigger = document.getElementById('profileTrigger'); // <--- Sidebar Icon
+    
+    // 1. Handle Subscribe Button State (Existing Logic)
+    if (user) {
+        // Logged In
+        if (subscribeBtn) {
+            subscribeBtn.classList.add('auth-ready');
+            subscribeBtn.style.backgroundColor = "#000";
+            subscribeBtn.style.color = "#fff";
+            subscribeBtn.innerHTML = '<span class="text">Subscribed</span>';
+            subscribeBtn.style.pointerEvents = "none";
+        }
 
-        // Change Text
-        // We use innerHTML to keep the styling, or just text
-        subscribeBtn.innerHTML = '<span class="text">Subscribed</span>';
+        // 2. SHOW Sidebar Profile Icon & Init Popup
+        if (profileTrigger) {
+            profileTrigger.style.display = 'flex'; // Show icon
+            initProfilePopupLogic(user); // Activate click listeners
+        }
 
-        // Optional: Disable click so popup doesn't open again
-        subscribeBtn.style.pointerEvents = "none";
+    } else {
+        // Logged Out
+        if (subscribeBtn) {
+            subscribeBtn.classList.add('auth-ready');
+            subscribeBtn.style.backgroundColor = ""; 
+            subscribeBtn.style.color = "";
+            subscribeBtn.innerHTML = '<span class="text">Subscribe</span> <span class="icon"><svg viewBox="0 0 448 512" class="bell"><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"></path></svg></span>';
+            subscribeBtn.style.pointerEvents = "auto";
+        }
+
+        // 3. HIDE Sidebar Profile Icon
+        if (profileTrigger) {
+            profileTrigger.style.display = 'none'; // Hide icon
+        }
     }
 }
 
@@ -574,4 +597,60 @@ export function initPopupLogic() {
             verifyOTP();
         }
     });
+}
+
+
+// ==========================================
+// PROFILE POPUP LOGIC (New)
+// ==========================================
+function initProfilePopupLogic(user) {
+    const trigger = document.getElementById('profileTrigger');
+    const popup = document.getElementById('profilePopup');
+    const nameDisplay = document.getElementById('profileName');
+    const signoutBtn = document.getElementById('btn-signout');
+
+    if (!trigger || !popup) return;
+
+    // 1. Populate Name
+    if (user && nameDisplay) {
+        // Use Display Name or part of email if name is missing
+        const displayName = user.displayName || user.email.split('@')[0];
+        nameDisplay.textContent = displayName;
+    }
+
+    // 2. Toggle Popup on Click
+    // We use 'mousedown' to prevent conflict with other click listeners sometimes
+    trigger.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation(); // Stop bubbling
+        popup.classList.toggle('active');
+    };
+
+    // 3. Sign Out Logic
+    if (signoutBtn) {
+        signoutBtn.onclick = async (e) => {
+            e.preventDefault();
+            await logoutUser(); // Calls your existing auth.js logout
+        };
+    }
+
+    // 4. Close when clicking anywhere else
+    document.addEventListener('click', (e) => {
+        if (!popup.contains(e.target) && !trigger.contains(e.target)) {
+            popup.classList.remove('active');
+        }
+    });
+}
+
+// ==========================================
+// LOGOUT FUNCTION (Export this!)
+// ==========================================
+export async function logoutUser() {
+    try {
+        await signOut(auth);
+        console.log("User Logged Out");
+        window.location.reload(); // Refresh to update UI
+    } catch (error) {
+        console.error("Logout Error:", error);
+    }
 }

@@ -42,10 +42,18 @@
                         <img src="../assets/Tech Icons.png" alt="img" class="icon4">
                         <span class="label">artificial intelligence</span>
                     </a>
-                    <a href="#" class="menu-item profile-btn">
+                    <a href="javascript:void(0)" class="menu-item profile-btn" id="profileTrigger" style="display: none;">
                         <img src="../assets/profile Image.png" alt="img" class="icon4" id="responsiveImg">
                         <span class="label lst-lbl">profile</span>
                     </a>
+
+                    <div class="profile-popup" id="profilePopup">
+                        <div class="profile-header" id="profileName">Loading...</div>
+                        <a href="../profile pages/user.html" class="profile-menu-item">profile</a>
+                        <a href="#" class="profile-menu-item">help</a>
+                        <hr class="profile-divider">
+                        <a href="#" class="profile-menu-item" id="btn-signout">sign out</a>
+                    </div>
                 </div>
             </div>
 
@@ -195,8 +203,8 @@
                 <!-- Middle -->
                 <div class="footer-middle">
                     <ul>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">About us</a></li>
+                        <li><a href="../others/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="../others/about.html">About us</a></li>
                     </ul>
                 </div>
 

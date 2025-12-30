@@ -1,4 +1,4 @@
-import { initPopupLogic } from './auth.js';
+import { initPopupLogic, logoutUser } from './auth.js';
 import { fetchAllSearchData } from '../Article/firebase-db.js';
 import { saveToNewsletterList } from '../admin/user-db.js';
 
