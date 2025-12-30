@@ -93,13 +93,30 @@ export async function getArticlesBySerial(startSerial) {
 // SECTION 4: SINGLE ARTICLE & RELATED
 // ======================================================
 
-// Get One Article by ID
+// Get One Article by ID without showing read count
+// export async function getArticleById(articleId) {
+//     if (!articleId) return null;
+//     const docRef = doc(db, "articles", articleId);
+//     const snapshot = await getDoc(docRef);
+//     return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
+// }
 export async function getArticleById(articleId) {
     if (!articleId) return null;
-    const docRef = doc(db, "articles", articleId);
-    const snapshot = await getDoc(docRef);
-    return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
+    try {
+        console.log(`🔥 [READ COST: 1] Fetching Article ID: ${articleId}`); // <--- LOG
+        const docRef = doc(db, "articles", articleId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return { id: docSnap.id, ...docSnap.data() };
+        } else {
+            return null;
+        }
+    } catch (e) {
+        console.error("Error fetching article:", e);
+        return null;
+    }
 }
+
 
 // Get Related News (Same Tag)
 export async function getRelatedArticles(tags, currentId) {
@@ -175,83 +192,97 @@ export function debounce(func, wait) {
 
 
 // ======================================================
-// SECTION 7: SMART CACHED SEARCH (Persistent)
+// SECTION 7: CLIENT-SIDE SEARCH & RELATED (The Engine)
 // ======================================================
 
+// 1. The "Download Everything" Function (Smart Sync)
 export async function fetchAllSearchData() {
     const STORAGE_KEY = 'bai_news_search_cache';
     const META_KEY = 'bai_news_last_serial';
 
-    // 1. Get Local Data
     let localData = [];
     let lastSerial = 0;
 
+    // Load from LocalStorage
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
         const storedSerial = localStorage.getItem(META_KEY);
         if (stored) localData = JSON.parse(stored);
         if (storedSerial) lastSerial = parseInt(storedSerial);
-    } catch (e) {
-        console.warn("Cache parse error, resetting.", e);
-        localData = [];
-    }
+    } catch (e) { console.warn("Cache error", e); localData = []; }
 
-    // 2. Ask Firestore for the Current Highest Serial Number (Cost: 1 Read)
-    // We fetch the very latest article to see its ID
+    // Check Server for Updates (1 Read)
     let latestServerSerial = 0;
     try {
+        console.log("🔥 [READ COST: 1] Checking latest Serial Number..."); // <--- LOG ADDED
+        
         const q = query(collection(db, "articles"), orderBy("serialNumber", "desc"), limit(1));
         const snapshot = await getDocs(q);
-        if (!snapshot.empty) {
-            latestServerSerial = snapshot.docs[0].data().serialNumber || 0;
-        }
+        if (!snapshot.empty) latestServerSerial = snapshot.docs[0].data().serialNumber || 0;
     } catch (e) {
-        console.error("Connection failed", e);
-        // If offline, return what we have
-        window.cachedSearchData = localData;
-        return localData;
+        console.log("⚠️ Offline or Error. Using Cache."); // <--- LOG ADDED
+        window.cachedSearchData = localData; 
+        return localData; // Offline mode
     }
 
-    // 3. Compare: Do we need updates?
+    // Sync if needed
     if (latestServerSerial > lastSerial) {
-        console.log(`Update Found! Local: ${lastSerial}, Server: ${latestServerSerial}. Downloading difference...`);
-        
-        // FETCH ONLY NEW ARTICLES
-        // Logic: Get articles where serialNumber > lastSerial
-        const updateQ = query(
-            collection(db, "articles"), 
-            where("serialNumber", ">", lastSerial)
-        );
-        
+        console.log("Downloading new articles...");
+        const updateQ = query(collection(db, "articles"), where("serialNumber", ">", lastSerial));
         const updateSnapshot = await getDocs(updateQ);
+        
+        const count = updateSnapshot.size;
+        console.log(`🔥 [READ COST: ${count}] Downloading ${count} new articles...`); // <--- LOG ADDED
         
         const newArticles = updateSnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
-            // Pre-process
             searchTitle: (doc.data().title || "").toLowerCase(),
             searchSummary: (doc.data().summary || "").toLowerCase(),
             searchTags: (doc.data().tags || []).map(t => t.toLowerCase())
         }));
 
-        // Merge: New Articles + Old Articles
-        // Note: Newest should be at top
         const mergedData = [...newArticles, ...localData];
+        // Sort by Date Descending (Newest First)
+        mergedData.sort((a, b) => {
+            const dateA = a.datePosted && a.datePosted.seconds ? a.datePosted.seconds : new Date(a.datePosted).getTime()/1000;
+            const dateB = b.datePosted && b.datePosted.seconds ? b.datePosted.seconds : new Date(b.datePosted).getTime()/1000;
+            return dateB - dateA;
+        });
 
-        // Save back to Storage
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedData));
-            localStorage.setItem(META_KEY, latestServerSerial.toString());
-        } catch (e) {
-            console.warn("Storage full", e);
-        }
-
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedData));
+        localStorage.setItem(META_KEY, latestServerSerial.toString());
         localData = mergedData;
     } else {
-        console.log("Cache is up to date. 0 Reads used for content.");
+        console.log("✅ [READ COST: 0] Cache is up to date. Using LocalStorage."); // <--- LOG ADDED
     }
 
-    // 4. Update Global Variable
     window.cachedSearchData = localData;
     return localData;
+}
+
+// 2. The New "Smart Match" Related Function (0 Reads)
+export async function getLocalRelatedArticles(currentTags, currentId) {
+    // Ensure we have data
+    let data = window.cachedSearchData;
+    if (!data) data = await fetchAllSearchData();
+
+    if (!currentTags || currentTags.length === 0) return [];
+
+    // Normalize tags to lowercase for matching
+    const normalizedTags = currentTags.map(t => t.toLowerCase());
+
+    // Filter and Score
+    const scoredArticles = data
+        .filter(article => article.id !== currentId) // Remove current article
+        .map(article => {
+            // Count how many tags match
+            const intersection = article.searchTags.filter(t => normalizedTags.includes(t));
+            return { ...article, score: intersection.length };
+        })
+        .filter(article => article.score > 0) // Must have at least 1 matching tag
+        .sort((a, b) => b.score - a.score); // Sort by highest relevance
+
+    // Return top 3
+    return scoredArticles.slice(0, 3);
 }

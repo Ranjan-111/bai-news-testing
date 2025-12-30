@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // firebase LOGIC
 // ==========================================
 
-import { getArticleById, getRelatedArticles } from '../Article/firebase-db.js';
+import { getArticleById, getLocalRelatedArticles } from '../Article/firebase-db.js';
 
 // Fallback images
 const AUTHOR_DEFAULTS = {
@@ -79,15 +79,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const titleEl = document.getElementById('news-headline');
     if (titleEl) titleEl.innerText = article.title;
 
-    // --- B. RENDER DATE (FIXED) ---
+    // --- B. RENDER DATE ---
     const dateEl = document.getElementById('news-date'); 
     if (dateEl && article.datePosted) {
-        // 1. Convert to JS Date Object
         let dateObj = typeof article.datePosted.toDate === 'function' 
             ? article.datePosted.toDate() 
             : new Date(article.datePosted);
         
-        // 2. Format: "18 Nov 2025"
         dateEl.innerText = dateObj.toLocaleDateString('en-GB', { 
             day: 'numeric', 
             month: 'short', 
@@ -103,7 +101,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     const contentEl = document.getElementById('article-content');
     if (contentEl && article.content) contentEl.innerHTML = article.content;
 
-    // --- E. AUTHOR SECTION ---
+    // --- E. RENDER TAGS (THIS WAS MISSING) ---
+    const tagsSection = document.querySelector('.tags');
+    if (tagsSection) {
+        if (article.tags && article.tags.length > 0) {
+            tagsSection.innerHTML = ''; // Clear hardcoded dummy tags
+            article.tags.forEach(tag => {
+                const tagDiv = document.createElement('div');
+                tagDiv.className = 'article-tags';
+                tagDiv.innerHTML = `<a href="#">${tag}</a>`;
+                tagsSection.appendChild(tagDiv);
+            });
+        } else {
+            tagsSection.style.display = 'none'; // Hide if no tags
+        }
+    }
+
+    // --- F. AUTHOR SECTION ---
     const authorName = article.authorId || "Editor";
     let authorPicUrl = article.authorImage || AUTHOR_DEFAULTS[authorName] || "../assets/default-user.png";
 
@@ -117,7 +131,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         link.href = `../profile pages/author.html?name=${encodeURIComponent(authorName)}`;
     });
 
-    // --- F. LOAD RELATED ---
+    // --- G. LOAD RELATED ---
     if (article.tags && article.tags.length > 0) {
         loadRelated(article.tags, article.id);
     }
@@ -127,7 +141,8 @@ async function loadRelated(tags, currentId) {
     const container = document.getElementById('related-container');
     if (!container) return;
 
-    const related = await getRelatedArticles(tags, currentId);
+    const related = await getLocalRelatedArticles(tags, currentId);
+    
     container.innerHTML = ''; 
 
     if (related.length === 0) {

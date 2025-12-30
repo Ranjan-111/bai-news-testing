@@ -1,3 +1,51 @@
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// Use your existing app configuration
+import { app } from '../Article/firebase-db.js';
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// ==========================================
+// 🔒 ADMIN SECURITY CHECK
+// ==========================================
+onAuthStateChanged(auth, async (user) => {
+    if (user && user.email) {
+        console.log("Checking Admin Privileges for:", user.email);
+        
+        // Check the database for the 'role'
+        const cleanEmail = user.email.toLowerCase().trim();
+        const userRef = doc(db, "users", cleanEmail);
+        
+        try {
+            const snap = await getDoc(userRef);
+            
+            // IF USER IS ADMIN -> DO NOTHING (Let them stay)
+            if (snap.exists() && snap.data().role === 'admin') {
+                console.log("✅ Admin Access Granted.");
+                
+                // Optional: If you have an Upload Button, you can enable it here
+                // const btn = document.getElementById('upload-btn');
+                // if(btn) btn.disabled = false;
+                
+            } else {
+                // IF NOT ADMIN -> KICK THEM OUT
+                alert("⛔️ ACCESS DENIED: You do not have permission to view this page.");
+                window.location.href = "../main/index.html";
+            }
+        } catch (error) {
+            console.error("Auth Check Error:", error);
+            window.location.href = "../main/index.html";
+        }
+
+    } else {
+        // IF NOT LOGGED IN -> KICK THEM OUT
+        console.log("User not logged in. Redirecting...");
+        window.location.href = "../main/index.html"; // Redirect to Home
+    }
+});
+
+
 import { db } from '../Article/firebase-db.js';
 import { collection, doc, setDoc, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
