@@ -186,6 +186,44 @@ body {
     color: #999;
 }
 
+/* --- FOLLOW BUTTON STYLES --- */
+.follow-btn {
+    background-color: transparent;
+    border: 1px solid #aaa; /* Default grey border */
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    min-width: 80px; /* Ensures button doesn't shrink too much */
+    text-align: center;
+}
+
+/* Hover State for "Follow" (Red) */
+.follow-btn:hover {
+    background-color: #e95454;
+    color: white;
+    border-color: #e95454;
+}
+
+/* --- ACTIVE STATE (ALREADY FOLLOWING) --- */
+.follow-btn.following {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* Hover State for "Following" (Turn to Unfollow style or stay black) */
+.follow-btn.following:hover {
+    background-color: #333; /* Dark Grey on hover */
+    color: #fff;
+    border-color: #333;
+    opacity: 0.9;
+}
+
 @media (max-width: 768px) {
     .container { width: 90%; }
     .content-wrapper { flex-direction: column-reverse; }

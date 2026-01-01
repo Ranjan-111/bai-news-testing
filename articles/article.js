@@ -117,18 +117,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- F. AUTHOR SECTION ---
-    const authorName = article.authorId || "Editor";
+// --- F. AUTHOR SECTION (Final Email Strategy) ---
+    // 1. Get Display Name (For the text)
+    const authorName = article.authorName || article.authorId || "Editor"; 
+    
+    // 2. Get Link ID (Must be the Email to match your DB)
+    // Fallback: Use your test email if the article has no email field yet
+    const authorEmail = article.authorEmail || "priyanshuranjank@gmail.com"; 
+    
+    // 3. Image Fallback
     let authorPicUrl = article.authorImage || AUTHOR_DEFAULTS[authorName] || "../assets/default-user.png";
 
+    // Select Elements
     const authorNameEl = document.querySelector('.author-name');
     const authorImgEl = document.querySelector('.author-avatar');
     const authorLinks = document.querySelectorAll('.author-profile a, .author-info a');
 
+    // 4. Render Text & Image
     if (authorNameEl) authorNameEl.innerText = authorName;
-    if (authorImgEl) { authorImgEl.src = authorPicUrl; authorImgEl.alt = authorName; }
+    if (authorImgEl) { 
+        authorImgEl.src = authorPicUrl; 
+        authorImgEl.alt = authorName; 
+    }
+
+    // 5. UPDATE LINKS
+    // We send the EMAIL in the URL: ?id=priyanshuranjank@gmail.com
     authorLinks.forEach(link => {
-        link.href = `../profile pages/author.html?name=${encodeURIComponent(authorName)}`;
+        link.href = `../profile pages/author.html?id=${encodeURIComponent(authorEmail)}`;
     });
 
     // --- G. LOAD RELATED ---

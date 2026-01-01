@@ -1,5 +1,5 @@
 import { auth } from '../Article/firebase-db.js';
-import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, signInAnonymously, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, signInAnonymously, updateProfile, updateEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { saveUserToDB } from '../admin/user-db.js';
 
 const provider = new GoogleAuthProvider();
@@ -64,13 +64,16 @@ onAuthStateChanged(auth, (user) => {
 
 // 4. FUNCTION TO UPDATE THE BUTTON (Red -> Black)
 // This function is called by the Auth Listener
+// 4. FUNCTION TO UPDATE THE BUTTON (Red -> Black)
+// This function is called by the Auth Listener
 function updateUIForUser(user) {
     const subscribeBtn = document.getElementById('openPopupBtn');
     const profileTrigger = document.getElementById('profileTrigger'); // <--- Sidebar Icon
     
     // 1. Handle Subscribe Button State (Existing Logic)
-    if (user) {
-        // Logged In
+    // CHECK FOR EMAIL: This prevents "Anonymous" users from crashing the app
+    if (user && user.email) {
+        // Logged In (And Verified)
         if (subscribeBtn) {
             subscribeBtn.classList.add('auth-ready');
             subscribeBtn.style.backgroundColor = "#000";
@@ -82,11 +85,12 @@ function updateUIForUser(user) {
         // 2. SHOW Sidebar Profile Icon & Init Popup
         if (profileTrigger) {
             profileTrigger.style.display = 'flex'; // Show icon
-            initProfilePopupLogic(user); // Activate click listeners
+            // Now safe to call because we checked user.email exists
+            initProfilePopupLogic(user); 
         }
 
     } else {
-        // Logged Out
+        // Logged Out (OR Anonymous Guest)
         if (subscribeBtn) {
             subscribeBtn.classList.add('auth-ready');
             subscribeBtn.style.backgroundColor = ""; 
@@ -473,73 +477,85 @@ export function initPopupLogic() {
             });
     }
 
-    // 3. VERIFY OTP FUNCTION
-    function verifyOTP() {
-        // 1. Get the numbers from boxes
-        let enteredCode = "";
-        const inputs = document.querySelectorAll('.otp-digit');
-        inputs.forEach(input => enteredCode += input.value);
+// Make sure to import updateEmail at the top of your file!
+// import { updateProfile, updateEmail, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        console.log("Checking:", enteredCode, "vs", generatedOTP);
 
-        // 2. Check Match
-        if (enteredCode === generatedOTP) {
+function verifyOTP() {
+    // 1. Get the numbers from boxes
+    let enteredCode = "";
+    const inputs = document.querySelectorAll('.otp-digit');
+    inputs.forEach(input => enteredCode += input.value);
 
-            // 3. Authenticate
-            signInAnonymously(auth)
-                .then(async (result) => {  // <--- Added 'async' here
-                    const userEmail = document.getElementById('email-input').value;
-                    const derivedName = userEmail.split('@')[0];
+    console.log("Checking:", enteredCode, "vs", generatedOTP);
 
-                    // Determine subscription status
-                    // If login mode: ignore (pass false). If signup mode: check the box.
-                    const isSubscribed = (!isLoginMode && newsletterCheck) ? newsletterCheck.checked : false;
+    // 2. Check Match
+    if (enteredCode === generatedOTP) {
 
-                    // B. Update Profile (Name)
-                    await updateProfile(result.user, {
+        // 3. Authenticate
+        signInAnonymously(auth)
+            .then(async (result) => {
+                const user = result.user;
+                const userEmail = document.getElementById('email-input').value;
+                const derivedName = userEmail.split('@')[0];
+                const isSubscribed = (!isLoginMode && newsletterCheck) ? newsletterCheck.checked : false;
+
+                try {
+                    // --- CRITICAL FIX: Force refresh token to prevent 'user-token-expired' error ---
+                    await user.getIdToken(true);
+
+                    // A. Set the Name
+                    await updateProfile(user, {
                         displayName: derivedName
                     });
 
-                    // --- DATABASE SAVE START (NEW) ---
-                    // We manually add email because anonymous users don't have it by default in the result object
-                    const userWithEmail = { ...result.user, email: userEmail };
-                    
-                    // Save to Firestore!
+                    // B. Set the Email (Fixes "(anonymous)" in Console)
+                    await updateEmail(user, userEmail);
+
+                    // --- DATABASE SAVE START ---
+                    const userWithEmail = { ...user,
+                        email: userEmail,
+                        displayName: derivedName // Ensure name is saved too
+                    };
                     await saveUserToDB(userWithEmail, isSubscribed);
                     // --- DATABASE SAVE END ---
 
                     // C. UPDATE UI
                     if (typeof updateUIForUser === "function") {
-                        updateUIForUser(result.user);
+                        updateUIForUser(userWithEmail);
                     }
 
                     // D. CLOSE POPUP
                     resetPopupState();
 
-                    // --- CUSTOM MESSAGE BASED ON MODE ---
+                    // --- CUSTOM MESSAGE ---
                     if (isLoginMode) {
                         alert("Welcome back! You have successfully signed in.");
-                    } else {
-                        if (newsletterCheck && newsletterCheck.checked) {
-                            // alert("Account Created! You are subscribed to updates.");
-                        } else {
-                            // alert("Account Created Successfully!");
-                        }
-                    }
-                })
-                .catch((error) => {
-                    console.error("Firebase Auth Error:", error);
-                    alert("Login failed: " + error.message);
-                });
+                    } 
 
-        } else {
-            alert("Incorrect Code. Please try again.");
-            // Clear inputs on fail
-            inputs.forEach(input => input.value = "");
-            // Focus back on first box
-            if (inputs.length > 0) inputs[0].focus();
-        }
+                } catch (error) {
+                    console.error("Error updating profile/email:", error);
+                    
+                    if (error.code === 'auth/operation-not-allowed') {
+                        alert("Config Error: Please go to Firebase Console > Auth > Settings and UNCHECK 'Email enumeration protection'.");
+                    } else if (error.code === 'auth/email-already-in-use') {
+                        alert("This email is already registered. Please log in normally.");
+                    } else {
+                        alert("Login Error: " + error.message);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error("Firebase Auth Error:", error);
+                alert("Login failed: " + error.message);
+            });
+
+    } else {
+        alert("Incorrect Code. Please try again.");
+        inputs.forEach(input => input.value = "");
+        if (inputs.length > 0) inputs[0].focus();
     }
+}
 
     // ==========================================
     // Connect the Buttons

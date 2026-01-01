@@ -3,73 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile - bai.news</title>
-    <link href="https://fonts.googleapis.com/css2?family=Circular+Std:wght@400;500;700&family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="user.css">
+    <title>Multi-Article Page</title>
+    <link rel="stylesheet" href="../layout/layout.css">
+    <link rel="stylesheet" href="../main/index.css">
+        <link rel="stylesheet" href="multi-article.css">
+
 </head>
 <body>
-   
+    <!-- HEADER AND NAVIGATION BAR -->
     <div id="global-header"></div>
 
-    <div class="container">
-        <h1 class="greeting">Hi, <span id="user-name-display">Reader</span></h1>
+        <!-- Multi article  -->
+    <main class="ma-main">
 
-        <div class="tabs">
-            <div class="tab active" id="savedTab" onclick="switchTab('saved')">Saved News</div>
-            <div class="tab" id="followingTab" onclick="switchTab('following')">Following</div>
-        </div>
+        <p class="topic">Latest Articles <!-- (<span id="page-indicator">1</span>) --></p>
+        <hr class="Line1">
 
-        <div class="content-wrapper">
-            <div class="main-content">
-                
-                <div class="tab-content active" id="savedContent">
-                    <div id="saved-articles-list">
-                        <div class="loader">Loading saved articles...</div>
-                    </div>
-                    <button id="load-more-btn" class="see-more-btn" style="display: none;">Load More</button>
-                </div>
+        <section class="articles-container" id="articles-list">
+            <!-- Articles will be dynamically inserted here -->
+        </section>
 
-                <div class="tab-content" id="followingContent">
-                    <div id="following-list">
-                        </div>
-                    <div class="empty-state" id="following-empty" style="display:none;">
-                        <h3>No followed reporters yet</h3>
-                        <p>Start following reporters to see their content here</p>
-                    </div>
-                </div>
+    </main>
 
-            </div>
 
-            <div class="sidebar">
-                <div class="similar-reporters">
-                    <h3>More Reporters</h3>
-                    
-                    <div id="sidebar-reporters-list">
-                        <p style="color:#999; font-size:13px;">Loading suggestions...</p>
-                    </div>
 
-                    <div class="see-more" onclick="window.location.href='../students/Students.html'">see all reporters</div>
-                </div>
-            </div>
+    <!-- Pagination Container -->
+    <div class="pagination-bar">
+        <div class="pagination-wrapper">
+            
+            <button onclick="changePage('prev')" class="arrow-btn" aria-label="Previous Page">
+                <svg viewBox="0 0 24 24"><path d="M2 12l20 10V2z"/></svg>
+            </button>
+
+            <div id="pages-container"></div>
+
+            <button onclick="changePage('next')" class="arrow-btn" aria-label="Next Page">
+                <svg viewBox="0 0 24 24"><path d="M22 12l-20 10V2z"/></svg>
+            </button>
+
         </div>
     </div>
 
-    <div id="global-footer"></div>
 
-    <script type="module" src="../layout/layout.js"></script>
-    <script type="module" src="user-profile.js"></script>
-    
-    <script>
-        function switchTab(tabName) {
-            // Update Tab Styles
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(tabName + 'Tab').classList.add('active');
 
-            // Update Content Visibility
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(tabName + 'Content').classList.add('active');
-        }
-        window.switchTab = switchTab;
-    </script>
+    <!-- footer -->
+         <div id="global-footer"></div>
+
+    <script defer type="module" src="../layout/layout.js"></script>
+    <script type="module" src="multi-article.js"></script>
 </body>
 </html>

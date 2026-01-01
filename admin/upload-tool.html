@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bulk Update Tool</title>
+</head>
+<body>
+    <h1>Bulk Updating Articles...</h1>
+    <p>Open your browser Console (F12) to see progress.</p>
+    <h2 id="status">Waiting for login...</h2>
+
+    <script type="module">
+        // 1. Import Firestore AND Auth
+        import { db, auth } from '../Article/firebase-db.js'; 
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const AUTHOR_MAPPING = {
+            "Priyanshu": "priyanshuranjank@gmail.com",
+            "Tiara": "tiara@gmail.com",
+            "Harsh": "yharsh499@gmail.com",
+        };
+        const DEFAULT_EMAIL = "priyanshuranjank@gmail.com"; 
+
+        // ==========================================
+        // MAIN LOGIC
+        // ==========================================
+        
+        // 1. WAIT FOR AUTH (The Fix)
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("✅ Authenticated as:", user.email);
+                document.getElementById('status').innerText = `Logged in as ${user.email}. Starting...`;
+                runBulkUpdate();
+            } else {
+                console.error("❌ NOT LOGGED IN.");
+                document.getElementById('status').innerText = "❌ Error: You are not logged in.";
+                document.body.innerHTML += "<p>Please open your main website in another tab, <b>Log In</b> as Admin, and then Refresh this page.</p>";
+            }
+        });
+
+        async function runBulkUpdate() {
+            console.log("🚀 Starting Bulk Update...");
+
+            try {
+                // 2. Get all articles
+                const colRef = collection(db, "articles");
+                const snapshot = await getDocs(colRef);
+
+                if (snapshot.empty) {
+                    console.log("No articles found!");
+                    return;
+                }
+
+                console.log(`Found ${snapshot.size} articles. Processing...`);
+                let count = 0;
+
+                // 3. Loop through each article
+                for (const docSnap of snapshot.docs) {
+                    const data = docSnap.data();
+                    
+                    // Logic: Get Name -> Find Email
+                    const authorName = data.authorId || "Unknown";
+                    const emailToSet = AUTHOR_MAPPING[authorName] || DEFAULT_EMAIL;
+
+                    // Only update if it's missing or different (saves writes)
+                    if (data.authorEmail !== emailToSet) {
+                        const docRef = doc(db, "articles", docSnap.id);
+                        await updateDoc(docRef, {
+                            authorEmail: emailToSet
+                        });
+                        console.log(`✅ [${count + 1}] Updated "${data.title}" -> ${emailToSet}`);
+                        count++;
+                    } else {
+                        console.log(`zzz [Skipped] "${data.title}" already has correct email.`);
+                    }
+                }
+
+                console.log("🎉 All Done! You can delete this file now.");
+                document.getElementById('status').innerText = "✅ Update Complete! Check Console.";
+
+            } catch (error) {
+                console.error("❌ Error updating documents:", error);
+                document.getElementById('status').innerText = "❌ Error: " + error.code;
+                document.body.innerHTML += `<p style="color:red">${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

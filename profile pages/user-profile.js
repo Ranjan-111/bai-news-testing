@@ -1,4 +1,4 @@
-import { getFirestore, doc, getDoc, getDocs, collection, query, where, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, getDocs, collection, query, where, limit, setDoc, documentId } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { app } from '../Article/firebase-db.js';
 
@@ -32,17 +32,15 @@ async function loadUserProfileData(email) {
         
         // A. Handle Saved Articles
         allSavedIDs = userData.savedArticles || [];
+        
         if (allSavedIDs.length > 0) {
-            await fetchAndRenderArticles(allSavedIDs.slice(0, 3));
-            
-            if (allSavedIDs.length > 3) {
-                const btn = document.getElementById('load-more-btn');
-                btn.style.display = 'block';
-                btn.onclick = () => loadMoreArticles();
-            }
+            // Load the FIRST batch of 3
+            await loadMoreArticles(); 
         } else {
             document.getElementById('saved-articles-list').innerHTML = 
                 `<div class="empty-state"><h3>No saved articles</h3><p>Bookmark articles to read them later.</p></div>`;
+            // Hide button if no articles
+            toggleLoadMoreButton(false);
         }
 
         // B. Handle Sidebar (Following List)
@@ -57,22 +55,59 @@ async function loadUserProfileData(email) {
 }
 
 // ==========================================
-// 2. RENDER SAVED ARTICLES
+// 2. RENDER SAVED ARTICLES (Batch Logic)
 // ==========================================
+async function loadMoreArticles() {
+    const container = document.getElementById('saved-articles-list');
+    
+    // 1. Clear initial loader if present
+    if (container.querySelector('.loader') || container.innerHTML.includes('Loading')) {
+        container.innerHTML = '';
+    }
+
+    // 2. Calculate which articles to fetch next
+    const currentCount = container.querySelectorAll('.article-card').length;
+    const nextBatchIDs = allSavedIDs.slice(currentCount, currentCount + 3);
+
+    // 3. Fetch and Render them
+    if (nextBatchIDs.length > 0) {
+        await fetchAndRenderArticles(nextBatchIDs);
+    }
+
+    // 4. Button Logic: Check if we have more left to show
+    const totalShown = currentCount + nextBatchIDs.length;
+    if (totalShown >= allSavedIDs.length) {
+        toggleLoadMoreButton(false); // Hide button (All loaded)
+    } else {
+        toggleLoadMoreButton(true);  // Show button (More remaining)
+    }
+}
+
+// Helper: Show/Hide the Load More Button
+function toggleLoadMoreButton(show) {
+    const btnContainer = document.getElementById('load-more-container');
+    const btnTrigger = document.getElementById('trigger-load-more');
+    
+    if (btnContainer && btnTrigger) {
+        btnContainer.style.display = show ? 'flex' : 'none'; // Flex keeps your centering
+        
+        // Remove old listeners and add new one
+        btnTrigger.onclick = null; 
+        btnTrigger.onclick = (e) => {
+            e.preventDefault();
+            loadMoreArticles();
+        };
+    }
+}
+
 async function fetchAndRenderArticles(idsToFetch) {
     const container = document.getElementById('saved-articles-list');
-    if(container.querySelector('.loader')) container.innerHTML = '';
 
     // Firestore 'in' query supports max 10 items.
     const q = query(collection(db, "articles"), where("serialNumber", "in", idsToFetch));
     const querySnapshot = await getDocs(q);
 
-    if (querySnapshot.empty) {
-         // Handle case where IDs exist in user profile but article docs are missing/deleted
-         // container.innerHTML = `<div class="empty-state">Articles unavailable.</div>`;
-         return;
-    }
-
+    // Note: 'in' query doesn't return docs in order. We might want to sort them if order matters.
     querySnapshot.forEach((doc) => {
         const article = doc.data();
         const html = `
@@ -87,59 +122,115 @@ async function fetchAndRenderArticles(idsToFetch) {
     });
 }
 
-function loadMoreArticles() {
-    const currentCount = document.querySelectorAll('.article-card').length;
-    const nextBatch = allSavedIDs.slice(currentCount, currentCount + 3);
-    
-    if (nextBatch.length > 0) {
-        fetchAndRenderArticles(nextBatch);
-    }
-    
-    if (currentCount + nextBatch.length >= allSavedIDs.length) {
-        document.getElementById('load-more-btn').style.display = 'none';
-    }
-}
-
 // ==========================================
-// 3. RENDER SIDEBAR (FOLLOWING)
+// 3. RENDER SIDEBAR (FOLLOWING) - FIXED FOR IDs
 // ==========================================
-async function renderSidebarFollowing(emails) {
+async function renderSidebarFollowing(followingList) {
     const container = document.getElementById('sidebar-following-list');
-    container.innerHTML = '';
+    
+    if (!container || !auth.currentUser) return;
+    if (!followingList || followingList.length === 0) {
+        container.innerHTML = '<div style="color:#999; font-size:13px; text-align:center;">You are not following anyone yet.</div>';
+        return;
+    }
 
-    // Batch fetch authors (Limit to 10 for sidebar display)
-    const emailsToFetch = emails.slice(0, 10);
-    const q = query(collection(db, "users"), where("email", "in", emailsToFetch));
+    container.innerHTML = ''; 
+    const idsToFetch = followingList.slice(0, 10);
+    
+    // Query by Document ID (which matches the emails in your following list)
+    const q = query(collection(db, "authors"), where(documentId(), "in", idsToFetch));
     const snapshot = await getDocs(q);
+    
+    if (snapshot.empty) {
+        container.innerHTML = '<div style="color:#999; font-size:13px;">Following list unavailable.</div>';
+        return;
+    }
 
     snapshot.forEach(doc => {
-        const author = doc.data();
-        const card = createSidebarItem(author);
-        container.appendChild(card);
+        const authorData = doc.data();
+        const authorId = doc.id; // This is "Tiara"
+        createSidebarUserItem(container, authorId, authorData, auth.currentUser.email);
     });
 }
 
-function createSidebarItem(author) {
-    const div = document.createElement('div');
-    div.className = 'reporter-item';
-    
-    const imgUrl = author.photoURL || '../assets/default-user.png';
+// Helper: Create the User Item
+function createSidebarUserItem(container, targetId, targetData, myEmail) {
+    const userDiv = document.createElement('div');
+    userDiv.className = 'sidebar-user-item';
+    userDiv.style.display = 'flex';
+    userDiv.style.alignItems = 'center';
+    userDiv.style.justifyContent = 'space-between';
+    userDiv.style.marginBottom = '15px';
 
-    // No buttons, just info
-    div.innerHTML = `
-        <div class="reporter-avatar" style="background-image: url('${imgUrl}')"></div>
-        <div class="reporter-info">
-            <div class="reporter-name">${author.displayName}</div>
-            <div class="reporter-role">${author.specialization || "Reporter"}</div>
+    const avatarUrl = targetData.photoURL || "../assets/default-user.png";
+    const displayName = targetData.displayName || targetId; // Use ID if name missing
+    
+    const roleText = targetData.specialization || "Reporter";
+
+    // LINK UPDATED: Uses ?id=Tiara
+    // FIXED PATH HERE:
+    userDiv.innerHTML = `
+        <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="window.location.href='../profile pages/author.html?id=${encodeURIComponent(targetId)}'">
+            <img src="${avatarUrl}" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">
+            <div style="display:flex; flex-direction:column;">
+                <span style="font-size:14px; font-weight:600; color:#333;">${displayName}</span>
+                <span style="font-size:11px; color:#888;">${roleText}</span>
+            </div>
         </div>
     `;
-    
-    // Optional: Make sidebar items clickable to visit profile
-    div.style.cursor = "pointer";
-    // div.onclick = () => window.location.href = `../students/author-profile.html?id=${author.email}`;
 
-    return div;
+    const btn = document.createElement('button');
+    btn.className = 'follow-btn following'; 
+    btn.innerText = 'Following';
+    
+    btn.onclick = async (e) => {
+        e.stopPropagation(); 
+        await toggleFollowState(btn, myEmail, targetId);
+    };
+
+    userDiv.appendChild(btn);
+    container.appendChild(userDiv);
 }
+
+// Helper: Toggle Follow (Updated for ID)
+async function toggleFollowState(btn, myEmail, targetId) {
+    const isFollowing = btn.classList.contains('following');
+    const myUserRef = doc(db, "users", myEmail);
+
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = '0.7';
+
+    try {
+        const userSnap = await getDoc(myUserRef);
+        let currentFollowing = userSnap.data().following || [];
+
+        if (isFollowing) {
+            // UNFOLLOW
+            const newFollowing = currentFollowing.filter(id => id !== targetId);
+            await setDoc(myUserRef, { following: newFollowing }, { merge: true });
+
+            btn.classList.remove('following');
+            btn.innerText = 'Follow';
+        } else {
+            // RE-FOLLOW
+            if (!currentFollowing.includes(targetId)) {
+                currentFollowing.push(targetId);
+                await setDoc(myUserRef, { following: currentFollowing }, { merge: true });
+            }
+
+            btn.classList.add('following');
+            btn.innerText = 'Following';
+        }
+
+    } catch (error) {
+        console.error("Error toggling follow:", error);
+        alert("Action failed.");
+    } finally {
+        btn.style.pointerEvents = 'auto';
+        btn.style.opacity = '1';
+    }
+}
+
 
 // Helper: Format Date
 function formatDate(timestamp) {

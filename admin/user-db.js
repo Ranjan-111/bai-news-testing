@@ -1,15 +1,14 @@
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { app } from '../Article/firebase-db.js'; 
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";import { app } from '../Article/firebase-db.js'; 
 
 const db = getFirestore(app);
 
 // ==========================================
-// 1. SAVE LOGGED-IN USER (Scenario A: Real Login)
+// 1. SAVE LOGGED-IN USER (READERS ONLY)
 // ==========================================
 export async function saveUserToDB(user, subscribedToNewsletter) {
     if (!user || !user.email) return;
 
-    // Use Email as the Unique ID (lowercase to avoid duplicates)
+    // Use Email as the Unique ID
     const cleanEmail = user.email.toLowerCase().trim();
     const userRef = doc(db, "users", cleanEmail);
     
@@ -17,8 +16,10 @@ export async function saveUserToDB(user, subscribedToNewsletter) {
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
-            // CASE 1: User Exists - Update Login Time & Role logic
+            // UPDATE EXISTING READER
             const existingData = userSnap.data();
+            
+            // Logic: If they were 'guest', upgrade to 'reader'. Otherwise keep existing role (e.g. 'reader' or 'admin')
             const currentRole = existingData.role === 'guest' ? 'reader' : existingData.role;
 
             await setDoc(userRef, {
@@ -29,26 +30,31 @@ export async function saveUserToDB(user, subscribedToNewsletter) {
                 authProvider: user.providerData[0]?.providerId || "anonymous/otp",
                 role: currentRole, 
                 lastLogin: serverTimestamp(),
-                // Keep existing subscription status unless they explicitly check it now
+                // Keep subscription unless changed
                 isNewsletterSubscribed: subscribedToNewsletter || existingData.isNewsletterSubscribed || false
             }, { merge: true });
 
-            console.log(`✅ User DB Updated: ${currentRole}`);
+            console.log(`✅ Reader Updated: ${currentRole}`);
         } else {
-            // CASE 2: Brand New User
+            // CREATE NEW READER
             await setDoc(userRef, {
                 uid: user.uid,
                 email: cleanEmail,
                 displayName: user.displayName || "Anonymous",
                 photoURL: user.photoURL || "../assets/default-user.png",
                 authProvider: user.providerData[0]?.providerId || "anonymous/otp",
-                role: "reader", 
+                role: "reader", // Default role for new signups
                 isNewsletterSubscribed: subscribedToNewsletter,
-                stats: { posts: 0, followers: 0 }, // Init stats
+                
+                // READER SPECIFIC FIELDS
+                savedArticles: [],
+                following: [],
+                
+                // METADATA
                 createdAt: serverTimestamp(),
                 lastLogin: serverTimestamp()
             });
-            console.log("✅ New User Account Created");
+            console.log("✅ New Reader Account Created");
         }
     } catch (e) {
         console.error("❌ Error saving user:", e);
@@ -56,7 +62,7 @@ export async function saveUserToDB(user, subscribedToNewsletter) {
 }
 
 // ==========================================
-// 2. SAVE FOOTER SUBSCRIBER (Scenario B: Just Email)
+// 2. SAVE FOOTER SUBSCRIBER
 // ==========================================
 export async function saveToNewsletterList(email) {
     if (!email) return;
@@ -68,14 +74,14 @@ export async function saveToNewsletterList(email) {
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
-            // CASE 1: Already in DB -> Just enable newsletter
+            // Just enable newsletter
             await setDoc(userRef, {
                 isNewsletterSubscribed: true,
                 lastNewsletterInteraction: serverTimestamp()
             }, { merge: true });
             console.log("✅ Existing user subscribed");
         } else {
-            // CASE 2: New Guest -> Create Skeleton Account
+            // Create Guest Reader
             await setDoc(userRef, {
                 email: cleanEmail,
                 role: "guest",
@@ -89,5 +95,41 @@ export async function saveToNewsletterList(email) {
     } catch (e) {
         console.error("❌ Subscription Error:", e);
         alert("Could not subscribe. Try again.");
+    }
+}
+
+// ==========================================
+// 3. SUBMIT AUTHOR REQUEST (User -> Admin)
+// ==========================================
+export async function submitAuthorRequest(formData) {
+    // formData object should look like:
+    // { 
+    //   uid: "...", 
+    //   email: "...", 
+    //   displayName: "...", 
+    //   specialization: "...", 
+    //   bio: "...", 
+    //   sampleArticleLink: "..." 
+    // }
+
+    if (!formData.email || !formData.uid) {
+        alert("Error: You must be logged in to apply.");
+        return;
+    }
+
+    try {
+        // We save to a separate 'author_requests' collection
+        // This keeps the 'authors' collection clean for only approved reporters.
+        await addDoc(collection(db, "author_requests"), {
+            ...formData,
+            status: "pending",
+            submittedAt: serverTimestamp()
+        });
+
+        console.log("✅ Application Submitted");
+        return { success: true };
+    } catch (e) {
+        console.error("❌ Error submitting application:", e);
+        return { success: false, error: e.message };
     }
 }

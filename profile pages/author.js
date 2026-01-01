@@ -5,8 +5,8 @@ import { app } from '../Article/firebase-db.js';
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-let currentViewer = null; // The person looking at the page
-let authorEmail = null;   // The author being viewed
+let currentViewer = null; 
+let authorEmail = null;   // Variable name changed to 'email' for clarity
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Get Author Email from URL
@@ -28,151 +28,160 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 // 1. LOAD AUTHOR DATA
 // ==========================================
-async function loadAuthorProfile(email) {
-    // Fetch Author Doc
-    const authorRef = doc(db, "users", email);
+async function loadAuthorProfile(email) { // <--- Input is named 'email'
+    // We look for the document ID which IS the email
+    const authorRef = doc(db, "authors", email); 
     const authorSnap = await getDoc(authorRef);
 
     if (!authorSnap.exists()) {
-        document.querySelector('.profile-container').innerHTML = "<h1>Author not found.</h1>";
+        document.querySelector('.profile-container').innerHTML = `<h1>Author not found.</h1>`;
         return;
     }
 
     const data = authorSnap.data();
 
-    // A. Fill Banner & Image
+    // A. Fill UI
     const bannerEl = document.getElementById('p-banner');
-    if (data.bannerURL) bannerEl.style.backgroundImage = `url('${data.bannerURL}')`;
+    if (data.bannerURL && bannerEl) bannerEl.style.backgroundImage = `url('${data.bannerURL}')`;
     
     const imgEl = document.getElementById('p-image');
-    if (data.photoURL) imgEl.src = data.photoURL;
+    if (data.photoURL && imgEl) imgEl.src = data.photoURL;
 
-    // B. Fill Text Info
-    document.getElementById('p-name').textContent = data.displayName || "Unknown Author";
+    document.getElementById('p-name').textContent = data.displayName || "Reporter";
     document.getElementById('p-role').textContent = data.specialization || "Reporter";
     document.getElementById('p-bio').textContent = data.bio || "No bio available.";
     document.getElementById('p-location').textContent = data.location || "Earth";
 
-    // C. Stats
+    // Stats
     const followersCount = data.followers ? data.followers.length : 0;
-    const articlesCount = data.articleCount || 0; // Assuming you save this count
+    const articlesCount = data.articleCount || 0; 
     
     document.getElementById('p-followers').textContent = `${followersCount} followers`;
     document.getElementById('p-followers-2').textContent = followersCount;
-    
     document.getElementById('p-articles-count').textContent = `${articlesCount} articles`;
     document.getElementById('p-articles-count-2').textContent = articlesCount;
 
-    // Joined Date (Format Firestore Timestamp)
     if (data.joinedDate) {
         const date = data.joinedDate.toDate();
-        const options = { month: 'long', year: 'numeric' };
-        document.getElementById('p-joined-date').textContent = date.toLocaleDateString('en-US', options);
+        document.getElementById('p-joined-date').textContent = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
     }
 
-    // D. Initialize Follow Button
+    // B. Follow Button Logic
     const followBtn = document.getElementById('main-follow-btn');
     if (currentViewer) {
-        // Check if viewer is already following this author
-        // We need to fetch viewer's data to check their 'following' array
         const viewerRef = doc(db, "users", currentViewer.email);
         const viewerSnap = await getDoc(viewerRef);
-        const viewerData = viewerSnap.data();
         
-        if (viewerData.following && viewerData.following.includes(email)) {
-            setFollowButtonState(followBtn, true);
+        if (viewerSnap.exists()) {
+            const viewerData = viewerSnap.data();
+            // Check using 'email' variable
+            if (viewerData.following && viewerData.following.includes(email)) {
+                setFollowButtonState(followBtn, true);
+            }
         }
-
-        // Attach Click Listener
+        // FIXED LINE: Use 'email', not 'targetId'
         followBtn.onclick = () => toggleFollow(followBtn, email);
     } else {
-        followBtn.style.display = 'none'; // Hide if not logged in
+        if(followBtn) followBtn.style.display = 'none';
     }
 
-    // E. Load Articles
-    loadAuthorArticles(email);
+    // C. Load Articles
+    loadAuthorArticles(email); // Use 'email'
 
-    // F. Load Sidebar
-    loadSidebarSuggestions(email);
+    // D. Load Sidebar
+    loadSidebarSuggestions(email); // Use 'email'
 }
 
 // ==========================================
-// 2. LOAD ARTICLES (Firestore Query)
+// 2. LOAD ARTICLES (Fixed Query)
 // ==========================================
-async function loadAuthorArticles(email) {
+async function loadAuthorArticles(email) { // Input matches the email from loadAuthorProfile
     const container = document.getElementById('author-articles-list');
     container.innerHTML = '';
 
-    // Query articles where authorEmail == email
+    // CRITICAL FIX: Change "authorId" to "authorEmail"
+    // We are now searching for articles where authorEmail matches the profile ID
     const q = query(collection(db, "articles"), where("authorEmail", "==", email), limit(5));
-    const snapshot = await getDocs(q);
+    
+    try {
+        const snapshot = await getDocs(q);
 
-    if (snapshot.empty) {
-        container.innerHTML = '<div style="color:#777; padding:20px;">No articles yet.</div>';
-        return;
+        if (snapshot.empty) {
+            container.innerHTML = '<div style="color:#777; padding:20px;">No articles yet.</div>';
+            return;
+        }
+
+        snapshot.forEach(doc => {
+            const article = doc.data();
+            
+            // Format the Date
+            let dateStr = "";
+            if (article.datePosted) {
+                const dateObj = new Date(article.datePosted);
+                dateStr = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+            }
+
+            const html = `
+                <a href="../articles/article.html?id=${doc.id}" class="article-card">
+                    <h3>${article.title}</h3>
+                    <div class="article-meta">${dateStr}</div>
+                    <p class="article-summary">${article.summary || "No summary available."}</p>
+                </a>
+                <hr class="article-separator">
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+        });
+    } catch (error) {
+        console.error("Error loading articles:", error);
+        container.innerHTML = '<div style="color:red; padding:10px;">Error loading articles.</div>';
     }
-
-    snapshot.forEach(doc => {
-        const article = doc.data();
-        const html = `
-            <a href="../articles/article.html?id=${doc.id}" class="article-card">
-                <h3>${article.title}</h3>
-                <div class="article-meta">${formatDate(article.datePosted)}</div>
-                <p class="article-summary">${article.summary}</p>
-            </a>
-            <hr class="article-separator">
-        `;
-        container.insertAdjacentHTML('beforeend', html);
-    });
 }
 
 // ==========================================
-// 3. LOAD SIDEBAR (With Functional Follow Buttons)
+// 3. LOAD SIDEBAR
 // ==========================================
-async function loadSidebarSuggestions(currentAuthorEmail) {
+async function loadSidebarSuggestions(currentTargetId) {
     const container = document.getElementById('sidebar-list');
     container.innerHTML = '';
 
-    // 1. Fetch Viewer Data (to check who they follow)
     let followingList = [];
     if (currentViewer) {
         const viewerRef = doc(db, "users", currentViewer.email);
         const viewerSnap = await getDoc(viewerRef);
-        if (viewerSnap.exists()) {
-            followingList = viewerSnap.data().following || [];
-        }
+        if (viewerSnap.exists()) followingList = viewerSnap.data().following || [];
     }
 
-    // 2. Fetch Reporters
-    const q = query(collection(db, "users"), where("role", "==", "author"), limit(4));
+    const q = query(collection(db, "authors"), limit(4));
     const snapshot = await getDocs(q);
 
     let count = 0;
     snapshot.forEach(doc => {
         const author = doc.data();
-        
-        // Don't show the author we are currently viewing
-        if (author.email !== currentAuthorEmail && count < 3) {
+        const authorDocId = doc.id; // This is "Tiara"
+
+        if (authorDocId !== currentTargetId && count < 3) {
             const div = document.createElement('div');
             div.className = 'reporter-item';
             
-            // Check if already following
-            const isFollowing = followingList.includes(author.email);
+            const isFollowing = followingList.includes(authorDocId);
             const btnText = isFollowing ? "Following" : "Follow";
             const btnClass = isFollowing ? "btn-sm-follow following" : "btn-sm-follow";
 
             div.innerHTML = `
-                <div class="reporter-avatar" style="background-image: url('${author.photoURL || '../assets/default-user.png'}')"></div>
+                <div class="reporter-avatar" style="background-image: url('${author.photoURL || '../assets/default-user.png'}')">
+                    <a href="../profile pages/author.html?id=${encodeURIComponent(authorDocId)}" style="display:block; width:100%; height:100%;"></a>
+                </div>
                 <div class="reporter-info">
-                    <h4>${author.displayName}</h4>
+                    <h4><a href="../profile pages/author.html?id=${encodeURIComponent(authorDocId)}" style="color:inherit; text-decoration:none;">
+                        ${author.displayName || authorDocId}
+                    </a></h4>
                     <p>${author.specialization || "Reporter"}</p>
                 </div>
                 <button class="${btnClass}">${btnText}</button>
             `;
 
-            // Attach Follow Logic
             const btn = div.querySelector('button');
-            btn.onclick = (e) => toggleFollow(e.target, author.email);
+            btn.onclick = (e) => toggleFollow(e.target, authorDocId);
 
             container.appendChild(div);
             count++;
@@ -183,30 +192,29 @@ async function loadSidebarSuggestions(currentAuthorEmail) {
 // ==========================================
 // 4. FOLLOW LOGIC
 // ==========================================
-async function toggleFollow(btn, targetEmail) {
+async function toggleFollow(btn, targetId) {
     if (!currentViewer) return;
 
     const viewerRef = doc(db, "users", currentViewer.email);
-    const targetRef = doc(db, "users", targetEmail);
+    // Important: The doc ID in 'authors' collection MUST be the name "Tiara"
+    const authorRef = doc(db, "authors", targetId); 
 
     const isFollowing = btn.classList.contains('following');
-
-    // Optimistic UI Update
     setFollowButtonState(btn, !isFollowing);
 
     try {
         if (isFollowing) {
-            // Unfollow: Remove target from viewer's 'following', remove viewer from target's 'followers'
-            await updateDoc(viewerRef, { following: arrayRemove(targetEmail) });
-            await updateDoc(targetRef, { followers: arrayRemove(currentViewer.email) });
+            // Unfollow
+            await updateDoc(viewerRef, { following: arrayRemove(targetId) });
+            await updateDoc(authorRef, { followers: arrayRemove(currentViewer.email) });
         } else {
             // Follow
-            await updateDoc(viewerRef, { following: arrayUnion(targetEmail) });
-            await updateDoc(targetRef, { followers: arrayUnion(currentViewer.email) });
+            await updateDoc(viewerRef, { following: arrayUnion(targetId) });
+            await updateDoc(authorRef, { followers: arrayUnion(currentViewer.email) });
         }
     } catch (e) {
         console.error("Follow error:", e);
-        setFollowButtonState(btn, isFollowing); // Revert on error
+        setFollowButtonState(btn, isFollowing); 
         alert("Action failed.");
     }
 }
@@ -225,7 +233,6 @@ function setFollowButtonState(btn, isFollowing) {
     }
 }
 
-// Helper
 function formatDate(timestamp) {
     if (!timestamp) return "";
     const date = timestamp.toDate();
