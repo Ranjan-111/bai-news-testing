@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Database Migration Tool</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #222; color: #0f0; }
+        h1 { border-bottom: 1px solid #444; padding-bottom: 10px; }
+        button { padding: 15px 30px; font-size: 1.2rem; cursor: pointer; background: #d73634; color: white; border: none; border-radius: 5px; opacity: 0.5; pointer-events: none; }
+        button.ready { opacity: 1; pointer-events: auto; }
+        #auth-status { margin-bottom: 20px; padding: 10px; border: 1px solid #555; background: #333; color: #fff; }
+        #logs { margin-top: 20px; white-space: pre-wrap; height: 400px; overflow-y: auto; border: 1px solid #444; padding: 10px; background: #000; }
+        .success { color: #0f0; }
+        .error { color: #f00; }
+        .warning { color: #ff0; }
+    </style>
+</head>
+<body>
+
+    <h1>⚠️ DATABASE MIGRATION TOOL</h1>
+    <div id="auth-status">Checking Authentication...</div>
+    
+    <p>This tool will update ALL existing articles to set <b>status: "active"</b>.</p>
+    
+    <button id="btn-start">Start Migration</button>
+
+    <div id="logs">Logs will appear here...</div>
+
+    <script type="module">
+        import { getFirestore, collection, getDocs, doc, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"; // <--- ADDED AUTH
+        import { app } from '/Article/firebase-db.js';
+
+        const db = getFirestore(app);
+        const auth = getAuth(app); // <--- INIT AUTH
+        const btn = document.getElementById('btn-start');
+        const logs = document.getElementById('logs');
+        const authStatus = document.getElementById('auth-status');
+
+        // 1. CHECK LOGIN STATUS
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                authStatus.innerHTML = `✅ Logged in as: <b>${user.email}</b><br> (Ensure this account has Admin role in Firestore)`;
+                authStatus.style.borderColor = "#0f0";
+                btn.classList.add('ready');
+                btn.innerText = "Start Migration";
+            } else {
+                authStatus.innerHTML = `❌ <b>NOT LOGGED IN.</b><br>Please go to your website, log in as Admin, and then refresh this page.`;
+                authStatus.style.borderColor = "#f00";
+                btn.classList.remove('ready');
+            }
+        });
+
+        function log(msg, type = "") {
+            const span = document.createElement('div');
+            span.textContent = msg;
+            if (type) span.className = type;
+            logs.appendChild(span);
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        btn.addEventListener('click', async () => {
+            if (!auth.currentUser) return alert("Please login first.");
+            if (!confirm("Are you sure? This will update ALL articles to 'Active' status.")) return;
+            
+            btn.disabled = true;
+            btn.innerText = "Running...";
+            logs.innerHTML = "";
+            log("🚀 Starting Migration...");
+
+            try {
+                // 2. Get ALL articles
+                const colRef = collection(db, "articles");
+                const snapshot = await getDocs(colRef);
+                
+                if (snapshot.empty) {
+                    log("No articles found in database.", "warning");
+                    btn.disabled = false;
+                    return;
+                }
+
+                log(`Found ${snapshot.size} articles. Processing...`);
+
+                // 3. Batch Update
+                let batch = writeBatch(db);
+                let count = 0;
+                let totalUpdated = 0;
+
+                for (const docSnap of snapshot.docs) {
+                    const docRef = doc(db, "articles", docSnap.id);
+                    
+                    // Set status to 'active'
+                    batch.update(docRef, { 
+                        status: "active",
+                        isFeatured: docSnap.data().isFeatured || false
+                    });
+                    
+                    count++;
+                    totalUpdated++;
+
+                    // Commit batch every 400 documents
+                    if (count >= 400) {
+                        await batch.commit();
+                        log(`... Committed batch of ${count} articles.`);
+                        batch = writeBatch(db); 
+                        count = 0;
+                    }
+                }
+
+                if (count > 0) {
+                    await batch.commit();
+                }
+
+                log(`✅ SUCCESS: Updated ${totalUpdated} articles to 'active'.`, "success");
+                btn.innerText = "Migration Complete";
+
+            } catch (e) {
+                console.error(e);
+                log(`❌ ERROR: ${e.message}`, "error");
+                log(`\nTIP: Ensure your account (${auth.currentUser?.email}) has 'role: admin' in the 'users' collection.`, "warning");
+                btn.disabled = false;
+                btn.innerText = "Retry";
+            }
+        });
+    </script>
+</body>
+</html>

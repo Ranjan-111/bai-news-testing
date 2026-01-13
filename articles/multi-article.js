@@ -1,4 +1,4 @@
-import { fetchAllSearchData } from '../Article/firebase-db.js';
+import { fetchAllSearchData } from '/Article/firebase-db.js';
 
 // CONFIGURATION
 const itemsPerPage = 7;
@@ -31,8 +31,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // A. INIT DATA
 async function initPageData() {
-    const container = document.getElementById('articles-list');
-    container.innerHTML = '<p style="text-align:center; padding:2rem;">Loading Feed...</p>';
+    const skeletonView = document.getElementById('skeleton-view');
+    const realView = document.getElementById('articles-list');
+    
+    // Ensure Skeleton is ON and Real View is OFF initially
+    if (skeletonView) skeletonView.classList.remove('hidden');
+    if (realView) realView.classList.add('hidden');
 
     try {
         // Fetch from LocalStorage (0 Reads usually)
@@ -42,11 +46,26 @@ async function initPageData() {
         filteredArticles = allArticles;
         
         setupPagination();
+        
+        // LOAD DATA
         loadPage(1);
+
+        // --- SWAP VIEWS ---
+        // Hide Skeleton, Show Real Content with Fade In
+        if (skeletonView) skeletonView.classList.add('hidden');
+        if (realView) {
+            realView.classList.remove('hidden');
+            realView.classList.add('fade-in');
+        }
 
     } catch (e) {
         console.error("Error loading feed:", e);
-        container.innerHTML = "<p>Error loading articles.</p>";
+        // On error, hide skeleton and show error message
+        if (skeletonView) skeletonView.classList.add('hidden');
+        if (realView) {
+            realView.classList.remove('hidden');
+            realView.innerHTML = "<p style='text-align:center;'>Error loading articles. Please refresh.</p>";
+        }
     }
 }
 
@@ -182,6 +201,7 @@ function renderPaginationButtons() {
 }
 
 function goToPage(num) {
+    centerPage = num; // Set the clicked number as the new center
     loadPage(num);
 }
 

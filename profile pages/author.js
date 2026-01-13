@@ -1,6 +1,6 @@
 import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { app } from '../Article/firebase-db.js';
+import { app } from '/Article/firebase-db.js';
 
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -39,6 +39,14 @@ async function loadAuthorProfile(email) { // <--- Input is named 'email'
     }
 
     const data = authorSnap.data();
+
+    // --- 🔴 SECURITY CHECK (Updated) ---
+    // Only show profile if their role is explicitly "author"
+    // This hides "pending" applicants or random users who shouldn't be here.
+    if (data.role !== 'author') {
+        document.querySelector('.profile-container').innerHTML = `<h1>Author not found (Pending Approval).</h1>`;
+        return;
+    }
 
     // A. Fill UI
     const bannerEl = document.getElementById('p-banner');
@@ -101,7 +109,7 @@ async function loadAuthorArticles(email) { // Input matches the email from loadA
 
     // CRITICAL FIX: Change "authorId" to "authorEmail"
     // We are now searching for articles where authorEmail matches the profile ID
-    const q = query(collection(db, "articles"), where("authorEmail", "==", email), limit(5));
+    const q = query(collection(db, "articles"), where("authorEmail", "==", email), where("status", "==", "active"), limit(5));
     
     try {
         const snapshot = await getDocs(q);
@@ -122,7 +130,7 @@ async function loadAuthorArticles(email) { // Input matches the email from loadA
             }
 
             const html = `
-                <a href="../articles/article.html?id=${doc.id}" class="article-card">
+                <a href="/articles/article.html?id=${doc.id}" class="article-card">
                     <h3>${article.title}</h3>
                     <div class="article-meta">${dateStr}</div>
                     <p class="article-summary">${article.summary || "No summary available."}</p>
@@ -151,7 +159,7 @@ async function loadSidebarSuggestions(currentTargetId) {
         if (viewerSnap.exists()) followingList = viewerSnap.data().following || [];
     }
 
-    const q = query(collection(db, "authors"), limit(4));
+    const q = query(collection(db, "authors"), where("role", "==", "author"), limit(4));
     const snapshot = await getDocs(q);
 
     let count = 0;
@@ -168,11 +176,11 @@ async function loadSidebarSuggestions(currentTargetId) {
             const btnClass = isFollowing ? "btn-sm-follow following" : "btn-sm-follow";
 
             div.innerHTML = `
-                <div class="reporter-avatar" style="background-image: url('${author.photoURL || '../assets/default-user.png'}')">
-                    <a href="../profile pages/author.html?id=${encodeURIComponent(authorDocId)}" style="display:block; width:100%; height:100%;"></a>
+                <div class="reporter-avatar" style="background-image: url('${author.photoURL || '/assets/default-user.png'}')">
+                    <a href="/profile pages/author.html?id=${encodeURIComponent(authorDocId)}" style="display:block; width:100%; height:100%;"></a>
                 </div>
                 <div class="reporter-info">
-                    <h4><a href="../profile pages/author.html?id=${encodeURIComponent(authorDocId)}" style="color:inherit; text-decoration:none;">
+                    <h4><a href="/profile pages/author.html?id=${encodeURIComponent(authorDocId)}" style="color:inherit; text-decoration:none;">
                         ${author.displayName || authorDocId}
                     </a></h4>
                     <p>${author.specialization || "Reporter"}</p>

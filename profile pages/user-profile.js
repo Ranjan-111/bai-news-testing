@@ -1,6 +1,6 @@
 import { getFirestore, doc, getDoc, getDocs, collection, query, where, limit, setDoc, documentId } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { app } from '../Article/firebase-db.js';
+import { app } from '/Article/firebase-db.js';
 
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             await loadUserProfileData(user.email);
         } else {
-            window.location.href = "../main/index.html"; 
+            window.location.href = "/main/index.html"; 
         }
     });
 });
@@ -103,23 +103,33 @@ function toggleLoadMoreButton(show) {
 async function fetchAndRenderArticles(idsToFetch) {
     const container = document.getElementById('saved-articles-list');
 
-    // Firestore 'in' query supports max 10 items.
-    const q = query(collection(db, "articles"), where("serialNumber", "in", idsToFetch));
-    const querySnapshot = await getDocs(q);
+    // ERROR WAS HERE: You were checking "serialNumber", but 'idsToFetch' contains Document IDs (strings).
+    // FIX: Use documentId() to tell Firestore to look at the Key/ID of the document.
+    const q = query(collection(db, "articles"), where(documentId(), "in", idsToFetch));
 
-    // Note: 'in' query doesn't return docs in order. We might want to sort them if order matters.
-    querySnapshot.forEach((doc) => {
-        const article = doc.data();
-        const html = `
-            <a href="../articles/article.html?id=${doc.id}" class="article-card">
-                <h3>${article.title || "Untitled Article"}</h3>
-                <div class="date">${formatDate(article.datePosted)}</div>
-                <p>${article.summary || article.content.substring(0, 150) + "..."}</p>
-            </a>
-            <hr class="article-separator">
-        `;
-        container.insertAdjacentHTML('beforeend', html);
-    });
+    try {
+        const querySnapshot = await getDocs(q);
+
+        // Note: 'in' query doesn't return docs in order. 
+        // If order matters (e.g. most recently saved), you would need to sort 'querySnapshot.docs' here 
+        // based on the order of 'idsToFetch'.
+
+        querySnapshot.forEach((doc) => {
+            const article = doc.data();
+            const html = `
+                <a href="/articles/article.html?id=${doc.id}" class="article-card">
+                    <h3>${article.title || "Untitled Article"}</h3>
+                    <div class="date">${formatDate(article.datePosted)}</div>
+                    <p>${article.summary || (article.content ? article.content.substring(0, 150) + "..." : "")}</p>
+                </a>
+                <hr class="article-separator">
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+        });
+    } catch (error) {
+        console.error("Error fetching saved articles:", error);
+        container.innerHTML += '<p style="color:red">Error loading some articles.</p>';
+    }
 }
 
 // ==========================================
@@ -149,6 +159,7 @@ async function renderSidebarFollowing(followingList) {
     snapshot.forEach(doc => {
         const authorData = doc.data();
         const authorId = doc.id; // This is "Tiara"
+        if (authorData.role !== 'author') return;
         createSidebarUserItem(container, authorId, authorData, auth.currentUser.email);
     });
 }
@@ -162,7 +173,7 @@ function createSidebarUserItem(container, targetId, targetData, myEmail) {
     userDiv.style.justifyContent = 'space-between';
     userDiv.style.marginBottom = '15px';
 
-    const avatarUrl = targetData.photoURL || "../assets/default-user.png";
+    const avatarUrl = targetData.photoURL || "/assets/default-user.png";
     const displayName = targetData.displayName || targetId; // Use ID if name missing
     
     const roleText = targetData.specialization || "Reporter";
@@ -170,7 +181,7 @@ function createSidebarUserItem(container, targetId, targetData, myEmail) {
     // LINK UPDATED: Uses ?id=Tiara
     // FIXED PATH HERE:
     userDiv.innerHTML = `
-        <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="window.location.href='../profile pages/author.html?id=${encodeURIComponent(targetId)}'">
+        <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="window.location.href='/profile pages/author.html?id=${encodeURIComponent(targetId)}'">
             <img src="${avatarUrl}" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">
             <div style="display:flex; flex-direction:column;">
                 <span style="font-size:14px; font-weight:600; color:#333;">${displayName}</span>

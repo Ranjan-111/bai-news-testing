@@ -1,4 +1,4 @@
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";import { app } from '../Article/firebase-db.js'; 
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";import { app } from '/Article/firebase-db.js'; 
 
 const db = getFirestore(app);
 
@@ -26,7 +26,7 @@ export async function saveUserToDB(user, subscribedToNewsletter) {
                 uid: user.uid, 
                 email: cleanEmail,
                 displayName: user.displayName || existingData.displayName || "Anonymous",
-                photoURL: user.photoURL || existingData.photoURL || "../assets/default-user.png",
+                photoURL: user.photoURL || existingData.photoURL || "/assets/default-user.png",
                 authProvider: user.providerData[0]?.providerId || "anonymous/otp",
                 role: currentRole, 
                 lastLogin: serverTimestamp(),
@@ -41,7 +41,7 @@ export async function saveUserToDB(user, subscribedToNewsletter) {
                 uid: user.uid,
                 email: cleanEmail,
                 displayName: user.displayName || "Anonymous",
-                photoURL: user.photoURL || "../assets/default-user.png",
+                photoURL: user.photoURL || "/assets/default-user.png",
                 authProvider: user.providerData[0]?.providerId || "anonymous/otp",
                 role: "reader", // Default role for new signups
                 isNewsletterSubscribed: subscribedToNewsletter,
@@ -98,38 +98,52 @@ export async function saveToNewsletterList(email) {
     }
 }
 
-// ==========================================
-// 3. SUBMIT AUTHOR REQUEST (User -> Admin)
-// ==========================================
-export async function submitAuthorRequest(formData) {
-    // formData object should look like:
-    // { 
-    //   uid: "...", 
-    //   email: "...", 
-    //   displayName: "...", 
-    //   specialization: "...", 
-    //   bio: "...", 
-    //   sampleArticleLink: "..." 
-    // }
+// PASTE YOUR NEW SCRIPT URL HERE
+const GOOGLE_SCRIPT_URL = "YOUR_NEW_DEPLOYED_SCRIPT_URL"; 
 
-    if (!formData.email || !formData.uid) {
-        alert("Error: You must be logged in to apply.");
-        return;
-    }
+export async function submitAuthorRequest(formData) {
+    if (!formData.email) return { success: false };
 
     try {
-        // We save to a separate 'author_requests' collection
-        // This keeps the 'authors' collection clean for only approved reporters.
-        await addDoc(collection(db, "author_requests"), {
-            ...formData,
-            status: "pending",
-            submittedAt: serverTimestamp()
+        // 1. SAVE TO FIRESTORE (Authors Collection)
+        // We use 'authors' so the Admin Panel can find them easily
+        // We do NOT save the heavy Base64 files to DB to save costs.
+        const { sampleBase64, ...dbData } = formData; 
+
+        await setDoc(doc(db, "authors", formData.email), {
+            ...dbData,
+            status: "pending", // Waiting for approval
+            role: "reporter_candidate",
+            articleCount: 0,
+            followers: [],
+            joinedDate: serverTimestamp()
         });
 
-        console.log("✅ Application Submitted");
+        // 2. SEND EMAIL TO ADMIN (With Files)
+        // We send the Base64 data here so it arrives in your inbox
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors", 
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                type: "application",
+                name: formData.displayName,
+                email: formData.email,
+                specialization: formData.specialization,
+                location: formData.location,
+                portfolio: formData.portfolioLink,
+                // Send File Data
+                photoBase64: formData.photoURL.startsWith('data:') ? formData.photoURL : null,
+                sampleBase64: formData.sampleBase64,
+                sampleName: formData.sampleArticleName
+            })
+        });
+
+        console.log("✅ Application Submitted & Email Sent");
         return { success: true };
+
     } catch (e) {
-        console.error("❌ Error submitting application:", e);
+        console.error("❌ Error submitting:", e);
         return { success: false, error: e.message };
     }
 }

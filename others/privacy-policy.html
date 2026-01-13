@@ -26,10 +26,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center; 
-    position: relative;
+    position: sticky;
+    top: 0;
+    width: 100%;
     padding: 20px;
     background: #fff;
-    border-bottom: 1px solid #f0f0f0; 
+    height: 67px;
+    box-shadow: 0 0 1px 0;
 }
 
 .back-btn {
@@ -38,11 +41,12 @@ body {
     color: #000;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .privacy-header h1 {
     font-size: 1.25rem; 
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: -0.02em;
 }
 
@@ -147,7 +151,7 @@ a:hover {
 
     <header class="privacy-header">
         <!-- arrow -->
-         <img width="32" height="32" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="u-turn-to-left" class="back-btn" onclick="history.back()"/>
+         <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="u-turn-to-left" class="back-btn" onclick="history.back()"/>
         <h1>Privacy Policy</h1>
     </header>
 

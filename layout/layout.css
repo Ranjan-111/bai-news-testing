@@ -386,7 +386,7 @@ a{
   background: #ff3636;
 }
 
-.noselect:hover .text {
+/* .noselect:hover .text {
   color: transparent;
 }
 
@@ -407,7 +407,7 @@ a{
 .noselect:hover .bell {
   animation: bellRing 0.9s both;
 }
-
+ */
 /* bell ringing animation keyframes*/
 @keyframes bellRing {
   0% {
@@ -445,8 +445,14 @@ a{
   }
 }
 
-.noselect:active {
+/* .noselect:active {
   transform: scale(0.9);
+} */
+
+@media (min-width: 550px){
+  .bell{
+    display: none;
+  }
 }
 
 /* 📱 Responsive for small screens */
@@ -455,7 +461,7 @@ a{
     width: 50px;
     height: 50px;
     padding: 0 10px;
-
+    
   }
 
   .noselect .text {
@@ -727,6 +733,8 @@ footer h2 {
     margin-left: 15rem;
     left: -10rem;
   }
+
+  
 
   /* .vertical-line {
     left: 28rem;

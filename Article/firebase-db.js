@@ -8,6 +8,8 @@ import {
     getDocs, getDoc, doc, onSnapshot, updateDoc, arrayUnion, arrayRemove, increment, 
     enableIndexedDbPersistence, getCountFromServer 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// 1. ADD THIS IMPORT LINE (Keep the version matching your other imports, e.g., 10.7.1)
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
 // 2. CONFIGURATION
 const firebaseConfig = {
@@ -16,13 +18,19 @@ const firebaseConfig = {
     projectId: "bai-news-9e4cf",
     storageBucket: "bai-news-9e4cf.firebasestorage.app",
     messagingSenderId: "1056453543830",
-    appId: "1:1056453543830:web:c40a8c1e5bb582f2c63fb7"
+    appId: "1:1056453543830:web:c40a8c1e5bb582f2c63fb7",
+    measurementId: "G-MY4FQNR5YV"
 };
 
 // 3. INITIALIZE
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+// 2. ADD THIS LINE TO START ANALYTICS
+const analytics = getAnalytics(app); 
+
+// 3. (Optional) Export it if you need to log specific events later
+export { analytics };
 
 // 4. OFFLINE CACHE (Protocol #5)
 try { 
@@ -31,12 +39,12 @@ try {
 
 
 // ======================================================
-// SECTION 1: FEATURED NEWS (Updated for 'isFeatured' flag)
+// SECTION 1: FEATURED NEWS (Updated)
 // ======================================================
 export async function getFeaturedNews() {
-    // Logic: Fetch articles where you specifically set isFeatured = true
     const q = query(
         collection(db, "articles"),
+        where("status", "==", "active"), // <--- ADD THIS
         where("isFeatured", "==", true), 
         limit(2)
     );
@@ -45,13 +53,13 @@ export async function getFeaturedNews() {
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
-
 // ======================================================
-// SECTION 2: LATEST NEWS (Home Page Ticker)
+// SECTION 2: LATEST NEWS (Updated)
 // ======================================================
 export function subscribeLatestNews(callback) {
     const q = query(
         collection(db, "articles"),
+        where("status", "==", "active"), // <--- ADD THIS
         orderBy("datePosted", "desc"),
         limit(5)
     );
@@ -61,7 +69,6 @@ export function subscribeLatestNews(callback) {
         callback(articles);
     });
 }
-
 
 // ======================================================
 // SECTION 3: PAGINATION (The Serial Number Logic)
@@ -214,25 +221,37 @@ export async function fetchAllSearchData() {
     // Check Server for Updates (1 Read)
     let latestServerSerial = 0;
     try {
-        console.log("🔥 [READ COST: 1] Checking latest Serial Number..."); // <--- LOG ADDED
+        console.log("🔥 [READ COST: 1] Checking latest Serial Number...");
         
-        const q = query(collection(db, "articles"), orderBy("serialNumber", "desc"), limit(1));
+        // --- FIX 1: ADD status == active ---
+        const q = query(
+            collection(db, "articles"), 
+            where("status", "==", "active"), // <--- IMPORTANT
+            orderBy("serialNumber", "desc"), 
+            limit(1)
+        );
         const snapshot = await getDocs(q);
         if (!snapshot.empty) latestServerSerial = snapshot.docs[0].data().serialNumber || 0;
     } catch (e) {
-        console.log("⚠️ Offline or Error. Using Cache."); // <--- LOG ADDED
+        console.log("⚠️ Offline or Error. Using Cache.", e); 
         window.cachedSearchData = localData; 
-        return localData; // Offline mode
+        return localData; 
     }
 
     // Sync if needed
     if (latestServerSerial > lastSerial) {
         console.log("Downloading new articles...");
-        const updateQ = query(collection(db, "articles"), where("serialNumber", ">", lastSerial));
+        
+        // --- FIX 2: ADD status == active ---
+        const updateQ = query(
+            collection(db, "articles"), 
+            where("status", "==", "active"), // <--- IMPORTANT
+            where("serialNumber", ">", lastSerial)
+        );
         const updateSnapshot = await getDocs(updateQ);
         
         const count = updateSnapshot.size;
-        console.log(`🔥 [READ COST: ${count}] Downloading ${count} new articles...`); // <--- LOG ADDED
+        console.log(`🔥 [READ COST: ${count}] Downloading ${count} new articles...`); 
         
         const newArticles = updateSnapshot.docs.map(doc => ({
             id: doc.id,
@@ -254,12 +273,13 @@ export async function fetchAllSearchData() {
         localStorage.setItem(META_KEY, latestServerSerial.toString());
         localData = mergedData;
     } else {
-        console.log("✅ [READ COST: 0] Cache is up to date. Using LocalStorage."); // <--- LOG ADDED
+        console.log("✅ [READ COST: 0] Cache is up to date. Using LocalStorage."); 
     }
 
     window.cachedSearchData = localData;
     return localData;
 }
+
 
 // 2. The New "Smart Match" Related Function (0 Reads)
 export async function getLocalRelatedArticles(currentTags, currentId) {

@@ -1,3 +1,11 @@
+import { getArticleById, getLocalRelatedArticles, auth } from '/Article/firebase-db.js';
+
+// Fallback images
+const AUTHOR_DEFAULTS = {
+    "Priyanshu": "/assets/author-profile.jpeg",
+    "Tiara": "/assets/img2.jpg",
+    "Harsh": "/assets/img1.jpg" 
+};
 // ==========================================
 // FOLLOW BUTTON LOGIC
 // ==========================================
@@ -5,33 +13,49 @@ function initFollowButton() {
     const followBtn = document.querySelector('.follow-btn');
     const authorNameEl = document.querySelector('.author-name');
 
-    // Safety check: only run if button exists on this page
     if (!followBtn || !authorNameEl) return;
 
     const authorName = authorNameEl.textContent.trim();
-    const storageKey = `isFollowing_${authorName}`; // Unique key: "isFollowing_Priyanshu"
+    const storageKey = `isFollowing_${authorName}`; 
 
-    // 1. CHECK STATE ON LOAD (Zero Delay)
+    // Check localStorage only if previously followed
     if (localStorage.getItem(storageKey) === 'true') {
         setFollowedState();
     }
 
-    // 2. HANDLE CLICK
-    followBtn.addEventListener('click', () => {
-        const isCurrentlyFollowing = followBtn.classList.contains('following');
+    followBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default link behavior if it's an <a> tag
 
+        // --- NEW: CHECK LOGIN STATUS ---
+        if (!auth.currentUser) {
+            // User is Logged OUT -> Open the Popup
+            const overlay = document.getElementById('popupOverlay');
+            const viewOptions = document.getElementById('view-options');
+            
+            // Reset views (hide email/otp forms, show main options)
+            const hiddenViews = ['view-email', 'view-otp'];
+            hiddenViews.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+
+            if (viewOptions) viewOptions.classList.remove('hidden');
+            if (overlay) overlay.classList.add('active');
+            
+            return; // Stop here, don't toggle follow
+        }
+
+        // --- USER IS LOGGED IN: TOGGLE FOLLOW ---
+        const isCurrentlyFollowing = followBtn.classList.contains('following');
         if (isCurrentlyFollowing) {
-            // UNFOLLOW
             setUnfollowedState();
             localStorage.removeItem(storageKey);
         } else {
-            // FOLLOW
             setFollowedState();
             localStorage.setItem(storageKey, 'true');
         }
     });
 
-    // --- Helpers ---
     function setFollowedState() {
         followBtn.textContent = 'Following';
         followBtn.classList.add('following');
@@ -43,31 +67,21 @@ function initFollowButton() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    // ... your other init functions ...
-    initFollowButton();
-});
-
-
 // ==========================================
-// firebase LOGIC
+// MAIN ARTICLE LOAD
 // ==========================================
-
-import { getArticleById, getLocalRelatedArticles } from '../Article/firebase-db.js';
-
-// Fallback images
-const AUTHOR_DEFAULTS = {
-    "Priyanshu": "../assets/author-profile.jpeg",
-    "Tiara": "../assets/img2.jpg",
-    "Harsh": "../assets/img1.jpg" 
-};
-
 document.addEventListener('DOMContentLoaded', async () => {
+    
+    // 1. SELECT MAIN SKELETON ELEMENTS
+    const skeletonView = document.getElementById('skeleton-view');
+    const realView = document.getElementById('real-view');
+
     const params = new URLSearchParams(window.location.search);
     const articleId = params.get('id');
 
     if (!articleId) return;
 
+    // 2. FETCH DATA
     const article = await getArticleById(articleId);
 
     if (!article) {
@@ -75,11 +89,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // --- A. RENDER TITLE ---
+    // --- POPULATE REAL VIEW ---
     const titleEl = document.getElementById('news-headline');
     if (titleEl) titleEl.innerText = article.title;
 
-    // --- B. RENDER DATE ---
     const dateEl = document.getElementById('news-date'); 
     if (dateEl && article.datePosted) {
         let dateObj = typeof article.datePosted.toDate === 'function' 
@@ -87,25 +100,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             : new Date(article.datePosted);
         
         dateEl.innerText = dateObj.toLocaleDateString('en-GB', { 
-            day: 'numeric', 
-            month: 'short', 
-            year: 'numeric' 
+            day: 'numeric', month: 'short', year: 'numeric' 
         });
     }
 
-    // --- C. RENDER IMAGE ---
     const imgEl = document.getElementById('news-img');
     if (imgEl && article.imageUrl) imgEl.src = article.imageUrl;
 
-    // --- D. RENDER CONTENT ---
     const contentEl = document.getElementById('article-content');
     if (contentEl && article.content) contentEl.innerHTML = article.content;
 
-    // --- E. RENDER TAGS (THIS WAS MISSING) ---
     const tagsSection = document.querySelector('.tags');
     if (tagsSection) {
         if (article.tags && article.tags.length > 0) {
-            tagsSection.innerHTML = ''; // Clear hardcoded dummy tags
+            tagsSection.innerHTML = ''; 
             article.tags.forEach(tag => {
                 const tagDiv = document.createElement('div');
                 tagDiv.className = 'article-tags';
@@ -113,65 +121,86 @@ document.addEventListener('DOMContentLoaded', async () => {
                 tagsSection.appendChild(tagDiv);
             });
         } else {
-            tagsSection.style.display = 'none'; // Hide if no tags
+            tagsSection.style.display = 'none'; 
         }
     }
 
-// --- F. AUTHOR SECTION (Final Email Strategy) ---
-    // 1. Get Display Name (For the text)
+    // --- AUTHOR SECTION ---
     const authorName = article.authorName || article.authorId || "Editor"; 
-    
-    // 2. Get Link ID (Must be the Email to match your DB)
-    // Fallback: Use your test email if the article has no email field yet
     const authorEmail = article.authorEmail || "priyanshuranjank@gmail.com"; 
-    
-    // 3. Image Fallback
-    let authorPicUrl = article.authorImage || AUTHOR_DEFAULTS[authorName] || "../assets/default-user.png";
+    let authorPicUrl = article.authorImage || AUTHOR_DEFAULTS[authorName] || "/assets/default-user.png";
 
-    // Select Elements
     const authorNameEl = document.querySelector('.author-name');
     const authorImgEl = document.querySelector('.author-avatar');
-    const authorLinks = document.querySelectorAll('.author-profile a, .author-info a');
+    const linkImg = document.getElementById('auth-link-img');
+    const linkName = document.getElementById('auth-link-name');
 
-    // 4. Render Text & Image
     if (authorNameEl) authorNameEl.innerText = authorName;
-    if (authorImgEl) { 
-        authorImgEl.src = authorPicUrl; 
-        authorImgEl.alt = authorName; 
+    if (authorImgEl) { authorImgEl.src = authorPicUrl; authorImgEl.alt = authorName; }
+
+    const profileUrl = `/profile pages/author.html?id=${encodeURIComponent(authorEmail)}`;
+    // if (linkImg) linkImg.href = profileUrl;
+    // if (linkName) linkName.href = profileUrl;
+
+    // 3. HIDE MAIN SKELETON / SHOW REAL CONTENT
+    if (skeletonView && realView) {
+        skeletonView.classList.add('hidden');
+        realView.classList.remove('hidden');
+        realView.classList.add('fade-in');
     }
 
-    // 5. UPDATE LINKS
-    // We send the EMAIL in the URL: ?id=priyanshuranjank@gmail.com
-    authorLinks.forEach(link => {
-        link.href = `../profile pages/author.html?id=${encodeURIComponent(authorEmail)}`;
-    });
-
-    // --- G. LOAD RELATED ---
+    // 4. INIT UTILS
+    initFollowButton();
+    
+    // 5. LOAD RELATED (This triggers the second skeleton logic)
     if (article.tags && article.tags.length > 0) {
         loadRelated(article.tags, article.id);
     }
 });
 
+// ==========================================
+// RELATED ARTICLES LOAD
+// ==========================================
 async function loadRelated(tags, currentId) {
     const container = document.getElementById('related-container');
+    
+    // Select the NEW wrappers
+    const skeletonView = document.getElementById('related-skeleton-view');
+    const realView = document.getElementById('related-real-view');
+    
     if (!container) return;
 
-    const related = await getLocalRelatedArticles(tags, currentId);
-    
-    container.innerHTML = ''; 
+    try {
+        const related = await getLocalRelatedArticles(tags, currentId);
+        
+        container.innerHTML = ''; 
 
-    if (related.length === 0) {
-        container.innerHTML = '<p style="padding:10px;">No related articles found.</p>';
-        return;
+        if (related.length === 0) {
+            container.innerHTML = '<p style="padding:10px;">No related articles found.</p>';
+        } else {
+            related.forEach(item => {
+                const html = `
+                    <div>
+                        <img class="rel-img" width="280px" height="215px" display="block" src="${item.imageUrl || '/assets/default.png'}" alt="Related Image">
+                        <h3><a href="article.html?id=${item.id}">${item.title}</a></h3>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        // --- SWAP VIEWS ---
+        // Hide the entire Skeleton Wrapper (Header + Cards)
+        if (skeletonView) skeletonView.classList.add('hidden');
+        
+        // Show the entire Real Wrapper (Header + Cards)
+        if (realView) {
+            realView.classList.remove('hidden');
+            realView.classList.add('fade-in');
+        }
+
+    } catch (error) {
+        console.error("Error loading related articles:", error);
+        if (skeletonView) skeletonView.classList.add('hidden');
     }
-
-    related.forEach(item => {
-        const html = `
-            <div>
-                <img src="${item.imageUrl || '../assets/default.png'}" alt="Related Image">
-                <h3><a href="article.html?id=${item.id}">${item.title}</a></h3>
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', html);
-    });
 }

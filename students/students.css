@@ -68,7 +68,8 @@
             font-weight: 200;
             font-size: 1.4em;
             text-align: left;
-            }
+            margin-left: 1rem;
+        }
 
 
         .l{
@@ -88,10 +89,11 @@
         /* --- Main Container --- */
         .AI_intro {
             max-width: 900px;
-            width: 100%;
+            width: 95%;
             height: max-content;
             margin: auto;
             margin-bottom: 5px;
+            padding: 0 1rem;
         }
 
 

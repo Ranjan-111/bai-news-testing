@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 // Use your existing app configuration
-import { app } from '../Article/firebase-db.js';
+import { app } from '/Article/firebase-db.js';
 
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -31,22 +31,22 @@ onAuthStateChanged(auth, async (user) => {
             } else {
                 // IF NOT ADMIN -> KICK THEM OUT
                 alert("⛔️ ACCESS DENIED: You do not have permission to view this page.");
-                window.location.href = "../main/index.html";
+                window.location.href = "/main/index.html";
             }
         } catch (error) {
             console.error("Auth Check Error:", error);
-            window.location.href = "../main/index.html";
+            window.location.href = "/main/index.html";
         }
 
     } else {
         // IF NOT LOGGED IN -> KICK THEM OUT
         console.log("User not logged in. Redirecting...");
-        window.location.href = "../main/index.html"; // Redirect to Home
+        window.location.href = "/main/index.html"; // Redirect to Home
     }
 });
 
 
-import { db } from '../Article/firebase-db.js';
+import { db } from '/Article/firebase-db.js';
 import { collection, doc, setDoc, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const sampleArticles = [
@@ -58,7 +58,7 @@ const sampleArticles = [
         tags: ["tech", "ai"],
         authorId: "Priyanshu",
         isFeatured: true, 
-        imageUrl: "../assets/img1.jpg", 
+        imageUrl: "/assets/img1.jpg", 
         stats: { likes: 120, saves: 45, views: 1050 }
     },
     {
@@ -69,7 +69,7 @@ const sampleArticles = [
         tags: ["environment", "tech"],
         authorId: "Harsh",
         isFeatured: true, 
-        imageUrl: "../assets/img2.jpg", 
+        imageUrl: "/assets/img2.jpg", 
         stats: { likes: 85, saves: 12, views: 600 }
     },
     {
@@ -80,7 +80,7 @@ const sampleArticles = [
         tags: ["tech", "crypto"],
         authorId: "Priyanshu",
         isFeatured: false,
-        imageUrl: "../assets/img1.jpg", 
+        imageUrl: "/assets/img1.jpg", 
         stats: { likes: 200, saves: 80, views: 2200 }
     },
     // ... Add as many as you want here ...
