@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAI ARTICLES PAGE</title>
+    <link rel="stylesheet" href="/main/index.css">
+    <link rel="stylesheet" href="/layout/layout.css">
+    <link rel="stylesheet" href="article.css">
+
+    <meta property="og:title" content="Supernova Discovered Near Earth" />
+    <meta property="og:description" content="Scientists have just announced a major discovery..." />
+    <meta property="og:image" content="https://yourwebsite.com/assets/actual-news-image.jpg" /> 
+    <meta property="og:url" content="https://yourwebsite.com/news/article-1" />
+    <meta property="og:type" content="article" />
+    
+    <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+
+    <!-- HEADER AND NAVIGATION BAR -->
+    <div id="global-header"></div>
+
+
+    <!-- ARTICLE CONTENT -->
+<section class="main">
+        
+        <div id="skeleton-view">
+            <div class="skeleton sk-title"></div>
+            <div class="skeleton sk-date"></div>
+            <hr class="last-hr">
+            <div class="sk-profile-row">
+                <div class="skeleton sk-avatar"></div>
+                <div class="skeleton sk-author-name"></div>
+            </div>
+            <div class="skeleton sk-img"></div>
+            <div class="skeleton sk-text"></div>
+            <div class="skeleton sk-text"></div>
+            <div class="skeleton sk-text"></div>
+            <div class="skeleton sk-text-short"></div>
+            <br>
+            <div class="skeleton sk-text"></div>
+            <div class="skeleton sk-text"></div>
+        </div>
+
+        <div id="real-view" class="hidden">
+            <h1 id="news-headline"></h1>
+            <br>
+            <p id="news-date" class="date"></p>
+            <hr class="last-hr">
+            
+            <div class="article-meta">
+                <section class="author-profile">
+                    <a href="#" id="auth-link-img"><img src="" alt="" class="author-avatar"></a>
+                    <div class="author-info">
+                        <a href="#" id="auth-link-name"><span class="author-name"></span></a>
+                        <button class="follow-btn">Follow</button>
+                    </div>
+                </section>
+                     
+                <div class="article-actions">
+                    <a href="#">Share<img src="/assets/share icon unfilled.png" class="s-icon s-icon1"></a>
+                    <a href="#">Save<img src="/assets/save icon.png" class="s-icon s-icon2"></a>
+                </div>
+            </div>
+
+            <figure>
+                <img src="" alt="Article Image" id="news-img"><br>
+            </figure>
+
+            
+            <div id="article-content"></div>
+
+            <hr class="last-hr">
+
+            <section class="tags">
+                </section>
+        </div>
+
+     </section>
+
+<section class="more-news">
+        
+        <div id="related-skeleton-view">
+            <div class="sk-more-hr"></div>
+            <div class="skeleton sk-related-heading"></div>
+
+            <div class="related-articles">
+                <div>
+                    <div class="skeleton sk-related-img"></div>
+                    <div class="skeleton sk-related-title"></div>
+                    <div class="skeleton sk-related-title short"></div>
+                </div>
+                <div>
+                    <div class="skeleton sk-related-img"></div>
+                    <div class="skeleton sk-related-title"></div>
+                    <div class="skeleton sk-related-title short"></div>
+                </div>
+                <div>
+                    <div class="skeleton sk-related-img"></div>
+                    <div class="skeleton sk-related-title"></div>
+                    <div class="skeleton sk-related-title short"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="related-real-view" class="hidden">
+            <h2>Related News</h2>
+            <hr class="more">
+            <div id="related-container" class="related-articles">
+                </div>
+        </div>
+
+     </section>
+
+
+
+
+
+    <!-- footer -->
+    <div id="global-footer"></div>
+
+    <script defer type="module" src="/layout/layout.js"></script>
+    <script type="module" src="article.js"></script>
+    <script src="article-read.js"></script>
+</body>
+</html>

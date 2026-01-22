@@ -1,0 +1,446 @@
+a{
+  text-decoration: none;
+  color: #000;
+}
+
+body{
+  padding: 0;
+  margin: 0;
+}
+
+img{
+  filter: grayscale(100%);
+}
+
+/* article start */
+
+  h1 {
+    font-size: 2rem;
+    margin-top: 4.5rem;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    font-family: "Circular Std", Montserrat, sans-serif;
+  }
+
+  .article-meta{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .date{
+    display: inline-block;
+    margin: 0;
+  }
+
+  .date + hr{
+    margin: 20px 0;
+  }
+
+  .article-meta a{
+    text-decoration:none; 
+    color:inherit; 
+  }
+
+/* Container for the profile row */
+.author-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; 
+    object-fit: cover; /* Ensures image doesn't stretch */
+    border: 1px solid #969494; 
+    filter: grayscale(100%);
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+    gap: 12px; 
+}
+
+.author-name {
+    font-size: 1rem;
+    font-weight: 350;
+    color: #333;
+}
+
+.follow-btn {
+    background-color: transparent;
+    border: 0px solid #aaa; 
+    border-radius: 20px; /* Pill shape */
+    padding: 4px 14px;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.follow-btn:hover {
+    background-color: #e95454;
+    color: white;
+    /* border-color: #711a1a; */
+        border: 0px solid #aaa; 
+
+}
+
+/* Default Style (Unfollowed) */
+.follow-btn {
+    padding: 6px 16px;
+    border: 1px solid #000;
+    background: transparent;
+    color: #000;
+    cursor: pointer;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* Active Style (Followed) */
+.follow-btn.following {
+    background-color: #000;
+    color: #fff;
+    content: "Followed"; /* Optional helper */
+}
+
+  figure{
+    width: 100%;
+    margin: 1rem 0
+  }
+
+  figure img {
+    width: inherit;
+    object-fit: fill;
+    aspect-ratio: 16/10;
+  }
+figcaption {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 0.5rem;
+  }
+
+  .article-actions{
+    display: inline-block;
+  }
+    .article-actions a {
+        margin-left: 1rem;
+        text-decoration: none;
+        color: #000;
+        font-size: 0.9rem;
+    }
+
+    .article-actions a img {
+        width: 16px;
+        height: 16px;
+        margin: 0 0 0.3rem 0.4rem;
+        vertical-align: middle;
+    }
+
+    #article-content {
+        display: block !important;
+        width: 100%;
+        margin: 0 auto;   
+    }
+
+    #article-content p {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px; 
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #333;
+        text-align: left;   
+    }
+
+
+
+/* content  */
+figure+p {
+    margin-top: 1rem;
+    line-height: 1.6;
+    font-size: 1rem;
+    color: #333;
+    text-align: justify;
+  }
+
+.last-hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 2rem 0;
+  }
+
+  .tags {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .article-tags {
+    background-color: #f0f0f0;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #333;
+  }
+    .article-tags:hover {
+        background-color: #e0e0e0;
+    }
+
+/*============= article end ================*/
+
+
+/* ============Related Articles ================*/
+.more{
+    border: none;
+    border-top: 1px solid #ccc;
+    margin-top: 1rem;
+    margin-bottom: 3.5rem;
+}
+
+.more-news {
+    margin: 2rem 0;
+    width: 60%;
+  }
+
+  .more-news h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    font-family: "Roboto", sans-serif;
+    font-weight: 350;
+  }
+
+  .related-articles {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .related-articles div img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .related-articles div h3 {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  @media (max-width: 1210px) {
+    .more-news {
+      width: 70%;
+    }
+  }
+  @media (max-width: 993px) {
+    .more-news {
+      width: 85%;
+    }
+  }
+  @media (max-width: 768px) {
+    .more-news {
+      width: 95%;
+    }  
+  }
+
+
+/* ============Related Articles end=============== */
+
+
+
+/* =========================
+   SKELETON LOADER STYLES
+   ========================= */
+
+/* 1. Animation */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+/* 2. Base Skeleton Class */
+.skeleton {
+    background: #f0f0f0;
+    background-image: linear-gradient(to right, #f0f0f0 0%, #e0e0e0 20%, #f0f0f0 40%, #f0f0f0 100%);
+    background-repeat: no-repeat;
+    background-size: 1000px 100%; 
+    display: block;
+    position: relative;
+    animation: shimmer 1.2s infinite linear forwards;
+    border-radius: 4px;
+}
+
+/* 3. Main Article Shapes */
+.sk-title { height: 40px; width: 90%; margin-top: 4.5rem; margin-bottom: 20px; }
+.sk-date { height: 18px; width: 150px; margin-bottom: 20px; }
+.sk-profile-row { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+.sk-avatar { width: 40px; height: 40px; border-radius: 50%; }
+.sk-author-name { height: 16px; width: 120px; }
+.sk-img { width: 100%; height: 350px; margin: 1rem 0; border-radius: 4px; }
+.sk-text { height: 16px; width: 100%; margin-bottom: 12px; }
+.sk-text-short { height: 16px; width: 70%; margin-bottom: 12px; }
+
+/* 4. Related News Shapes */
+.sk-related-img { width: 100%; height: 180px; margin-bottom: 12px; border-radius: 4px; }
+.sk-related-title { height: 16px; width: 95%; margin-bottom: 8px; }
+.sk-related-title.short { width: 60%; }
+
+/* 5. Utility */
+.hidden { display: none !important; }
+.fade-in { animation: fadeIn 0.5s ease-in; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Ensure skeleton grid matches real grid */
+#related-skeleton { display: grid; gap: 1.5rem; }
+
+/* Add to Skeleton Styles */
+
+.sk-related-heading {
+    height: 28px;      /* Matches <h2> size */
+    width: 180px;      /* Width of "Related News" */
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+}
+
+.sk-more-hr {
+    height: 1px;
+    width: 100%;
+    background-color: #e0e0e0; /* Skeleton gray */
+    border: none;
+    margin: 2rem 0;
+}
+
+/* --- RELATED NEWS IMAGES --- */
+.related-articles div img {
+    max-width: 100%;
+    height: 200px;           /* 1. FORCE FIXED HEIGHT */
+    object-fit: cover;       /* 2. Crop image nicely if it loads */
+    background-color: #e0e0e0; /* 3. Grey background (The "Box" look) */
+    border-radius: 4px;      /* Optional: Round corners */
+    display: block;          /* Removes bottom spacing gap */
+    
+    /* Optional: Hides the ugly "broken image" icon in some browsers */
+    text-indent: -10000px;   
+}
+
+/* --- TABLET (Adjust Height/Width) --- */
+@media (max-width: 992px) {
+    .related-articles div img {
+        height: 160px;       /* Slightly shorter on tablets */
+    }
+}
+
+/* --- MOBILE (Adjust Height/Width) --- */
+@media (max-width: 600px) {
+    .related-articles div img {
+        height: 220px;       /* Taller on mobile because cards are usually full-width */
+        /* width: 100%; (Already inherited, but you can change it here if needed) */
+    }
+}
+
+
+.search-wrapper{
+  display: none;
+}
+
+/* ==========================================
+   RELATED NEWS RESPONSIVE GRID
+   ========================================== */
+
+/* TABLET (max-width: 900px): Switch to 2 columns */
+@media (max-width: 900px) {
+    
+    /* Adjust container width */
+    .more-news {
+        width: 90%; 
+    }
+}
+
+/* MOBILE (max-width: 600px): Switch to 1 column (Stacked) */
+@media (max-width: 600px) {
+    .related-articles {
+        grid-template-columns: 1fr; /* 1 Card per row (Full width) */
+        gap: 2rem;
+    }
+
+    .more-news {
+        width: 92%; /* Maximize space on mobile */
+        margin: 1.5rem auto;
+    }
+
+    .more-news h2 {
+        font-size: 1.3rem;
+        margin-top: 1rem;
+        text-align: left;
+    }
+    
+    /* Ensure text inside cards is readable on mobile */
+    .related-articles div h3 {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+}
+
+/* TABLET (max-width: 900px) - REMOVE or COMMENT OUT the grid change */
+@media (max-width: 900px) {
+    /* .related-articles { grid-template-columns: 1fr 1fr; }  <-- DELETE THIS LINE */
+    
+    .more-news {
+        width: 95%; /* Just adjust width, keep grid same */
+    }
+}
+
+/* MOBILE (max-width: 600px) - Switch strictly to 1 column here */
+@media (max-width: 600px) {
+    .related-articles {
+        grid-template-columns: 1fr; 
+        gap: 2rem;
+    }
+    /* ... rest of mobile styles */
+}
+
+
+/* ==========================================
+   MOBILE: HIDE TEXT, SHOW ICONS ONLY
+   ========================================== */
+
+@media (max-width: 600px) {
+    
+    /* 1. Hide the text "Share" / "Save" */
+    .article-actions a {
+        font-size: 0; 
+        /* This hides the text characters */
+    }
+
+    /* 2. Style the Icon to stand alone */
+    .article-actions a img {
+        /* Since text is gone, we don't need the margin separating them */
+        margin: 0; 
+        
+        /* Optional: Make icons slightly larger for easy tapping */
+        /* Reset any display issues */
+        display: inline-block;
+    }
+    
+    /* 3. Adjust spacing between the standalone icons */
+    .article-actions {
+        display: flex;
+    }
+}
+
+
+

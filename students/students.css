@@ -1,0 +1,250 @@
+        /* --- General Body & Font Styles --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            margin: auto;
+            /* padding: 2rem; */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+        #header {
+            background-color: rgba(255, 255, 255, 0.487);
+            opacity: 0.95;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 0 1px 0;
+            backdrop-filter: blur(20px);
+            width: 100%;
+            height: 7.5vh;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .search-wrapper{
+            display: none;
+        }
+
+
+
+        /* --- Flexbox Centering for Main Content --- */
+
+
+
+        .HOME {
+            height: 92vh;
+            width: 55%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+
+        .name {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 3.2em;
+            font-weight: 300;
+        }
+
+        .HOME + div{
+            max-width: 900px;
+            width: 100%;
+            margin: auto;
+
+        }
+
+        .topic {
+            font-family: "Roboto", sans-serif;
+            font-weight: 200;
+            font-size: 1.4em;
+            text-align: left;
+            margin-left: 1rem;
+        }
+
+
+        .l{
+            position: relative;
+            border: none;
+            border-top: 0.6px solid #ccc;
+            width: 90vw;
+        }
+
+        @media(min-width: 1300px){
+            .l{
+                width: 70vw;
+            }
+        }
+
+
+        /* --- Main Container --- */
+        .AI_intro {
+            max-width: 900px;
+            width: 95%;
+            height: max-content;
+            margin: auto;
+            margin-bottom: 5px;
+            padding: 0 1rem;
+        }
+
+
+        /* --- Typography --- */
+        h1,
+        h2 {
+            font-weight: 750;
+            /* Extra bold weight */
+            margin-top: 0;
+            /* margin-bottom: 0.75rem; */
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 2rem;
+            letter-spacing: 0.01rem;
+            margin: 2rem 0;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin: 1.5rem 0 1.5rem 0;
+            letter-spacing: 0.04rem;
+        }
+
+        .name {
+            text-transform: capitalize;
+            letter-spacing: 0.1rem;
+        }
+
+        .info3 {
+            font-size: 1.1rem;
+            line-height: 1.2;
+            margin-top: 0;
+            margin-bottom: 0.4rem;
+            font-weight: 250;
+            font-family: 'Roboto', sans-serif;
+
+        }
+
+        .footer-link a {
+            text-decoration: none;
+            color: #555555;
+            font-size: 0.9rem;
+        }
+
+        /* --- Utility Classes --- */
+        .text-red {
+            color: #d73634;
+            /* A strong, slightly softer red than pure #FF0000 */
+        }
+
+        .text-red1 {
+            color: rgba(222, 50, 50, 0.75);
+            /* A strong, slightly softer red than pure #FF0000 */
+        }
+
+        .text-red1:hover {
+            color: #d73634;
+        }
+
+        /* --- Layout Sections --- */
+        .intro-section {
+            margin-bottom: 1.6rem;
+        }
+
+        .columns-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            /* Space between the two columns */
+            margin-bottom: 3rem;
+        }
+
+        /* --- Footer Elements --- */
+        footer {
+            margin-top: 2rem;
+        }
+
+        .Line2 {
+            border: none;
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 1rem auto;
+            width: 30%;
+        }
+
+        .footer-link {
+            text-align: center;
+        }
+
+        .footer-link a span {
+            font-size: 1rem;
+        }
+
+        /* --- Responsive Design for Mobile --- */
+        @media (max-width: 768px) {
+            .AI_intro{
+                width: 90%;
+            }
+            .topic{
+                margin-left: 1.6rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            /* Stack columns on top of each other on smaller screens */
+            .columns-container {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+        }
+
+
+
+
+
+
+
+        /* ========.  media QUERY FOR MOBILE ========= */
+
+@media (max-width: 550px) {
+
+    BODY{
+        padding-top: 0;
+
+    }
+
+
+    /* ====. CONTENT ========= */
+    .topic {
+        font-size: 1.2em;
+        align-self: start;
+    }
+
+    .intro-section h1{
+        font-size: 1.5rem;
+    }
+
+    .column h2{
+        font-size: 1.25rem;
+    }
+    .info {
+        font-size: 1rem;
+    }
+
+
+
+}

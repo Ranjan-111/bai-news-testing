@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Newsroom - BAI.NEWS</title>
+    
+    <link rel="stylesheet" href="/layout/layout.css">
+    <link rel="stylesheet" href="/main/index.css">
+    
+    <link rel="stylesheet" href="apply.css">
+</head>
+<body>
+
+    <header class="page-header">
+        <a  class="back-btn">
+         <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="u-turn-to-left" class="back-btn" onclick="history.back()"/>
+        </a>
+        <h1>Join the Newsroom</h1>
+    </header>
+
+    <main class="form-container">
+        
+        <p class="sub-text">Apply to become an official reporter for bai.news. Share your voice with the community.</p>
+
+        <form id="apply-form">
+            
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="inp-name" class="form-input" placeholder="Your Name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="inp-email" class="form-input" placeholder="you@example.com" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="inp-dob" class="form-input" placeholder="1 January 2000">
+            </div>
+
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" id="inp-location" class="form-input" placeholder="Delhi, India">
+            </div>
+
+            <div class="upload-row">
+                
+                <div class="upload-col">
+                    <label>Profile Photo</label>
+                    <div class="file-drop-area" id="drop-zone-photo">
+                        <input type="file" id="inp-file-photo" accept="image/*" hidden>
+                        <div class="drop-content">
+                            <svg class="upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <span class="drop-text">Drop your files here or browse</span>
+                            <span class="drop-subtext">Max file size up to 1 MB</span>
+                        </div>
+                        <img id="preview-photo" class="preview-img hidden">
+                    </div>
+                </div>
+
+                <div class="upload-col">
+                    <label>Sample Articles</label>
+                    <div class="file-drop-area" id="drop-zone-sample">
+                        <input type="file" id="inp-file-sample" accept=".pdf,.doc,.docx" hidden>
+                        <div class="drop-content">
+                            <svg class="upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <span class="drop-text">Drop your files here or browse</span>
+                            <span class="drop-subtext">Max file size up to 1 MB</span>
+                        </div>
+                        <div id="preview-sample-text" class="preview-text hidden"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label>Primary Specialization</label>
+                <select id="inp-spec" class="form-input">
+                    <option value="" disabled selected>Select</option>
+                    <option value="AI & Tech">AI & Tech</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Geopolitics">Geopolitics</option>
+                    <option value="Environment">Environment</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Portfolio / LinkedIn URL</label>
+                <input type="url" id="inp-link" class="form-input" placeholder="https://www.linkedin.com/...">
+            </div>
+
+            <button type="submit" class="submit-btn" id="btn-submit">Submit</button>
+            <div id="status-msg" style="text-align:center; margin-top:15px; font-family:sans-serif;"></div>
+
+        </form>
+    </main>
+
+    <script type="module" src="apply.js"></script>
+
+</body>
+</html>

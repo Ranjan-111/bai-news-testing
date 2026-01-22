@@ -1,0 +1,976 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0px;
+}
+
+/* This targets all elements and makes the tap highlight
+    color completely transparent, effectively removing it. */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img{
+      filter: grayscale(100%);
+}
+
+/* FONT FAMILY */
+p {
+  font-family: "Roboto", sans-serif;
+  font-weight: 150;
+  letter-spacing: 0.8px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: 300;
+  font-family: "Roboto", sans-serif;
+}
+
+
+
+
+.HOME {
+  height: 92vh;
+  width: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+
+.name {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 3.2em;
+  font-weight: 300;
+  margin-top: 0;
+  text-align: center;
+}
+
+@media(max-width: 550px){
+  .name{
+    text-align: left;
+  }
+  #team{
+    opacity: 0.6;
+  }
+}
+
+
+#team {
+  color: rgb(181, 178, 178);
+  margin-top: -35px;
+  font-size: 1.15em;
+}
+
+.topic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 200;
+  font-size: 1.4em;
+}
+
+.main {
+  width: 50%;
+}
+
+.Line1 {
+  position: absolute;
+  border: none;
+  border-top: 0.5px solid #ccc;
+  width: 70vw;
+  left: 15vw;
+  /* margin: 10px auto; */
+}
+
+
+.Article {
+  height: 17em;
+  width: 110%;
+  display: flex;
+  margin-left: -3em;
+
+}
+
+.RIGHT {
+  flex-direction: row-reverse;
+}
+
+.img {
+  height: 220px;
+  width: 370px;
+  border-radius: 6%;
+}
+
+.img2 {
+  height: 230px;
+}
+
+h3 {
+  font-family: "Circular Std", "Montserrat", sans-serif;
+  text-transform: uppercase;
+}
+
+.date {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: rgb(188, 3, 3);
+  font-weight: 390;
+  margin-top: -16px;
+  font-size: 85%;
+}
+
+.date+p {
+    display: -webkit-box;
+    -webkit-line-clamp: 7; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis}
+
+.info1 {
+  padding: 10px;
+  width: inherit;
+}
+
+.info2 {
+  padding: 10px;
+  text-align: right;
+  width: inherit;
+
+}
+
+
+.PAGE {
+  height: none;
+  width: 100%;
+}
+.page1 {
+  margin-bottom: 7rem;
+}
+/* =========================article responsive=========== */
+
+@media (max-width: 992px) {
+  .Article {
+    width: 100%;
+    margin-left: 0;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+
+  }
+
+  .img {
+    width: 300px;
+    height: auto;
+  }
+
+  .RIGHT {
+    flex-direction: column;
+  }
+
+  .info1,
+  .info2 {
+    text-align: center;
+    padding: 0 15px;
+  }
+
+  .img {
+    width: 90%;
+    height: auto;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .Article {
+    width: 100%;
+    margin-left: 0;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+
+  }
+
+  .img {
+    width: 300px;
+    height: auto;
+  }
+
+  .RIGHT {
+    flex-direction: column;
+  }
+
+  .info1,
+  .info2 {
+    text-align: center;
+    padding: 0 15px;
+  }
+
+  .img {
+    width: 90%;
+    height: auto;
+  }
+
+}
+
+@media(min-width: 993px) {
+  .info{
+    margin: 0 2rem;
+  }
+}
+
+
+@media(max-width: 1210px) and (min-width: 993px) {
+  .main {
+    width: 60%;
+    margin: auto;
+  }
+}
+
+@media(max-width: 993px) and (min-width: 600px) {
+  .main {
+    width: 70%;
+    margin: auto;
+  }
+}
+
+/* =========================article responsive END=========== */
+
+.line-with-text {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: red;
+  font-size: 1.2rem;
+}
+
+.line-with-text::before,
+.line-with-text::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+  /* line color */
+  margin: 0 1rem;
+  /* space between text and lines */
+}
+
+.line2 {
+  width: 60%;
+  margin: auto;
+}
+
+.line3 {
+  width: 40%;
+  margin: auto;
+  margin-bottom: 20px;
+  border: none;
+  border-top: 1.4px solid #ccc;
+}
+
+.link1 {
+  text-decoration: none;
+  color: rgb(79, 30, 30);
+  font-weight: 300;
+  font-family: "Roboto", sans-serif;
+}
+
+.link1:hover {
+  color: rgb(223, 8, 8);;
+}
+
+
+
+/*=================== TIMELINE CSS from style1.css ================== */
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 2rem 0;
+  padding-left: 8rem;
+  /* space for time column */
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 8rem;
+  /* line position between time and content */
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #ccc;
+  /* line color */
+}
+
+.timeline-item {
+  display: flex;
+  /* margin-bottom: 2rem; */
+  position: relative;
+}
+
+.time {
+  position: absolute;
+  left: -8rem;
+  /* place on left side */
+  width: 6rem;
+  height: 100%;
+  text-align: center;
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: #333;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.news-card {
+  max-width: 600px;
+}
+
+.news-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 350;
+  text-transform: initial;
+}
+
+.news-card p {
+  margin: 0.3rem 0;
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+}
+
+/* hover news style======= */
+.news-card {
+  /* border-bottom: 1px solid #ddd; */
+  padding: 1rem 0;
+  padding-left: 80px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  /* background-color: yellowgreen; */
+}
+
+
+.details {
+  max-height: 0;
+  /* hidden initially */
+  overflow: hidden;
+  /* hide content */
+  opacity: 0;
+  /* invisible */
+  transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+  /* 2. Add scrollbar only when content overflows vertically */
+  overflow-y: auto;
+  /* --- Add this to hide the scrollbar --- */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollable-box::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, and Opera */
+}
+
+.news-card:hover .details {
+  max-height: 200px;
+  /* enough to show the content */
+  opacity: 1;
+}
+
+.news-card:hover {
+  border-left: 1.5px solid black;
+}
+
+.time:hover + .news-card .details {
+  max-height: 200px;
+  /* enough to show the content */
+  opacity: 1;
+}
+
+.time:hover + .news-card {
+  border-left: 1.5px solid black;
+}
+
+
+/* =============---------Highlights START---------=========== */
+
+.highlights {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Two columns on large screens */
+  gap: 3rem;
+  margin: auto;
+  margin-top: 3rem;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  line-height: 1.6;
+}
+
+.right {
+  margin-top: 5%;
+}
+
+.column h1 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin: 2rem 0 3rem;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: -1px;
+}
+
+.column .item {
+  margin-bottom: 1rem;
+}
+
+.column .item h2 {
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.column .item p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.date1 {
+  color: #d44;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  margin-top: 1.35rem;
+}
+
+
+/* 📱 Responsive for small screens */
+@media (max-width: 993px) {
+  .highlights {
+    grid-template-columns: 1fr;
+    /* Stack in one column */
+    gap: 0;
+  }
+
+  .date1 {
+    text-align: left;
+    /* Align date to left on small screens */
+    margin-top: 1rem;
+    display: none;
+  }
+
+  .column h1 {
+    font-size: 1.5rem;
+  }
+
+  .right {
+    margin-top: 0%;
+  }
+
+  .left {
+    margin-bottom: 0%;
+  }
+}
+
+/* ===========-------Highlights END-------=========== */
+
+
+
+
+
+
+/* ======. MEDIA QUERY FOR MOBILE ====== */
+
+
+@media (max-width: 600px) {
+
+  .link1 {
+    font-size: 0.98rem;
+  }
+
+  .Line1 {
+    width: 100vw;
+    left: 0;
+  }
+
+  .topic {
+    font-size: 0.95rem;
+  }
+
+  .HOME {
+    height: 93vh;
+  }
+
+
+
+  p {
+    font-weight: 300;
+  }
+
+
+
+
+
+
+
+
+
+
+
+  /* page width adjustments */
+  .main {
+    width: 90%;
+    overflow-wrap: break-word;
+  }
+
+
+  /* LATEST NEWS PAGE */
+
+  /* news timeline hover */
+  .news-card:focus .details {
+    max-height: max-content;
+    /* enough to show the content */
+    opacity: 1;
+  }
+
+  .news-card:focus {
+    border-left: 1.5px solid black;
+  }
+
+  .timeline {
+    padding-left: 6.5rem;
+  }
+
+  .timeline::before {
+    left: 6.5rem;
+  }
+
+  .news-card h3 {
+    font-size: 1rem;
+  }
+
+  .time {
+    left: -7rem;
+    width: 5rem;
+    font-size: 1rem;
+  }
+
+  .details em {
+    /* gvuyuhi */
+    font-size: 0.86rem;
+    line-height: 0.1px;
+    letter-spacing: 0.1px;
+  }
+
+  .info p {
+    font-size: 0.9rem;
+  }
+
+
+  /* feature page */
+  .img {
+    width: 100%;
+  }
+
+  figure {
+    width: 100%;
+    margin: 0;
+  }
+
+  .info1,
+  .info2 {
+    text-align: left;
+    margin-top: -25px;
+  }
+
+  .news-card {
+    padding-left: 20px;
+  }
+
+  .line3 {
+    margin: 30px 100px;
+  }
+
+  .info h3 {
+    font-size: 16px;
+  }
+
+  .date+p {
+    font-size: 0.8rem;
+  }
+
+  .date {
+    font-size: 0.77rem;
+  }
+
+  .img {
+    border-radius: 10px;
+  }
+
+
+
+
+  /* TOP NEWS PAGE */
+
+  .highlights {
+    margin: 1rem;
+    gap: 1.5rem;
+  }
+
+  .column h1 {
+    font-size: 1.3rem;
+  }
+
+  .column .item h2 {
+    font-size: 0.9rem;
+
+  }
+
+  .column .item p {
+    font-size: 0.9rem;
+    line-height: 17px;
+    letter-spacing: 0.5px;
+  }
+
+  .column .item {
+    margin-bottom: 0;
+  }
+
+
+}
+
+
+
+
+/* =========================
+   SKELETON LOADER STYLES
+   ========================= */
+
+/* 1. Animation */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+/* 2. Base Skeleton Class */
+.skeleton {
+    background: #f0f0f0;
+    background-image: linear-gradient(to right, #f0f0f0 0%, #e0e0e0 20%, #f0f0f0 40%, #f0f0f0 100%);
+    background-repeat: no-repeat;
+    background-size: 1000px 100%; 
+    display: block;
+    position: relative;
+    animation: shimmer 1.2s infinite linear forwards;
+    border-radius: 4px;
+}
+
+/* 3. Featured Section Shapes */
+.sk-feat-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem; /* Matches your layout spacing */
+}
+
+.sk-feat-article {
+    display: flex;
+    gap: 2rem;
+    margin-left: -3em; /* Match your .Article margin */
+    width: 110%;
+    align-items: flex-start;
+}
+
+.sk-feat-article.right {
+    flex-direction: row-reverse;
+}
+
+.sk-feat-img {
+    width: 370px;
+    height: 220px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.sk-feat-info {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sk-feat-title { height: 28px; width: 80%; margin-bottom: 1rem; }
+.sk-feat-date { height: 14px; width: 100px; margin-bottom: 1rem; }
+.sk-feat-summary { height: 14px; width: 100%; margin-bottom: 8px; }
+.sk-feat-summary.short { width: 70%; }
+
+
+/* 4. Latest News Timeline Shapes */
+.sk-timeline-item {
+    display: flex;
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 0; 
+}
+
+.sk-time {
+    position: absolute;
+    left: -8rem;
+    width: 6rem;
+    height: 20px;
+    margin-top: 5px;
+}
+
+.sk-news-card {
+    width: 100%;
+    max-width: 600px;
+}
+
+.sk-news-title { height: 20px; width: 70%; margin-bottom: 10px; }
+.sk-news-detail { height: 12px; width: 90%; margin-bottom: 6px; }
+
+
+/* 5. Responsive Adjustments */
+@media (max-width: 992px) {
+    .sk-feat-article {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-left: 0;
+    }
+    .sk-feat-article.right { flex-direction: column; }
+    .sk-feat-img { width: 90%; height: 200px; }
+    .sk-feat-info { width: 90%; align-items: center; }
+}
+
+@media (max-width: 600px) {
+    .sk-time {
+        left: -6rem;
+        width: 4rem;
+    }
+}
+
+/* 6. Utility */
+.hidden { display: none !important; }
+.fade-in { animation: fadeIn 0.5s ease-in; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Add to bottom of index.css */
+
+.sk-topic {
+    height: 30px;      /* Matches font size of 'Latest news' */
+    width: 200px;      /* Width of the text */
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+}
+
+.sk-line {
+    height: 1px;
+    width: 70vw;       /* Matches your .Line1 width */
+    margin-left: 15vw; /* Matches your .Line1 left position */
+    background-color: #e0e0e0;
+    border: none;
+}
+
+/* Adjust the timeline inside skeleton to give space for the header */
+#latest-skeleton-view .timeline {
+    margin-top: 2rem;
+}
+
+/* Mobile adjustments for the skeleton line */
+@media (max-width: 550px) {
+    .sk-line {
+        width: 100vw;
+        left: 0;
+        margin-left: 0;
+    }
+}
+
+
+
+/* =========================================
+   MOBILE INTERACTION STATES
+   ========================================= */
+
+/* When JS adds the 'active' class, show details */
+.news-card.active .details {
+    max-height: 400px; /* Large enough to fit text */
+    opacity: 1;
+    margin-top: 10px;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+/* Add the border highlight */
+.news-card.active {
+    border-left: 1.5px solid black;
+}
+
+
+.time{
+    cursor: pointer;
+}
+
+
+/* ... (Existing styles) ... */
+
+/* =========================================
+   1. TOP PROMO BANNER
+   ========================================= */
+.promo-banner {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 12px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 100;
+    letter-spacing: 0.3px;
+    width: 100%;
+    box-sizing: border-box;
+    /* Ensure it sits on top of everything */
+    position: relative; 
+    z-index: 1001; 
+}
+
+/* =========================================
+   2. APPLY POPUP (Bottom Right Float)
+   ========================================= */
+.apply-popup-wrapper {
+    position: fixed;
+    bottom: 30px;
+    right: 25vw;
+    z-index: 2000; /* Above everything */
+    animation: slideInUp 0.5s ease-out;
+}
+
+.apply-popup-card {
+    background-color: #fff;
+    width: 280px;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 11px rgba(0,0,0,0.15);
+    text-align: center;
+    position: relative;
+}
+
+.apply-text {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #111;
+    margin-bottom: 20px;
+    font-weight: 400;
+    text-align: left;
+    letter-spacing: 0;
+}
+
+.apply-btn-red {
+    display: block;
+    width: 100%;
+    background-color: #b93b3b; /* Match your theme red */
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 0;
+    border-radius: 6px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: opacity 0.2s;
+}
+
+.apply-btn-red:hover {
+    opacity: 0.9;
+    color: white;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+/* Animation */
+@keyframes slideInUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Mobile: Banner text smaller, Popup centered */
+@media (max-width: 600px) {
+    .promo-banner {
+        font-size: 0.7rem;
+        padding: 10px;
+    }
+
+    .apply-popup-wrapper {
+        bottom: 20px;
+        right: 50%;
+        transform: translateX(50%); /* Center horizontally */
+        width: 90%;
+        max-width: 350px;
+        animation: slideInUpMobile 0.5s ease-out forwards;
+    }
+    
+    @keyframes slideInUpMobile {
+        from { bottom: -100px; transform: translateX(50%); opacity: 0; }
+        to { bottom: 20px; transform: translateX(50%); opacity: 1; }
+    }
+}
+
+/* MOBILE RESPONSIVENESS FOR APPLY POPUP*/
+@media (max-width: 600px) {
+    .apply-popup-wrapper {
+        /* Center the popup horizontally */
+        right: 50%; 
+        bottom: 20px; /* Reduced bottom margin */
+        width: 90%;   /* Take up most of the screen width */
+        max-width: 350px;
+        
+        /* Move it right by 50% of its own width to center it perfectly */
+        transform: translateX(50%); 
+        
+        /* Use a specific mobile animation that preserves the centering */
+        animation: slideInUpMobile 0.5s ease-out forwards;
+    }
+
+    .apply-popup-card {
+        padding: 20px; /* Slightly less padding on mobile */
+    }
+
+    .apply-text {
+        font-size: 0.9rem; /* Slightly smaller text */
+    }
+
+    /* Animation specifically for Mobile (Keeping the X-axis transform) */
+    @keyframes slideInUpMobile {
+        from { 
+            transform: translate(50%, 50px); /* Start lower */
+            opacity: 0; 
+        }
+        to { 
+            transform: translate(50%, 0); /* End at final centered position */
+            opacity: 1; 
+        }
+    }
+}
+
+.hidden { display: none !important; }

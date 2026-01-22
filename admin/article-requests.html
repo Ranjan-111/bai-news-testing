@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Article Requests - BAI.NEWS</title>
+    <link rel="stylesheet" href="/layout/layout.css">
+    <style>
+        /* 1. Global Reset & Fonts */
+        body { 
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+            background: #fff; 
+            color: #333; 
+            margin: 0; 
+        }
+
+        /* 2. HEADER STYLES */
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0; 
+            height: 67px;
+            z-index: 1000;
+            box-shadow: 0 0 1px 0;
+        }
+
+        .header-back-btn {
+            position: absolute;
+            left: 20px; 
+            color: #000;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+        }
+
+        .admin-header h1 {
+            font-size: 1.25rem; 
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        /* 3. LAYOUT CONTAINER */
+        .admin-container { 
+            max-width: 900px; /* Slightly wider to accommodate big images */
+            margin: 0 auto; 
+            padding: 20px; 
+            padding-top: 50px;
+        }
+
+        /* 4. WARNING TEXT */
+        .warning-box {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 60px;
+        }
+        .sub-warning { 
+            color: #d73634; 
+            font-size: 1rem; 
+            font-weight: 400; 
+            margin: 0;
+            letter-spacing: 0.3px;
+        }
+
+        /* 5. LIST VIEW STYLES (PRECISE MATCH) */
+        .date-divider { 
+            font-size: 1.1rem; 
+            font-weight: 400; 
+            margin-top: 50px; 
+            margin-bottom: 25px; 
+            border-bottom: 1px solid #e0e0e0; 
+            padding-bottom: 10px; 
+            display: block;
+            color: #000;
+        }
+
+        .req-card {
+            background-color: #f0f0f0; /* Exact light grey from image */
+            border-radius: 12px;       /* Softer corners */
+            margin-bottom: 25px;       /* More space between cards */
+            display: flex;
+            gap: 25px;                 /* Bigger gap between image and text */
+            cursor: pointer;
+            transition: background 0.2s;
+            padding: 25px;             /* Bigger internal spacing */
+            align-items: flex-start;   /* Align items to top */
+            min-height: 160px;
+        }
+        .req-card:hover { background-color: #e6e6e6; }
+
+        /* BIGGER IMAGE */
+        .card-img {
+            width: 260px;              /* Exact requested "Big" width */
+            height: 180px;             /* Rectangular aspect ratio */
+            object-fit: cover;
+            border-radius: 8px;
+            background: #d9d9d9;       /* Placeholder grey */
+            flex-shrink: 0;
+            filter: grayscale(100%);
+        }
+
+        .card-content { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-start; /* Top align */
+            height: 100%;
+        }
+
+        /* TYPOGRAPHY */
+        .card-title { 
+            font-weight: 800;          /* Extra Bold */
+            font-size: 1.1rem; 
+            margin-bottom: 6px; 
+            text-transform: uppercase; 
+            color: #000;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+            margin-top: 10.5px;
+        }
+
+        .card-meta { 
+            font-size: 0.9rem; 
+            color: #777;               /* Lighter opacity grey */
+            margin-bottom: 12px; 
+            margin-top: 6px;
+            font-weight: 400; 
+        }
+
+        .card-summary { 
+            font-size: 0.95rem; 
+            color: #666;               /* Darker grey for text */
+            margin-bottom: 15px; 
+            line-height: 1.5;
+            
+            /* EXACT 2 LINE LIMIT */
+            display: -webkit-box; 
+            -webkit-line-clamp: 2; 
+            -webkit-box-orient: vertical; 
+            overflow: hidden; 
+        }
+        
+        .status-line { 
+            font-size: 1rem; 
+            color: #000; 
+            margin-top: auto;          /* Push to bottom if space permits */
+        }
+        .status-val { font-weight: 700; }
+        .status-red { color: #d73634; }
+        .status-black { color: #000; }
+
+        /* 6. DETAIL VIEW FORM STYLES */
+        .form-group { margin-bottom: 25px; }
+        .form-label { display: block; margin-bottom: 8px; font-size: 0.95rem; color: #222; }
+        
+        .edit-input {
+            width: 100%; padding: 16px;
+            background-color: #f2f2f2;
+            border: none; border-radius: 8px;
+            font-family: inherit; font-size: 0.95rem; color: #333;
+            box-sizing: border-box; outline: none;
+        }
+        .edit-textarea { line-height: 1.6; }
+        .summary-textarea { min-height: 80px;}
+
+        .edit-textarea, .summary-textarea {
+            field-sizing: content; /* Automatically grows to fit text */
+            min-height: 80px;
+            resize: none;
+        }
+
+        .img-edit-area {
+            background-color: #f2f2f2;
+            border-radius: 8px;
+            min-height: 200px;
+            display: flex;
+            align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+            cursor: pointer;
+            filter: grayscale(100%);
+            aspect-ratio: 16/10;
+        }
+        .current-img { width: 100%; height: auto; display: block; }
+        .upload-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); color: white;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.2s; font-size: 0.9rem;
+        }
+        .img-edit-area:hover .upload-overlay { opacity: 1; }
+
+        .action-row { display: flex; gap: 15px; margin-top: 40px; }
+        .btn-approve { flex: 1; background: #000; color: #fff; padding: 15px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+        .btn-reject { flex: 1; background: #fff; color: #d73634; border: 1px solid #d73634; padding: 15px; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+        
+        .feature-row { margin-top: 20px; display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid #eee; }
+        .feature-checkbox { width: 20px; height: 20px; accent-color: #d73634; cursor: pointer; }
+        .feature-label { font-size: 1rem; color: #000; cursor: pointer; }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div id="list-view">
+        <header class="admin-header">
+            <a href="/main/index.html"><h1>Pending Article Requests</h1></a>
+        </header>
+
+        <div class="admin-container">
+            <div class="warning-box">
+                <p class="sub-warning">Only Approve <strong>10</strong> articles per day.</p>
+            </div>
+
+            <div id="loading" style="text-align:center; color:#999; margin-top: 50px;">Loading...</div>
+            <div id="list-content">
+                </div>
+        </div>
+    </div>
+
+    <div id="detail-view" class="hidden">
+        <header class="admin-header">
+            <img src="https://img.icons8.com/pixels/32/u-turn-to-left.png" 
+                 class="header-back-btn" 
+                 id="back-btn" 
+                 alt="Back">
+            <a href="/main/index.html"><h1>Article Review</h1></a>
+        </header>
+
+        <div class="admin-container">
+            <form id="edit-form">
+                <div class="form-group">
+                    <label class="form-label">Title</label>
+                    <input type="text" id="edit-title" class="edit-input">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="edit-author" class="edit-input" readonly style="color:#777;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Date Posted</label>
+                    <input type="text" id="edit-date" class="edit-input" readonly style="color:#777;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Image (Click to Change)</label>
+                    <div class="img-edit-area" id="img-drop-zone">
+                        <img id="edit-img-preview" class="current-img" src="">
+                        <div class="upload-overlay">Click to replace image</div>
+                        <input type="file" id="edit-file-input" accept="image/*" hidden>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Content</label>
+                    <textarea id="edit-content" class="edit-input edit-textarea"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Summary (50 words)</label>
+                    <textarea id="edit-summary" class="edit-input summary-textarea"></textarea>
+                </div>
+
+                <div class="feature-row">
+                    <input type="checkbox" id="check-featured" class="feature-checkbox">
+                    <label for="check-featured" class="feature-label">Mark as Featured</label>
+                </div>
+
+                <div class="action-row">
+                    <button type="button" class="btn-approve" id="btn-publish">Approval & Publish</button>
+                    <button type="button" class="btn-reject" id="btn-reject-final">Reject</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="cropper-modal" class="hidden">
+        <div class="cropper-content">
+            <h3>Adjust Image</h3>
+            <p>Drag to reposition. Use slider to zoom.</p>
+            
+            <div class="crop-container">
+                <img id="cropper-img" src="" alt="To Crop">
+            </div>
+
+            <div class="cropper-controls">
+                <label>Zoom:</label>
+                <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1">
+            </div>
+
+            <div class="cropper-actions">
+                <button type="button" id="btn-cancel-crop">Cancel</button>
+                <button type="button" id="btn-save-crop">Crop & Save</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module" src="article-requests.js"></script>
+
+</body>
+</html>

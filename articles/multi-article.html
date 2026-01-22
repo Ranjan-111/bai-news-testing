@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Article Page</title>
+    <link rel="stylesheet" href="/layout/layout.css">
+    <link rel="stylesheet" href="/main/index.css">
+        <link rel="stylesheet" href="multi-article.css">
+
+</head>
+<body>
+    <!-- HEADER AND NAVIGATION BAR -->
+    <div id="global-header"></div>
+
+        <!-- Multi article  -->
+<main class="ma-main">
+
+        <p class="topic">Latest Articles</p>
+        <hr class="Line1">
+
+        <section id="skeleton-view" class="articles-container">
+            <div class="sk-card">
+                <div class="skeleton sk-title"></div>
+                <div class="skeleton sk-date"></div>
+                <div class="skeleton sk-summary"></div>
+                <div class="skeleton sk-summary"></div>
+                <div class="skeleton sk-summary short"></div>
+            </div>
+            <hr class="sk-hr">
+
+            <div class="sk-card">
+                <div class="skeleton sk-title"></div>
+                <div class="skeleton sk-date"></div>
+                <div class="skeleton sk-summary"></div>
+                <div class="skeleton sk-summary short"></div>
+            </div>
+            <hr class="sk-hr">
+
+            <div class="sk-card">
+                <div class="skeleton sk-title"></div>
+                <div class="skeleton sk-date"></div>
+                <div class="skeleton sk-summary"></div>
+                <div class="skeleton sk-summary"></div>
+            </div>
+            <hr class="sk-hr">
+
+            <div class="sk-card">
+                <div class="skeleton sk-title"></div>
+                <div class="skeleton sk-date"></div>
+                <div class="skeleton sk-summary"></div>
+                <div class="skeleton sk-summary"></div>
+            </div>
+            <hr class="sk-hr">
+
+            <div class="sk-card">
+                <div class="skeleton sk-title"></div>
+                <div class="skeleton sk-date"></div>
+                <div class="skeleton sk-summary"></div>
+                <div class="skeleton sk-summary"></div>
+            </div>
+            <hr class="sk-hr">
+            <div class="sk-card">
+                <div class="skeleton sk-title"></div>
+                <div class="skeleton sk-date"></div>
+                <div class="skeleton sk-summary"></div>
+                <div class="skeleton sk-summary short"></div>
+            </div>
+            <hr class="sk-hr">
+
+        </section>
+
+        <section class="articles-container hidden" id="articles-list">
+            </section>
+
+    </main>
+
+
+    <!-- Pagination Container -->
+    <div class="pagination-bar">
+        <div class="pagination-wrapper">
+            
+            <button onclick="changePage('prev')" class="arrow-btn" aria-label="Previous Page">
+                <svg viewBox="0 0 24 24"><path d="M2 12l20 10V2z"/></svg>
+            </button>
+
+            <div id="pages-container"></div>
+
+            <button onclick="changePage('next')" class="arrow-btn" aria-label="Next Page">
+                <svg viewBox="0 0 24 24"><path d="M22 12l-20 10V2z"/></svg>
+            </button>
+
+        </div>
+    </div>
+
+
+
+    <!-- footer -->
+         <div id="global-footer"></div>
+
+    <script defer type="module" src="/layout/layout.js"></script>
+    <script type="module" src="multi-article.js"></script>
+</body>
+</html>

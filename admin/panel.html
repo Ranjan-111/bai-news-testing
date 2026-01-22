@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - BAI.NEWS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 1. Global Reset & Fonts */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #fff;
+            color: #111;
+            line-height: 1.6;
+        }
+
+        /* 2. HEADER STYLES */
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+            background: #fff;
+            height: 67px;
+            box-shadow: 0 0 1px 0;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px; 
+            color: #000;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .panel-header h1 {
+            font-size: 1.25rem; 
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        /* 3. LAYOUT & CARD STYLES */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .request-card { 
+            border: 1px solid #eee; 
+            padding: 20px; 
+            margin-bottom: 15px; 
+            border-radius: 8px; 
+            display: flex; 
+            align-items: center; 
+            background: #f9f9f9;
+            transition: all 0.2s;
+            cursor: pointer; /* Clickable cursor */
+            gap: 20px;
+        }
+        .request-card:hover {
+            background: #fff;
+            border-color: #ddd;
+        }
+
+        /* Author Image in List */
+        .req-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #e0e0e0;
+            flex-shrink: 0;
+            border: 1px solid #ddd;
+        }
+
+        .request-info { flex: 1; }
+        .request-info h3 { font-size: 1rem; margin-bottom: 2px; font-weight: 600; }
+        .request-info p { font-size: 0.85rem; color: #666; margin: 0; }
+
+        .btn-approve { 
+            background: #000; 
+            color: #fff; 
+            border: none; 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            border-radius: 6px; 
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .btn-approve:hover { background: #333; }
+        
+        /* 4. MODAL STYLES */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            padding: 30px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-card { transform: scale(1); }
+
+        .close-icon {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+            transition: color 0.2s;
+        }
+        .close-icon:hover { color: #000; }
+
+        /* Detail View Styles */
+        .detail-header { text-align: center; margin-bottom: 20px; }
+        .detail-img { 
+            width: 100px; height: 100px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            margin-bottom: 10px; 
+            border: 2px solid #eee;
+        }
+        .detail-name { font-size: 1.3rem; font-weight: 600; margin-bottom: 5px; }
+        .detail-email { font-size: 0.9rem; color: #666; }
+
+        .detail-body { text-align: left; }
+        .detail-item { margin-bottom: 15px; border-bottom: 1px solid #f5f5f5; padding-bottom: 10px; }
+        .detail-label { font-size: 0.75rem; text-transform: uppercase; color: #888; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .detail-value { font-size: 1rem; color: #222; word-break: break-word; }
+        .detail-value a { color: #d73634; text-decoration: none; }
+        .detail-value a:hover { text-decoration: underline; }
+
+        .modal-actions { margin-top: 25px; display: flex; gap: 10px; }
+        .btn-full-width { width: 100%; padding: 12px; font-size: 1rem; }
+    </style>
+</head>
+<body>
+
+    <header class="panel-header">
+        
+        <a href="/main/index.html"><h1>Reporter Applications</h1></a>
+    </header>
+
+    <main class="container">
+        <div id="requests-list">
+            <p style="text-align:center; color:#888; margin-top: 40px;">Loading applications...</p>
+        </div>
+    </main>
+
+    <div id="detailModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="close-icon" onclick="closeModal()">&times;</div>
+            
+            <div id="modalContent">
+                </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getFirestore, collection, query, where, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { app } from '/Article/firebase-db.js';
+        
+        const db = getFirestore(app);
+        const GOOGLE_SCRIPT_URL = "YOUR_SCRIPT_URL_HERE"; 
+
+        // Store fetched data to access details later
+        let pendingRequests = [];
+
+        async function loadRequests() {
+            const container = document.getElementById('requests-list');
+            
+            const q = query(collection(db, "authors"), where("status", "==", "pending"));
+            const snap = await getDocs(q);
+
+            container.innerHTML = ''; 
+            pendingRequests = []; // Reset list
+
+            if (snap.empty) {
+                container.innerHTML = "<p style='text-align:center; color:#666; margin-top:40px;'>No pending applications.</p>";
+                return;
+            }
+
+            // FIX: Use snap.docs.forEach to get the index (Fixes the "Not Clickable" error)
+            snap.docs.forEach((docSnap, index) => {
+                const data = docSnap.data();
+                const docId = docSnap.id;
+                
+                // Store full object for the modal
+                pendingRequests.push({ id: docId, ...data });
+
+                // Use placeholder if no photo
+                const photo = data.photoURL || '/assets/profile Image.png';
+
+                const div = document.createElement('div');
+                div.className = 'request-card';
+                // Add click event to open modal
+                div.onclick = () => openDetailModal(index);
+
+                div.innerHTML = `
+                    <img src="${photo}" class="req-thumb" alt="User">
+                    <div class="request-info">
+                        <h3>${data.displayName}</h3>
+                        <p>${data.email}</p>
+                        <p style="font-size:0.8rem; color:#888;">${data.specialization || 'General'}</p>
+                    </div>
+                    <button class="btn-approve" onclick="event.stopPropagation(); approveReporter('${docId}', '${data.displayName}', '${data.email}')">
+                        Approve
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // --- GLOBAL FUNCTIONS FOR HTML ACCESS ---
+
+        window.openDetailModal = (index) => {
+            const data = pendingRequests[index];
+            
+            // Safety check
+            if (!data) {
+                console.error("No data found for index:", index);
+                return;
+            }
+
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('modalContent');
+            const photo = data.photoURL || '/assets/profile Image.png';
+
+            // UPDATED: Fields changed as requested
+            content.innerHTML = `
+                <div class="detail-header">
+                    <img src="${photo}" class="detail-img">
+                    <div class="detail-name">${data.displayName}</div>
+                    <div class="detail-email">${data.email}</div>
+                </div>
+                
+                <div class="detail-body">
+                    <div class="detail-item">
+                        <div class="detail-label">Specialization</div>
+                        <div class="detail-value">${data.specialization || 'N/A'}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Date of Birth</div>
+                        <div class="detail-value">${data.dob || 'N/A'}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">${data.location || 'N/A'}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-label">Portfolio / LinkedIn URL</div>
+                        <div class="detail-value">
+                            ${data.portfolioLink ? `<a href="${data.portfolioLink}" target="_blank">${data.portfolioLink}</a>` : 'N/A'}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn-approve btn-full-width" onclick="approveReporter('${data.id}', '${data.displayName}', '${data.email}')">
+                        Approve Reporter
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        };
+
+        window.closeModal = () => {
+            document.getElementById('detailModal').classList.remove('active');
+        };
+
+        // Close on outside click
+        window.onclick = (event) => {
+            const modal = document.getElementById('detailModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
+        window.approveReporter = async (docId, name, email) => {
+            if(!confirm(`Approve ${name} as a Reporter?`)) return;
+
+            // Close modal if open
+            closeModal();
+
+            try {
+                // 1. Update DB
+                await updateDoc(doc(db, "authors", docId), { status: "active", role: "author" });
+                await updateDoc(doc(db, "users", email), { role: "author" });
+
+                // 2. PREPARE EMAIL HTML
+                const emailHtml = `
+                <!DOCTYPE html>
+                <html>
+                <body style="margin:0;padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background-color:#ffffff;color:#333;">
+                    <div style="max-width:600px;margin:0 auto;padding-top:40px;">
+                        <div style="text-align:center;margin-bottom:30px;">
+                            <span style="font-size:24px;color:#000;">bai.news</span>
+                        </div>
+                        <hr style="border:none;border-top:1px solid #e0e0e0;margin:0 0 40px 0;">
+                        <div style="padding:0 20px;">
+                            <p style="font-size:16px;line-height:1.6;margin-bottom:25px;">Hi ${name},</p>
+                            <p style="font-size:16px;line-height:1.6;margin-bottom:25px;"><strong>Congratulations!</strong> We’ve received your application and we are thrilled to officially welcome you to the bai.news newsroom.</p>
+                            <ul style="font-size:16px;line-height:1.6;margin-bottom:25px;padding-left:20px;">
+                                <li style="margin-bottom:15px;"><strong>Review our Style Guide:</strong> Check out our <a href="https://bai.news/others/privacy-policy.html" style="color:#333;text-decoration:underline;">Guidelines</a>.</li>
+                                <li style="margin-bottom:15px;"><strong>Submit Your First Lead:</strong> Head over to your <a href="https://bai.news/profile pages/user.html" style="color:#333;text-decoration:underline;">Dashboard</a> to start.</li>
+                            </ul>
+                            <p style="font-size:16px;line-height:1.6;margin-bottom:60px;">Happy reporting,<br><br><strong>bai.team</strong></p>
+                        </div>
+                        <div style="background-color:#000;color:#fff;padding:30px 20px;text-align:center;font-size:12px;">
+                            <p style="margin:0;">&copy; 2025 bai.news. All rights reserved.</p>
+                        </div>
+                    </div>
+                <\/body>
+                <\/html>
+                `;
+
+                // 3. Send Email
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    body: JSON.stringify({
+                        type: "approve",
+                        email: email,
+                        htmlTemplate: emailHtml
+                    })
+                });
+
+                alert("User Approved & Email Sent!");
+                loadRequests(); 
+
+            } catch (e) {
+                console.error(e);
+                alert("Error: " + e.message);
+            }
+        };
+
+        // Initialize
+        loadRequests();
+    </script>
+</body>
+</html>
