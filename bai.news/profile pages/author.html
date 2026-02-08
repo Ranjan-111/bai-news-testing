@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Profile | BAI.NEWS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Circular+Std:wght@400;500;700&family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/layout/layout.css">
+    <link rel="stylesheet" href="author.css">
+</head>
+<body>
+
+    <div id="global-header"></div>
+
+    <main class="profile-container">
+
+        <div id="p-banner" class="profile-banner" style="background-color: #1a1a1a;"></div>
+        
+        <section class="profile-header">
+            <div class="header-content">
+                <div class="profile-img-container">
+                    <img src="/assets/default-user.png" alt="Author" id="p-image">
+                </div>
+                
+                <div class="profile-info">
+                    <div class="name-row">
+                        <h1 id="p-name">Loading...</h1>
+                        <svg class="verified-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#d73634" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#d73634" fill-opacity="0.1"/>
+                        </svg>
+                    </div>
+
+                    <p class="p-tag" id="p-role">Reporter</p> 
+                    
+                    <div class="p-stats">
+                        <span id="p-followers">0 followers</span> • 
+                        <span id="p-articles-count">0 articles</span>
+                    </div>
+                    
+                    <div class="p-actions">
+                        <button class="follow-btn" id="main-follow-btn">Follow</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="profile-tabs">
+            <button class="tab-btn active" onclick="switchTab('home')">Home</button>
+            <button class="tab-btn" onclick="switchTab('about')">About</button>
+        </div>
+
+        <hr class="profile-divider">
+
+        <div class="profile-grid">
+            
+            <section class="auth-content-area">
+                
+                <div id="tab-home" class="tab-content active">
+                    <div id="author-articles-list">
+                        <div class="loader">Loading articles...</div>
+                    </div>
+                </div>
+
+                <div id="tab-about" class="tab-content hidden">
+                    <div class="about-details">
+                        <p class="about-bio" id="p-bio">No bio available.</p>
+                        
+                        <div class="detail-row">
+                            <span class="detail-label">Location:</span>
+                            <span class="detail-value" id="p-location">--</span>
+                        </div>
+                        
+                        <div class="about-footer-stats">
+                            <span id="p-followers-2">0</span> followers . 
+                            <span id="p-articles-count-2">0</span> articles | 
+                            <span style="color:#d73634; font-style:italic;">bai.news member since <span id="p-joined-date">--</span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="auth-sidebar">
+                <h3 class="section-title">Similar Reporters</h3>
+                
+                <div class="following-list" id="sidebar-list">
+                    <p style="color:#999; font-size:13px;">Loading suggestions...</p>
+                </div>
+                
+                <a href="#" class="see-all-link">see more</a>
+            </aside>
+        </div>
+
+    </main>
+
+    <div id="global-footer"></div>
+    
+    <script type="module" src="/layout/layout.js"></script>
+    <script type="module" src="author.js"></script> <script>
+        function switchTab(name){
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active', 'hidden'));
+            
+            event.target.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById('tab-'+name).classList.remove('hidden');
+        }
+        window.switchTab = switchTab;
+    </script>
+
+</body>
+</html>
