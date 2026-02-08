@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bulk Upload - BAI.NEWS</title>
+    <link rel="stylesheet" href="/layout/layout.css">
+    <style>
+        body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background: #fff; color: #333; margin: 0; }
+        .bulk-header { display: flex; align-items: center; justify-content: center; position: sticky; top: 0; width: 100%; background: #fff; height: 67px; box-shadow: 0 0 1px 0; z-index: 1000; }
+        .back-btn { position: absolute; left: 20px; cursor: pointer; }
+        .bulk-header h1 { font-size: 1.25rem; font-weight: 400; margin: 0; }
+
+        .admin-container { max-width: 800px; margin: 0 auto; padding: 40px 20px; width: 700px;}
+        .step-box { background: #f9f9f9; border: 1px solid #eee; padding: 20px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        
+        /* Article Queue Item */
+        .upload-item { display: flex; align-items: center; background: #f2f2f2; padding: 15px; border-radius: 10px; margin-bottom: 15px; gap: 20px; border: 1px solid transparent; }
+        .upload-item.ready { border-color: #2ecc71; background: #f0fff4; }
+        .item-info { flex: 1; text-align: left; }
+        .item-info h4 { margin: 0 0 5px 0; font-size: 0.95rem; text-transform: uppercase; }
+        .item-info p { margin: 0; font-size: 0.8rem; color: #666; }
+
+        /* Small Drop Box */
+        .mini-drop { width: 120px; height: 70px; border: 2px dashed #ccc; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.7rem; color: #888; position: relative; overflow: hidden; background: #fff; }
+        .mini-drop img { width: 100%; height: 100%; object-fit: cover; position: absolute; }
+        
+        .btn-main { background: #000; color: #fff; border: none; padding: 15px 30px; font-size: 1rem; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 20px; }
+        .btn-main:disabled { background: #ccc; cursor: not-allowed; }
+
+        .img-edit-area.drag-active {
+            border: 2px dashed #d73634;
+            background-color: #fceaea;
+        }
+        
+        .hidden { display: none !important; }
+
+
+
+        /* CROPPER STYLES */
+        #cropper-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .cropper-content {
+            background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 850px; text-align: center;
+        }
+        .crop-container {
+            width: 100%; max-width: 800px; aspect-ratio: 16 / 10; margin: 20px auto;
+            background: #333; overflow: hidden; position: relative; cursor: grab;
+        }
+        .crop-container:active { cursor: grabbing; }
+        #cropper-img {
+            display: block; max-width: 100%; position: absolute; top: 0; left: 0; width: 100%;
+            transform-origin: center center;
+        }
+        .cropper-controls { margin: 20px 0; display: flex; justify-content: center; gap: 10px; }
+        .cropper-actions { display: flex; gap: 15px; justify-content: center; }
+        .cropper-actions button { padding: 10px 25px; border-radius: 6px; cursor: pointer; border: none; }
+        #btn-cancel-crop { background: #eee; color: #333; }
+        #btn-save-crop { background: #000; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <header class="bulk-header">
+        <a href="/admin/dashboard.html" class="back-btn"><img width="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png"></a>
+        <h1>Bulk Article Upload</h1>
+    </header>
+
+    <div class="admin-container">
+        <div id="step-1" class="step-box">
+            <h3>Step 1: Upload JSON Data</h3>
+            <p style="font-size: 0.85rem; color: #666;">Choose a file OR paste JSON text below.</p>
+            
+            <input type="file" id="json-input" accept=".json" style="margin-top: 15px;">
+
+            <div style="margin: 20px 0; font-weight: bold; color: #ccc;">--- OR ---</div>
+
+            <textarea id="json-text-input" placeholder='[ { "title": "Example", "imageUrl": "https://...", ... } ]' 
+                style="width: 100%; height: 150px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: monospace; font-size: 0.85rem; outline: none; resize: vertical; box-sizing: border-box;"></textarea>
+            
+            <button id="btn-process-text" class="btn-main" style="padding: 10px 20px; font-size: 0.9rem; margin-top: 10px;">Load JSON from Text</button>
+        </div>
+        
+        <div id="step-2" class="hidden">
+            <h3 style="margin-bottom: 20px;">Step 2: Attach Cover Images</h3>
+            <div id="article-queue"></div>
+            <button id="btn-final-upload" class="btn-main" disabled>Upload All Articles</button>
+        </div>
+
+        <div id="status-log" style="margin-top: 20px; font-family: monospace; font-size: 0.8rem; white-space: pre-wrap;"></div>
+    </div>
+
+    <div id="cropper-modal" class="hidden">
+        <div class="cropper-content">
+            <h3>Adjust Image</h3>
+            <p>Drag to reposition. Use slider to zoom.</p>
+            <div class="crop-container">
+                <img id="cropper-img" src="" alt="To Crop">
+            </div>
+            <div class="cropper-controls">
+                <label>Zoom:</label>
+                <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1">
+            </div>
+            <div class="cropper-actions">
+                <button type="button" id="btn-cancel-crop">Cancel</button>
+                <button type="button" id="btn-save-crop">Crop & Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="bulk-upload.js"></script>
+</body>
+</html>

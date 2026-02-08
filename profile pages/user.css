@@ -1,0 +1,231 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background-color: #fafafa;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 60%;
+    margin: 0 auto;
+    padding: 60px 0px 40px;
+    flex: 1;
+}
+
+.greeting {
+    font-size: 36px;
+    font-weight: 400;
+    margin-bottom: 50px;
+    color: #000;
+    text-transform: capitalize;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 15px;
+}
+
+.header-line {
+    border: none;
+    border-top: 2px solid #000;
+    margin-bottom: 40px;
+}
+
+/* Content Area */
+.content-wrapper { display: flex; gap: 80px; }
+.main-content { flex: 2; min-width: 0; }
+
+/* Sidebar */
+.user-sidebar { flex: 1; min-width: 280px; }
+.sticky-sidebar { position: sticky; top: 100px; }
+.sticky-sidebar h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #000;
+}
+
+/* Article Card */
+.article-card {
+    display: block;
+    margin: 0 0 3rem 0;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.article-card h3 {
+    font-family: "Circular Std", "Montserrat", sans-serif;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-size: 1.27rem;
+    line-height: 1.4;
+    color: #000;
+}
+
+.date {
+    margin: 0.2rem 0 0.6rem 0;
+    color: #e74c3c;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.date + p {
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.6;
+}
+
+.article-separator {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin-bottom: 3rem;
+}
+
+/* .see-more-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background: white;
+    border: 1px solid #000;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.see-more-btn:hover { background: #f0f0f0; } */
+
+.line-with-text {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: red;
+  font-size: 1.2rem;
+  width: 350px;
+  margin: 0 auto;
+  margin-top: 5rem;
+}
+
+.line-with-text::before,
+.line-with-text::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+  /* line color */
+  margin: 0 1rem;
+  /* space between text and lines */
+}
+.link1 {
+  text-decoration: none;
+  color: #d73634;
+  font-weight: 300;
+  font-family: "Roboto", sans-serif;
+}
+
+/* Hides the divider line for the very last article */
+.article-separator:last-of-type {
+    display: none;
+}
+
+/* Reporter List Item (Sidebar) */
+.reporter-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.reporter-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #e8e8e8;
+    margin-right: 15px;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.reporter-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.reporter-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+    font-size: 15px;
+    color: #000;
+}
+
+.reporter-role {
+    font-size: 13px;
+    color: #999;
+}
+
+.see-more {
+    color: #e74c3c;
+    text-align: center;
+    margin-top: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+.see-more:hover { color: #c0392b; }
+
+.empty-state {
+    text-align: center;
+    padding: 40px 0;
+    color: #999;
+}
+
+/* --- FOLLOW BUTTON STYLES --- */
+.follow-btn {
+    background-color: transparent;
+    border: 1px solid #aaa; /* Default grey border */
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    min-width: 80px; /* Ensures button doesn't shrink too much */
+    text-align: center;
+}
+
+/* Hover State for "Follow" (Red) */
+.follow-btn:hover {
+    background-color: #e95454;
+    color: white;
+    border-color: #e95454;
+}
+
+/* --- ACTIVE STATE (ALREADY FOLLOWING) --- */
+.follow-btn.following {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* Hover State for "Following" (Turn to Unfollow style or stay black) */
+.follow-btn.following:hover {
+    background-color: #333; /* Dark Grey on hover */
+    color: #fff;
+    border-color: #333;
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .container { width: 90%; }
+    .content-wrapper { flex-direction: column-reverse; }
+    .sidebar { width: 100%; border-top: 1px solid #eee; padding-top: 30px; }
+}

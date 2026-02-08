@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - bai.news</title>
+    <link href="https://fonts.googleapis.com/css2?family=Circular+Std:wght@400;500;700&family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/layout/layout.css">
+        <link rel="stylesheet" href="user.css">
+    <style>
+        .menu__icon {
+            cursor: pointer;
+            box-sizing: content-box;
+        }
+    </style>
+
+</head>
+<body>
+   
+    <div id="global-header"></div>
+
+    <div class="container">
+        <h1 class="greeting">Hi, <span id="user-name-display">Reader</span></h1>
+
+        <h2 class="section-title">Saved News</h2>
+        <hr class="header-line">
+
+        <div class="content-wrapper">
+            <div class="main-content">
+                <div id="saved-articles-list">
+                    <div class="loader">Loading saved articles...</div>
+                </div>
+
+                <div class="line-with-text" id="load-more-container" style="display: none;">
+                    <span class="link1 see-more-btn" id="trigger-load-more" style="cursor:pointer;">Load more</span>
+                </div>
+            </div>
+
+            <div class="user-sidebar">
+                <div class="sticky-sidebar">
+                    <h3>Following</h3>
+                    
+                    <div id="sidebar-following-list">
+                        <p style="color:#999; font-size:13px;">Loading...</p>
+                    </div>
+
+                    <div class="see-more" onclick="window.location.href='/students/Students.html'">find more reporters</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="global-footer"></div>
+
+    <script type="module" src="/layout/layout.js"></script>
+    <script type="module" src="user-profile.js"></script>
+</body>
+</html>

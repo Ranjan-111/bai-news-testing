@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Article - BAI.NEWS</title>
+    
+    <link rel="stylesheet" href="/layout/layout.css">
+    <link rel="stylesheet" href="/main/index.css">
+    <link rel="stylesheet" href="post-article.css">
+</head>
+<body>
+
+    <header class="post-header">
+        <a class="back-btn">
+         <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="u-turn-to-left" class="back-btn" onclick="history.back()"/>
+        </a>
+        <h1>post article</h1>
+    </header>
+
+    <div class="form-container">
+        <form id="post-form">
+            
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="inp-author" class="form-input" placeholder="Bharat AI Insights" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Date Posted</label>
+                <input type="text" id="inp-date" class="form-input" placeholder="2025-12-27T..." readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" id="inp-title" class="form-input" placeholder="Enter title..." required>
+            </div>
+
+            <div class="form-group">
+                <label>Summary (300 characters)</label>
+                <input type="text" id="inp-summary" class="form-input" minlength="50" maxlength="300"  placeholder="Write...">
+            </div>
+
+            <div class="form-group">
+                <label>Tags (Type & Press Enter | Max 3)</label>
+                <div class="tags-input-container" id="tags-container">
+                    <input type="text" id="inp-tag-input" placeholder="Add a tag..." autocomplete="off">
+                </div>
+                
+                <div class="tag-suggestions" id="tag-suggestions-box">
+                    <p style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Suggestions:</p>
+                    <div class="suggestions-list" id="suggestions-list">
+                        </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Image</label>
+                <div class="file-drop-area" id="drop-zone">
+                    <input type="file" id="inp-file" accept="image/*" hidden>
+                    <div class="drop-content">
+                        <svg class="upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span class="drop-text">Drop your files here or browse</span>
+                        <span class="drop-subtext">Max file size up to 1 MB</span>
+                    </div>
+                    <img id="img-preview" class="hidden">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Target Audience Level</label>
+                <select id="inp-target-level" class="form-input">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate" selected>Intermediate (Standard)</option>
+                    <option value="pro">Professional</option>
+                </select>
+                <p style="font-size: 0.75rem; color: #888; margin-top: 5px;">
+                    Note: The other two levels will be generated automatically via AI.
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label>Content</label>
+                <textarea id="inp-content" class="form-input textarea" placeholder="Write..." required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Send for Approval</button>
+
+        </form>
+    </div>
+
+
+    <div id="cropper-modal" class="hidden">
+        <div class="cropper-content">
+            <h3>Adjust Image</h3>
+            <p>Drag to reposition. Use slider to zoom.</p>
+            
+            <div class="crop-container">
+                <img id="cropper-img" src="" alt="To Crop">
+            </div>
+
+            <div class="cropper-controls">
+                <label>Zoom:</label>
+                <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1">
+            </div>
+
+            <div class="cropper-actions">
+                <button type="button" id="btn-cancel-crop">Cancel</button>
+                <button type="button" id="btn-save-crop">Crop & Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="post-article.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,2409 @@
+/* Extracted Styles for Header, Sidebar, Subscribe Button, and Footer */
+
+#global-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100vw;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
+#header {
+  background-color: rgba(255, 255, 255, 0.487);
+  opacity: 0.95;
+  /* position: sticky; REMOVED */
+  /* z-index: 2; REMOVED */
+  /* top: 0; REMOVED */
+  box-shadow: 0 0 1px 0;
+  backdrop-filter: blur(20px);
+  width: 100vw;
+  height: 67px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+/*.  =============== SIDE-BAR ============================ */
+
+/* HIDE CHECKBOX */
+#check {
+  display: none;
+}
+
+/* Place label/button at top-left */
+.btn_toggle {
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  cursor: pointer;
+  z-index: 1002;
+  /* above sidebar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 65px;
+  height: 65px;
+  /* margin-top: 0.2rem; */
+}
+
+/* background container */
+.background1 {
+  width: 65px;
+  height: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.4rem;
+  /* margin-left: 0.4rem; */
+}
+
+/* menu icon container (used INSIDE the label) */
+.menu__icon {
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  display: inline-block;
+}
+
+/* three bars */
+.menu__icon span {
+  display: block;
+  width: 100%;
+  height: 0.09rem;
+  border-radius: 2px;
+  background-color: black;
+  /* visible color when closed */
+  box-shadow: 0 .5px 2px 0 hsla(0, 0%, 0%, .2);
+  transition: background-color .4s;
+  position: relative;
+}
+
+/* spacing between bars */
+.menu__icon span+span {
+  margin-top: .375rem;
+}
+
+/* initial (unchecked) animation state */
+.menu__icon span:nth-child(1) {
+  animation: ease .5s menu-icon-top-2 forwards;
+}
+
+.menu__icon span:nth-child(2) {
+  animation: ease .5s menu-icon-scaled-2 forwards;
+}
+
+.menu__icon span:nth-child(3) {
+  animation: ease .5s menu-icon-bottom-2 forwards;
+}
+
+/* When checkbox is checked -> animate to X */
+#check:checked~.btn_toggle .menu__icon span:nth-child(1) {
+  animation: ease .5s menu-icon-top forwards;
+  background-color: rgb(255, 255, 255);
+  width: 80%;
+
+}
+
+#check:checked~.btn_toggle .menu__icon span:nth-child(2) {
+  animation: ease .5s menu-icon-scaled forwards;
+}
+
+#check:checked~.btn_toggle .menu__icon span:nth-child(3) {
+  animation: ease .5s menu-icon-bottom forwards;
+  background-color: rgb(255, 255, 255);
+  width: 80%;
+}
+
+/* When unchecked -> reset animation */
+#check:not(:checked)~.btn_toggle .menu__icon span:nth-child(1) {
+  animation: ease .5s menu-icon-top-2 forwards;
+}
+
+#check:not(:checked)~.btn_toggle .menu__icon span:nth-child(2) {
+  animation: ease .5s menu-icon-scaled-2 forwards;
+}
+
+#check:not(:checked)~.btn_toggle .menu__icon span:nth-child(3) {
+  animation: ease .5s menu-icon-bottom-2 forwards;
+}
+
+/* Animations (kept from your original CSS) */
+@keyframes menu-icon-top {
+  0% {
+    top: 0;
+    transform: rotate(0);
+  }
+
+  50% {
+    top: .5rem;
+    transform: rotate(0);
+  }
+
+  100% {
+    top: .5rem;
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes menu-icon-top-2 {
+  0% {
+    top: .5rem;
+    transform: rotate(45deg);
+  }
+
+  50% {
+    top: .5rem;
+    transform: rotate(0);
+  }
+
+  100% {
+    top: 0;
+    transform: rotate(0);
+  }
+}
+
+@keyframes menu-icon-bottom {
+  0% {
+    bottom: 0;
+    transform: rotate(0);
+  }
+
+  50% {
+    bottom: .5rem;
+    transform: rotate(0);
+  }
+
+  100% {
+    bottom: .5rem;
+    transform: rotate(135deg);
+  }
+}
+
+@keyframes menu-icon-bottom-2 {
+  0% {
+    bottom: .5rem;
+    transform: rotate(135deg);
+  }
+
+  50% {
+    bottom: .5rem;
+    transform: rotate(0);
+  }
+
+  100% {
+    bottom: 0;
+    transform: rotate(0);
+  }
+}
+
+@keyframes menu-icon-scaled {
+  50% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes menu-icon-scaled-2 {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ----------------------------
+    sidebar styles 
+   ---------------------------- */
+
+.sidebar {
+  background: #111;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  left: -17rem;
+  height: 95vh;
+  width: 4.5rem;
+  background-color: rgb(0, 0, 0);
+  transition: all 0.2s linear;
+  z-index: 1000;
+  /* below the toggle button */
+  top: 0;
+  border-radius: 1rem;
+  margin: 0.3rem 0 1vh 0;
+}
+
+/* open sidebar */
+#check:checked~.sidebar {
+  left: 0.5rem;
+}
+
+.hr1 {
+  border: none;
+  border-top: 0.1px solid #6b6666;
+  width: 60%;
+  margin-bottom: 1rem;
+  margin-top: 2.68rem;
+}
+
+
+
+.menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: white;
+  text-decoration: none;
+}
+
+.icon4 {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-bottom: 0.1rem;
+}
+
+.profile-btn {
+  margin-top: auto;      /* Pushes the button to the very bottom */
+  margin-bottom: 0rem;   /* Adds breathing room from the bottom edge */
+}
+
+/* Optional: If you want the profile icon slightly larger or adjusted */
+.profile-btn .icon4 {
+  width: 3.8rem;
+  height: 4.5rem;
+}
+
+/* Mobile Adjustment: Ensure it stays visible on small screens */
+@media (max-width: 550px) {
+  .profile-btn {
+    margin-bottom: 6rem; /* Push up slightly so it doesn't hit mobile browser bars */
+  }
+}
+
+/* Hide labels initially */
+.label {
+  position: absolute;
+  left: 60px;
+  /* position text to the right */
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  color: black;
+  /* label color */
+  font-family: Arial, sans-serif;
+  width: max-content;
+}
+
+.lst-lbl{
+  left: 70px;
+  top: 20.5px;
+}
+
+/* Show label when hovering on menu item */
+.icon4:hover+.label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.menu-item+hr {
+  display: none;
+}
+
+
+
+
+/* =========----------SIDE-BAR END -----------------------------========*/
+
+
+
+
+/* ==========--------SUBSCRIBE--------============ */
+
+.noselect {
+  width: 200px;
+  height: 67px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: red;
+  border: none;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  background: #e62222;
+  padding-left: 20px;
+
+}
+
+.noselect,
+.noselect span {
+  transition: 270ms;
+}
+
+.noselect .text {
+  position: relative;
+  transform: translateX(35px);
+  color: white;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.4em;
+  font-weight: 200;
+  letter-spacing: 1.5px;
+}
+
+.noselect .icon {
+  position: absolute;
+  /* border-left: 1px solid #c41b1b; */
+  transform: translateX(110px);
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 16px;
+}
+
+.noselect svg {
+  width: 15px;
+  fill: #eee;
+}
+
+.noselect:hover {
+  background: #ff3636;
+}
+
+/* .noselect:hover .text {
+  color: transparent;
+}
+
+.noselect:hover .icon {
+  width: 150px;
+  border-left: none;
+  transform: translateX(0);
+}
+
+.noselect:focus {
+  outline: none;
+}
+
+.noselect:active .icon svg {
+  transform: scale(0.8);
+}
+
+.noselect:hover .bell {
+  animation: bellRing 0.9s both;
+}
+ */
+/* bell ringing animation keyframes*/
+@keyframes bellRing {
+  0% {
+    transform-origin: top;
+  }
+
+  15% {
+    transform: rotateZ(15deg);
+    scale: 1.1;
+  }
+
+  30% {
+    transform: rotateZ(-15deg);
+    scale: 1.15;
+  }
+
+  45% {
+    transform: rotateZ(8deg);
+    scale: 1.2;
+  }
+
+  60% {
+    transform: rotateZ(-8deg);
+    scale: 1.25;
+  }
+
+  75% {
+    transform: rotateZ(5deg);
+    scale: 1.3;
+  }
+
+  100% {
+    transform-origin: top;
+    scale: 1.35;
+  }
+}
+
+/* .noselect:active {
+  transform: scale(0.9);
+} */
+
+@media (min-width: 550px){
+  .bell{
+    display: none;
+  }
+}
+
+/* 📱 Responsive for small screens */
+@media (max-width: 550px) {
+  .noselect {
+    width: 50px;
+    height: 50px;
+    padding: 0 10px;
+    
+  }
+
+  .noselect .text {
+    display: none;
+  }
+
+  .noselect .icon {
+    height: 10px;
+    width: 10px;
+  }
+
+  .noselect svg {
+    width: 16px;
+  }
+}
+
+
+/* 1. Hide the button by default so no one sees the 'wrong' color */
+#openPopupBtn {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  /* Smooth fade-in */
+}
+
+/* 2. We will add this class via JS when Firebase is ready */
+#openPopupBtn.auth-ready {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+/* =========== SUBSCRIBE END ===================== */
+
+.LOGO {
+  font-size: 1.4em;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  margin-left: 12vh;
+  letter-spacing: 0.06rem;
+}
+
+
+/* Default (desktop) styles are already good */
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+  #header {
+    height: 67px;
+  }
+
+  .LOGO {
+    margin-left: 12vh;
+    font-size: 1.2em;
+  }
+
+  .noselect {
+    width: 160px;
+    height: 67px;
+  }
+
+  .noselect .text {
+    font-size: 1.2em;
+    transform: translateX(20px);
+  }
+
+  .noselect .icon {
+    transform: translateX(80px);
+  }
+
+  .noselect:hover .icon {
+    width: 150px;
+    border-left: none;
+    transform: translateX(-26px);
+  }
+
+
+  .background1 {
+    width: 55px;
+    height: 55px;
+  }
+
+  .menu__icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+
+
+
+/* ==========---------- HEADER END -----------================== */
+
+/* ==========------- FOOTER START -------============ */
+
+footer {
+  background: #000;
+  padding: 40px 0 0;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #111;
+  color: #fff;
+  width: 100vw;
+  min-height: 15rem;
+}
+
+footer h2 {
+  margin-left: 8rem;
+  font-size: 1.1rem;
+  font-weight: 100;
+  opacity: 0.85;
+  margin-bottom: 2rem;
+  text-transform: lowercase;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #222;
+  padding-bottom: 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Left section */
+.footer-left {
+  margin-left: 12rem;
+}
+
+.footer-left ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-left ul li {
+  margin: 10px 0;
+}
+
+.footer-left ul li a {
+  color: #bbb;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-left ul li a:hover {
+  color: #fff;
+}
+
+/* Middle section */
+.footer-middle ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 20rem;
+  position: relative;
+  left: -14rem;
+}
+
+.footer-middle ul li {
+  margin: 10px 0;
+}
+
+.footer-middle ul li a {
+  color: #bbb;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-middle ul li a:hover {
+  color: #fff;
+}
+
+/* Vertical lines */
+.vertical-line {
+  border: none;
+  border-left: 1px solid #6b6666;
+  height: 4rem;
+  width: 1rem;
+  padding: 40px 20px 20px;
+  position: absolute;
+  left: 23vw;
+  z-index: 11;
+  margin-top: -0.2rem;
+  margin-left: 15rem;
+}
+
+.l2 {
+  height: 6rem;
+  left: 49.5vw;
+  margin-top: -1.5rem;
+}
+
+/* Right section (newsletter) */
+.footer-right h3 {
+  margin: -1rem 0 1.7rem 0;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.09rem;
+}
+
+.newsletter-input {
+  width: 14rem;
+  padding: 10px;
+  border: none;
+  margin-bottom: 1rem;
+  background: #c1bebe;
+  color: #302e2e;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.newsletter-input::placeholder {
+  color: #161616;
+}
+
+.subscribe-btn {
+  padding: 8px 20px;
+  border: none;
+  background: #fff;
+  color: #000;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  background: red;
+  color: #fff;
+}
+
+/* Copyright */
+.footer-bottom {
+  text-align: center;
+  font-size: 12px;
+  color: #aaa;
+  line-height: 1.5;
+  padding: 10px 20px;
+}
+
+.footer-bottom a {
+  color: #aaa;
+  text-decoration: underline;
+}
+
+.footer-bottom a:hover {
+  color: #fff;
+}
+
+/* ==========------- RESPONSIVE MEDIA QUERIES -------============ */
+
+/* Large Desktop (1400px and above) - Already handled */
+
+/* Desktop/Laptop (1024px - 1399px) */
+@media (max-width: 1399px) {
+  /* footer h2 {
+    margin-left: 4rem;
+  } */
+
+  .footer-left {
+    margin-left: 20rem;
+  }
+
+  .footer-middle ul {
+    margin-left: 15rem;
+    left: -10rem;
+  }
+
+  
+
+  /* .vertical-line {
+    left: 28rem;
+    margin-left: 10rem;
+  } */
+
+  /* .l2 {
+    left: 58rem;
+  } */
+}
+
+/* Tablet Landscape (992px - 1023px) */
+/* @media (max-width: 1023px) {
+  footer h2 {
+    margin-left: 2rem;
+  }
+
+  .footer-left {
+    margin-left: 10rem;
+  }
+
+  .footer-middle ul {
+    margin-left: 8rem;
+    left: -5rem;
+  }
+
+  .vertical-line {
+    left: 20rem;
+    margin-left: 5rem;
+  }
+
+  .l2 {
+    left: 45rem;
+  }
+
+  .newsletter-input {
+    width: 12rem;
+  }
+} */
+
+@media (max-width: 1023px) {
+  .vertical-line {
+    left: 22vw;
+  }
+
+  .l2 {
+    left: 48vw;
+  }
+}
+
+/* Tablet Portrait (768px - 991px) */
+@media (max-width: 991px) {
+  footer {
+    min-height: auto;
+  }
+
+  footer h2 {
+    /* margin-left: 0;
+    text-align: l; */
+    margin-bottom: 2rem;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .footer-left,
+  .footer-middle {
+    margin: 0;
+    text-align: center;
+  }
+
+  .footer-left ul,
+  .footer-middle ul {
+    margin: 0;
+    left: 0;
+  }
+
+  .vertical-line {
+    display: none;
+  }
+
+  .footer-right {
+    text-align: center;
+  }
+
+  .footer-right h3 {
+    margin-top: 0;
+  }
+
+  .newsletter-input {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* Mobile Landscape (576px - 767px) */
+/* @media (max-width: 767px) {
+
+  footer h2 {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-container {
+    gap: 1.5rem;
+  }
+
+  .footer-left ul li,
+  .footer-middle ul li {
+    margin: 8px 0;
+  }
+
+  .footer-left ul li a,
+  .footer-middle ul li a {
+    font-size: 13px;
+  }
+
+  .footer-right h3 {
+    font-size: 15px;
+    margin-bottom: 1.2rem;
+  }
+
+  .newsletter-input {
+    max-width: 250px;
+    padding: 8px;
+  }
+
+  .subscribe-btn {
+    padding: 7px 18px;
+    font-size: 13px;
+  }
+
+  .footer-bottom {
+    font-size: 11px;
+    margin-top: 15px;
+  }
+} */
+
+
+/* ==========------- FOOTER END -------============ */
+
+/* Mobile Responsive (max-width: 550px) */
+@media (max-width: 550px) {
+  /* ===== SIDEBAR ========= */
+
+  .sidebar {
+    width: 69%;
+    border-radius: 0;
+    margin: 0;
+    align-items: start;
+    left: -23.9rem;
+    height: 100vh;
+  }
+
+  #check:checked~.sidebar {
+    left: 0;
+  }
+
+  .menu-item {
+    padding-left: 15px;
+    border: 1px white;
+  }
+
+  .hr1 {
+    border: none;
+    border-top: 0.1px solid #ffffff;
+    width: 100%;
+    margin-bottom: 1rem;
+    margin-top: 1.87rem;
+  }
+
+  .label {
+    opacity: 1;
+    transform: translateX(0px);
+    color: white;
+  }
+
+  .profile-btn {
+    margin-bottom: 3rem;
+    margin-left: 7px;
+  }
+
+  .profile-btn .icon4 {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .lst-lbl{
+    /* margin-left: 10px; */
+    top: 8px;
+  }
+
+  .btn_toggle {
+    left: 0;
+  }
+
+  .menu-item+hr {
+    display: block;
+    margin: 0;
+    padding: 0;
+    z-index: 200;
+    transform: translateX(30px);
+    width: 70%;
+    opacity: 0.36;
+    color: transparent;
+  }
+
+
+  /* ===== HEADER ====== */
+
+  #header {
+    height: auto;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    padding: 0;
+  }
+
+  .background1 {
+    width: 45px;
+    height: 45px;
+  }
+
+  .menu__icon {
+    width: 24px;
+    height: 24px;
+    margin-top: -30px;
+  }
+
+
+  .LOGO {
+    flex: 1 1 100%;
+    text-align: center;
+    font-size: 1.1em;
+    margin: 0;
+  }
+
+  .noselect {
+    width: 50px;
+    height: 50px;
+    /* padding-left: 10px; */
+  }
+
+  .noselect .text {
+    font-size: 1em;
+    transform: translateX(10px);
+  }
+
+  .noselect .icon {
+    transform: translateX(-15px);
+    width: 30px;
+    height: 30px;
+  }
+
+  .noselect:hover .icon {
+    width: 150px;
+    border-left: none;
+    transform: translateX(-75px);
+  }
+
+  /* ==========  FOOTER ========== */
+
+  footer h2 {
+    font-size: 0.95rem;
+    margin: 0 2rem 1rem;
+    text-align: left;
+  }
+
+  .footer-left ul,
+  .footer-middle ul {
+    padding: 0 10px;
+    margin: 0.5rem 1.35rem;
+    width: 30%;
+  }
+
+  .footer-left ul li,
+  .footer-middle ul li {
+
+    margin: 6px 0;
+  }
+
+  .footer-left ul li a,
+  .footer-middle ul li a {
+    font-size: 12px;
+  }
+
+  .footer-right h3 {
+    font-size: 14px;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+
+  .newsletter-input {
+    max-width: 220px;
+    min-width: 10px;
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .subscribe-btn {
+    padding: 6px 10px;
+    margin-left: 15px;
+    font-size: 12px;
+    height: 30px;
+  }
+
+  .footer-container {
+    gap: 0rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-bottom {
+    font-size: 10px;
+    line-height: 1.6;
+  }
+
+  .footer-left,
+  .footer-middle {
+    /* display: inline; */
+    text-align: left;
+    margin: 0;
+  }
+
+  .footer-right {
+    margin: 2rem 0 0 2rem;
+    grid-column: 1/ -1;
+
+  }
+
+  form {
+    display: flex;
+  }
+
+
+}
+
+@media (max-width: 375px) {
+  footer h2 {
+    font-size: 0.9rem;
+  }
+
+  .footer-left ul li a,
+  .footer-middle ul li a {
+    font-size: 11px;
+  }
+
+  .newsletter-input {
+    max-width: 180px;
+  }
+
+  .footer-bottom {
+    font-size: 9px;
+  }
+}
+
+
+
+
+
+/* ========--------- POPUP STYLES ---------========= */
+
+/* Utility: Hide elements */
+.hidden {
+  display: none !important;
+}
+
+/* ========------- SUBSCRIBE POPUP ---------========= */
+
+/* THE OVERLAY (Background Dimmer) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup.pop-card {
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  height: 30%;
+  border-radius: 10px;
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.overlay.active .popup.pop-card {
+  transform: scale(1);
+}
+
+.pop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.pop-logo {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 200;
+  color: #333;
+  letter-spacing: 0.5px;
+}
+
+.text-red {
+  color: #d73634;
+}
+
+.close-icon-wrapper {
+  cursor: pointer;
+  color: #ff4444;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-icon-wrapper:hover {
+  transform: scale(1.1);
+  color: #cc0000;
+}
+
+.pop-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 30px;
+}
+
+#view-options {
+  margin-top: 09px;
+}
+
+.sm-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  max-width: 300px;
+  padding: 12px 20px;
+  background-color: white;
+  border: 1px solid #777;
+  border-radius: 50px;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.89rem;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  position: relative;
+  height: 35px;
+}
+
+.sm-btn img {
+  filter: grayscale(100%);
+}
+
+.sm-btn:hover,#text-twitter:hover {
+  background-color: #d73634;
+  color: white;
+  border-color: #d73634;
+}
+
+.btn-icon {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 20px;
+}
+
+.email-icon {
+  stroke: #444;
+  stroke-width: 1.2px;
+}
+
+.pop-footer {
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.pop-footer a {
+  color: #2d4dcf;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+
+
+
+
+/* ============ VIEW 2: EMAIL FORM STYLES ============ */
+
+#view-email {
+  padding: 30px;
+  padding-top: 10px;
+}
+
+.pop-label {
+  text-align: left;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.pop-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pop-input {
+  flex-grow: 4;
+  padding: 12px 15px;
+  border: none;
+  background-color: #f0f0f0;
+  /* Grey background */
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  color: #333;
+}
+
+.pop-input::placeholder {
+  opacity: 0.32;
+}
+
+.pop-btn-continue {
+  flex-grow: 3.2;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 0 25px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 100;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  transition: opacity 0.2s;
+}
+
+.pop-btn-continue:hover {
+  opacity: 0.8;
+}
+
+.pop-info {
+  color: #d73634;
+  font-size: 0.9rem;
+  font-weight: 300;
+  text-align: left;
+  line-height: 1.4;
+  margin-bottom: 30px;
+}
+
+.pop-back-wrap {
+  text-align: right;
+  position: fixed;
+  top: 90%;
+  left: 90%;
+}
+
+.pop-back {
+  color: hsla(1, 67%, 52%, 0.5);
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.pop-back:hover {
+  color: hsla(1, 67%, 52%, 0.7);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 480px) {
+  .pop-card {
+    padding: 25px 20px;
+  }
+
+  .pop-form {
+    flex-direction: column;
+  }
+
+  .pop-btn-continue {
+    padding: 12px;
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+/* Container alignment */
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  /* Aligns box with top line of text */
+  gap: 12px;
+  margin-top: 15px;
+}
+
+/* 1. HIDE the real ugly browser checkbox */
+.pop-check {
+  display: none;
+}
+
+/* 2. Style the Label text */
+.checkbox-row label {
+  position: relative;
+  cursor: pointer;
+  padding-left: 28px;
+  /* Space for the custom box */
+  line-height: 1.6;
+  user-select: none;
+  /* Prevents highlighting text while clicking */
+  color: #d73634;
+  /* Dark grey text */
+}
+
+/* 3. Create the UNCHECKED Box (Black Border, White Background) */
+.checkbox-row label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  /* Fine-tune vertical position */
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid #333;
+  /* Black border */
+  background-color: #fff;
+  /* White background */
+  border-radius: 4px;
+  /* Soft corners */
+}
+
+/* 4. Create the CHECKMARK (Hidden by default) */
+.checkbox-row label::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  /* Position inside the box */
+  top: 4.5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  /* White checkmark */
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0);
+  /* Rotate to make check shape */
+  opacity: 0;
+}
+
+/* 5. CHECKED STATE (Red Background) */
+.pop-check:checked+label::before {
+  background-color: #1f1111;
+  /* YOUR THEME RED */
+  border-color: #2d1414;
+}
+
+/* 6. Show the Checkmark when checked */
+.pop-check:checked+label::after {
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+}
+
+.pop-check:checked+label {
+  color: #ab3232;
+}
+
+
+
+
+
+
+
+
+/* === NEW OTP VIEW STYLES === */
+
+.otp-heading {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 10px;
+}
+
+.otp-subtext {
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  font-size: 0.84rem;
+  margin-bottom: 25px;
+  margin-top: 20px;
+}
+
+.email-highlight {
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+
+/* 6-Digit Input Group */
+.otp-input-group {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.otp-digit {
+  width: 65px;
+  height: 40px;
+  border: none;
+  background-color: #f0f0f0;
+  /* Light grey bg like image */
+  border-radius: 8px;
+  font-size: 1.2rem;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  outline: none;
+  transition: all 0.2s;
+  color: rgb(51 51 51 / 40%);
+}
+
+.otp-digit:focus {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
+.black-btn {
+  background-color: #000;
+  color: white;
+  width: 150px;
+  margin-bottom: 15px;
+  padding: 10px 0;
+  font-weight: 300;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  letter-spacing: 1px;
+}
+
+.black-btn:hover {
+  background-color: #333;
+}
+
+/* Resend Section (Red text) */
+.resend-wrapper {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #d73634;
+  /* Theme Red */
+  font-family: monospace;
+  /* Monospace for the numbers looks techy */
+  cursor: default;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#resend-timer {
+  font-family: monospace;
+  /* Keeps '00 : 30' from shifting the text around */
+  margin-left: 5px;
+}
+
+/* When resend is clickable */
+.resend-active {
+  cursor: pointer;
+  font-weight: normal;
+}
+
+/* Toast Notification */
+.otp-toast {
+  position: absolute;
+  top: 10px;
+  /* Positioned just below header */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 8px 24px;
+  border-radius: 3.5px;
+  font-size: 0.85rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 20;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.otp-toast.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#view-otp {
+  text-align: center;
+}
+
+/* to remove arrow in otp box */
+/* Chrome, Safari, Edge, Opera */
+.otp-digit::-webkit-outer-spin-button,
+.otp-digit::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.otp-digit[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ==========================================
+   RESPONSIVE POPUP STYLES (Tablets & Mobile)
+   ========================================== */
+
+/* --- 1. TABLET & SMALL LAPTOPS (max-width: 1024px) --- */
+@media (max-width: 1024px) {
+  .popup.pop-card {
+    height: auto;
+    /* Fix the "30%" height issue so content isn't cut off */
+    min-height: 300px;
+    /* Ensure it looks substantial */
+    max-height: 90vh;
+    /* Allow scrolling if it gets too tall */
+    overflow-y: auto;
+    width: 70%;
+    /* Slightly wider on tablets */
+    padding: 40px;
+    /* comfortable padding */
+  }
+
+  /* Fix the "Back" button floating weirdly on tablets */
+  /* .pop-back-wrap {
+        position: static;      
+        text-align: right;
+        margin-top: 20px;
+        width: 100%;
+    } */
+
+  #view-email {
+    padding-bottom: 5px;
+  }
+
+  .popup.pop-card {
+    padding-bottom: 20px;
+  }
+
+}
+
+/* --- 2. LARGE PHONES & PORTRAIT TABLETS (max-width: 768px) --- */
+@media (max-width: 768px) {
+  .popup.pop-card {
+    width: 85%;
+    /* Take more width */
+    padding: 30px 25px;
+  }
+
+  /* Adjust OTP boxes to fit narrower screens */
+  .otp-digit {
+    width: 60px;
+    /* Shrink from 65px -> 50px */
+    height: 45px;
+    font-size: 1.1rem;
+  }
+
+  .otp-input-group {
+    gap: 10px;
+    /* Reduce gap */
+  }
+
+  #view-email {
+    padding-bottom: 5px;
+  }
+
+  .popup.pop-card {
+    padding-bottom: 10px;
+  }
+
+  /* Stack the Email Form (Input on top of Button) */
+  /* .pop-form {
+        flex-direction: column;
+        gap: 15px;
+    } */
+
+  /* .pop-input, 
+    .pop-btn-continue {
+        width: 100%;
+        box-sizing: border-box;
+    } */
+}
+
+
+/* ==========================================
+   MOBILE RESPONSIVE: SUBSCRIBE POPUP
+   ========================================== */
+@media (max-width: 550px) {
+
+  /* 1. Main Card Adjustment */
+  .popup.pop-card {
+    width: 95%;
+    /* Take up almost full width */
+    height: auto;
+    /* Grow with content instead of fixed 30% */
+    min-height: 30%;
+    /* Minimum height */
+    max-height: 85vh;
+    /* Prevent it from going off-screen vertically */
+    overflow-y: auto;
+    /* Add scroll if content is too long */
+    padding: 20px 15px;
+    /* Reduce padding for more space */
+  }
+
+  /* 2. Header & Logo */
+  .pop-header {
+    margin-bottom: 20px;
+  }
+
+  .pop-logo {
+    font-size: 1.2rem;
+  }
+
+  /* 3. Social Buttons (Fix overflow) */
+  .sm-btn {
+    width: 450px;
+    /* Fix the 120% issue */
+    max-width: 100%;
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  /* 4. Email Form (Stack vertically) */
+  /* .pop-form {
+        flex-direction: column;
+        gap: 10px;
+    } */
+  .pop-input {
+    width: 100%;
+    box-sizing: border-box;
+    /* Ensures padding doesn't widen element */
+  }
+
+  /* .pop-btn-continue {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+    } */
+
+  /* 5. Back Button (Fix floating issue) */
+  /* .pop-back-wrap {
+        position: static; 
+        text-align: right;
+        margin-top: 15px;
+        width: 100%;
+    } */
+
+  /* 6. OTP Section (Critical Fix for 6 boxes) */
+  .otp-input-group {
+    gap: 8px;
+    /* Reduce gap between boxes */
+  }
+
+  .otp-digit {
+    width: 50px;
+    /* Shrink from 65px to 40px */
+    height: 45px;
+    /* Make slightly taller for touch */
+    font-size: 1rem;
+    padding: 0;
+    border-radius: 6px;
+  }
+
+  .otp-heading {
+    font-size: 1rem;
+  }
+
+  #view-email {
+    padding-bottom: 5px;
+  }
+
+}
+
+
+/* --- 3. MOBILE PHONES (max-width: 480px) --- */
+@media (max-width: 480px) {
+  .popup.pop-card {
+    width: 85%;
+    /* Full width on phone */
+    padding: 20px 15px;
+    min-height: 30%;
+  }
+
+  /* Make buttons full width */
+  .sm-btn {
+    width: 275px;
+    max-width: 100%;
+    font-size: 0.9rem;
+  }
+
+  /* Shrink OTP further for small screens */
+  .otp-digit {
+    width: 50px;
+    /* Shrink to fit iPhone SE/small Androids */
+    height: 45px;
+    font-size: 1rem;
+  }
+
+  .otp-input-group {
+    gap: 8px;
+    /* Tight gap */
+  }
+
+  .pop-header {
+    margin-bottom: 20px;
+  }
+
+  .pop-logo {
+    font-size: 1.2rem;
+  }
+
+  /* Center the back button on mobile */
+  /* .pop-back-wrap {
+        text-align: right; 
+        margin-top: 25px;
+    } */
+
+  #view-email {
+    padding-bottom: 5px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ===============-------------============= */
+
+/* ========--- Search Button and Popup ---======== */
+
+.search-wrapper {
+  position: fixed;
+  bottom: 2.4rem;
+  right: 3rem;
+  z-index: 100;
+}
+
+.search-toggle-btn {
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+
+.search-popup-container {
+  position: absolute;
+  bottom: 5px;
+  right: 70px;
+  width: 0;
+  height: 50px;
+  background-color: rgb(222, 222, 222);
+  border-radius: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.search-popup-container.active {
+  width: 300px;
+  opacity: 1;
+  visibility: visible;
+  padding: 0 1rem;
+}
+
+.search-toggle-btn:active .search-icon {
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.search-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+}
+
+/* --- Filter Icon --- */
+.filter-icon1,
+.filter-icon2 {
+  display: none;
+  /* Hidden by default */
+  width: 1.5rem;
+  height: 1.5rem;
+  filter: invert(100%);
+}
+
+.filter-icon2 {
+  width: 1.48rem;
+  height: 1.48rem;
+
+}
+
+/* --- Filter Tags --- */
+.filter-options-container {
+  position: absolute;
+  bottom: 70px;
+  /* Position above the search button */
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  display: none;
+  /* Hidden by default */
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 250px;
+  z-index: 100;
+}
+
+.filter-options-container.visible {
+  display: flex;
+  /* Show the container */
+}
+
+.filter-tag input[type="checkbox"] {
+  display: none;
+  /* Hide the actual checkbox */
+}
+
+.filter-tag label {
+  display: block;
+  padding: 6px 12px;
+  background-color: #f0f0f0;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.filter-tag input[type="checkbox"]:checked+label {
+  background-color: #e62222;
+  /* Red color for selected tag */
+  color: white;
+}
+
+/* ///////////////// */
+
+/* Smooth rotation for the search icon */
+.search-icon,
+.filter-icon1,
+.filter-icon2 {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  display: inline-block;
+}
+
+/* Rotate out animation for hiding the search icon */
+.rotate-out {
+  transform: rotate(360deg) scale(0);
+  opacity: 0;
+}
+
+/* Rotate in animation for showing the filter icon */
+.rotate-in {
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+
+
+
+/* ========================== */
+
+
+
+/* ==========================================
+   SEARCH RESULTS BOX UI
+   ========================================== */
+
+.search-results-box {
+  position: absolute;
+  bottom: 7vh;
+  right: 10px;
+  width: 390px;
+  display: none;
+  z-index: 90;
+  background: rgba(255, 255, 255, 0.95);
+  /* High opacity to block back page */
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.001); */
+  /* border: 1px solid rgba(0, 0, 0, 0.05); */
+  overflow: hidden;
+  /* Contains the scroll view */
+}
+
+.search-scroll-view.few-results {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
+}
+
+@media (max-height: 850px) {
+  .search-wrapper{
+    bottom: 0.7rem;
+  }
+  .search-scroll-view {
+    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%) !important;
+  }
+  .search-results-box {
+    min-height: 72vh;
+  }
+}
+
+/* 2. INNER SCROLLER */
+.search-scroll-view {
+  max-height: 57vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 10px 0;
+  
+  /* Ensure NO mask is set here by default */
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+
+
+
+
+
+
+
+.search-results-box.active {
+  display: block;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* --- Read More Button in Search --- */
+.btn-read-more {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  border-top: 1px solid #eee;
+  color: #d73634; /* Your Theme Red */
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  font-family: inherit;
+  margin-top: 5px;
+  transition: background 0.2s;
+}
+
+.btn-read-more:hover {
+  background-color: #f9f9f9;
+  text-decoration: underline;
+}
+
+/* --- INDIVIDUAL RESULT CARD --- */
+.result-card {
+  background-color: #f2f1f1;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  /* Make anchor behave like block */
+  color: inherit;
+}
+
+.result-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result-card h4 {
+  margin: 0 0 6px 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #000;
+  text-transform: uppercase;
+}
+
+.result-card p {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+
+  /* Limit to 3 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.result-date {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #d73634;
+  /* Theme Red */
+  text-align: right;
+  display: block;
+}
+
+/* --- THE HIGHLIGHT COLOR --- */
+.highlight-red {
+  color: #d73634;
+  font-weight: bold;
+}
+
+
+
+
+/* ==========================================
+   RESPONSIVE SEARCH WRAPPER STYLES
+   ========================================== */
+
+/* --- 1. TABLET & SMALL LAPTOPS (max-width: 1024px) --- */
+@media (max-width: 1024px) {
+  .search-results-box {
+    width: 340px;
+    right: 59px;
+  }
+  .search-wrapper {
+    bottom: 1.5rem;
+    right: 2rem;
+  }
+}
+
+/* --- 2. TABLET PORTRAIT (max-width: 768px) --- */
+@media (max-width: 768px) {
+  .search-wrapper {
+    bottom: 1rem;
+    right: 2rem;
+  }
+
+  .search-scroll-view{
+    max-height: 80vh;
+  }
+
+  /* Prevent results from being too wide */
+  .search-results-box {
+    min-height: 80vh;
+    width: 340px;
+    bottom: 60px;
+    right: 62px;
+  }
+}
+
+/* --- 3. MOBILE DEVICES (max-width: 550px) --- */
+@media (max-width: 550px) {
+
+  /* A. Reposition Main Wrapper */
+  .search-wrapper {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  /* B. Shrink the Toggle Button */
+  .search-toggle-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* C. Search Input Bar */
+  .search-popup-container {
+    bottom: 5px;
+    right: 60px;
+    /* Distance from the smaller button */
+    height: 42px;
+  }
+
+  .search-popup-container.active {
+    width: auto;
+    min-width: 85vw;
+    /* Take up 65% of screen width */
+  }
+
+  /* D. Filter Tags Container */
+  .filter-options-container {
+    bottom: 60px;
+    right: 0;
+    width: max-content;
+    max-width: 85vw;
+    /* Prevent overflow off screen */
+    padding: 8px;
+  }
+
+  .filter-tag label {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+  }
+
+  /* E. Search Results Box (CRITICAL FIX) */
+  .search-results-box {
+    width: 92.2vw;
+    /* Take up 90% of the screen width */
+    right: -5px;
+    /* Align slightly to the right edge */
+    bottom: 55px;
+    /* Position above the buttons */
+    max-height: 82vh;
+    /* Don't cover the whole screen */
+    border-radius: 12px;
+    backdrop-filter: blur(12px);
+  }
+
+  /* Adjust text inside results for mobile */
+  .result-card h4 {
+    font-size: 0.9rem;
+  }
+
+  .result-card p {
+    font-size: 0.8rem;
+    -webkit-line-clamp: 2;
+    /* Show only 2 lines of summary on mobile */
+  }
+}
+
+@media (max-width: 550px) {
+
+  /* == Search Button and Popup == */
+  .search-wrapper {
+    bottom: 1rem;
+    right: 1.2rem;
+  }
+
+  .search-toggle-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .search-popup-container {
+    bottom: 5px;
+    right: 60px;
+    height: 43px;
+  }
+
+  .filter-options-container {
+    bottom: 60px;
+    right: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    width: max-content;
+  }
+
+  .filter-tag label {
+    padding: 3px 7px;
+    font-size: 0.85rem;
+  }
+
+  .search-popup-container.active {
+    min-width: 65vw;
+    width: auto;
+  }
+
+}
+
+
+/* --- 4. SMALL MOBILE (iPhone SE, etc.) (max-width: 375px) --- */
+@media (max-width: 375px) {
+  /* .search-popup-container.active {
+        min-width: 60vw;
+    } */
+
+  .search-results-box {
+    width: 92vw;
+    right: -5px;
+  }
+}
+
+@media (max-width: 650px), (max-height: 850px) {
+    .search-scroll-view {
+        /* We use !important to override the inline JS styles */
+        mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%) !important;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%) !important;
+    }
+}
+
+
+
+
+/* 1. Make the body a vertical flex container */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Forces body to be at least 100% of the viewport height */
+    margin: 0; /* Good practice to reset margins */
+}
+
+/* 2. Target your Main Content Area */
+/* This specific class '.ma-main' is what you use on the Multi-Article page */
+.ma-main {
+    flex: 1; /* This is the magic: It forces this section to grow and fill empty space */
+    width: 100%; /* Ensure it keeps full width */
+}
+
+/* 3. Ensure the Footer doesn't shrink */
+footer {
+    flex-shrink: 0;
+}
+
+
+
+
+/* ==========================================
+   PROFILE POPUP STYLES
+   ========================================== */
+
+/* The Popup Container */
+.profile-popup {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed so it floats over everything */
+    left: 80px; 
+    top: 770px;
+    width: 200px;
+    background-color: #f2f2f2; /* Light grey/white background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1005; /* Higher than sidebar (1000) */
+    flex-direction: column;
+    padding-bottom: 5px;
+    /* Animation */
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.2s, transform 0.2s;
+    border: 0.5px solid rgb(213, 207, 207);
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* Active State (Visible) */
+.profile-popup.active {
+    display: flex;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Header (User Name) */
+.profile-header {
+    padding: 15px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    border-bottom: 1px solid #d1d1d1;
+    cursor: default;
+}
+
+/* Menu Items */
+.profile-menu-item {
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    transition: background-color 0.2s;
+    display: block;
+}
+
+.profile-menu-item:hover {
+    background-color: #e6e6e6;
+}
+
+/* Divider Line */
+.profile-divider {
+    border: none;
+    border-top: 1px solid #d1d1d1;
+    margin: 5px 20px;
+    width: auto;
+}
+
+/* Mobile Adjustment for Sidebar */
+@media (max-width: 550px) {
+    .profile-popup {
+        left: 75px; /* Adjust based on mobile sidebar width */
+        bottom: 80px; /* Push up slightly on mobile */
+    }
+}
