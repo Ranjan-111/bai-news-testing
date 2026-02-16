@@ -12,6 +12,16 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Add to index.css */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ensure sections have enough breathing room to be centered */
+.PAGE {
+  scroll-margin: 50px; /* Adds a buffer when scrolling into view */
+}
+
 img{
       filter: grayscale(100%);
 }
@@ -35,7 +45,8 @@ a {
 
 .HOME {
   height: 92vh;
-  width: 55%;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,7 +75,7 @@ a {
 
 #team {
   color: rgb(181, 178, 178);
-  margin-top: -35px;
+  margin-top: -13px;
   font-size: 1.15em;
 }
 
@@ -90,10 +101,15 @@ a {
 
 .Article {
   height: 17em;
-  width: 110%;
+  width: 100%;
   display: flex;
-  margin-left: -3em;
+  margin-left: 0;
 
+}
+
+#featured-real {
+  overflow: hidden;
+  width: 100%;
 }
 
 .RIGHT {
@@ -113,6 +129,7 @@ a {
 h3 {
   font-family: "Circular Std", "Montserrat", sans-serif;
   text-transform: uppercase;
+  font-size: 1.3rem;
 }
 
 .date {
@@ -125,7 +142,7 @@ h3 {
 
 .date+p {
     display: -webkit-box;
-    -webkit-line-clamp: 7; 
+    -webkit-line-clamp: 5; 
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis}
@@ -169,7 +186,7 @@ h3 {
   }
 
   .img {
-    width: 300px;
+    width: 100%;
     height: auto;
   }
 
@@ -181,11 +198,6 @@ h3 {
   .info2 {
     text-align: center;
     padding: 0 15px;
-  }
-
-  .img {
-    width: 90%;
-    height: auto;
   }
 
 }
@@ -688,8 +700,8 @@ h3 {
 .sk-feat-article {
     display: flex;
     gap: 2rem;
-    margin-left: -3em; /* Match your .Article margin */
-    width: 110%;
+    margin-left: 0; /* Match your .Article margin */
+    width: 100%;
     align-items: flex-start;
 }
 
@@ -764,7 +776,7 @@ h3 {
 
 /* 6. Utility */
 .hidden { display: none !important; }
-.fade-in { animation: fadeIn 0.5s ease-in; }
+.fade-in { animation: fadeIn 0.5s ease-in; overflow: hidden; width: initial; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* Add to bottom of index.css */
@@ -977,4 +989,36 @@ h3 {
     }
 }
 
+/* Typewriter Cursor */
+.typewrite > .wrap {
+    padding-right: 5px;
+}
+
+@keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: rgba(210, 203, 203, 0.7); }
+}
+
+/* Ensure the typewriter container looks like your original header */
+.name {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 3.2em;
+    font-weight: 300;
+    min-height: 1.2em; /* Prevents layout jump while empty */
+}
+
+.red-dot {
+    color: #d73634; /* Your theme red */
+}
+
 .hidden { display: none !important; }
+
+figure{
+  margin: 0;
+}
+
+
+.news-card a h3{
+text-transform: lowercase; /* First convert all to lowercase */
+  text-transform: capitalize; /* Then capitalize the first letter of each word */
+}

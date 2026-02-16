@@ -1,4 +1,4 @@
-        /* --- General Body & Font Styles --- */
+/* --- General Body & Font Styles --- */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #ffffff;
@@ -163,7 +163,7 @@
         .columns-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            gap: 2rem;
             /* Space between the two columns */
             margin-bottom: 3rem;
         }
@@ -208,7 +208,7 @@
             /* Stack columns on top of each other on smaller screens */
             .columns-container {
                 grid-template-columns: 1fr;
-                gap: 2.5rem;
+                gap: 2rem;
             }
         }
 
@@ -247,4 +247,279 @@
 
 
 
+}
+
+
+/* ================================================
+   FREE RESOURCES TABLE STYLES
+   ================================================ */
+
+.resources-section {
+    max-width: 900px;
+    width: 95%;
+    margin: auto;
+    padding: 0 1rem;
+}
+
+.resources-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin-bottom: 2rem;
+}
+
+/* Header row - all light red */
+.resources-table thead {
+    background-color: #e8c5c5;
+}
+
+.resources-table thead th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #8b3a3a;
+    text-transform: capitalize;
+    background-color: #e8c5c5;
+}
+
+/* Set specific column widths */
+.resources-table thead th:nth-child(1) {
+    width: 25%;
+}
+
+.resources-table thead th:nth-child(2) {
+    width: 15%;
+    background-color: #e8c5c5;
+}
+
+.resources-table thead th:nth-child(3) {
+    width: 45%;
+}
+
+.resources-table thead th:nth-child(4) {
+    width: 15%;
+}
+
+.resources-table tbody tr {
+    border-bottom: 4px solid #ffffff;
+}
+
+.resources-table tbody td {
+    padding: 1.2rem 1rem;
+    font-size: 1.035rem;
+    color: #000000;
+}
+
+/* First column (Resource) - light red background */
+.resources-table tbody td:nth-child(1) {
+    background-color: #f5e5e5;
+    font-weight: 400;
+    width: 25%;
+}
+
+/* Second column (Value) - white background */
+.resources-table tbody td:nth-child(2) {
+    background-color: #ffffff;
+    font-weight: 600;
+    font-size: 1.15rem;
+    width: 15%;
+}
+
+/* Third column (Description) - white background */
+.resources-table tbody td:nth-child(3) {
+    background-color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.4;
+    width: 45%;
+}
+
+/* Fourth column (Apply Now) - light red background */
+.resources-table tbody td:nth-child(4) {
+    background-color: #f5e5e5;
+    text-align: center;
+    width: 15%;
+}
+
+.apply-link {
+    color: #a83c3c;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.apply-link:hover {
+    color: #d73634;
+}
+
+/* Line styles matching index.css */
+.Line1 {
+    position: absolute;
+    border: none;
+    border-top: 0.5px solid #ccc;
+    width: 70vw;
+    left: 15vw;
+}
+
+.line-with-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: red;
+    font-size: 1.2rem;
+}
+
+.line-with-text::before,
+.line-with-text::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+    margin: 0 1rem;
+}
+
+.line2 {
+    width: 60%;
+    margin: auto;
+}
+
+.link1 {
+    text-decoration: none;
+    color: rgb(79, 30, 30);
+    font-weight: 300;
+    font-family: "Roboto", sans-serif;
+}
+
+.link1:hover {
+    color: rgb(223, 8, 8);
+}
+
+/* Responsive design for table */
+@media (max-width: 768px) {
+    .resources-section {
+        width: 90%;
+        padding: 0;
+    }
+
+    .resources-table {
+        font-size: 0.9rem;
+    }
+
+    .resources-table thead th {
+        padding: 0.8rem 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .resources-table tbody td {
+        padding: 1rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .resources-table tbody td:nth-child(2) {
+        font-size: 1rem;
+    }
+
+    .resources-table tbody td:nth-child(3) {
+        font-size: 0.85rem;
+    }
+
+    .apply-link {
+        font-size: 0.9rem;
+    }
+}
+
+/* @media (max-width: 550px) {
+    .resources-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .resources-table thead {
+        display: none;
+    }
+
+    .resources-table tbody,
+    .resources-table tr,
+    .resources-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .resources-table tbody tr {
+        margin-bottom: 1.5rem;
+        border: 1px solid #e8c5c5;
+        border-radius: 8px;
+        background-color: #f5e5e5;
+        padding: 1rem;
+    }
+
+    .resources-table tbody td {
+        padding: 0.5rem 0;
+        border: none;
+        position: relative;
+        padding-left: 45%;
+        text-align: right;
+        width: 100% !important;
+    }
+
+    .resources-table tbody td:nth-child(1),
+    .resources-table tbody td:nth-child(2),
+    .resources-table tbody td:nth-child(3),
+    .resources-table tbody td:nth-child(4) {
+        background-color: transparent;
+    }
+
+    .resources-table tbody td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 40%;
+        padding-left: 0.5rem;
+        font-weight: 600;
+        text-align: left;
+        color: #8b3a3a;
+    }
+
+    .resources-table tbody td:nth-child(1)::before {
+        content: "Resource:";
+    }
+
+    .resources-table tbody td:nth-child(2)::before {
+        content: "Value:";
+    }
+
+    .resources-table tbody td:nth-child(3)::before {
+        content: "Description:";
+    }
+
+    .resources-table tbody td:nth-child(4) {
+        text-align: right;
+        padding-top: 1rem;
+        border-top: 1px solid #e8c5c5;
+        margin-top: 0.5rem;
+    }
+
+    .resources-table tbody td:nth-child(4)::before {
+        content: none;
+    }
+} */
+
+
+.resources-table thead th:nth-child(3) {
+    background-color: #f5e5e5;
+}
+.resources-table thead th:nth-child(2) {
+    background-color: #f5e5e5;
+}
+
+
+/* Add to students.css */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Adds a bit of space when the browser snaps to these sections */
+.AI_intro, .resources-section {
+  scroll-margin: 60px;
 }

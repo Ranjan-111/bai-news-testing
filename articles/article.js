@@ -115,6 +115,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // 2. FETCH DATA
     const article = await getArticleById(articleId);
+    if (article) {
+        updateSocialMetaTags(article); // THE NEW CALL
+    }
     window.currentArticleData = article;
 
     if (!article) {
@@ -311,6 +314,53 @@ async function loadRelated(tags, currentId) {
         console.error("Error loading related articles:", error);
         if (skeletonView) skeletonView.classList.add('hidden');
     }
+}
+
+
+/**
+ * Dynamically updates meta tags for social media sharing using absolute URLs.
+ * Ensure your article.html has meta tags with these exact IDs.
+ */
+function updateSocialMetaTags(article) {
+    // 1. SET YOUR ACTUAL DOMAIN HERE (Must start with https://)
+    const siteBaseUrl = "https://bai.news"; 
+    
+    const title = article.title || "bitFeed";
+    const summary = article.summary || "Clean. Minimal. Insights.";
+    
+    // 2. CONVERT TO ABSOLUTE URLs (Critical for bots/crawlers)
+    const absoluteImageUrl = article.imageUrl.startsWith('http') 
+        ? article.imageUrl 
+        : `${siteBaseUrl}${article.imageUrl}`;
+    
+    const currentAbsoluteUrl = window.location.href;
+
+    // 3. UPDATE BROWSER TAB
+    document.title = `${title} | bitFeed`;
+
+    // 4. UPDATE STANDARD META DESCRIPTION
+    const metaDesc = document.getElementById('meta-description-tag');
+    if (metaDesc) metaDesc.setAttribute("content", summary);
+
+    // 5. UPDATE OPEN GRAPH (Facebook/LinkedIn)
+    const ogTitle = document.getElementById('og-title');
+    const ogDesc = document.getElementById('og-description');
+    const ogImg = document.getElementById('og-image');
+    const ogUrl = document.getElementById('og-url');
+
+    if (ogTitle) ogTitle.setAttribute("content", title);
+    if (ogDesc) ogDesc.setAttribute("content", summary);
+    if (ogImg) ogImg.setAttribute("content", absoluteImageUrl);
+    if (ogUrl) ogUrl.setAttribute("content", currentAbsoluteUrl);
+
+    // 6. UPDATE TWITTER CARD TAGS
+    const twitterTitle = document.getElementById('twitter-title');
+    const twitterDesc = document.getElementById('twitter-description');
+    const twitterImg = document.getElementById('twitter-image');
+
+    if (twitterTitle) twitterTitle.setAttribute("content", title);
+    if (twitterDesc) twitterDesc.setAttribute("content", summary);
+    if (twitterImg) twitterImg.setAttribute("content", absoluteImageUrl);
 }
 
 async function initLikeButton(articleId) {

@@ -3,18 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAI ARTICLES PAGE</title>
+    <title>Loading Article... | bitfeed</title>
     <link rel="stylesheet" href="/main/index.css">
     <link rel="stylesheet" href="/layout/layout.css">
     <link rel="stylesheet" href="article.css">
 
-    <meta property="og:title" content="Supernova Discovered Near Earth" />
-    <meta property="og:description" content="Scientists have just announced a major discovery..." />
-    <meta property="og:image" content="https://yourwebsite.com/assets/actual-news-image.jpg" /> 
-    <meta property="og:url" content="https://yourwebsite.com/news/article-1" />
-    <meta property="og:type" content="article" />
+        <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+
+    <!-- Standard Meta Tags -->
+    <meta name="description" id="meta-description-tag" content="Clean. Minimal. Insights.">
     
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:site_name" content="bitfeed" />
+    <meta property="og:title" id="og-title" content="bitfeed - Business & Finance Insights" />
+    <meta property="og:description" id="og-description" content="Clean. Minimal. Insights." />
+    <meta property="og:image" id="og-image" content="https://bai.news/assets/default-share-image.jpg" /> 
+    <meta property="og:url" id="og-url" content="https://bai.news/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Article featured image" />
+    
+    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="twitter-title" content="bitfeed - Business & Finance Insights">
+    <meta name="twitter:description" id="twitter-description" content="Clean. Minimal. Insights.">
+    <meta name="twitter:image" id="twitter-image" content="https://bai.news/assets/default-share-image.jpg">
+    
+    <!-- Prerender.io Meta Tag -->
+    <meta name="fragment" content="!">
+    <meta name="prerender-status-code" content="200">
+    
 </head>
 <body>
 
@@ -55,14 +76,6 @@
                     <div class="author-info">
                         <span class="author-name" id="author-name"></span>
                     </div>
-                    
-                    <!-- <button id="author-edit-btn" onclick="toggleEditMode()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                        Edit Article
-                    </button> -->
                 </div>
                 
                 <div class="article-actions">
@@ -136,8 +149,7 @@
 
             <hr class="last-hr">
 
-            <section class="tags">
-                </section>
+            <section class="tags"></section>
         </div>
 
      </section>
@@ -170,8 +182,7 @@
         <div id="related-real-view" class="hidden">
             <h2>Related News</h2>
             <hr class="more">
-            <div id="related-container" class="related-articles">
-                </div>
+            <div id="related-container" class="related-articles"></div>
         </div>
 
      </section>
@@ -193,9 +204,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <!-- footer -->
     <div id="global-footer"></div>

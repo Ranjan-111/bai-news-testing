@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Resources - bitfeed</title>
+    <link rel="stylesheet" href="resources.css">
+    <link rel="stylesheet" href="/layout/layout.css">
+        <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+</head>
+
+<body>
+
+    <!-- HEADER AND NAVIGATION BAR -->
+    <div id="global-header"></div>
+    <!-- END OF HEADER AND NAVIGATION BAR -->
+
+    <div class="main-container">
+        <div style="display: none;" class="value-summary">
+            Total Value: <span id="total-value">$0</span>
+        </div>
+    
+        <!-- Category Navigation Tabs -->
+        <div class="category-tabs">
+            <button class="tab-btn active" data-category="credits">Credit</button>
+            <button class="tab-btn" data-category="discounts">Discounts</button>
+            <button class="tab-btn" data-category="courses">Courses (Selected)</button>
+        </div>
+
+        <!-- Resources Table Container -->
+        <section class="resources-section">
+            <div class="loading-state" id="loading">
+                <p>Loading resources...</p>
+            </div>
+            
+            <table class="resources-table" id="resources-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Resource</th>
+                        <th>Value</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+
+            <div class="no-results" id="no-results" style="display: none;">
+                <p>No resources found in this category.</p>
+            </div>
+        </section>
+
+
+<!-- Pagination Container -->
+<div class="pagination-bar">
+    <div class="pagination-wrapper">
+        
+        <button id="prev-page" class="arrow-btn" aria-label="Previous Page">
+            <svg viewBox="0 0 24 24"><path d="M2 12l20 10V2z"/></svg>
+        </button>
+
+        <div id="pages-container"></div>
+
+        <button id="next-page" class="arrow-btn" aria-label="Next Page">
+            <svg viewBox="0 0 24 24"><path d="M22 12l-20 10V2z"/></svg>
+        </button>
+
+    </div>
+</div>
+
+    </div>
+
+    <!-- footer -->
+    <div id="global-footer"></div>
+
+    <script defer type="module" src="/layout/layout.js"></script>
+    <script src="resources.js"></script>
+
+</body>
+
+</html>

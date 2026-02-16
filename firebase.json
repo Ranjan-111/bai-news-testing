@@ -12,6 +12,23 @@
         "destination": "/main/index.html",
         "type": 301
       }
+    ],
+    "headers": [
+      {
+        "source": "/articles/**",
+        "headers": [
+          {
+            "key": "X-Prerender-Token",
+            "value": "eztWjS8ISZ86ts9k1x0o"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/main/index.html"
+      }
     ]
   }
 }

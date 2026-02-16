@@ -1,0 +1,200 @@
+{
+  "all_items": [
+    {
+      "resource": "ElevenLabs",
+      "value": "$55",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://elevenlabs.io/education"
+    },
+    {
+      "resource": "Google Gemini Pro",
+      "value": "$240",
+      "description": "Free for 1 year – unlimited chats, image uploads, Deep Research, 2TB storage, and Gemini Live",
+      "tags": ["credits"],
+      "link": "https://gemini.google.com/pro"
+    },
+    {
+      "resource": "Google Colab (free compute)",
+      "value": "$120",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://colab.research.google.com"
+    },
+    {
+      "resource": "ElevenLabs",
+      "value": "$55",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://elevenlabs.io/education"
+    },
+    {
+      "resource": "Google Gemini Pro",
+      "value": "$240",
+      "description": "Free for 1 year – unlimited chats, image uploads, Deep Research, 2TB storage, and Gemini Live",
+      "tags": ["credits"],
+      "link": "https://gemini.google.com/pro"
+    },
+    {
+      "resource": "Google Colab (free compute)",
+      "value": "$120",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://colab.research.google.com"
+    },
+    {
+      "resource": "ElevenLabs",
+      "value": "$55",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://elevenlabs.io/education"
+    },
+    {
+      "resource": "Google Gemini Pro",
+      "value": "$240",
+      "description": "Free for 1 year – unlimited chats, image uploads, Deep Research, 2TB storage, and Gemini Live",
+      "tags": ["credits"],
+      "link": "https://gemini.google.com/pro"
+    },
+    {
+      "resource": "Google Colab (free compute)",
+      "value": "$120",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://colab.research.google.com"
+    },
+    {
+      "resource": "ElevenLabs",
+      "value": "$55",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://elevenlabs.io/education"
+    },
+    {
+      "resource": "Google Gemini Pro",
+      "value": "$240",
+      "description": "Free for 1 year – unlimited chats, image uploads, Deep Research, 2TB storage, and Gemini Live",
+      "tags": ["credits"],
+      "link": "https://gemini.google.com/pro"
+    },
+    {
+      "resource": "Google Colab (free compute)",
+      "value": "$120",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://colab.research.google.com"
+    },
+    {
+      "resource": "ElevenLabs",
+      "value": "$55",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://elevenlabs.io/education"
+    },
+    {
+      "resource": "Google Gemini Pro",
+      "value": "$240",
+      "description": "Free for 1 year – unlimited chats, image uploads, Deep Research, 2TB storage, and Gemini Live",
+      "tags": ["credits"],
+      "link": "https://gemini.google.com/pro"
+    },
+    {
+      "resource": "Google Colab (free compute)",
+      "value": "$120",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://colab.research.google.com"
+    },
+    {
+      "resource": "ElevenLabs",
+      "value": "$55",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://elevenlabs.io/education"
+    },
+    {
+      "resource": "Google Gemini Pro",
+      "value": "$240",
+      "description": "Free for 1 year – unlimited chats, image uploads, Deep Research, 2TB storage, and Gemini Live",
+      "tags": ["credits"],
+      "link": "https://gemini.google.com/pro"
+    },
+    {
+      "resource": "Google Colab (free compute)",
+      "value": "$120",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["credits"],
+      "link": "https://colab.research.google.com"
+    },
+    {
+      "resource": "Notion AI",
+      "value": "$96",
+      "description": "Free AI access for students for 1 year",
+      "tags": ["credits", "discounts"],
+      "link": "https://www.notion.so/product/ai"
+    },
+    {
+      "resource": "GitHub Copilot",
+      "value": "$120",
+      "description": "Free for verified students via GitHub Student Developer Pack",
+      "tags": ["credits"],
+      "link": "https://github.com/features/copilot"
+    },
+    {
+      "resource": "Canva Pro",
+      "value": "$110",
+      "description": "Free premium design tools for students and educators",
+      "tags": ["discounts"],
+      "link": "https://www.canva.com/education/"
+    },
+    {
+      "resource": "JetBrains All Products Pack",
+      "value": "$249",
+      "description": "Free professional developer tools for students",
+      "tags": ["credits", "courses"],
+      "link": "https://www.jetbrains.com/community/education/"
+    },
+    {
+      "resource": "AWS Educate Credits",
+      "value": "$100",
+      "description": "Cloud credits for learning and building projects",
+      "tags": ["credits", "courses"],
+      "link": "https://aws.amazon.com/education/awseducate/"
+    },
+    {
+      "resource": "DigitalOcean Student Credits",
+      "value": "$100",
+      "description": "Cloud hosting credits for students",
+      "tags": ["credits"],
+      "link": "https://www.digitalocean.com/github-students"
+    },
+    {
+      "resource": "Figma Professional",
+      "value": "$144",
+      "description": "Free professional design tools for students",
+      "tags": ["discounts"],
+      "link": "https://www.figma.com/education/"
+    },
+    {
+      "resource": "Coursera Plus",
+      "value": "$399",
+      "description": "Discounted access to courses and certifications for students",
+      "tags": ["courses", "discounts"],
+      "link": "https://www.coursera.org/courseraplus"
+    },
+    {
+      "resource": "MongoDB Atlas Credits",
+      "value": "$50",
+      "description": "Database credits for student developers",
+      "tags": ["credits"],
+      "link": "https://www.mongodb.com/students"
+    },
+    {
+      "resource": "Unity Student Plan",
+      "value": "$150",
+      "description": "Free game development tools for students",
+      "tags": ["courses", "credits"],
+      "link": "https://unity.com/education"
+    }
+  ]
+}

@@ -14,7 +14,7 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 // 2. CONFIGURATION
 const firebaseConfig = {
     apiKey: "AIzaSyC_Q3p2dyKwUOUv5O-gIMNI8vv6RrD0IZY",
-    authDomain: "bai-news-9e4cf.firebaseapp.com",
+    authDomain: "bitfeed.in",
     projectId: "bai-news-9e4cf",
     storageBucket: "bai-news-9e4cf.firebasestorage.app",
     messagingSenderId: "1056453543830",
