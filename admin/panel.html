@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel - BAI.NEWS</title>
+    <title>Admin Panel - bitfeed</title>
+        <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
@@ -162,12 +165,29 @@
 
         .modal-actions { margin-top: 25px; display: flex; gap: 10px; }
         .btn-full-width { width: 100%; padding: 12px; font-size: 1rem; }
+
+        .btn-reject {
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background 0.2s;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+        .btn-reject:hover { background: #c82333; }
+
     </style>
 </head>
 <body>
 
     <header class="panel-header">
-        
+        <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" 
+             alt="Back" class="back-btn" onclick="history.back()"/>
         <a href="/main/index.html"><h1>Reporter Applications</h1></a>
     </header>
 
@@ -235,6 +255,9 @@
                     </div>
                     <button class="btn-approve" onclick="event.stopPropagation(); approveReporter('${docId}', '${data.displayName}', '${data.email}')">
                         Approve
+                    </button>
+                    <button class="btn-reject" onclick="event.stopPropagation(); rejectReporter('${docId}', '${data.displayName}')">
+                        Reject
                     </button>
                 `;
                 container.appendChild(div);
@@ -328,20 +351,20 @@
                 <body style="margin:0;padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background-color:#ffffff;color:#333;">
                     <div style="max-width:600px;margin:0 auto;padding-top:40px;">
                         <div style="text-align:center;margin-bottom:30px;">
-                            <span style="font-size:24px;color:#000;">bai.news</span>
+                            <span style="font-size:24px;color:#000;">bitfeed</span>
                         </div>
                         <hr style="border:none;border-top:1px solid #e0e0e0;margin:0 0 40px 0;">
                         <div style="padding:0 20px;">
                             <p style="font-size:16px;line-height:1.6;margin-bottom:25px;">Hi ${name},</p>
-                            <p style="font-size:16px;line-height:1.6;margin-bottom:25px;"><strong>Congratulations!</strong> We’ve received your application and we are thrilled to officially welcome you to the bai.news newsroom.</p>
+                            <p style="font-size:16px;line-height:1.6;margin-bottom:25px;"><strong>Congratulations!</strong> We’ve received your application and we are thrilled to officially welcome you to the bitfeed news newsroom.</p>
                             <ul style="font-size:16px;line-height:1.6;margin-bottom:25px;padding-left:20px;">
                                 <li style="margin-bottom:15px;"><strong>Review our Style Guide:</strong> Check out our <a href="https://bai.news/others/privacy-policy.html" style="color:#333;text-decoration:underline;">Guidelines</a>.</li>
                                 <li style="margin-bottom:15px;"><strong>Submit Your First Lead:</strong> Head over to your <a href="https://bai.news/profile pages/user.html" style="color:#333;text-decoration:underline;">Dashboard</a> to start.</li>
                             </ul>
-                            <p style="font-size:16px;line-height:1.6;margin-bottom:60px;">Happy reporting,<br><br><strong>bai.team</strong></p>
+                            <p style="font-size:16px;line-height:1.6;margin-bottom:60px;">Happy reporting,<br><br><strong>bitfeed.team</strong></p>
                         </div>
                         <div style="background-color:#000;color:#fff;padding:30px 20px;text-align:center;font-size:12px;">
-                            <p style="margin:0;">&copy; 2025 bai.news. All rights reserved.</p>
+                            <p style="margin:0;">&copy; 2025 bitfeed news. All rights reserved.</p>
                         </div>
                     </div>
                 <\/body>
@@ -365,6 +388,25 @@
             } catch (e) {
                 console.error(e);
                 alert("Error: " + e.message);
+            }
+        };
+
+        window.rejectReporter = async (docId, name) => {
+            if(!confirm(`Reject ${name}'s reporter application? This will delete their request.`)) return;
+
+            // Close modal if open
+            closeModal();
+
+            try {
+                // Delete the document from Firestore
+                const docRef = doc(db, "authors", docId);
+                await deleteDoc(docRef);
+
+                alert(`${name}'s application has been rejected and removed.`);
+                loadRequests(); // Reload to remove rejected card
+            } catch (error) {
+                console.error("Error rejecting reporter:", error);
+                alert("Failed to reject. Check console.");
             }
         };
 

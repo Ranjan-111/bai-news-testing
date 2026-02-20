@@ -38,9 +38,63 @@ a{ text-decoration: none; color: black; }
 .hr1 { border: none; border-top: 0.1px solid #6b6666; width: 60%; margin-bottom: 1rem; margin-top: 2.68rem; }
 .menu-item { position: relative; display: flex; align-items: center; margin: 20px 0; color: white; text-decoration: none; }
 .icon4 { width: 1.5rem; height: 1.5rem; margin-bottom: 0.1rem; }
-.profile-btn { margin-top: auto; margin-bottom: 0rem; }
+.profile-btn { margin-top: 4px; margin-bottom: 0rem; }
+.profilebtn-auto { margin-top: auto;}
 .profile-btn .icon4 { width: 3.8rem; height: 4.5rem; }
-@media (max-width: 550px) { .profile-btn { margin-bottom: 6rem; } }
+@media (max-width: 550px) { 
+  .profile-btn { margin-bottom: 1rem; } 
+  
+  /* Mobile profile options in sidebar */
+  .mobile-profile-options {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 0;
+    margin-top: auto;
+    margin-bottom: 0rem;
+  }
+  
+  .mobile-profile-options.active {
+    display: flex;
+  }
+  
+  .mobile-profile-option {
+    display: flex;
+    align-items: center;
+    padding: 15px 23px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .mobile-profile-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .mobile-profile-option .icon4 {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 15px;
+    margin-bottom: 0;
+  }
+  
+  .mobile-profile-option .label {
+    position: relative;
+    left: 0;
+    opacity: 1;
+    transform: translateX(0);
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  /* Add a subtle separator between options */
+  .mobile-profile-option:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
 .label { position: absolute; left: 60px; opacity: 0; transform: translateX(-10px); transition: all 0.3s ease; color: black; font-family: Arial, sans-serif; width: max-content; }
 .lst-lbl{ left: 70px; top: 20.5px; }
 .icon4:hover+.label { opacity: 1; transform: translateX(0); }
@@ -67,7 +121,7 @@ a{ text-decoration: none; color: black; }
 
 /* FOOTER */
 footer { background: #000; padding: 40px 0 0; margin: 0; font-family: Arial, sans-serif; background-color: #111; color: #fff; width: 100vw; min-height: 15rem; flex-shrink: 0; }
-footer h2 { margin-left: 8rem; font-size: 1.1rem; font-weight: 100; opacity: 0.85; margin-bottom: 2rem; text-transform: lowercase; }
+footer h2 { margin-left: 8rem; font-size: 1.1rem; font-weight: 100; opacity: 0.85; margin-bottom: 2rem; text-transform: uppercase; }
 .footer-container { display: flex; justify-content: space-around; flex-wrap: wrap; border-bottom: 1px solid #222; padding-bottom: 3rem; max-width: 1400px; margin: 0 auto; }
 .footer-left { margin-left: 12rem; }
 .footer-left ul, .footer-middle ul { list-style: none; padding: 0; margin: 0; }
@@ -259,6 +313,17 @@ footer h2 { margin-left: 8rem; font-size: 1.1rem; font-weight: 100; opacity: 0.8
 @media (max-height: 850px) { .search-wrapper{ bottom: 0.7rem; } .search-scroll-view { mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%) !important; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%) !important; } .search-results-box { min-height: 72vh; } }
 .search-scroll-view { max-height: 57vh; overflow-y: auto; scrollbar-width: thin; padding: 10px 0; mask-image: none; -webkit-mask-image: none; }
 .search-results-box.active { display: block; animation: slideUp 0.3s ease-out; }
+.search-scroll-view { 
+    max-height: 57vh; 
+    overflow-y: auto; 
+    scrollbar-width: thin; 
+    padding: 10px 0; 
+    mask-image: none; 
+    -webkit-mask-image: none;
+    
+    /* FIX: Prevents background scroll when reaching the end of the list */
+    overscroll-behavior: contain; 
+}
 @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .btn-read-more { display: block; width: 100%; padding: 12px; background: transparent; border: none; border-top: 1px solid #eee; color: #d73634; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-align: center; font-family: inherit; margin-top: 5px; transition: background 0.2s; }
 .btn-read-more:hover { background-color: #f9f9f9; text-decoration: underline; }
@@ -283,7 +348,9 @@ footer { flex-shrink: 0; }
 .profile-menu-item { padding: 12px 20px; text-decoration: none; color: #000; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 300; transition: background-color 0.2s; display: block; }
 .profile-menu-item:hover { background-color: #e6e6e6; }
 .profile-divider { border: none; border-top: 1px solid #d1d1d1; margin: 5px 20px; width: auto; }
-@media (max-width: 550px) { .profile-popup { left: 75px; bottom: 80px; } }
+@media (max-width: 550px) { 
+  .profile-popup { display: none !important; } 
+}
 /* For shorter screens (Laptops/Tablets) */
 @media (max-height: 850px) {
    .profile-popup {
@@ -303,10 +370,152 @@ footer { flex-shrink: 0; }
 }
 
 
-
-
-
 .pop-body {margin-top : 33px;}
+
+
+/* --- UPDATED FILTER CONTAINER STYLES --- */
+.filter-options-container {
+    position: absolute;
+    bottom: 70px;
+    right: 0px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 12px;
+    display: none;
+    
+    /* HORIZONTAL SCROLL LOGIC */
+    flex-wrap: nowrap;          /* Prevent wrapping to new lines */
+    overflow-x: auto;           /* Enable horizontal scroll */
+    width: 365px;               /* Fixed width for the scroll area */
+    gap: 10px;
+    z-index: 100;
+    
+    /* Optional: Custom scrollbar styling */
+    scrollbar: none;
+    scrollbar-width: none;
+    scrollbar-color: #ffffff #f0f0f0;
+}
+
+/*.filter-options-container::-webkit-scrollbar {
+    height: 2.5px;
+}
+
+.filter-options-container::-webkit-scrollbar-thumb {
+    background: #d73634;
+    border-radius: 10px;
+}*/
+
+.filter-options-container.visible {
+    display: flex;
+}
+
+/* Ensure labels don't shrink */
+.filter-tag {
+    flex: 0 0 auto; 
+}
+
+
+
+/* --- MOBILE TEXT REMOVAL (< 550px) --- */
+@media (max-width: 550px) {
+    /* This is what removes the text */
+    .noselect span {
+        display: none !important;
+    }
+}
+    
+
+/* Update the search results box to wrap content height */
+.search-results-box {
+    position: absolute;
+    bottom: 7vh;
+    right: 10px;
+    width: 390px;
+    display: none;
+    z-index: 90;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    overflow: hidden;
+    /* Allow height to be determined by content */
+    height: auto; 
+    max-height: 57vh;
+}
+
+/* Mobile specific: Remove the large white box when empty */
+@media (max-width: 770px) {
+    .search-results-box {
+        width: 92.2vw;
+        right: -5px;
+        bottom: 55px;
+        /* Remove the fixed min-height so it shrinks when empty */
+        min-height: unset !important; 
+        max-height: 82vh;
+    }
+    
+    /* Style for the 'No results' message to make it compact */
+    .no-results-msg {
+        padding: 12px;
+        font-size: 0.85rem;
+        text-align: center;
+        color: #888;
+    }
+}
+
+/* 1. Ensure the body takes up at least the full height of the screen */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* 2. Create a wrapper for your page content that grows to fill space */
+/* If your pages use a different class like .main or .main-container, adjust accordingly */
+main, .main, .ma-main, .main-container {
+    flex: 1 0 auto;
+}
+
+/* 3. Ensure the footer doesn't shrink */
+footer {
+    flex-shrink: 0;
+    width: 100vw;
+}
+
+/* --- REMOVE DEFAULT SCROLLBAR --- */
+
+/* For Chrome, Safari, and newer versions of Edge */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* For Firefox and IE/Edge */
+body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+/* 1. Ensure the body takes up at least the full height of the screen */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    /* Hide scrollbar for Firefox and IE/Edge */
+    -ms-overflow-style: none;  
+    scrollbar-width: none;     
+}
+
+/* 3. Ensure the footer doesn't shrink */
+footer {
+    flex-shrink: 0;
+    width: 100vw;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
 `;
 
 // =========================================================================
@@ -326,7 +535,7 @@ const layoutHTML = `
                     </div>
                 </div>
             </label>
-            <div class="sidebar">
+            <nav class="sidebar">
                 <hr class="hr1">
                 <a href="/main/index.html" class="menu-item">
                     <img src="/assets/home.png" alt="img" class="icon4">
@@ -342,20 +551,26 @@ const layoutHTML = `
                     <img src="/assets/Tech Icons.png" alt="img" class="icon4">
                     <span class="label">artificial intelligence</span>
                 </a>
-                <a href="javascript:void(0)" class="menu-item profile-btn" id="profileTrigger" style="display: none;">
+                
+                
+                <!-- Mobile Profile Options (populated dynamically by auth.js) -->
+                <div class="mobile-profile-options" id="mobileProfileOptions">
+                    <!-- Options will be inserted here based on user role -->
+                </div>
+                
+                <a href="javascript:void(0)" class="menu-item profile-btn profilebtn-auto" id="profileTrigger" style="display: none;">
                     <img src="/assets/profile Image.png" alt="img" class="icon4" id="responsiveImg">
                     <span class="label lst-lbl">profile</span>
                 </a>
                 <div class="profile-popup" id="profilePopup">
                     <div class="profile-header" id="profileName">Loading...</div>
                     <a href="/profile pages/user.html" class="profile-menu-item">profile</a>
-                    <a href="#" class="profile-menu-item">help</a>
                     <hr class="profile-divider">
                     <a href="#" class="profile-menu-item" id="btn-signout">sign out</a>
                 </div>
-            </div>
+            </nav>
         </div>
-        <a href="/main/index.html" class="LOGO">bai.news</a>
+        <a href="/main/index.html" class="LOGO">bitfeed</a>
         <button id="openPopupBtn" class="noselect"><span class="text">subscribe</span>
             <span class="icon"> <svg viewBox="0 0 448 512" class="bell"><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"></path></svg></span>
         </button>
@@ -366,7 +581,7 @@ const layoutHTML = `
     <div id="popupOverlay" class="overlay">
         <div class="popup pop-card">
             <div class="pop-header">
-                <span class="pop-logo">b<span class="text-red">ai</span>.news</span>
+                <span class="pop-logo">b<span class="text-red">it</span>feed</span>
                 <div class="close-icon-wrapper" id="closePopupBtn">
                     <svg  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -377,13 +592,13 @@ const layoutHTML = `
             <div id="view-options">
                 <div class="pop-body">
                     <button class="sm-btn" id="google-login-btn">
-                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="btn-icon">
+                        <img src="/assets/google.svg" alt="Google" class="btn-icon">
                         <span id="text-google">Sign up with Google</span>
                     </button>
-                    <a href="/error-page/x-error.html"><button class="sm-btn">
-                        <img src="https://img.icons8.com/?size=256w&id=xgCVUXwsgAmA&format=png" alt="Google" class="btn-icon">
+                    <button class="sm-btn" id="twitter-login-btn">
+                        <img src="https://img.icons8.com/?size=256w&id=xgCVUXwsgAmA&format=png" alt="X" class="btn-icon">
                         <span id="text-twitter">Sign up with X</span>
-                    </button></a>
+                    </button>
                     <button class="sm-btn" id="btn-to-email">
                         <svg class="btn-icon email-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="4" width="18" height="16" rx="2" ry="2"></rect>
@@ -441,7 +656,7 @@ const layoutHTML = `
 
 <div id="source-footer">
     <footer>
-        <h2>bai.news</h2>
+        <h2 style="visibility: hidden;">Yay!!! you found it🥳. "BITFEED07" post this code on LinkedIn and tag us. HAPPY DAYY🙃</h2>
         <div class="footer-container">
             <div class="footer-left">
                 <ul>
@@ -464,13 +679,13 @@ const layoutHTML = `
                 <form>
                     <input type="email" class="newsletter-input" placeholder="Email">
                     <br>
-                    <button type="submit" class="subscribe-btn">Subscribe</button>
+                    <button type="submit" class="subscribe-btn">subscribe</button>
                 </form>
             </div>
         </div>
         <div class="footer-bottom">
-            Copyright 2025 bai.news. All rights reserved.
-            The bai.news is not responsible for the content of external sites.
+            Copyright 2025 bitfeed. All rights reserved.
+            The bitfeed is not responsible for the content of external sites.
             <a href="#">Read about our approach to external linking.</a>
         </div>
     </footer>
@@ -481,20 +696,32 @@ const layoutHTML = `
         <div id="search-results-box" class="search-results-box"></div>
         <div class="filter-options-container" id="filter-options-container">
             <div class="filter-tag">
-                <input type="checkbox" id="filter-ai" name="filter-tags" value="ai">
-                <label for="filter-ai">AI</label>
+                <input type="checkbox" id="filter-algorithms" name="filter-tags" value="algorithms">
+                <label for="filter-algorithms">Algorithms</label>
             </div>
             <div class="filter-tag">
-                <input type="checkbox" id="filter-tech" name="filter-tags" value="tech">
-                <label for="filter-tech">Tech</label>
+                <input type="checkbox" id="filter-image-modal" name="filter-tags" value="image modal">
+                <label for="filter-image-modal">Image Modal</label>
             </div>
             <div class="filter-tag">
-                <input type="checkbox" id="filter-gpt" name="filter-tags" value="gpt">
-                <label for="filter-gpt">GPT</label>
+                <input type="checkbox" id="filter-video-modal" name="filter-tags" value="video modal">
+                <label for="filter-video-modal">Video Modal</label>
             </div>
             <div class="filter-tag">
-                <input type="checkbox" id="filter-india" name="filter-tags" value="india">
-                <label for="filter-india">India</label>
+                <input type="checkbox" id="filter-llms" name="filter-tags" value="llms">
+                <label for="filter-llms">LLMs</label>
+            </div>
+            <div class="filter-tag">
+                <input type="checkbox" id="filter-research" name="filter-tags" value="research">
+                <label for="filter-research">Research</label>
+            </div>
+            <div class="filter-tag">
+                <input type="checkbox" id="filter-google" name="filter-tags" value="google">
+                <label for="filter-google">Google</label>
+            </div>
+            <div class="filter-tag">
+                <input type="checkbox" id="filter-ai-agents" name="filter-tags" value="ai agents">
+                <label for="filter-ai-agents">AI Agents</label>
             </div>
         </div>
         <div class="search-popup-container" id="search-popup-container">
@@ -575,8 +802,11 @@ function initGlobalLogic() {
 
     // 5. Initialize Share Icons
     initShareLogic();
+    
+    // 6. Initialize Mobile Profile Options Toggle
+    initMobileProfileToggle();
 
-    // 6. Highlight Sidebar Link (Active Page)
+    // 7. Highlight Sidebar Link (Active Page)
     const currentPage = window.location.pathname.split("/").pop() || 'index.html';
     const menuLinks = document.querySelectorAll('.menu-item');
     menuLinks.forEach(link => {
@@ -780,13 +1010,17 @@ export function initSearchLogic() {
 
     // --- Display Results ---
     function displaySearchResults(data, query) {
+        // If no data, show a very compact message
         if (data.length === 0) {
-            resultsBox.innerHTML = `<div class="search-scroll-view"><div style="text-align:center; color:#888; padding:10px;">No matching results.</div></div>`;
+            resultsBox.innerHTML = `
+                <div class="search-scroll-view">
+                    <div class="no-results-msg">No results found</div>
+                </div>`;
             resultsBox.classList.add('active');
             return;
         }
 
-        resultsBox.innerHTML = ''; 
+        resultsBox.innerHTML = '';
         const viewClass = data.length < 5 ? "search-scroll-view few-results" : "search-scroll-view";
         
         const scrollView = document.createElement('div');
@@ -885,6 +1119,52 @@ function initFooterNewsletter() {
 }
 
 // ==========================================
-// 7. EXECUTE ON PAGE LOAD
+// 7. MOBILE PROFILE OPTIONS TOGGLE
+// ==========================================
+function initMobileProfileToggle() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const mobileProfileOptions = document.getElementById('mobileProfileOptions');
+    
+    if (!profileTrigger || !mobileProfileOptions) return;
+    
+    // Toggle mobile profile options on profile button click (only on mobile)
+    profileTrigger.addEventListener('click', (e) => {
+        // Check if we're on mobile view
+        if (window.innerWidth <= 550) {
+            e.preventDefault();
+            e.stopPropagation();
+            mobileProfileOptions.classList.toggle('active');
+            profileTrigger.classList.toggle('profilebtn-auto');
+        }
+        // On desktop, the existing profile popup logic from auth.js will handle it
+    });
+    
+    // Handle mobile sign out button (using event delegation since it might be dynamically created)
+    mobileProfileOptions.addEventListener('click', async (e) => {
+        const signoutBtn = e.target.closest('#mobile-btn-signout');
+        if (signoutBtn) {
+            e.preventDefault();
+            // Call the same logout function used by desktop
+            if (typeof logoutUser === 'function') {
+                await logoutUser();
+            }
+        }
+    });
+    
+    // Close mobile profile options when clicking outside (only on mobile)
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 550) {
+            if (!profileTrigger.contains(e.target) && !mobileProfileOptions.contains(e.target)) {
+                mobileProfileOptions.classList.remove('active');
+                profileTrigger.classList.add('profilebtn-auto');
+
+            }
+        }
+    });
+}
+
+
+// ==========================================
+// 8. EXECUTE ON PAGE LOAD
 // ==========================================
 document.addEventListener('DOMContentLoaded', loadLayout);

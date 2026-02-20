@@ -99,7 +99,7 @@ export async function saveToNewsletterList(email) {
 }
 
 // PASTE YOUR NEW SCRIPT URL HERE
-const GOOGLE_SCRIPT_URL = "YOUR_NEW_DEPLOYED_SCRIPT_URL"; 
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxMXzcNfBZfGUZE-nI5T-8au-it3ujcH6nGgCOepw1tvbcuo4Or-BO7z9RRuDA9RaOmIg/exec"; 
 
 export async function submitAuthorRequest(formData) {
     if (!formData.email) return { success: false };
@@ -123,8 +123,8 @@ export async function submitAuthorRequest(formData) {
         // We send the Base64 data here so it arrives in your inbox
         await fetch(GOOGLE_SCRIPT_URL, {
             method: "POST",
-            mode: "no-cors", 
-            headers: { "Content-Type": "application/json" },
+            mode: "cors", 
+            headers: { "Content-Type": "text/plain" }, // Use text/plain to avoid preflight issues
             body: JSON.stringify({
                 type: "application",
                 name: formData.displayName,
@@ -135,7 +135,7 @@ export async function submitAuthorRequest(formData) {
                 // Send File Data
                 photoBase64: formData.photoURL.startsWith('data:') ? formData.photoURL : null,
                 sampleBase64: formData.sampleBase64,
-                sampleName: formData.sampleArticleName
+                sampleName: formData.sampleName
             })
         });
 

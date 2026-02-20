@@ -4,35 +4,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAI.NEWS</title>
+    <title>bitfeed — Clean. Minimal. Business & AI Insights</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="bitfeed delivers clean, minimal business, AI, and innovation insights by custmr.team. Stay informed with curated news, analysis, and community-driven reporting.">
+    <meta name="keywords"
+        content="bitfeed, business news, AI news, innovation, technology, finance, India, custmr.team, insights">
+    <meta name="author" content="custmr.team">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bitfeed.in/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:site_name" content="bitfeed">
+    <meta property="og:title" content="bitfeed — Clean. Minimal. Business & AI Insights">
+    <meta property="og:description"
+        content="Community-driven business, AI, and innovation news. Clean insights, delivered directly by custmr.team.">
+    <meta property="og:image" content="https://bitfeed.in/assets/favicon.png">
+    <meta property="og:url" content="https://bitfeed.in/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_IN">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="bitfeed — Clean. Minimal. Business & AI Insights">
+    <meta name="twitter:description"
+        content="Community-driven business, AI, and innovation news. Clean insights, delivered directly by custmr.team.">
+    <meta name="twitter:image" content="https://bitfeed.in/assets/favicon.png">
+
+    <!-- Technical SEO -->
+    <meta name="theme-color" content="#d73634">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/layout/layout.css">
     <link rel="stylesheet" href="index.css">
+
+    <!-- Structured Data: WebSite + Organization -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "name": "bitfeed",
+                "url": "https://bitfeed.in/",
+                "description": "Community-driven business, AI, and innovation news by custmr.team.",
+                "publisher": { "@id": "https://bitfeed.in/#organization" }
+            },
+            {
+                "@type": "Organization",
+                "@id": "https://bitfeed.in/#organization",
+                "name": "bitfeed by custmr.team",
+                "url": "https://bitfeed.in/",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://bitfeed.in/assets/favicon.png"
+                },
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "email": "bharataiinsight@gmail.com",
+                    "contactType": "customer support"
+                }
+            }
+        ]
+    }
+    </script>
 </head>
 
 <body>
 
-    <a href="/profile pages/apply.html" style="width: 100%;"><div id="promo-banner" class="promo-banner hidden">
-        Apply to become an official reporter for bai.news. Share your voice with the community.
-    </div></a>
+    <noscript>
+        <p style="padding: 20px; text-align: center; font-family: sans-serif;">bitfeed requires JavaScript to load the
+            latest articles. Please enable JavaScript in your browser settings.</p>
+    </noscript>
+
+    <a href="/profile pages/apply.html" style="width: 100%;">
+        <div id="promo-banner" class="promo-banner hidden">
+            Apply to become an official reporter for bitfeed. Share your voice with the community.
+        </div>
+    </a>
 
     <!-- HEADER AND NAVIGATION BAR -->
     <div id="global-header"></div>
 
 
 
-    <!-- HOME PAGE CONTENT -->
-    <section class="HOME">
-
-        <!-- CONTENT -->
-        <p class="name">Clean<span style="color:red;">.</span style="color:red;"> Minimal<span
-                style="color:red;">.</span> Insights<span style="color:red;">.</span></p>
-        <p id="team">by custmr.team</p>
-    </section>
-
-
-
     <!-- MAIN BLOG CONTENT -->
-<main class="main">
+    <main class="main">
+
+        <!-- HOME PAGE CONTENT -->
+        <section class="HOME">
+
+            <!-- CONTENT -->
+            <h1 class="name">
+                <span class="typewrite" data-period="2000"
+                    data-type='["Welcome to bitfeed", "Clean. Minimal. Insights."]'>
+                    <span class="wrap">Clean<span class="red-dot">.</span> Minimal<span class="red-dot">.</span>
+                        Insights<span class="red-dot">.</span></span>
+                </span>
+            </h1>
+            <p id="team">by custmr.team</p>
+        </section>
 
         <section class="PAGE page1">
             <p class="topic">Featured</p>
@@ -50,8 +125,9 @@
                         <div class="skeleton sk-feat-summary short"></div>
                     </div>
                 </div>
-                
-                <hr class="line3" style="opacity: 0.3;"> <div class="sk-feat-article right">
+
+                <hr class="line3" style="opacity: 0.3;">
+                <div class="sk-feat-article right">
                     <div class="skeleton sk-feat-img"></div>
                     <div class="sk-feat-info" style="align-items: flex-end;">
                         <div class="skeleton sk-feat-title"></div>
@@ -65,7 +141,7 @@
             <div id="featured-real" class="hidden">
                 <article class="Article LEFT">
                     <figure>
-                        <img src="" alt="img" class="img">
+                        <img src="" alt="Featured article image" class="img">
                     </figure>
                     <section class="info1 info">
                         <h3></h3>
@@ -78,7 +154,7 @@
 
                 <article class="Article RIGHT">
                     <figure>
-                        <img src="" alt="img" class="img img2">
+                        <img src="" alt="Featured article image" class="img img2">
                     </figure>
                     <section class="info2 info">
                         <h3></h3>
@@ -91,12 +167,12 @@
         </section>
 
 
-<section class="PAGE">
-            
+        <section class="PAGE">
+
             <p class="topic">Latest news</p>
             <hr class="Line1">
             <br>
-            
+
             <div id="latest-skeleton-view">
                 <article class="timeline">
                     <section class="timeline-item">
@@ -108,7 +184,8 @@
                     </section>
                     <section class="timeline-item">
                         <div class="skeleton sk-time"></div>
-                        <div class=" news-card" style="height: 10px; width: 100%; margin-left: 50px;  margin-top: -5px;">
+                        <div class=" news-card"
+                            style="height: 10px; width: 100%; margin-left: 50px;  margin-top: -5px;">
                             <div class="skeleton sk-news-title"></div>
                             <div class=" sk-news-detail"></div>
                         </div>
@@ -140,7 +217,7 @@
 
             <div id="latest-real-view" class="hidden">
                 <article id="latest-news-container" class="timeline">
-                    </article>
+                </article>
             </div>
 
             <br><br><br>
@@ -152,97 +229,83 @@
             </div>
             <br><br><br><br>
         </section>
-        
+
         <section class=" PAGE">
             <p class="topic">Top news</p>
             <hr class="Line1">
 
 
-            <!-- NEWS CONTENT -->
 
             <article class="highlights">
-                <!-- Left Column -->
                 <section class="column left">
-                    <h1>KEY HIGHLIGHTS OF PM MODI'S INDEPENDENCE DAY SPEECH (2025)</h1>
+                    <h1>BUDGET 2026: THE 'VIKSIT BHARAT' ACCELERATOR</h1>
 
                     <section class="item">
-                        <h2>BIG PUSH ON TECHNOLOGY AND INDUSTRY:</h2>
-                        <p>Announced mission-mode focus on semiconductors with a goal to roll out India's first
-                            made-in-India chip, and a call to develop indigenous jet engines. Emphasis on self-reliance
-                            in critical tech as part of the 2047 developed-India vision.</p>
+                        <h2>THE THREE KARTAVYAS:</h2>
+                        <p>The FM anchored the ₹53.5 lakh crore budget on sustaining growth, fulfilling citizen
+                            aspirations, and ensuring inclusive "Sabka Vikas" across all regions.</p>
                     </section>
 
                     <section class="item">
-                        <h2>GST REFORMS:</h2>
-                        <p>Signaled “second-generation” GST rationalisation to simplify slabs, reduce compliance burden
-                            (especially for MSMEs), and improve ease of doing business.</p>
+                        <h2>MANUFACTURING & SHAKTI:</h2>
+                        <p>Launched Biopharma SHAKTI with a ₹10,000 crore outlay to turn India into a global hub,
+                            alongside a ₹40,000 crore electronics manufacturing boost.</p>
                     </section>
 
                     <section class="item">
-                        <h2>GOVERNANCE AND DE-REGULATION:</h2>
-                        <p>Said a task force will review and prune outdated rules and compliances to lower friction for
-                            businesses, with specific attention to logistics, exports, and startup ecosystems. Complex
-                            procedures for permits and licenses can delay projects, product launches, and shipments.</p>
+                        <h2>TAX EVOLUTION 2.0:</h2>
+                        <p>Announced the comprehensive New Income Tax Act, 2025, which aims to replace the colonial-era
+                            framework with a modern, digital-first tax code starting April 2026. Tax compliance is being
+                            "humanized" through the introduction of pre-filled, simplified filing forms and a dedicated
+                            taxpayer assistance portal.</p>
                     </section>
                 </section>
 
-                <!-- Right Column -->
+
+
+
                 <section class="column right">
-                    <section class="date date1">15 AUGUST 2025</section>
+                    <section class="date date1">04 FEBRUARY 2026</section>
 
                     <section class="item">
-                        <h2>ENERGY STRATEGY:</h2>
-                        <p>Set an ambition to expand nuclear power capacity roughly tenfold by 2047 to meet clean energy
-                            and growth needs.</p>
+                        <h2>INFRASTRUCTURE ENGINE:</h2>
+                        <p>Stepped up Capital Expenditure to a record ₹12.2 lakh crore. Key moves include 7 High-Speed
+                            Rail corridors and 20 new National Waterways.</p>
                     </section>
 
                     <section class="item">
-                        <h2>JOBS AND YOUTH:</h2>
-                        <p>Proposed a ₹1,00,000 crore employment push aimed at skilling, apprenticeships, and catalyzing
-                            job creation through MSMEs and startups.</p>
+                        <h2>MSME CHAMPION FUND:</h2>
+                        <p>Introduced a ₹10,000 crore SME Growth Fund to scale units into "Global Champions" and
+                            "Corporate Mitras" to simplify business compliance.</p>
                     </section>
 
                     <section class="item">
-                        <h2>SOCIAL COMPACT:</h2>
-                        <p>Urged “Vocal for Local,” heritage pride, and unity as pillars for reaching a developed India
-                            by 2047, framing it as a national mission beyond party lines.</p>
+                        <h2>GREEN TRANSITION:</h2>
+                        <p>Allocated ₹20,000 crore for Carbon Capture (CCUS) and exempted customs duty on nuclear
+                            equipment to accelerate the Net-Zero industrial economy.</p>
                     </section>
 
                     <section class="item">
-                        <h2>NATIONAL SECURITY POSTURE:</h2>
-                        <p>Delivered a firm message on terrorism deterrence and reiterated resolve on water and
-                            border-related issues, linking security to economic goals.</p>
-                    </section>
-
-                    <section class="item">
-                        <h2>DEMOGRAPHY MISSION:</h2>
-                        <p>Announced a high-powered “Demography Mission” to harness India's youth bulge through
-                            education, health, and productivity-focused programs.</p>
+                        <h2>WELLNESS & 'SILVER' ECONOMY:</h2>
+                        <p>Launched a specialized Caregiver Training Scheme for 1.5 lakh professionals and announced
+                            NIMHANS-2. Also, the government has established a one-time, six-month compliance window for
+                            providing citizens fair opportunity to regularize their holdings without facing heavy
+                            litigation or punitive penalties.</p>
                     </section>
                 </section>
             </article>
 
+
         </section>
 
 
-            <br><br><br>
-        <a href="#" class="topic">bai.news.initiatives</a>
+        <br><br><br>
+        <a href="#" class="topic">bitfeed initiatives</a>
         <br><br>
         <hr class="Line1">
         <br><br><br>
 
     </main>
-
-
-    <!-- <div id="apply-popup" class="apply-popup-wrapper hidden">
-        <div class="apply-popup-card">
-            <button id="close-apply-popup" class="close-btn">&times;</button>
-            <p class="apply-text">
-                Apply to become an official reporter for bai.news. Share your voice with the community.
-            </p>
-            <a href="/profile pages/apply.html" class="apply-btn-red">Apply</a>
-        </div>
-    </div> -->
 
 
     <div id="global-footer"></div>

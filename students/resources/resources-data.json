@@ -1,0 +1,191 @@
+{
+  "all_items": [
+    {
+      "resource": "ElevenLabs",
+      "value": "$55",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["AI", "Voice Generation", "discounts"],
+      "link": "https://aistudentpack.com"
+    },
+    {
+      "resource": "v0",
+      "value": "$60",
+      "description": "via ElevenLabs AI Student Pack",
+      "tags": ["AI", "Code Generation", "Web Development", "discounts"],
+      "link": "https://aistudentpack.com"
+    },
+    {
+      "resource": "Lovable",
+      "value": "$150",
+      "description": "50% off Pro plan for a year - via ElevenLabs AI Student Pack",
+      "tags": ["AI", "Code Generation", "Web Development", "discounts"],
+      "link": "https://aistudentpack.com"
+    },
+    {
+      "resource": "Google Gemini Pro (Free for Students)",
+      "value": "$240",
+      "description": "Free for 1 year - unlimited chats, image uploads, Deep Research, 2TB storage, and Gemini Live",
+      "tags": ["AI", "Free for Students", "Research", "discounts"],
+      "link": "https://aistudentpack.com"
+    },
+    {
+      "resource": "ChatGPT Plus (2 Months Free)",
+      "value": "$40",
+      "description": "2 months free ChatGPT Plus for US/Canada students with GPT-4o, image generation, and advanced research tools",
+      "tags": ["AI", "Free for Students", "Research", "discounts"],
+      "link": "https://aistudentpack.com"
+    },
+    {
+      "resource": "Free Framer Pro",
+      "value": "$180",
+      "description": "Framer is free for students! Just use your school email",
+      "tags": ["Design", "Web Development", "Productivity", "discounts"],
+      "link": "https://www.framer.com/students/"
+    },
+    {
+      "resource": "Claude Credits",
+      "value": "$50",
+      "description": "Access Claude credits for AI and productivity use",
+      "tags": ["API Credits", "AI", "credits"],
+      "link": "https://claude.com/programs/campus"
+    },
+    {
+      "resource": "OpenAI Credits",
+      "value": "$1000",
+      "description": "Via Microsoft for Startups (Azure)",
+      "tags": ["API Credits", "AI", "credits"],
+      "link": "https://foundershub.startups.microsoft.com/"
+    },
+    {
+      "resource": "Free Cursor Pro (1 Year)",
+      "value": "$240",
+      "description": "Sign up with .edu email",
+      "tags": ["AI", "discounts"],
+      "link": "https://cursor.com/students"
+    },
+    {
+      "resource": "Google Colab (free compute)",
+      "value": "$120",
+      "description": "free with student email",
+      "tags": ["AI", "Compute", "Development", "credits"],
+      "link": "https://colab.research.google.com/signup"
+    },
+    {
+      "resource": "Screen Studio",
+      "value": "$100",
+      "description": "40% off with student email",
+      "tags": ["Productivity", "Video Creation", "discounts"],
+      "link": "https://screen.studio/license/request-educational-discount"
+    },
+    
+    {
+      "resource": "Free Heroku Hosting (2 Years)",
+      "value": "$312",
+      "description": "2 years of hosting via Github Student Dev Pack",
+      "tags": ["Web Infrastructure", "Startups", "credits"],
+      "link": "https://education.github.com/pack"
+    },
+    {
+      "resource": "Free Perplexity Pro (1 Month)",
+      "value": "$20",
+      "description": "Sign up with .edu email",
+      "tags": ["AI", "Productivity", "discounts"],
+      "link": "https://www.perplexity.ai/"
+    },
+    
+    
+    {
+      "resource": "Free GPU Credits",
+      "value": "$10000",
+      "description": "Sign up via Hatch program",
+      "tags": ["GPU", "Web Infrastructure", "AI", "Startups", "credits"],
+      "link": "https://www.digitalocean.com/hatch"
+    },
+    
+    {
+      "resource": "Z Fellows",
+      "value": "$10000",
+      "description": "$10k grant & fellowship for young entrepreneurs",
+      "tags": ["Fellowship", "Grant", "Mentorship", "credits"],
+      "link": "https://www.zfellows.com/"
+    },
+    {
+      "resource": "Neo Scholars",
+      "value": "$25000",
+      "description": "Fellowship & grant for CS students",
+      "tags": ["Fellowship", "Grant", "Mentorship", "credits"],
+      "link": "https://neo.com/scholars"
+    },
+    {
+      "resource": "Afore Capital Grants",
+      "value": "$1000",
+      "description": "$1,000 non-dilutive grant",
+      "tags": ["Fellowship", "Grant", "Mentorship", "credits"],
+      "link": "https://www.afore.vc/"
+    },
+    
+    {
+      "resource": "Notion AI",
+      "value": "$96",
+      "description": "Free AI access for students for 1 year",
+      "tags": ["credits", "discounts"],
+      "link": "https://www.notion.so/product/ai"
+    },
+    {
+      "resource": "GitHub Copilot",
+      "value": "$120",
+      "description": "Free for verified students via GitHub Student Developer Pack",
+      "tags": ["credits"],
+      "link": "https://github.com/features/copilot"
+    },
+    {
+      "resource": "Canva Pro",
+      "value": "$110",
+      "description": "Free premium design tools for students and educators",
+      "tags": ["discounts"],
+      "link": "https://www.canva.com/education/"
+    },
+    {
+      "resource": "JetBrains All Products Pack",
+      "value": "$249",
+      "description": "Free professional developer tools for students",
+      "tags": ["credits", "courses"],
+      "link": "https://www.jetbrains.com/community/education/"
+    },
+    {
+      "resource": "AWS Educate Credits",
+      "value": "$100",
+      "description": "Cloud credits for learning and building projects",
+      "tags": ["credits", "courses"],
+      "link": "https://aws.amazon.com/education/awseducate/"
+    },
+    {
+      "resource": "DigitalOcean Student Credits",
+      "value": "$100",
+      "description": "Cloud hosting credits for students",
+      "tags": ["credits"],
+      "link": "https://www.digitalocean.com/github-students"
+    },
+    {
+      "resource": "Coursera Plus",
+      "value": "$399",
+      "description": "Discounted access to courses and certifications for students",
+      "tags": ["courses", "discounts"],
+      "link": "https://www.coursera.org/courseraplus"
+    },
+    {
+      "resource": "MongoDB Atlas Credits",
+      "value": "$50",
+      "description": "Database credits for student developers",
+      "tags": ["credits"],
+      "link": "https://www.mongodb.com/students"
+    },
+    {
+      "resource": "Unity Student Plan",
+      "value": "$150",
+      "description": "Free game development tools for students",
+      "tags": ["courses", "credits"],
+      "link": "https://unity.com/education"
+    }
+  ]
+}

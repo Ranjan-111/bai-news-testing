@@ -1,264 +1,231 @@
+/* =========================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ========================================= */
+:root {
+  /* Colors */
+  --color-primary-red: rgb(181, 30, 30);
+  --color-red-hover: rgb(223, 8, 8);
+  --color-red-dark: #b93b3b;
+  --color-red-date: rgb(188, 3, 3);
+  --color-red-dot: #d73634;
+  --color-text-dark: #111;
+  --color-text-muted: #555;
+  --color-text-time: #333;
+  --color-team: rgb(181, 178, 178);
+  --color-border: #ccc;
+  --color-border-active: #000;
+  --color-skeleton-base: #f0f0f0;
+  --color-skeleton-shine: #e0e0e0;
+  --color-bg-white: #fff;
+  --color-bg-black: #000;
+  --color-banner-text: #fff;
+  --color-close-btn: #999;
+  --color-close-btn-hover: #333;
+
+  /* Typography */
+  --font-primary: "Roboto", sans-serif;
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-heading: "Circular Std", "Montserrat", sans-serif;
+
+  --font-size-xs: 0.77rem;
+  --font-size-sm: 0.86rem;
+  --font-size-base: 0.9rem;
+  --font-size-md: 0.95rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.2rem;
+  --font-size-2xl: 1.3rem;
+  --font-size-3xl: 1.4em;
+  --font-size-4xl: 1.8rem;
+  --font-size-name: 3.2em;
+
+  --font-weight-light: 150;
+  --font-weight-thin: 200;
+  --font-weight-regular: 300;
+  --font-weight-medium: 390;
+  --font-weight-semibold: 400;
+  --font-weight-bold: 500;
+  --font-weight-heavy: 900;
+
+  --letter-spacing-base: 0.8px;
+  --letter-spacing-sm: 0.5px;
+  --letter-spacing-xs: 0.3px;
+  --letter-spacing-tight: -1px;
+
+  /* Spacing */
+  --space-xs: 5px;
+  --space-sm: 10px;
+  --space-md: 15px;
+  --space-lg: 20px;
+  --space-xl: 25px;
+  --space-2xl: 30px;
+  --space-3xl: 50px;
+
+  /* Layout */
+  --main-width: 50%;
+  --timeline-offset: 8rem;
+  --border-radius-card: 12px;
+  --border-radius-img: 6%;
+  --border-radius-sm: 4px;
+  --border-radius-btn: 6px;
+
+  /* Shadows */
+  --shadow-card: 0 5px 11px rgba(0, 0, 0, 0.15);
+
+  /* Transitions */
+  --transition-fast: 0.2s;
+  --transition-base: 0.3s;
+  --transition-slow: 0.4s;
+
+  /* Z-index */
+  --z-banner: 1001;
+  --z-popup: 2000;
+}
+
+
+/* =========================================
+   RESET & BASE
+   ========================================= */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 0px;
+  margin: 0;
 }
 
-/* This targets all elements and makes the tap highlight
-    color completely transparent, effectively removing it. */
-* {
-  -webkit-tap-highlight-color: transparent;
+img {
+  filter: grayscale(100%);
 }
 
-img{
-      filter: grayscale(100%);
+figure {
+  margin: 0;
 }
 
-/* FONT FAMILY */
+
+/* =========================================
+   TYPOGRAPHY
+   ========================================= */
 p {
-  font-family: "Roboto", sans-serif;
-  font-weight: 150;
-  letter-spacing: 0.8px;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-light);
+  letter-spacing: var(--letter-spacing-base);
 }
 
 a {
   text-decoration: none;
-  color: black;
-  font-weight: 300;
-  font-family: "Roboto", sans-serif;
+  color: var(--color-bg-black);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-primary);
+}
+
+h3 {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: var(--font-size-2xl);
+}
+
+.link1 {
+  text-decoration: none;
+  color: rgb(79, 30, 30);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-primary);
+}
+
+.link1:hover {
+  color: var(--color-red-hover);
 }
 
 
+/* =========================================
+   LAYOUT
+   ========================================= */
+.main {
+  width: var(--main-width);
+}
+
+.PAGE {
+  height: none;
+  width: 100%;
+  scroll-margin: var(--space-3xl);
+}
+
+.page1 {
+  margin-bottom: 7rem;
+}
 
 
+/* =========================================
+   HOME SECTION
+   ========================================= */
 .HOME {
   height: 92vh;
-  width: 55%;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-
-
 .name {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 3.2em;
-  font-weight: 300;
+  font-family: var(--font-display);
+  font-size: var(--font-size-name);
+  font-weight: var(--font-weight-regular);
   margin-top: 0;
   text-align: center;
+  min-height: 1.2em;
 }
-
-@media(max-width: 550px){
-  .name{
-    text-align: left;
-  }
-  #team{
-    opacity: 0.6;
-  }
-}
-
 
 #team {
-  color: rgb(181, 178, 178);
-  margin-top: -35px;
+  color: var(--color-team);
+  margin-top: -13px;
   font-size: 1.15em;
 }
 
 .topic {
-  font-family: "Roboto", sans-serif;
-  font-weight: 200;
-  font-size: 1.4em;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-thin);
+  font-size: var(--font-size-3xl);
 }
 
-.main {
-  width: 50%;
+.red-dot {
+  color: var(--color-red-dot);
 }
 
+
+/* =========================================
+   DIVIDERS
+   ========================================= */
 .Line1 {
   position: absolute;
   border: none;
-  border-top: 0.5px solid #ccc;
+  border-top: 0.5px solid var(--color-border);
   width: 70vw;
   left: 15vw;
-  /* margin: 10px auto; */
 }
-
-
-.Article {
-  height: 17em;
-  width: 110%;
-  display: flex;
-  margin-left: -3em;
-
-}
-
-.RIGHT {
-  flex-direction: row-reverse;
-}
-
-.img {
-  height: 220px;
-  width: 370px;
-  border-radius: 6%;
-}
-
-.img2 {
-  height: 230px;
-}
-
-h3 {
-  font-family: "Circular Std", "Montserrat", sans-serif;
-  text-transform: uppercase;
-}
-
-.date {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: rgb(188, 3, 3);
-  font-weight: 390;
-  margin-top: -16px;
-  font-size: 85%;
-}
-
-.date+p {
-    display: -webkit-box;
-    -webkit-line-clamp: 7; 
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis}
-
-.info1 {
-  padding: 10px;
-  width: inherit;
-}
-
-.info2 {
-  padding: 10px;
-  text-align: right;
-  width: inherit;
-
-}
-
-
-.PAGE {
-  height: none;
-  width: 100%;
-}
-.page1 {
-  margin-bottom: 7rem;
-}
-/* =========================article responsive=========== */
-
-@media (max-width: 992px) {
-  .Article {
-    width: 100%;
-    margin-left: 0;
-    height: auto;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
-
-  }
-
-  .img {
-    width: 300px;
-    height: auto;
-  }
-
-  .RIGHT {
-    flex-direction: column;
-  }
-
-  .info1,
-  .info2 {
-    text-align: center;
-    padding: 0 15px;
-  }
-
-  .img {
-    width: 90%;
-    height: auto;
-  }
-
-}
-
-@media (max-width: 768px) {
-  .Article {
-    width: 100%;
-    margin-left: 0;
-    height: auto;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
-
-  }
-
-  .img {
-    width: 300px;
-    height: auto;
-  }
-
-  .RIGHT {
-    flex-direction: column;
-  }
-
-  .info1,
-  .info2 {
-    text-align: center;
-    padding: 0 15px;
-  }
-
-  .img {
-    width: 90%;
-    height: auto;
-  }
-
-}
-
-@media(min-width: 993px) {
-  .info{
-    margin: 0 2rem;
-  }
-}
-
-
-@media(max-width: 1210px) and (min-width: 993px) {
-  .main {
-    width: 60%;
-    margin: auto;
-  }
-}
-
-@media(max-width: 993px) and (min-width: 600px) {
-  .main {
-    width: 70%;
-    margin: auto;
-  }
-}
-
-/* =========================article responsive END=========== */
 
 .line-with-text {
   display: flex;
   align-items: center;
   text-align: center;
   color: red;
-  font-size: 1.2rem;
+  font-size: var(--font-size-xl);
 }
 
 .line-with-text::before,
 .line-with-text::after {
   content: "";
   flex: 1;
-  border-bottom: 1px solid #ccc;
-  /* line color */
+  border-bottom: 1px solid var(--color-border);
   margin: 0 1rem;
-  /* space between text and lines */
 }
 
 .line2 {
@@ -269,151 +236,186 @@ h3 {
 .line3 {
   width: 40%;
   margin: auto;
-  margin-bottom: 20px;
+  margin-bottom: var(--space-lg);
   border: none;
-  border-top: 1.4px solid #ccc;
-}
-
-.link1 {
-  text-decoration: none;
-  color: rgb(79, 30, 30);
-  font-weight: 300;
-  font-family: "Roboto", sans-serif;
-}
-
-.link1:hover {
-  color: rgb(223, 8, 8);;
+  border-top: 1.4px solid var(--color-border);
 }
 
 
+/* =========================================
+   ARTICLES / FEATURED
+   ========================================= */
+.Article {
+  height: 17em;
+  width: 100%;
+  display: flex;
+  margin-left: 0;
+}
 
-/*=================== TIMELINE CSS from style1.css ================== */
+#featured-real {
+  overflow: hidden;
+  width: 100%;
+}
 
+.RIGHT {
+  flex-direction: row-reverse;
+}
+
+.img {
+  height: 220px;
+  width: 370px;
+  border-radius: var(--border-radius-img);
+}
+
+.img2 {
+  height: 230px;
+}
+
+.date {
+  font-family: var(--font-display);
+  color: var(--color-red-date);
+  font-weight: var(--font-medium);
+  margin-top: -16px;
+  font-size: 85%;
+  text-transform: uppercase;
+}
+
+.date + p {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-date {
+  text-transform: uppercase;
+}
+
+.info1 {
+  padding: var(--space-sm);
+  width: inherit;
+}
+
+.info2 {
+  padding: var(--space-sm);
+  text-align: right;
+  width: inherit;
+}
+
+.news-card a h3 {
+  text-transform: lowercase;
+  text-transform: capitalize;
+}
+
+
+/* =========================================
+   TIMELINE / LATEST NEWS
+   ========================================= */
 .timeline {
   display: flex;
   flex-direction: column;
   position: relative;
   margin: 2rem 0;
-  padding-left: 8rem;
-  /* space for time column */
+  padding-left: var(--timeline-offset);
 }
 
 .timeline::before {
   content: "";
   position: absolute;
-  left: 8rem;
-  /* line position between time and content */
+  left: var(--timeline-offset);
   top: 0;
   bottom: 0;
   width: 1px;
-  background: #ccc;
-  /* line color */
+  background: var(--color-border);
 }
 
 .timeline-item {
   display: flex;
-  /* margin-bottom: 2rem; */
   position: relative;
 }
 
 .time {
   position: absolute;
   left: -8rem;
-  /* place on left side */
   width: 6rem;
   height: 100%;
   text-align: center;
-  font-weight: 400;
-  font-size: 1.3rem;
-  color: #333;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-time);
   margin-top: 1rem;
   align-items: center;
+  cursor: pointer;
 }
 
 .news-card {
   max-width: 600px;
+  padding: 1rem 0;
+  padding-left: 80px;
+  cursor: pointer;
+  transition: background-color var(--transition-base);
 }
 
 .news-card h3 {
   margin: 0 0 0.5rem;
-  font-size: 1.2rem;
+  font-size: var(--font-size-xl);
   font-weight: 350;
   text-transform: initial;
 }
 
 .news-card p {
   margin: 0.3rem 0;
-  color: #555;
-  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-base);
   line-height: 1.4;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--letter-spacing-sm);
 }
-
-/* hover news style======= */
-.news-card {
-  /* border-bottom: 1px solid #ddd; */
-  padding: 1rem 0;
-  padding-left: 80px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  /* background-color: yellowgreen; */
-}
-
 
 .details {
   max-height: 0;
-  /* hidden initially */
   overflow: hidden;
-  /* hide content */
   opacity: 0;
-  /* invisible */
-  transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
-  /* 2. Add scrollbar only when content overflows vertically */
+  transition: max-height var(--transition-slow) ease-in-out, opacity var(--transition-slow) ease-in-out;
   overflow-y: auto;
-  /* --- Add this to hide the scrollbar --- */
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
 }
 
 .scrollable-box::-webkit-scrollbar {
   display: none;
-  /* Chrome, Safari, and Opera */
 }
 
-.news-card:hover .details {
-  max-height: 200px;
-  /* enough to show the content */
+.news-card:hover .details,
+.time:hover + .news-card .details,
+.news-card.active .details {
+  max-height: 400px;
   opacity: 1;
+  transition: max-height var(--transition-slow) ease, opacity var(--transition-slow) ease;
 }
 
-.news-card:hover {
-  border-left: 1.5px solid black;
+.news-card.active .details {
+  margin-top: var(--space-sm);
 }
 
-.time:hover + .news-card .details {
-  max-height: 200px;
-  /* enough to show the content */
-  opacity: 1;
-}
-
-.time:hover + .news-card {
-  border-left: 1.5px solid black;
+.news-card:hover,
+.time:hover + .news-card,
+.news-card.active {
+  border-left: 1.5px solid var(--color-border-active);
 }
 
 
-/* =============---------Highlights START---------=========== */
-
+/* =========================================
+   HIGHLIGHTS SECTION
+   ========================================= */
 .highlights {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* Two columns on large screens */
   gap: 3rem;
   margin: auto;
   margin-top: 3rem;
   font-family: Arial, sans-serif;
-  background: #fff;
+  background: var(--color-bg-white);
   line-height: 1.6;
 }
 
@@ -422,11 +424,11 @@ h3 {
 }
 
 .column h1 {
-  font-size: 1.8rem;
-  font-weight: 900;
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-heavy);
   margin: 2rem 0 3rem;
   font-family: Arial, Helvetica, sans-serif;
-  letter-spacing: -1px;
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .column .item {
@@ -434,7 +436,7 @@ h3 {
 }
 
 .column .item h2 {
-  font-size: 1rem;
+  font-size: var(--font-size-lg);
   font-weight: 800;
   text-transform: uppercase;
   margin-bottom: 0.2rem;
@@ -442,535 +444,380 @@ h3 {
 
 .column .item p {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--font-md);
 }
 
 .date1 {
   color: #d44;
   font-size: 1.1rem;
   margin-bottom: 2rem;
-  font-weight: 500;
+  font-weight: var(--font-weight-bold);
   margin-top: 1.35rem;
 }
 
 
-/* 📱 Responsive for small screens */
-@media (max-width: 993px) {
-  .highlights {
-    grid-template-columns: 1fr;
-    /* Stack in one column */
-    gap: 0;
-  }
+/* =========================================
+   PROMO BANNER
+   ========================================= */
+.promo-banner {
+  background-color: var(--color-bg-black);
+  color: var(--color-banner-text);
+  text-align: center;
+  padding: 12px var(--space-lg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--font-size-base);
+  font-weight: 100;
+  letter-spacing: var(--letter-spacing-xs);
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: var(--z-banner);
+}
 
-  .date1 {
-    text-align: left;
-    /* Align date to left on small screens */
-    margin-top: 1rem;
-    display: none;
-  }
 
-  .column h1 {
-    font-size: 1.5rem;
-  }
+/* =========================================
+   APPLY POPUP
+   ========================================= */
+.apply-popup-wrapper {
+  position: fixed;
+  bottom: var(--space-2xl);
+  right: 25vw;
+  z-index: var(--z-popup);
+  animation: slideInUp 0.5s ease-out;
+}
 
-  .right {
-    margin-top: 0%;
-  }
+.apply-popup-card {
+  background-color: var(--color-bg-white);
+  width: 280px;
+  padding: var(--space-xl);
+  border-radius: var(--border-radius-card);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  position: relative;
+}
 
-  .left {
-    margin-bottom: 0%;
+.apply-text {
+  font-family: var(--font-display);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+  color: var(--color-text-dark);
+  margin-bottom: var(--space-lg);
+  font-weight: var(--font-weight-semibold);
+  text-align: left;
+  letter-spacing: 0;
+}
+
+.apply-btn-red {
+  display: block;
+  width: 100%;
+  background-color: var(--color-red-dark);
+  color: var(--color-bg-white);
+  text-decoration: none;
+  padding: 12px 0;
+  border-radius: var(--border-radius-btn);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  transition: opacity var(--transition-fast);
+}
+
+.apply-btn-red:hover {
+  opacity: 0.9;
+  color: white;
+}
+
+.close-btn {
+  position: absolute;
+  top: var(--space-xs);
+  right: var(--space-sm);
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--color-close-btn);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: var(--color-close-btn-hover);
+}
+
+
+/* =========================================
+   SKELETON LOADERS
+   ========================================= */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton {
+  background: var(--color-skeleton-base);
+  background-image: linear-gradient(to right, var(--color-skeleton-base) 0%, var(--color-skeleton-shine) 20%, var(--color-skeleton-base) 40%, var(--color-skeleton-base) 100%);
+  background-repeat: no-repeat;
+  background-size: 1000px 100%;
+  display: block;
+  position: relative;
+  animation: shimmer 1.2s infinite linear forwards;
+  border-radius: var(--border-radius-sm);
+}
+
+.sk-feat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.sk-feat-article {
+  display: flex;
+  gap: 2rem;
+  margin-left: 0;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.sk-feat-article.right {
+  flex-direction: row-reverse;
+}
+
+.sk-feat-img {
+  width: 370px;
+  height: 220px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.sk-feat-info {
+  flex: 1;
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.sk-feat-title { height: 28px; width: 80%; margin-bottom: 1rem; }
+.sk-feat-date  { height: 14px; width: 100px; margin-bottom: 1rem; }
+.sk-feat-summary { height: 14px; width: 100%; margin-bottom: 8px; }
+.sk-feat-summary.short { width: 70%; }
+
+.sk-timeline-item {
+  display: flex;
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 0;
+}
+
+.sk-time {
+  position: absolute;
+  left: -8rem;
+  width: 6rem;
+  height: 20px;
+  margin-top: var(--space-xs);
+}
+
+.sk-news-card { width: 100%; max-width: 600px; }
+.sk-news-title  { height: 20px; width: 70%; margin-bottom: var(--space-sm); }
+.sk-news-detail { height: 12px; width: 90%; margin-bottom: 6px; }
+
+.sk-topic {
+  height: 30px;
+  width: 200px;
+  margin-bottom: var(--space-sm);
+  margin-top: var(--space-xs);
+  border-radius: var(--border-radius-sm);
+}
+
+.sk-line {
+  height: 1px;
+  width: 70vw;
+  margin-left: 15vw;
+  background-color: var(--color-skeleton-shine);
+  border: none;
+}
+
+#latest-skeleton-view .timeline {
+  margin-top: 2rem;
+}
+
+
+/* =========================================
+   UTILITY
+   ========================================= */
+.hidden { display: none !important; }
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+  overflow: hidden;
+  width: initial;
+}
+
+/* Typewriter cursor */
+.typewrite > .wrap {
+  padding-right: var(--space-xs);
+}
+
+@keyframes blink {
+  from, to { border-color: transparent; }
+  50% { border-color: rgba(210, 203, 203, 0.7); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+
+/* =========================================
+   RESPONSIVE — LARGE (993px – 1210px)
+   ========================================= */
+@media (min-width: 993px) {
+  .info {
+    margin: 0 2rem;
   }
 }
 
-/* ===========-------Highlights END-------=========== */
+@media (max-width: 1210px) and (min-width: 993px) {
+  .main { width: 60%; margin: auto; }
+}
 
 
+/* =========================================
+   RESPONSIVE — TABLET (600px – 992px)
+   ========================================= */
+@media (max-width: 992px) {
+  .main { width: 70%; margin: auto; }
+
+  .Article {
+    width: 100%;
+    margin-left: 0;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .img { width: 100%; height: auto; }
+  .RIGHT { flex-direction: column; }
+
+  .info1, .info2 { text-align: center; padding: 0 var(--space-md); }
+
+  .highlights { grid-template-columns: 1fr; gap: 0; }
+
+  .date1 { text-align: left; margin-top: 1rem; display: none; }
+
+  .column h1 { font-size: 1.5rem; }
+
+  .right { margin-top: 0; }
+  .left  { margin-bottom: 0; }
+
+  .sk-feat-article { flex-direction: column; align-items: center; width: 100%; margin-left: 0; }
+  .sk-feat-article.right { flex-direction: column; }
+  .sk-feat-img  { width: 90%; height: 200px; }
+  .sk-feat-info { width: 90%; align-items: center; }
+}
 
 
-
-
-/* ======. MEDIA QUERY FOR MOBILE ====== */
-
-
+/* =========================================
+   RESPONSIVE — MOBILE (max 600px)
+   ========================================= */
 @media (max-width: 600px) {
+  .main { width: 90%; overflow-wrap: break-word; }
 
-  .link1 {
-    font-size: 0.98rem;
+  .HOME { height: 93vh; }
+
+  .name { text-align: left; }
+
+  #team { opacity: 0.6; }
+
+  p { font-weight: var(--font-weight-regular); }
+
+  .link1 { font-size: var(--font-size-md); }
+
+  .Line1 { width: 100vw; left: 0; }
+
+  .topic { font-size: var(--font-size-base); }
+
+  /* Articles */
+  .Article {
+    width: 100%;
+    margin-left: 0;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
   }
 
-  .Line1 {
-    width: 100vw;
-    left: 0;
-  }
+  .img { width: 90%; height: auto; border-radius: 10px; }
+  .RIGHT { flex-direction: column; }
 
-  .topic {
-    font-size: 0.95rem;
-  }
+  figure { width: 100%; }
 
-  .HOME {
-    height: 93vh;
-  }
+  .info1, .info2 { text-align: left; margin-top: -25px; }
 
+  .info h3 { font-size: 16px; }
 
+  .date + p { font-size: 0.8rem; }
+  .date      { font-size: var(--font-size-xs); }
 
-  p {
-    font-weight: 300;
-  }
+  /* Timeline */
+  .news-card:focus .details { max-height: max-content; opacity: 1; }
+  .news-card:focus { border-left: 1.5px solid var(--color-border-active); }
 
+  .timeline { padding-left: 6.5rem; }
+  .timeline::before { left: 6.5rem; }
 
+  .news-card h3 { font-size: var(--font-size-lg); }
+  .news-card { padding-left: var(--space-lg); }
 
-
-
-
-
-
-
-
-
-  /* page width adjustments */
-  .main {
-    width: 90%;
-    overflow-wrap: break-word;
-  }
-
-
-  /* LATEST NEWS PAGE */
-
-  /* news timeline hover */
-  .news-card:focus .details {
-    max-height: max-content;
-    /* enough to show the content */
-    opacity: 1;
-  }
-
-  .news-card:focus {
-    border-left: 1.5px solid black;
-  }
-
-  .timeline {
-    padding-left: 6.5rem;
-  }
-
-  .timeline::before {
-    left: 6.5rem;
-  }
-
-  .news-card h3 {
-    font-size: 1rem;
-  }
-
-  .time {
-    left: -7rem;
-    width: 5rem;
-    font-size: 1rem;
-  }
+  .time { left: -7rem; width: 5rem; font-size: var(--font-size-lg); }
 
   .details em {
-    /* gvuyuhi */
-    font-size: 0.86rem;
+    font-size: var(--font-size-sm);
     line-height: 0.1px;
     letter-spacing: 0.1px;
   }
 
-  .info p {
-    font-size: 0.9rem;
+  .info p { font-size: var(--font-size-base); }
+
+  /* Highlights */
+  .highlights { margin: 1rem; gap: 1.5rem; }
+  .column h1          { font-size: 1.3rem; }
+  .column .item h2    { font-size: var(--font-size-base); }
+  .column .item p     { font-size: var(--font-size-base); line-height: 17px; letter-spacing: var(--letter-spacing-sm); }
+  .column .item       { margin-bottom: 0; }
+
+  /* Dividers */
+  .line3 { margin: var(--space-2xl) 100px; }
+
+  /* Skeleton */
+  .sk-time  { left: -6rem; width: 4rem; }
+  .sk-line  { width: 100vw; left: 0; margin-left: 0; }
+
+  /* Promo banner */
+  .promo-banner { font-size: 0.7rem; padding: var(--space-sm); }
+
+  /* Popup */
+  .apply-popup-wrapper {
+    bottom: var(--space-lg);
+    right: 50%;
+    transform: translateX(50%);
+    width: 90%;
+    max-width: 350px;
+    animation: slideInUpMobile 0.5s ease-out forwards;
   }
 
+  .apply-popup-card { padding: var(--space-lg); }
 
-  /* feature page */
-  .img {
-    width: 100%;
-  }
-
-  figure {
-    width: 100%;
-    margin: 0;
-  }
-
-  .info1,
-  .info2 {
-    text-align: left;
-    margin-top: -25px;
-  }
-
-  .news-card {
-    padding-left: 20px;
-  }
-
-  .line3 {
-    margin: 30px 100px;
-  }
-
-  .info h3 {
-    font-size: 16px;
-  }
-
-  .date+p {
-    font-size: 0.8rem;
-  }
-
-  .date {
-    font-size: 0.77rem;
-  }
-
-  .img {
-    border-radius: 10px;
-  }
-
-
-
-
-  /* TOP NEWS PAGE */
-
-  .highlights {
-    margin: 1rem;
-    gap: 1.5rem;
-  }
-
-  .column h1 {
-    font-size: 1.3rem;
-  }
-
-  .column .item h2 {
-    font-size: 0.9rem;
-
-  }
-
-  .column .item p {
-    font-size: 0.9rem;
-    line-height: 17px;
-    letter-spacing: 0.5px;
-  }
-
-  .column .item {
-    margin-bottom: 0;
-  }
-
-
+  .apply-text { font-size: var(--font-size-base); }
 }
 
-
-
-
-/* =========================
-   SKELETON LOADER STYLES
-   ========================= */
-
-/* 1. Animation */
-@keyframes shimmer {
-    0% { background-position: -1000px 0; }
-    100% { background-position: 1000px 0; }
+@keyframes slideInUpMobile {
+  from { transform: translate(50%, 50px); opacity: 0; }
+  to   { transform: translate(50%, 0);    opacity: 1; }
 }
-
-/* 2. Base Skeleton Class */
-.skeleton {
-    background: #f0f0f0;
-    background-image: linear-gradient(to right, #f0f0f0 0%, #e0e0e0 20%, #f0f0f0 40%, #f0f0f0 100%);
-    background-repeat: no-repeat;
-    background-size: 1000px 100%; 
-    display: block;
-    position: relative;
-    animation: shimmer 1.2s infinite linear forwards;
-    border-radius: 4px;
-}
-
-/* 3. Featured Section Shapes */
-.sk-feat-container {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem; /* Matches your layout spacing */
-}
-
-.sk-feat-article {
-    display: flex;
-    gap: 2rem;
-    margin-left: -3em; /* Match your .Article margin */
-    width: 110%;
-    align-items: flex-start;
-}
-
-.sk-feat-article.right {
-    flex-direction: row-reverse;
-}
-
-.sk-feat-img {
-    width: 370px;
-    height: 220px;
-    border-radius: 10px;
-    flex-shrink: 0;
-}
-
-.sk-feat-info {
-    flex: 1;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-}
-
-.sk-feat-title { height: 28px; width: 80%; margin-bottom: 1rem; }
-.sk-feat-date { height: 14px; width: 100px; margin-bottom: 1rem; }
-.sk-feat-summary { height: 14px; width: 100%; margin-bottom: 8px; }
-.sk-feat-summary.short { width: 70%; }
-
-
-/* 4. Latest News Timeline Shapes */
-.sk-timeline-item {
-    display: flex;
-    position: relative;
-    margin-bottom: 2rem;
-    padding-left: 0; 
-}
-
-.sk-time {
-    position: absolute;
-    left: -8rem;
-    width: 6rem;
-    height: 20px;
-    margin-top: 5px;
-}
-
-.sk-news-card {
-    width: 100%;
-    max-width: 600px;
-}
-
-.sk-news-title { height: 20px; width: 70%; margin-bottom: 10px; }
-.sk-news-detail { height: 12px; width: 90%; margin-bottom: 6px; }
-
-
-/* 5. Responsive Adjustments */
-@media (max-width: 992px) {
-    .sk-feat-article {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        margin-left: 0;
-    }
-    .sk-feat-article.right { flex-direction: column; }
-    .sk-feat-img { width: 90%; height: 200px; }
-    .sk-feat-info { width: 90%; align-items: center; }
-}
-
-@media (max-width: 600px) {
-    .sk-time {
-        left: -6rem;
-        width: 4rem;
-    }
-}
-
-/* 6. Utility */
-.hidden { display: none !important; }
-.fade-in { animation: fadeIn 0.5s ease-in; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* Add to bottom of index.css */
-
-.sk-topic {
-    height: 30px;      /* Matches font size of 'Latest news' */
-    width: 200px;      /* Width of the text */
-    margin-bottom: 10px;
-    margin-top: 5px;
-    border-radius: 4px;
-}
-
-.sk-line {
-    height: 1px;
-    width: 70vw;       /* Matches your .Line1 width */
-    margin-left: 15vw; /* Matches your .Line1 left position */
-    background-color: #e0e0e0;
-    border: none;
-}
-
-/* Adjust the timeline inside skeleton to give space for the header */
-#latest-skeleton-view .timeline {
-    margin-top: 2rem;
-}
-
-/* Mobile adjustments for the skeleton line */
-@media (max-width: 550px) {
-    .sk-line {
-        width: 100vw;
-        left: 0;
-        margin-left: 0;
-    }
-}
-
-
-
-/* =========================================
-   MOBILE INTERACTION STATES
-   ========================================= */
-
-/* When JS adds the 'active' class, show details */
-.news-card.active .details {
-    max-height: 400px; /* Large enough to fit text */
-    opacity: 1;
-    margin-top: 10px;
-    transition: max-height 0.4s ease, opacity 0.4s ease;
-}
-
-/* Add the border highlight */
-.news-card.active {
-    border-left: 1.5px solid black;
-}
-
-
-.time{
-    cursor: pointer;
-}
-
-
-/* ... (Existing styles) ... */
-
-/* =========================================
-   1. TOP PROMO BANNER
-   ========================================= */
-.promo-banner {
-    background-color: #000;
-    color: #fff;
-    text-align: center;
-    padding: 12px 20px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 0.9rem;
-    font-weight: 100;
-    letter-spacing: 0.3px;
-    width: 100%;
-    box-sizing: border-box;
-    /* Ensure it sits on top of everything */
-    position: relative; 
-    z-index: 1001; 
-}
-
-/* =========================================
-   2. APPLY POPUP (Bottom Right Float)
-   ========================================= */
-.apply-popup-wrapper {
-    position: fixed;
-    bottom: 30px;
-    right: 25vw;
-    z-index: 2000; /* Above everything */
-    animation: slideInUp 0.5s ease-out;
-}
-
-.apply-popup-card {
-    background-color: #fff;
-    width: 280px;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 5px 11px rgba(0,0,0,0.15);
-    text-align: center;
-    position: relative;
-}
-
-.apply-text {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: #111;
-    margin-bottom: 20px;
-    font-weight: 400;
-    text-align: left;
-    letter-spacing: 0;
-}
-
-.apply-btn-red {
-    display: block;
-    width: 100%;
-    background-color: #b93b3b; /* Match your theme red */
-    color: #fff;
-    text-decoration: none;
-    padding: 12px 0;
-    border-radius: 6px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: opacity 0.2s;
-}
-
-.apply-btn-red:hover {
-    opacity: 0.9;
-    color: white;
-}
-
-.close-btn {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: #999;
-    cursor: pointer;
-    line-height: 1;
-}
-
-.close-btn:hover {
-    color: #333;
-}
-
-/* Animation */
-@keyframes slideInUp {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-/* Mobile: Banner text smaller, Popup centered */
-@media (max-width: 600px) {
-    .promo-banner {
-        font-size: 0.7rem;
-        padding: 10px;
-    }
-
-    .apply-popup-wrapper {
-        bottom: 20px;
-        right: 50%;
-        transform: translateX(50%); /* Center horizontally */
-        width: 90%;
-        max-width: 350px;
-        animation: slideInUpMobile 0.5s ease-out forwards;
-    }
-    
-    @keyframes slideInUpMobile {
-        from { bottom: -100px; transform: translateX(50%); opacity: 0; }
-        to { bottom: 20px; transform: translateX(50%); opacity: 1; }
-    }
-}
-
-/* MOBILE RESPONSIVENESS FOR APPLY POPUP*/
-@media (max-width: 600px) {
-    .apply-popup-wrapper {
-        /* Center the popup horizontally */
-        right: 50%; 
-        bottom: 20px; /* Reduced bottom margin */
-        width: 90%;   /* Take up most of the screen width */
-        max-width: 350px;
-        
-        /* Move it right by 50% of its own width to center it perfectly */
-        transform: translateX(50%); 
-        
-        /* Use a specific mobile animation that preserves the centering */
-        animation: slideInUpMobile 0.5s ease-out forwards;
-    }
-
-    .apply-popup-card {
-        padding: 20px; /* Slightly less padding on mobile */
-    }
-
-    .apply-text {
-        font-size: 0.9rem; /* Slightly smaller text */
-    }
-
-    /* Animation specifically for Mobile (Keeping the X-axis transform) */
-    @keyframes slideInUpMobile {
-        from { 
-            transform: translate(50%, 50px); /* Start lower */
-            opacity: 0; 
-        }
-        to { 
-            transform: translate(50%, 0); /* End at final centered position */
-            opacity: 1; 
-        }
-    }
-}
-
-.hidden { display: none !important; }

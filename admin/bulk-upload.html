@@ -2,148 +2,130 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bulk Upload - BAI.NEWS</title>
+    <title>Bulk Upload - bitfeed</title>
     <link rel="stylesheet" href="/layout/layout.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
     <style>
         body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background: #fff; color: #333; margin: 0; }
+        .bulk-header { display: flex; align-items: center; justify-content: center; position: sticky; top: 0; width: 100%; background: #fff; height: 67px; box-shadow: 0 0 1px 0; z-index: 1000; }
+        .back-btn { position: absolute; left: 20px; cursor: pointer; }
+        .bulk-header h1 { font-size: 1.25rem; font-weight: 400; margin: 0; }
+
+        .admin-container { max-width: 800px; margin: 0 auto; padding: 40px 20px; width: 700px;}
+        .step-box { background: #f9f9f9; border: 1px solid #eee; padding: 20px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
         
-        /* --- HEADER STYLES --- */
-        .bulk-header {
-            display: flex;
-            align-items: center;
-            justify-content: center; 
-            position: sticky;
-            top: 0;
-            width: 100%;
-            background: #fff;
-            height: 67px;
-            box-shadow: 0 0 1px 0;
-            z-index: 1000;
-        }
+        /* Article Queue Item */
+        .upload-item { display: flex; align-items: center; background: #f2f2f2; padding: 15px; border-radius: 10px; margin-bottom: 15px; gap: 20px; border: 1px solid transparent; }
+        .upload-item.ready { border-color: #2ecc71; background: #f0fff4; }
+        .item-info { flex: 1; text-align: left; }
+        .item-info h4 { margin: 0 0 5px 0; font-size: 0.95rem; text-transform: uppercase; }
+        .item-info p { margin: 0; font-size: 0.8rem; color: #666; }
 
-        .back-btn {
-            position: absolute;
-            left: 20px; 
-            color: #000;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .bulk-header h1 {
-            font-size: 1.25rem; 
-            font-weight: 400;
-            letter-spacing: -0.02em;
-            margin: 0;
-        }
-
-        /* --- CONTAINER --- */
-        .admin-container { max-width: 600px; margin: 0 auto; padding: 40px 20px; text-align: center; }
+        /* Small Drop Box */
+        .mini-drop { width: 120px; height: 70px; border: 2px dashed #ccc; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.7rem; color: #888; position: relative; overflow: hidden; background: #fff; }
+        .mini-drop img { width: 100%; height: 100%; object-fit: cover; position: absolute; }
         
-        .sub-text { color: #666; font-size: 0.95rem; margin-bottom: 30px; margin-top: 10px; }
+        .btn-main { background: #000; color: #fff; border: none; padding: 15px 30px; font-size: 1rem; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 20px; }
+        .btn-main:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* Upload Box */
-        .upload-area {
-            background-color: #f9f9f9;
-            border: 2px dashed #ccc;
-            border-radius: 12px;
-            padding: 40px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 20px;
+        .img-edit-area.drag-active {
+            border: 2px dashed #d73634;
+            background-color: #fceaea;
         }
-        .upload-area:hover { background-color: #f0f0f0; border-color: #999; }
-        .icon-large { width: 48px; height: 48px; opacity: 0.5; margin-bottom: 15px; }
+        
+        .hidden { display: none !important; }
 
-        /* Button Shared Style */
-        .btn-black {
-            background: #000; color: #fff; border: none; 
-            padding: 15px 30px; font-size: 1rem; border-radius: 8px; 
-            cursor: pointer; width: 100%; transition: opacity 0.2s;
-            font-weight: 500;
-        }
-        .btn-black:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-black:hover:not(:disabled) { background: #333; }
 
-        /* --- RED REVERT BUTTON --- */
-        .btn-red {
-            background: #d73634; color: #fff; border: none; 
-            padding: 15px 30px; font-size: 1rem; border-radius: 8px; 
-            cursor: pointer; width: 100%; transition: background 0.2s;
-            font-weight: 500; margin-top: 30px;
-        }
-        .btn-red:hover { background: #b02a28; }
 
-        /* Divider & Inputs */
-        .divider {
-            display: flex; align-items: center; text-align: center;
-            color: #999; font-size: 0.85rem; font-weight: 600;
-            letter-spacing: 0.5px; margin: 30px 0; text-transform: uppercase;
+        /* CROPPER STYLES */
+        #cropper-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
         }
-        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #e0e0e0; }
-        .divider::before { margin-right: 15px; }
-        .divider::after { margin-left: 15px; }
+        .cropper-content {
+            background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 850px; text-align: center;
+        }
+        .crop-container {
+            width: 100%; max-width: 800px; aspect-ratio: 16 / 10; margin: 20px auto;
+            background: #333; overflow: hidden; position: relative; cursor: grab;
+        }
+        .crop-container:active { cursor: grabbing; }
+        #cropper-img {
+            display: block; max-width: 100%; position: absolute; top: 0; left: 0; width: 100%;
+            transform-origin: center center;
+        }
+        .cropper-controls { margin: 20px 0; display: flex; justify-content: center; gap: 10px; }
+        .cropper-actions { display: flex; gap: 15px; justify-content: center; }
+        .cropper-actions button { padding: 10px 25px; border-radius: 6px; cursor: pointer; border: none; }
+        #btn-cancel-crop { background: #eee; color: #333; }
+        #btn-save-crop { background: #000; color: #fff; }
 
-        .json-textarea {
-            width: 100%; height: 150px; padding: 15px;
-            border: 2px solid #ccc; border-radius: 12px;
-            font-family: "Menlo", "Monaco", monospace; font-size: 0.85rem;
-            background: #fff; box-sizing: border-box; resize: vertical;
-            color: #333; margin-bottom: 20px;
-        }
-        .json-textarea:focus { outline: none; border-color: #000; }
-
-        /* Logs */
-        .log-console {
-            background: #111; color: #0f0; 
-            font-family: "Menlo", "Monaco", monospace; font-size: 0.85rem;
-            padding: 15px; border-radius: 8px;
-            text-align: left; height: 200px; overflow-y: auto;
-            margin-top: 40px; display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .log-line { margin: 5px 0; border-bottom: 1px solid #222; padding-bottom: 2px; }
-        .log-error { color: #ff4444; }
-        .log-success { color: #00cc00; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <header class="bulk-header">
+        <a href="/admin/dashboard.html" class="back-btn"><img width="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png"></a>
         <h1>Bulk Article Upload</h1>
     </header>
 
     <div class="admin-container">
-        
-        <p class="sub-text">Upload articles using a .json file or paste the raw JSON text below.</p>
+        <div id="step-1" class="step-box">
+            <h3>Step 1: Upload JSON Data</h3>
+            <p style="font-size: 0.85rem; color: #666;">Choose a file OR paste JSON text below.</p>
+            
+            <input type="file" id="json-input" accept=".json" style="margin-top: 15px;">
 
-        <div class="upload-area" id="drop-zone">
-            <img src="https://img.icons8.com/ios/100/json.png" class="icon-large">
-            <h3>Click to Select JSON File</h3>
-            <p id="file-name" style="color:#d73634; margin-top:10px; font-weight:500; min-height: 20px;"></p>
-            <input type="file" id="json-input" accept=".json" hidden>
+            <div style="margin: 20px 0; font-weight: bold; color: #ccc;">--- OR ---</div>
+
+            <textarea id="json-text-input" placeholder='[ { "title": "Example", "imageUrl": "https://...", ... } ]' 
+                style="width: 100%; height: 150px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: monospace; font-size: 0.85rem; outline: none; resize: vertical; box-sizing: border-box;"></textarea>
+            
+            <button id="btn-process-text" class="btn-main" style="padding: 10px 20px; font-size: 0.9rem; margin-top: 10px;">Load JSON from Text</button>
+
+            <div style="margin: 20px 0; font-weight: bold; color: #ccc;">--- OR ---</div>
+
+            <div style="text-align: center;">
+                <p style="font-size: 0.85rem; color: #666;">Automatically generate news from RSS feeds.</p>
+                <button id="btn-generate-news" class="btn-main" style="background: #2ecc71;">Generate AI News</button>
+            </div>
+
+            <div id="loading-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="spinner" style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #333; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                <p style="margin-top: 15px; font-weight: bold;">AI is writing your articles... Please wait.</p>
+            </div>
         </div>
-        <button id="btn-upload" class="btn-black" disabled>Upload Selected File</button>
+        
+        <div id="step-2" class="hidden">
+            <h3 style="margin-bottom: 20px;">Step 2: Attach Cover Images</h3>
+            <div id="article-queue"></div>
+            <button id="btn-final-upload" class="btn-main" disabled>Upload All Articles</button>
+        </div>
 
-        <div class="divider">OR</div>
+        <div id="status-log" style="margin-top: 20px; font-family: monospace; font-size: 0.8rem; white-space: pre-wrap;"></div>
+    </div>
 
-        <textarea id="json-paste-area" class="json-textarea" placeholder='[ 
-  {
-    "title": "Article Title...",
-    "content": "HTML Content...",
-    "isFeatured": true
-  } 
-]'></textarea>
-        <button id="btn-paste-upload" class="btn-black">Upload from Text</button>
-
-        <div id="logger" class="log-console"></div>
-
-        <button id="btn-reset" class="btn-red">Reset / Clear Form</button>
-
+    <div id="cropper-modal" class="hidden">
+        <div class="cropper-content">
+            <h3>Adjust Image</h3>
+            <p>Drag to reposition. Use slider to zoom.</p>
+            <div class="crop-container">
+                <img id="cropper-img" src="" alt="To Crop">
+            </div>
+            <div class="cropper-controls">
+                <label>Zoom:</label>
+                <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1">
+            </div>
+            <div class="cropper-actions">
+                <button type="button" id="btn-cancel-crop">Cancel</button>
+                <button type="button" id="btn-save-crop">Crop & Save</button>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="bulk-upload.js"></script>
-
 </body>
 </html>

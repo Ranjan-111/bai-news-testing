@@ -1,446 +1,872 @@
-a{
-  text-decoration: none;
-  color: #000;
+/* ============================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-text:           #000;
+  --color-text-body:      #333;
+  --color-text-muted:     #444;
+  --color-text-faint:     #555;
+  --color-text-light:     #777;
+  --color-text-lighter:   #ccc;
+  --color-red:            #d73634;
+  --color-red-hover:      #e95454;
+  --color-border:         #ccc;
+  --color-border-light:   #ddd;
+  --color-border-faint:   #f0f0f0;
+  --color-bg-tag:         #f0f0f0;
+  --color-bg-tag-hover:   #e0e0e0;
+  --color-bg-edit:        #f2f2f2;
+  --color-bg-input:       #fafafa;
+  --color-skeleton-base:  #f0f0f0;
+  --color-skeleton-shine: #e0e0e0;
+  --color-overlay-dark:   rgba(0, 0, 0, 0.85);
+  --color-overlay-img:    rgba(0, 0, 0, 0.5);
+  --color-highlight:      rgba(197, 48, 48, 0.3);
+  --color-progress-track: #000;
+  --color-progress-fill:  #d73634;
+  --color-progress-end:   #666;
+
+  /* Typography */
+  --font-display:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body:     "Roboto", sans-serif;
+  --font-heading:  "Circular Std", Montserrat, sans-serif;
+  --font-serif:    "Georgia", serif;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.4s ease;
+
+  /* Z-index */
+  --z-reader:  1000;
+  --z-mobile-bar: 999;
+  --z-edit-bar:   2000;
+  --z-cropper:    2000;
 }
 
-body{
-  padding: 0;
+
+/* ============================================================
+   Base
+   ============================================================ */
+body { margin: 0; padding: 0; }
+
+a { text-decoration: none; color: var(--color-text); }
+
+img { filter: grayscale(100%); }
+
+.hidden { display: none !important; }
+
+/* Uppercase dates consistently site-wide */
+.date,
+.result-date { text-transform: uppercase; }
+
+/* The floating search button is shown in layout.css; hide it on article pages */
+.search-wrapper { display: none; }
+
+
+/* ============================================================
+   Article Header
+   ============================================================ */
+
+/* Uppercase display headline */
+h1 {
+  font-size: 2rem;
+  margin-top: 4.5rem;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  font-family: var(--font-heading);
+}
+
+/* Row containing the date on the left and action icons on the right */
+.article-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.article-meta a { color: inherit; }
+
+/* Date tag */
+.date {
+  display: inline-block;
   margin: 0;
+  font-size: 100%;
 }
 
-img{
+/* Rule separating the meta row from the article body */
+.date + hr { margin: 20px 0; }
+
+
+/* ============================================================
+   Author Row
+   Avatar + name + follow button in a flex row.
+   ============================================================ */
+.author-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+}
+
+/* Circular avatar — grayscale matches the global img filter */
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
   filter: grayscale(100%);
 }
 
-/* article start */
-
-  h1 {
-    font-size: 2rem;
-    margin-top: 4.5rem;
-    margin-bottom: 0;
-    text-transform: uppercase;
-    font-family: "Circular Std", Montserrat, sans-serif;
-  }
-
-  .article-meta{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .date{
-    display: inline-block;
-    margin: 0;
-  }
-
-  .date + hr{
-    margin: 20px 0;
-  }
-
-  .article-meta a{
-    text-decoration:none; 
-    color:inherit; 
-  }
-
-/* Container for the profile row */
-.author-profile {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.author-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%; 
-    object-fit: cover; /* Ensures image doesn't stretch */
-    border: 1px solid #969494; 
-    filter: grayscale(100%);
-}
-
 .author-info {
-    display: flex;
-    align-items: center;
-    gap: 12px; 
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .author-name {
-    font-size: 1rem;
-    font-weight: 350;
-    color: #333;
+  font-size: 1rem;
+  font-weight: 350;
+  color: var(--color-text-body);
 }
 
+/* Follow / Following pill button */
 .follow-btn {
-    background-color: transparent;
-    border: 0px solid #aaa; 
-    border-radius: 20px; /* Pill shape */
-    padding: 4px 14px;
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: #333;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
+  padding: 6px 16px;
+  border: 1px solid var(--color-text);
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: inherit;
+  transition: all var(--transition-fast);
 }
 
 .follow-btn:hover {
-    background-color: #e95454;
-    color: white;
-    /* border-color: #711a1a; */
-        border: 0px solid #aaa; 
-
+  background-color: var(--color-red-hover);
+  color: #fff;
+  border-color: var(--color-red-hover);
 }
 
-/* Default Style (Unfollowed) */
-.follow-btn {
-    padding: 6px 16px;
-    border: 1px solid #000;
-    background: transparent;
-    color: #000;
-    cursor: pointer;
-    border-radius: 20px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-/* Active Style (Followed) */
 .follow-btn.following {
-    background-color: #000;
-    color: #fff;
-    content: "Followed"; /* Optional helper */
+  background-color: var(--color-text);
+  color: #fff;
 }
 
-  figure{
-    width: 100%;
-    margin: 1rem 0
-  }
 
-  figure img {
-    width: inherit;
-    object-fit: fill;
-    aspect-ratio: 16/10;
-  }
+/* ============================================================
+   Like Button
+   Toggled by JS; .liked class signals active state.
+   ============================================================ */
+#like-btn {
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+/* Small inline icon used alongside like/share actions */
+.s-icon2 {
+  width: 18px;
+  height: 18px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+
+/* ============================================================
+   Article Body
+   ============================================================ */
+
+/* Full-width hero image with fixed 16:10 aspect ratio */
+figure {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+figure img {
+  width: 100%;
+  object-fit: fill;
+  aspect-ratio: 16 / 10;
+}
+
 figcaption {
-    font-size: 0.9rem;
-    color: #555;
-    margin-top: 0.5rem;
-  }
+  font-size: 0.9rem;
+  color: var(--color-text-faint);
+  margin-top: 0.5rem;
+}
 
-  .article-actions{
-    display: inline-block;
-  }
-    .article-actions a {
-        margin-left: 1rem;
-        text-decoration: none;
-        color: #000;
-        font-size: 0.9rem;
-    }
+/* Article body text */
+#article-content {
+  display: block !important;
+  width: 100%;
+  position: relative; /* coordinate system for the reading highlighter */
+}
 
-    .article-actions a img {
-        width: 16px;
-        height: 16px;
-        margin: 0 0 0.3rem 0.4rem;
-        vertical-align: middle;
-    }
+#article-content p {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-body);
+  position: relative;
+  z-index: 2; /* sits above .floating-highlighter */
+}
 
-    #article-content {
-        display: block !important;
-        width: 100%;
-        margin: 0 auto;   
-    }
-
-    #article-content p {
-        display: block;
-        width: 100%;
-        margin-bottom: 20px; 
-        font-size: 1.1rem;
-        line-height: 1.6;
-        color: #333;
-        text-align: left;   
-    }
+/* First paragraph directly after the hero image */
+figure + p {
+  margin-top: 1rem;
+  line-height: 1.6;
+  font-size: 1rem;
+  color: var(--color-text-body);
+  text-align: justify;
+}
 
 
+/* ============================================================
+   Article Footer — Actions, Tags, Rule
+   ============================================================ */
 
-/* content  */
-figure+p {
-    margin-top: 1rem;
-    line-height: 1.6;
-    font-size: 1rem;
-    color: #333;
-    text-align: justify;
-  }
+/* Share / save icon links */
+.article-actions { display: inline-block; }
 
+.article-actions a {
+  margin-left: 1rem;
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
+
+.article-actions a img {
+  width: 16px;
+  height: 16px;
+  margin: 0 0 0.3rem 0.4rem;
+  vertical-align: middle;
+}
+
+/* Bottom divider before tags */
 .last-hr {
-    border: none;
-    border-top: 1px solid #ccc;
-    margin: 2rem 0;
-  }
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2rem 0;
+}
 
-  .tags {
-    margin-top: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
+/* Tag pill row */
+.tags {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
 
-  .article-tags {
-    background-color: #f0f0f0;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    text-decoration: none;
-    color: #333;
-  }
-    .article-tags:hover {
-        background-color: #e0e0e0;
-    }
+.article-tags {
+  background-color: var(--color-bg-tag);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: var(--color-text-body);
+}
 
-/*============= article end ================*/
+.article-tags:hover { background-color: var(--color-bg-tag-hover); }
 
 
-/* ============Related Articles ================*/
-.more{
-    border: none;
-    border-top: 1px solid #ccc;
-    margin-top: 1rem;
-    margin-bottom: 3.5rem;
+/* ============================================================
+   Content Level Tabs
+   "Read as: Beginner | Intermediate | Expert"
+   Active tab gets a red underline indicator.
+   ============================================================ */
+.level-selection-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 30px;
+  margin: 30px 0 40px;
+  font-family: var(--font-display);
+}
+
+/* Faint label to the left of the tabs */
+.read-as-label {
+  font-size: 0.85rem;
+  color: var(--color-text-lighter);
+  font-weight: 300;
+  text-transform: lowercase;
+}
+
+/* Tab row — the thin border-bottom is the shared underline track */
+.level-tabs {
+  display: flex;
+  flex: 1;
+  border-bottom: 1px solid var(--color-border-faint);
+}
+
+.level-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 12px 0;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--color-text-body);
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  transition: color var(--transition-fast);
+}
+
+/* Active tab — red text + red underline that overlaps the track line */
+.level-tab.active { color: var(--color-red); }
+
+.level-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px; /* sits flush on the track line */
+  left: 3%;
+  width: 100%;
+  height: 1.5px;
+  background-color: var(--color-red);
+}
+
+
+/* ============================================================
+   Related Articles Section
+   Three-column grid that collapses to one on mobile.
+   ============================================================ */
+.more {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 1rem 0 3.5rem;
 }
 
 .more-news {
-    margin: 2rem 0;
-    width: 60%;
-  }
-
-  .more-news h2 {
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    margin-bottom: 1.5rem;
-    text-transform: uppercase;
-    font-family: "Roboto", sans-serif;
-    font-weight: 350;
-  }
-
-  .related-articles {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1.5rem;
-  }
-
-  .related-articles div img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-
-  .related-articles div h3 {
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-    text-transform: uppercase;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
-
-  @media (max-width: 1210px) {
-    .more-news {
-      width: 70%;
-    }
-  }
-  @media (max-width: 993px) {
-    .more-news {
-      width: 85%;
-    }
-  }
-  @media (max-width: 768px) {
-    .more-news {
-      width: 95%;
-    }  
-  }
-
-
-/* ============Related Articles end=============== */
-
-
-
-/* =========================
-   SKELETON LOADER STYLES
-   ========================= */
-
-/* 1. Animation */
-@keyframes shimmer {
-    0% { background-position: -1000px 0; }
-    100% { background-position: 1000px 0; }
+  margin: 2rem 0;
+  width: 60%;
 }
 
-/* 2. Base Skeleton Class */
-.skeleton {
-    background: #f0f0f0;
-    background-image: linear-gradient(to right, #f0f0f0 0%, #e0e0e0 20%, #f0f0f0 40%, #f0f0f0 100%);
-    background-repeat: no-repeat;
-    background-size: 1000px 100%; 
-    display: block;
-    position: relative;
-    animation: shimmer 1.2s infinite linear forwards;
-    border-radius: 4px;
+.more-news h2 {
+  font-size: 1.5rem;
+  margin: 2rem 0 1.5rem;
+  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 350;
 }
 
-/* 3. Main Article Shapes */
-.sk-title { height: 40px; width: 90%; margin-top: 4.5rem; margin-bottom: 20px; }
-.sk-date { height: 18px; width: 150px; margin-bottom: 20px; }
-.sk-profile-row { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
-.sk-avatar { width: 40px; height: 40px; border-radius: 50%; }
-.sk-author-name { height: 16px; width: 120px; }
-.sk-img { width: 100%; height: 350px; margin: 1rem 0; border-radius: 4px; }
-.sk-text { height: 16px; width: 100%; margin-bottom: 12px; }
-.sk-text-short { height: 16px; width: 70%; margin-bottom: 12px; }
-
-/* 4. Related News Shapes */
-.sk-related-img { width: 100%; height: 180px; margin-bottom: 12px; border-radius: 4px; }
-.sk-related-title { height: 16px; width: 95%; margin-bottom: 8px; }
-.sk-related-title.short { width: 60%; }
-
-/* 5. Utility */
-.hidden { display: none !important; }
-.fade-in { animation: fadeIn 0.5s ease-in; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* Ensure skeleton grid matches real grid */
-#related-skeleton { display: grid; gap: 1.5rem; }
-
-/* Add to Skeleton Styles */
-
-.sk-related-heading {
-    height: 28px;      /* Matches <h2> size */
-    width: 180px;      /* Width of "Related News" */
-    margin-top: 2rem;
-    margin-bottom: 1.5rem;
-    border-radius: 4px;
+/* 3-column grid */
+.related-articles {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
 }
 
-.sk-more-hr {
-    height: 1px;
-    width: 100%;
-    background-color: #e0e0e0; /* Skeleton gray */
-    border: none;
-    margin: 2rem 0;
-}
-
-/* --- RELATED NEWS IMAGES --- */
+/* Fixed-height thumbnails so unloaded images still show a grey box */
 .related-articles div img {
-    max-width: 100%;
-    height: 200px;           /* 1. FORCE FIXED HEIGHT */
-    object-fit: cover;       /* 2. Crop image nicely if it loads */
-    background-color: #e0e0e0; /* 3. Grey background (The "Box" look) */
-    border-radius: 4px;      /* Optional: Round corners */
-    display: block;          /* Removes bottom spacing gap */
-    
-    /* Optional: Hides the ugly "broken image" icon in some browsers */
-    text-indent: -10000px;   
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background-color: var(--color-skeleton-shine);
+  border-radius: 4px;
+  display: block;
+  text-indent: -10000px; /* hides broken-image icon in some browsers */
 }
 
-/* --- TABLET (Adjust Height/Width) --- */
+.related-articles div h3 a {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 500;
+}
+
+
+/* ============================================================
+   Skeleton Loader
+   Shimmer placeholders shown while the article is fetching.
+   ============================================================ */
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position:  1000px 0; }
+}
+
+.skeleton {
+  background: var(--color-skeleton-base);
+  background-image: linear-gradient(
+    to right,
+    var(--color-skeleton-base)  0%,
+    var(--color-skeleton-shine) 20%,
+    var(--color-skeleton-base)  40%,
+    var(--color-skeleton-base)  100%
+  );
+  background-repeat: no-repeat;
+  background-size: 1000px 100%;
+  display: block;
+  position: relative;
+  animation: shimmer 1.2s infinite linear forwards;
+  border-radius: 4px;
+}
+
+/* Article skeleton shapes */
+.sk-title        { height: 40px;  width: 90%;   margin-top: 4.5rem; margin-bottom: 20px; }
+.sk-date         { height: 18px;  width: 150px; margin-bottom: 20px; }
+.sk-profile-row  { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+.sk-avatar       { width: 40px;   height: 40px; border-radius: 50%; }
+.sk-author-name  { height: 16px;  width: 120px; }
+.sk-img          { width: 100%;   height: 350px; margin: 1rem 0; border-radius: 4px; }
+.sk-text         { height: 16px;  width: 100%; margin-bottom: 12px; }
+.sk-text-short   { height: 16px;  width: 70%;  margin-bottom: 12px; }
+
+/* Related articles skeleton shapes */
+#related-skeleton      { display: grid; gap: 1.5rem; }
+.sk-related-img        { width: 100%; height: 180px; margin-bottom: 12px; border-radius: 4px; }
+.sk-related-title      { height: 16px; width: 95%; margin-bottom: 8px; }
+.sk-related-title.short { width: 60%; }
+.sk-related-heading    { height: 28px; width: 180px; margin: 2rem 0 1.5rem; border-radius: 4px; }
+.sk-more-hr            { height: 1px; width: 100%; background-color: var(--color-skeleton-shine); border: none; margin: 2rem 0; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.fade-in { animation: fadeIn 0.5s ease-in; }
+
+
+/* ============================================================
+   Reading Highlighter
+   An absolutely-positioned div injected by JS that tracks
+   the sentence currently being read aloud.
+   ============================================================ */
+.floating-highlighter {
+  position: absolute;
+  background-color: var(--color-highlight);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 2px;
+  transition: all 0.15s ease-out;
+}
+
+
+/* ============================================================
+   Audio Reader — Desktop (Vertical progress bar)
+   Fixed to bottom-right, mirroring the search button position.
+   ============================================================ */
+#reader-container-vertical {
+  position: fixed;
+  right: 3rem;
+  bottom: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  z-index: var(--z-reader);
+  transition: all var(--transition-slow);
+}
+
+/* Circular play/pause button — turns red while playing */
+#play-pause-btn-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-text);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color var(--transition-base), transform var(--transition-fast);
+}
+
+#play-pause-btn-circle.playing { background-color: var(--color-red); }
+#play-pause-btn-circle:active  { transform: scale(0.9); }
+
+/* Vertical progress track */
+#progress-bar-vertical {
+  width: 2.5px;
+  height: 200px;
+  background-color: var(--color-progress-track);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Red fill that grows upward as the article is read */
+#progress-fill-vertical {
+  width: 100%;
+  height: 0%;
+  background-color: var(--color-progress-fill);
+  position: absolute;
+  bottom: 0;
+  border-radius: 2px;
+}
+
+/* Draggable handle on the fill */
+#progress-handle-vertical {
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-progress-fill);
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+/* Small horizontal tick at the top of the track marking 100% */
+#progress-end-marker {
+  position: absolute;
+  right: -2.5px;
+  top: 0;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 1.6px;
+  background-color: var(--color-progress-end);
+}
+
+
+/* ============================================================
+   Audio Reader — Mobile (Horizontal progress bar)
+   Replaces the vertical bar on small screens; slides up from
+   the bottom edge when the reader is expanded.
+   ============================================================ */
+#mobile-progress-container {
+  display: none; /* shown only in mobile media query below */
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 70px;
+  background-color: rgb(222, 222, 222);
+  z-index: var(--z-mobile-bar);
+  align-items: center;
+  padding: 0 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-slow), visibility var(--transition-slow);
+}
+
+#mobile-progress-container.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Horizontal progress track */
+#progress-bar-horizontal {
+  flex: 0.82;
+  height: 2.5px;
+  background-color: var(--color-progress-track);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+  margin: 0 1rem;
+  right: -50px;
+}
+
+#progress-fill-horizontal {
+  width: 0%;
+  height: 100%;
+  background-color: var(--color-progress-fill);
+  position: relative;
+  border-radius: 2px;
+}
+
+/* Draggable handle */
+#progress-handle-horizontal {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 13px;
+  height: 13px;
+  background-color: var(--color-progress-fill);
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#progress-handle-horizontal:active {
+  cursor: grabbing;
+  transform: translateY(-50%) scale(1.2);
+}
+
+/* End-of-track tick */
+#progress-end-marker-horizontal {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 9px;
+  background-color: var(--color-progress-end);
+}
+
+
+/* ============================================================
+   Edit Mode
+   Only visible to the article author. JS adds/removes
+   the relevant classes; #author-edit-btn starts display:none.
+   ============================================================ */
+
+/* Author's "Edit" button in the meta row */
+#author-edit-btn {
+  display: none; /* JS shows this for the author only */
+  align-items: center;
+  gap: 6px;
+  background-color: var(--color-bg-edit);
+  color: var(--color-text-body);
+  border: 1px solid var(--color-border-light);
+  padding: 8px 15px;
+  font-size: 0.85rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+#author-edit-btn:hover { background-color: #e6e6e6; color: var(--color-text); }
+
+/* Floating save/cancel toolbar — slides up from bottom-right */
+.edit-actions-bar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  z-index: var(--z-edit-bar);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100px); }
+  to   { transform: translateY(0); }
+}
+
+.btn-save-edit {
+  background-color: var(--color-red);
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-cancel-edit {
+  background-color: #fff;
+  color: var(--color-text-body);
+  border: 1px solid var(--color-border-light);
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Inline editable fields — dashed border signals edit mode */
+.edit-input-title {
+  width: 100%;
+  font-size: 2rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  border: 2px dashed var(--color-border);
+  background: var(--color-bg-input);
+  padding: 10px;
+  margin: 10px 0;
+  color: var(--color-text);
+  outline: none;
+}
+
+.edit-input-summary,
+.edit-input-content {
+  width: 100%;
+  border: 2px dashed var(--color-border);
+  background: var(--color-bg-input);
+  font-family: var(--font-serif);
+  outline: none;
+}
+
+.edit-input-summary {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  padding: 10px;
+  margin: 15px 0;
+  color: var(--color-text-muted);
+}
+
+.edit-input-content {
+  min-height: 400px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  padding: 15px;
+  color: #222;
+  white-space: pre-wrap; /* preserves author line breaks */
+}
+
+/* Image edit overlay — appears on hover over the hero image */
+.edit-img-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 800px;
+}
+
+.img-upload-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay-img);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  border-radius: 12px;
+}
+
+.edit-img-wrapper:hover .img-upload-overlay { opacity: 1; }
+
+
+/* ============================================================
+   Image Cropper Modal
+   Full-screen dark overlay with a 16:10 crop canvas.
+   ============================================================ */
+#cropper-modal {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay-dark);
+  z-index: var(--z-cropper);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cropper-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 850px;
+  text-align: center;
+}
+
+/* Canvas: drag to pan, enforces 16:10 article image ratio */
+.crop-container {
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16 / 10;
+  margin: 20px auto;
+  background: #333;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+}
+
+.crop-container:active { cursor: grabbing; }
+
+#cropper-img {
+  display: block;
+  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform-origin: center center;
+}
+
+.cropper-controls { margin: 20px 0; display: flex; justify-content: center; gap: 10px; }
+.cropper-actions  { display: flex; gap: 15px; justify-content: center; }
+
+.cropper-actions button {
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+#btn-cancel-crop { background: #eee; color: var(--color-text-body); }
+#btn-save-crop   { background: var(--color-text); color: #fff; }
+
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* Related articles width adjustments */
+@media (max-width: 1210px) { .more-news { width: 70%; } }
+@media (max-width: 993px)  { .more-news { width: 85%; } }
+@media (max-width: 900px)  { .more-news { width: 95%; } }
+@media (max-width: 768px)  { .more-news { width: 95%; } }
+
+/* Reader button repositions to match the search button breakpoints */
+@media (max-width: 1024px) { #reader-container-vertical { bottom: 1.5rem; right: 2rem; } }
+@media (max-width: 768px)  { #reader-container-vertical { bottom: 1rem;   right: 2rem; } }
+@media (max-height: 850px) { #reader-container-vertical { bottom: 0.7rem; } }
+
+/* Tablet — related image height */
 @media (max-width: 992px) {
-    .related-articles div img {
-        height: 160px;       /* Slightly shorter on tablets */
-    }
+  .related-articles div img { height: 160px; }
 }
 
-/* --- MOBILE (Adjust Height/Width) --- */
+/* Mobile */
 @media (max-width: 600px) {
-    .related-articles div img {
-        height: 220px;       /* Taller on mobile because cards are usually full-width */
-        /* width: 100%; (Already inherited, but you can change it here if needed) */
-    }
+  /* Related articles — single column */
+  .related-articles {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .more-news { width: 92%; margin: 1.5rem auto; }
+
+  .more-news h2 { font-size: 1.3rem; margin-top: 1rem; }
+
+  .related-articles div h3 { font-size: 1rem; line-height: 1.4; }
+
+  .related-articles div img { height: 220px; }
+
+  /* Action links — hide text, show icons only */
+  .article-actions a { font-size: 0; }
+  .article-actions a img { margin: 0; display: inline-block; }
+  .article-actions { display: flex; }
+
+  /* Level tabs — hide the "read as" label for space */
+  .level-selection-wrapper { gap: 15px; }
+  .read-as-label { display: none; }
+
+  /* Reader — switch to horizontal bar layout */
+  #reader-container-vertical {
+    bottom: 1rem;
+    right: 1.2rem;
+    flex-direction: row;
+    gap: 0;
+  }
+
+  #reader-container-vertical.expanded {
+    right: auto;
+    left: 1rem;
+    bottom: 10.5px;
+  }
+
+  /* Suppress color transition during position change;
+     re-enable it only once .expanded is settled */
+  #play-pause-btn-circle {
+    width: 50px;
+    height: 50px;
+    transition: background-color 0s, transform var(--transition-fast);
+  }
+
+  #reader-container-vertical.expanded #play-pause-btn-circle.playing {
+    transition: background-color var(--transition-base), transform var(--transition-fast);
+  }
+
+  #progress-bar-vertical    { display: none; }
+  #mobile-progress-container { display: flex; }
 }
 
-
-.search-wrapper{
-  display: none;
+/* Level toggle container — stack on very small screens */
+@media (max-width: 500px) {
+  .level-toggles-container { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
-
-/* ==========================================
-   RELATED NEWS RESPONSIVE GRID
-   ========================================== */
-
-/* TABLET (max-width: 900px): Switch to 2 columns */
-@media (max-width: 900px) {
-    
-    /* Adjust container width */
-    .more-news {
-        width: 90%; 
-    }
-}
-
-/* MOBILE (max-width: 600px): Switch to 1 column (Stacked) */
-@media (max-width: 600px) {
-    .related-articles {
-        grid-template-columns: 1fr; /* 1 Card per row (Full width) */
-        gap: 2rem;
-    }
-
-    .more-news {
-        width: 92%; /* Maximize space on mobile */
-        margin: 1.5rem auto;
-    }
-
-    .more-news h2 {
-        font-size: 1.3rem;
-        margin-top: 1rem;
-        text-align: left;
-    }
-    
-    /* Ensure text inside cards is readable on mobile */
-    .related-articles div h3 {
-        font-size: 1rem;
-        line-height: 1.4;
-    }
-}
-
-/* TABLET (max-width: 900px) - REMOVE or COMMENT OUT the grid change */
-@media (max-width: 900px) {
-    /* .related-articles { grid-template-columns: 1fr 1fr; }  <-- DELETE THIS LINE */
-    
-    .more-news {
-        width: 95%; /* Just adjust width, keep grid same */
-    }
-}
-
-/* MOBILE (max-width: 600px) - Switch strictly to 1 column here */
-@media (max-width: 600px) {
-    .related-articles {
-        grid-template-columns: 1fr; 
-        gap: 2rem;
-    }
-    /* ... rest of mobile styles */
-}
-
-
-/* ==========================================
-   MOBILE: HIDE TEXT, SHOW ICONS ONLY
-   ========================================== */
-
-@media (max-width: 600px) {
-    
-    /* 1. Hide the text "Share" / "Save" */
-    .article-actions a {
-        font-size: 0; 
-        /* This hides the text characters */
-    }
-
-    /* 2. Style the Icon to stand alone */
-    .article-actions a img {
-        /* Since text is gone, we don't need the margin separating them */
-        margin: 0; 
-        
-        /* Optional: Make icons slightly larger for easy tapping */
-        /* Reset any display issues */
-        display: inline-block;
-    }
-    
-    /* 3. Adjust spacing between the standalone icons */
-    .article-actions {
-        display: flex;
-    }
-}
-
-
-

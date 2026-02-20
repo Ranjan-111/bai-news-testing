@@ -1,0 +1,475 @@
+/* ============================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-bg:             #fff;
+  --color-text:           #000;
+  --color-text-body:      #333;
+  --color-text-muted:     #666;
+  --color-text-faint:     #777;
+  --color-text-label:     #222;
+  --color-red:            #d73634;
+  --color-red-dark:       #c02a28;
+  --color-border:         #f0f0f0;
+  --color-border-mid:     #e0e0e0;
+  --color-border-eee:     #eee;
+  --color-card-bg:        #f0f0f0;
+  --color-card-hover:     #e6e6e6;
+  --color-input-bg:       #f2f2f2;
+  --color-img-placeholder: #d9d9d9;
+  --color-overlay:        rgba(0, 0, 0, 0.5);
+  --color-overlay-dark:   rgba(0, 0, 0, 0.85);
+  --color-cropper-bg:     #f5f5f5;
+
+  /* Typography */
+  --font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Transitions */
+  --transition-fast: 0.2s;
+
+  /* Z-index */
+  --z-header:  1000;
+  --z-cropper: 9999;
+}
+
+
+/* ============================================================
+   Base
+   ============================================================ */
+body {
+  font-family: var(--font-primary);
+  background: var(--color-bg);
+  color: var(--color-text-body);
+  margin: 0;
+}
+
+.hidden { display: none !important; }
+
+
+/* ============================================================
+   Header
+   Sticky bar with a centered title and an absolute back arrow.
+   Same pattern used across all inner pages.
+   ============================================================ */
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  height: 67px;
+  z-index: var(--z-header);
+  box-shadow: 0 0 1px 0;
+}
+
+/* Back arrow — pulled out of flow so it doesn't shift the title */
+.header-back-btn {
+  position: absolute;
+  left: 20px;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
+.admin-header h1 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+
+/* ============================================================
+   Page Container
+   ============================================================ */
+.admin-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 50px 20px 20px;
+}
+
+
+/* ============================================================
+   Warning Box
+   Shown at the top of the admin panel as a reminder of the
+   impact of approve/reject actions.
+   ============================================================ */
+.warning-box {
+  text-align: center;
+  margin: 20px 0 60px;
+}
+
+.sub-warning {
+  color: var(--color-red);
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+
+/* ============================================================
+   List View — Article Request Cards
+   Each card shows a thumbnail, title, meta, and status.
+   ============================================================ */
+
+/* Date group header ("Today", "Yesterday", etc.) */
+.date-divider {
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin: 50px 0 25px;
+  border-bottom: 1px solid var(--color-border-mid);
+  padding-bottom: 10px;
+  display: block;
+  color: var(--color-text);
+}
+
+/* Card row: thumbnail left, text content right */
+.req-card {
+  background-color: var(--color-card-bg);
+  border-radius: 12px;
+  margin-bottom: 25px;
+  display: flex;
+  gap: 25px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  padding: 25px;
+  align-items: flex-start;
+  min-height: 160px;
+}
+
+.req-card:hover { background-color: var(--color-card-hover); }
+
+/* Fixed-size thumbnail — grayscale matches the site-wide image treatment */
+.card-img {
+  width: 260px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--color-img-placeholder);
+  flex-shrink: 0;
+  filter: grayscale(100%);
+}
+
+/* Text column fills remaining space */
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+/* Article headline */
+.card-title {
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin: 10.5px 0 6px;
+  text-transform: uppercase;
+  color: var(--color-text);
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+/* Author + date line */
+.card-meta {
+  font-size: 0.9rem;
+  color: var(--color-text-faint);
+  margin: 6px 0 12px;
+  font-weight: 400;
+}
+
+/* Article excerpt — hard-capped at 2 lines */
+.card-summary {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  margin-bottom: 15px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Status label pushed to the bottom of the card */
+.status-line {
+  font-size: 1rem;
+  color: var(--color-text);
+  margin-top: auto;
+}
+
+.status-val   { font-weight: 700; }
+.status-red   { color: var(--color-red); }
+.status-black { color: var(--color-text); }
+
+
+/* ============================================================
+   Detail View — Edit Form
+   Shown when an admin clicks a card to review / approve / reject.
+   ============================================================ */
+.form-group { margin-bottom: 25px; }
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: var(--color-text-label);
+}
+
+/* Shared style for all editable text inputs and textareas */
+.edit-input {
+  width: 100%;
+  padding: 16px;
+  background-color: var(--color-input-bg);
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-text-body);
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* Textareas auto-grow to fit their content (field-sizing: content is
+   a modern CSS property; JS fallback may be needed in older browsers) */
+.edit-textarea,
+.summary-textarea {
+  line-height: 1.6;
+  field-sizing: content;
+  min-height: 80px;
+  resize: none;
+}
+
+
+/* ============================================================
+   Image Edit Area
+   Clicking the image opens the cropper modal.
+   The upload overlay fades in on hover.
+   ============================================================ */
+.img-edit-area {
+  background-color: var(--color-input-bg);
+  border-radius: 8px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  filter: grayscale(100%);
+  aspect-ratio: 16 / 10;
+}
+
+.current-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* "Click to replace" overlay */
+.upload-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  font-size: 0.9rem;
+}
+
+.img-edit-area:hover .upload-overlay { opacity: 1; }
+
+
+/* ============================================================
+   Approve / Reject Action Row
+   Two equal buttons side by side at the bottom of the form.
+   ============================================================ */
+.action-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.btn-approve {
+  flex: 1;
+  background: var(--color-text);
+  color: var(--color-bg);
+  padding: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-reject {
+  flex: 1;
+  background: var(--color-bg);
+  color: var(--color-red);
+  border: 1px solid var(--color-red);
+  padding: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* "Feature this article" checkbox row above the action buttons */
+.feature-row {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid var(--color-border-eee);
+}
+
+/* accent-color tints the native checkbox to match the brand red */
+.feature-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-red);
+  cursor: pointer;
+}
+
+.feature-label {
+  font-size: 1rem;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   Image Cropper Modal
+   Full-screen dark overlay with a 16:10 crop canvas and a
+   zoom slider. Same pattern as article.css but with a
+   higher z-index so it sits above the admin header.
+   ============================================================ */
+#cropper-modal {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-cropper);
+}
+
+.cropper-content {
+  background: var(--color-bg);
+  border-radius: 12px;
+  padding: 30px;
+  width: 800px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+}
+
+.cropper-content h3 {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.cropper-content p {
+  margin: 0 0 20px;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+/* Drag-to-pan canvas; enforces the 16:10 article image ratio */
+.crop-container {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--color-cropper-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  margin-bottom: 20px;
+}
+
+.crop-container:active { cursor: grabbing; }
+
+#cropper-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  transform-origin: center center;
+  transition: transform 0.05s ease-out;
+  user-select: none;
+  pointer-events: none; /* prevents drag from grabbing the image element */
+}
+
+/* Zoom slider row */
+.cropper-controls {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.cropper-controls label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-body);
+}
+
+/* Custom range slider track */
+#zoom-slider {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  outline: none;
+  background: #ddd;
+  -webkit-appearance: none;
+}
+
+/* Slider thumb — red to match brand */
+#zoom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-red);
+  cursor: pointer;
+}
+
+#zoom-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-red);
+  cursor: pointer;
+  border: none;
+}
+
+/* Cancel / Save buttons — right-aligned */
+.cropper-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+.cropper-actions button {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+#btn-cancel-crop       { background: var(--color-card-bg);   color: var(--color-text-body); }
+#btn-cancel-crop:hover { background: var(--color-card-hover); }
+
+#btn-save-crop         { background: var(--color-red);       color: var(--color-bg); }
+#btn-save-crop:hover   { background: var(--color-red-dark); }

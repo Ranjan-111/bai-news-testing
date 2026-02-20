@@ -21,154 +21,211 @@ const db = getFirestore(app);
 let currentArticleId = null;
 let currentImageBase64 = null; 
 
+// Cropper State
+let currentScale = 1;
+let currentX = 0;
+let currentY = 0;
+let isDragging = false;
+let startX, startY;
+
+// Element references
+let dropZone, fileInput, imgPreview;
+let cropperModal, cropperImg, zoomSlider, btnSave, btnCancel, cropContainer;
+
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize Page Data
     loadArticlesLog();
     setupDetailLogic();
 
-    // 2. IMAGE CROPPER LOGIC
-    const dropZone = document.getElementById('drop-zone');
-    const fileInput = document.getElementById('edit-file-input');
-    const imgPreview = document.getElementById('edit-img-preview');
-    const dropContent = document.querySelector('.drop-content');
+    // 2. Element Selectors
+    dropZone = document.getElementById('img-drop-zone');
+    fileInput = document.getElementById('edit-file-input');
+    imgPreview = document.getElementById('edit-img-preview');
     
-    // Cropper Elements
-    const cropperModal = document.getElementById('cropper-modal');
-    const cropperImg = document.getElementById('cropper-img');
-    const zoomSlider = document.getElementById('zoom-slider');
-    const btnSave = document.getElementById('btn-save-crop');
-    const btnCancel = document.getElementById('btn-cancel-crop');
-    const cropContainer = document.querySelector('.crop-container');
+    // Cropper UI Elements
+    cropperModal = document.getElementById('cropper-modal');
+    cropperImg = document.getElementById('cropper-img');
+    zoomSlider = document.getElementById('zoom-slider');
+    btnSave = document.getElementById('btn-save-crop');
+    btnCancel = document.getElementById('btn-cancel-crop');
+    cropContainer = document.querySelector('.crop-container');
 
-    // Cropper State
-    let currentScale = 1;
-    let currentX = 0;
-    let currentY = 0;
-    let isDragging = false;
-    let startX, startY;
+    // Verify all elements exist
+    if (!dropZone || !fileInput || !imgPreview || !cropperModal || !cropperImg || !zoomSlider || !btnSave || !btnCancel || !cropContainer) {
+        console.error('Some required elements are missing from the DOM');
+        return;
+    }
 
-    // Trigger File Input
-    dropZone.addEventListener('click', () => fileInput.click());
+    setupImageSelection();
+    setupCropperInteractions();
+});
 
-    // Handle File Selection -> Open Modal
+// ==========================================
+// IMAGE SELECTION LOGIC
+// ==========================================
+function setupImageSelection() {
+    // Trigger Hidden File Input on Click
+    dropZone.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fileInput.click();
+    });
+
+    // Handle File Selection -> Initialize and Open Modal
     fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Please select a valid image file');
+                e.target.value = '';
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = (ev) => {
                 cropperImg.src = ev.target.result;
-                cropperModal.classList.remove('hidden');
                 
-                // Reset State
-                currentScale = 1;
-                currentX = 0;
-                currentY = 0;
-                zoomSlider.value = 1;
-                updateImageTransform();
+                // Wait for image to load before showing modal
+                cropperImg.onload = () => {
+                    cropperModal.classList.remove('hidden');
+                    
+                    // Reset Transformation State for new image
+                    currentScale = 1;
+                    currentX = 0;
+                    currentY = 0;
+                    zoomSlider.value = 1;
+                    updateImageTransform();
+                };
+            };
+            reader.onerror = () => {
+                alert('Error reading file');
+                e.target.value = '';
             };
             reader.readAsDataURL(file);
         }
-        e.target.value = ''; // Reset input so same file can be selected again
+        // Reset input so the same file can be re-selected if needed
+        e.target.value = '';
+    });
+}
+
+// ==========================================
+// CROPPER INTERACTION LOGIC
+// ==========================================
+function setupCropperInteractions() {
+    // Handle Image Repositioning (Drag)
+    cropContainer.addEventListener('mousedown', (e) => {
+        e.preventDefault(); 
+        isDragging = true;
+        startX = e.clientX - currentX;
+        startY = e.clientY - currentY;
+        cropContainer.style.cursor = 'grabbing';
     });
 
-// --- Dragging Logic ---
-cropContainer.addEventListener('mousedown', (e) => {
-    e.preventDefault(); // <--- ADD THIS LINE
-    isDragging = true;
-    startX = e.clientX - currentX;
-    startY = e.clientY - currentY;
-    
-    // Optional: distinct cursor style to indicate grabbing
-    cropContainer.style.cursor = 'grabbing'; 
-});
+    // Also handle touch events for mobile
+    cropContainer.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        isDragging = true;
+        const touch = e.touches[0];
+        startX = touch.clientX - currentX;
+        startY = touch.clientY - currentY;
+    });
 
-window.addEventListener('mouseup', () => {
-    isDragging = false;
-    // Reset cursor style
-    cropContainer.style.cursor = 'default'; 
-});
+    window.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            cropContainer.style.cursor = 'grab';
+        }
+    });
 
-window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    e.preventDefault(); // Keep this here too
-    currentX = e.clientX - startX;
-    currentY = e.clientY - startY;
-    updateImageTransform();
-});
+    window.addEventListener('touchend', () => {
+        isDragging = false;
+    });
 
-    // --- Zoom Logic ---
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault(); 
+        currentX = e.clientX - startX;
+        currentY = e.clientY - startY;
+        updateImageTransform();
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        currentX = touch.clientX - startX;
+        currentY = touch.clientY - startY;
+        updateImageTransform();
+    });
+
+    // Handle Zooming
     zoomSlider.addEventListener('input', (e) => {
         currentScale = parseFloat(e.target.value);
         updateImageTransform();
     });
 
-    function updateImageTransform() {
+    // MODAL ACTION BUTTONS
+    btnSave.addEventListener('click', saveCroppedImage);
+    btnCancel.addEventListener('click', cancelCrop);
+}
+
+// Apply Visual Updates to the UI
+function updateImageTransform() {
+    if (cropperImg) {
         cropperImg.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
     }
+}
 
-        // --- Save Logic (The Magic Part) ---
-    btnSave.addEventListener('click', () => {
+// ==========================================
+// MODAL ACTION BUTTONS
+// ==========================================
+function saveCroppedImage() {
+    try {
         const canvas = document.createElement('canvas');
         canvas.width = 800;
-        canvas.height = 500;
+        canvas.height = 500; // Correct 16:10 aspect ratio
         const ctx = canvas.getContext('2d');
 
-        // 1. Calculate ratio between the displayed DOM element and the actual 800px canvas
-        // The DOM container might be smaller (e.g. 600px on small screens), so we need a multiplier.
+        // Calculate scale ratio between the display container and target 800px canvas
         const domWidth = cropContainer.clientWidth;
-        const ratio = 800 / domWidth; 
+        const ratio = 800 / domWidth;
 
-        // 2. Clear canvas with white (optional)
+        // Background setup
         ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, 800, 450);
-
-        // 3. Apply Transformations to Context
-        // We move to center, apply offset * ratio, apply scale, move back.
-        // Simplified: Translate context by the same amount the image is translated (adjusted for ratio)
-        
+        ctx.fillRect(0, 0, 800, 500);
         ctx.save();
         
-        // Move to the position where image starts
-        // Note: transform-origin is center in CSS, but top-left default in Canvas.
-        // We simulate the visual offset.
-        // The image behaves as if it has `width: 100%` of container.
-        
-        const imgWidth = 800; // Because we map container width to 800
+        const imgWidth = 800; 
         const imgHeight = (cropperImg.naturalHeight / cropperImg.naturalWidth) * 800;
 
-        // Apply visual translation
+        // Apply transformations for the final output
         ctx.translate(currentX * ratio, currentY * ratio);
-        
-        // Apply scaling from the center of the image
-        // To zoom from center: translate to center, scale, translate back
         ctx.translate(imgWidth / 2, imgHeight / 2);
         ctx.scale(currentScale, currentScale);
         ctx.translate(-imgWidth / 2, -imgHeight / 2);
-
-        // Draw Image
-        ctx.drawImage(cropperImg, 0, 0, imgWidth, imgHeight);
         
+        ctx.drawImage(cropperImg, 0, 0, imgWidth, imgHeight);
         ctx.restore();
 
-        // 4. Save
-        imageBase64 = canvas.toDataURL('image/jpeg', 0.8);
+        // Save to the global variable required by approveAndPublish()
+        currentImageBase64 = canvas.toDataURL('image/jpeg', 0.8);
         
-        // Show Preview
-        imgPreview.src = imageBase64;
-        imgPreview.classList.remove('hidden');
+        // Update the form preview to show the user the result
+        imgPreview.src = currentImageBase64;
         imgPreview.style.display = 'block';
-        dropContent.style.opacity = '0';
         
         cropperModal.classList.add('hidden');
-    });
+    } catch (error) {
+        console.error('Error saving cropped image:', error);
+        alert('Error processing image. Please try again.');
+    }
+}
 
-    btnCancel.addEventListener('click', () => {
-        cropperModal.classList.add('hidden');
-        fileInput.value = ''; // Clear selection
-    });
-
-
-
-});
+// Close modal without saving
+function cancelCrop() {
+    cropperModal.classList.add('hidden');
+    fileInput.value = ''; // Clear selection
+}
 
 // ==========================================
 // 1. LIST VIEW LOGIC (All Statuses + 3 Day Logic + Sort)
@@ -231,7 +288,6 @@ async function loadArticlesLog() {
             } else {
                 // Older than 3 days -> Delete if pending
                 if (data.status === 'pending') {
-                    console.log(`Auto-deleting expired request: ${data.title}`);
                     batch.delete(docSnap.ref);
                     hasDeletions = true;
                 }
@@ -303,7 +359,7 @@ function createCard(data) {
     const statusColorClass = isPending ? 'status-red' : 'status-black';
 
     div.innerHTML = `
-        <img src="${data.imageUrl}" class="card-img">
+        <img src="${data.imageUrl}" class="card-img" alt="${data.title}">
         <div class="card-content">
             <div class="card-title">${data.title}</div>
             <div class="card-meta">by ${data.authorName} | ${dateStr}</div>
@@ -322,37 +378,6 @@ function createCard(data) {
 // ==========================================
 function setupDetailLogic() {
     document.getElementById('back-btn').onclick = closeDetailView;
-
-    const dropZone = document.getElementById('img-drop-zone');
-    const fileInput = document.getElementById('edit-file-input');
-    const imgPreview = document.getElementById('edit-img-preview');
-
-    dropZone.onclick = () => fileInput.click();
-
-    fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                imgPreview.src = ev.target.result;
-                const img = new Image();
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-                    if (width > 800) { height *= 800 / width; width = 800; }
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    currentImageBase64 = canvas.toDataURL('image/jpeg', 0.7);
-                };
-                img.src = ev.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
     document.getElementById('btn-publish').onclick = approveAndPublish;
     document.getElementById('btn-reject-final').onclick = rejectArticle;
 }
@@ -361,13 +386,19 @@ function openDetailView(data) {
     currentArticleId = data.id;
     currentImageBase64 = data.imageUrl; 
 
-    document.getElementById('edit-title').value = data.title;
+    // Use .innerHTML for rich text fields
+    document.getElementById('edit-title').value = data.title || "";
+    document.getElementById('edit-content-beginner').value = data.contentBeginner || "";
+    document.getElementById('edit-content-intermediate').value = data.content || "";
+    document.getElementById('edit-content-pro').value = data.contentPro || "";
+    
+    // Summary remains a standard textarea
+    document.getElementById('edit-summary').value = data.summary || "";
+
     document.getElementById('edit-author').value = data.authorName;
     document.getElementById('edit-date').value = data.datePosted;
     document.getElementById('edit-img-preview').src = data.imageUrl;
-    document.getElementById('edit-content').value = data.content;
-    document.getElementById('edit-summary').value = data.summary;
-    document.getElementById('check-featured').checked = (data.isFeatured === true); // Show current state
+    document.getElementById('check-featured').checked = (data.isFeatured === true);
 
     // Change Button Text based on status
     const btnApprove = document.getElementById('btn-publish');
@@ -402,8 +433,6 @@ async function approveAndPublish() {
         const articlesRef = collection(db, "articles");
 
         // 1. LIMIT CHECK (Only if creating new or changing status)
-        // Since we allow editing active articles, we assume limit check 
-        // is mostly relevant for new approvals.
         if (originalText.includes("Approval")) {
             const qCount = query(articlesRef, where("status", "==", "active"));
             const snapshot = await getCountFromServer(qCount);
@@ -435,8 +464,13 @@ async function approveAndPublish() {
         
         await updateDoc(articleRef, {
             title: document.getElementById('edit-title').value,
-            content: document.getElementById('edit-content').value,
             summary: document.getElementById('edit-summary').value,
+            
+            // Save all three versions
+            contentBeginner: document.getElementById('edit-content-beginner').value,
+            content: document.getElementById('edit-content-intermediate').value,
+            contentPro: document.getElementById('edit-content-pro').value,
+            
             imageUrl: currentImageBase64, 
             status: "active",
             isFeatured: isFeatured,
@@ -483,9 +517,4 @@ async function rejectArticle() {
         btn.innerText = originalText;
         btn.disabled = false;
     }
-}
-
-// DELETE THIS PART at the very end of your file
-if(othersCount >= 2) {
-    await updateDoc(featSnap.docs[0].ref, { isFeatured: false });
 }

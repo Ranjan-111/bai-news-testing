@@ -14,7 +14,7 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 // 2. CONFIGURATION
 const firebaseConfig = {
     apiKey: "AIzaSyC_Q3p2dyKwUOUv5O-gIMNI8vv6RrD0IZY",
-    authDomain: "bai-news-9e4cf.firebaseapp.com",
+    authDomain: "bitfeed.in",
     projectId: "bai-news-9e4cf",
     storageBucket: "bai-news-9e4cf.firebasestorage.app",
     messagingSenderId: "1056453543830",
@@ -88,7 +88,8 @@ export async function getArticlesBySerial(startSerial) {
         collection(db, "articles"),
         where("serialNumber", "<=", startSerial), 
         orderBy("serialNumber", "desc"),           
-        limit(7)                                   
+        limit(7),
+        where("status", "==", "active")                               
     );
 
     const snapshot = await getDocs(q);
@@ -131,6 +132,7 @@ export async function getRelatedArticles(tags, currentId) {
     
     const q = query(
         collection(db, "articles"),
+        where("status", "==", "active"),
         where("tags", "array-contains", tags[0]), // Match first tag
         limit(4) // Fetch 4, remove current, show 3
     );
@@ -155,7 +157,8 @@ export async function searchArticles(term) {
         orderBy("title"),
         startAt(term),
         endAt(term + "\uf8ff"),
-        limit(8)
+        limit(8),
+        where("status", "==", "active")
     );
 
     try {
@@ -268,6 +271,7 @@ export async function fetchAllSearchData() {
             const dateB = b.datePosted && b.datePosted.seconds ? b.datePosted.seconds : new Date(b.datePosted).getTime()/1000;
             return dateB - dateA;
         });
+        
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedData));
         localStorage.setItem(META_KEY, latestServerSerial.toString());

@@ -6,6 +6,7 @@ import {
     onAuthStateChanged, 
     signOut, 
     signInAnonymously, 
+    TwitterAuthProvider,
     updateProfile, 
     updateEmail,
     fetchSignInMethodsForEmail, 
@@ -17,6 +18,7 @@ import { saveUserToDB } from '/admin/user-db.js';
 
 const db = getFirestore(app); // Initialize DB here
 const provider = new GoogleAuthProvider();
+const twitterProvider = new TwitterAuthProvider();
 
 // ==========================================
 // AUTH LOGIC (Login & UI Updates)
@@ -24,8 +26,13 @@ const provider = new GoogleAuthProvider();
 
 // 1. LISTEN FOR CLICKS (Event Delegation)
 document.addEventListener('click', (e) => {
+    // Google
     if (e.target.closest('#google-login-btn')) {
         handleGoogleLogin();
+    }
+    // Twitter (New)
+    if (e.target.closest('#twitter-login-btn')) {
+        handleTwitterLogin();
     }
 });
 
@@ -101,7 +108,7 @@ async function updateUIForUser(user) {
                 // --- ADMIN VIEW: DASHBOARD ---
                 subscribeBtn.style.backgroundColor = "#000";
                 subscribeBtn.style.color = "#fff";
-                subscribeBtn.innerHTML = '<span style="position: relative; transform: translateX(30px); color: white; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 1.4em; font-weight: 200; letter-spacing: 1.5px;">Dashboard</span>';
+                subscribeBtn.innerHTML = '<span style="position: relative; transform: translateX(30px); color: white; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 1.4em; font-weight: 200; letter-spacing: 1.5px;">dashboard</span>';
                 subscribeBtn.style.pointerEvents = "auto";
                 subscribeBtn.style.display = "flex"; 
                 
@@ -127,7 +134,7 @@ async function updateUIForUser(user) {
                 // --- READER VIEW: SUBSCRIBED ---
                 subscribeBtn.style.backgroundColor = "#000";
                 subscribeBtn.style.color = "#fff";
-                subscribeBtn.innerHTML = '<span class="text">Subscribed</span>';
+                subscribeBtn.innerHTML = '<span class="text">subscribed</span>';
                 subscribeBtn.style.pointerEvents = "none";
                 
                 // Hide on mobile if subscribed
@@ -152,7 +159,7 @@ function resetUI() {
     if (subscribeBtn) {
         subscribeBtn.style.backgroundColor = ""; 
         subscribeBtn.style.color = "";
-        subscribeBtn.innerHTML = '<span class="text">Subscribe</span> <span class="icon"><svg viewBox="0 0 448 512" class="bell"><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"></path></svg></span>';
+        subscribeBtn.innerHTML = '<span class="text">subscribe</span> <span class="icon"><svg viewBox="0 0 448 512" class="bell"><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"></path></svg></span>';
         subscribeBtn.style.pointerEvents = "auto";
     }
 }
@@ -550,13 +557,6 @@ function initProfilePopupLogic(user, isAdmin = false) {
 
     // 3. INJECT ADMIN LINKS
     if (isAdmin) {
-        // A. Hide "Help" for Admin
-        const allLinks = popup.querySelectorAll('.profile-menu-item');
-        allLinks.forEach(link => {
-            if (link.textContent.toLowerCase().trim() === 'help') {
-                link.style.display = 'none';
-            }
-        });
 
         // B. Add "Dashboard" Link
         const profileLink = popup.querySelector('a[href*="user.html"]'); // Find 'Profile' link
@@ -565,7 +565,7 @@ function initProfilePopupLogic(user, isAdmin = false) {
             const dashboardLink = document.createElement('a');
             dashboardLink.className = 'profile-menu-item admin-dashboard-link';
             dashboardLink.href = '/admin/dashboard.html'; // <--- New Dashboard Page
-            dashboardLink.innerText = 'Dashboard';
+            dashboardLink.innerText = 'dashboard';
             dashboardLink.style.color = '#d73634'; // Red highlight
             dashboardLink.style.fontWeight = '500';
 
@@ -573,11 +573,16 @@ function initProfilePopupLogic(user, isAdmin = false) {
         }
     }
 
-    // 4. Toggle Logic
+    // 4. Toggle Logic (ONLY for desktop - mobile handled separately in layout.js)
     trigger.onclick = (e) => {
         e.preventDefault();
         e.stopPropagation(); 
-        popup.classList.toggle('active');
+        
+        // Only toggle popup on desktop (>550px)
+        if (window.innerWidth > 550) {
+            popup.classList.toggle('active');
+        }
+        // Mobile toggle is handled in layout.js initMobileProfileToggle()
     };
 
     // 5. Signout Logic
@@ -588,20 +593,107 @@ function initProfilePopupLogic(user, isAdmin = false) {
         };
     }
 
-    // 6. Close on Outside Click
+    // 6. Close on Outside Click (ONLY on desktop)
     document.addEventListener('click', (e) => {
-        if (!popup.contains(e.target) && !trigger.contains(e.target)) {
-            popup.classList.remove('active');
+        if (window.innerWidth > 550) {
+            if (!popup.contains(e.target) && !trigger.contains(e.target)) {
+                popup.classList.remove('active');
+            }
         }
     });
+    
+    // 7. Update mobile profile options with admin info
+    updateMobileProfileOptions(user, isAdmin);
 }
 
 export async function logoutUser() {
     try {
         await signOut(auth);
         console.log("User Logged Out");
+
+        // Clear the typewriter flag so they see it again next time they log in
+        sessionStorage.removeItem('typewriterPlayed');
+
         window.location.reload(); 
     } catch (error) {
         console.error("Logout Error:", error);
     }
 }
+
+// ==========================================
+// UPDATE MOBILE PROFILE OPTIONS
+// ==========================================
+function updateMobileProfileOptions(user, isAdmin = false) {
+    const mobileProfileOptions = document.getElementById('mobileProfileOptions');
+    if (!mobileProfileOptions) return;
+    
+    // Clear existing options (except sign out which we'll keep)
+    const signoutOption = mobileProfileOptions.querySelector('#mobile-btn-signout');
+    mobileProfileOptions.innerHTML = '';
+    
+    // Profile link (always present)
+    const profileOption = document.createElement('a');
+    profileOption.href = '/profile pages/user.html';
+    profileOption.className = 'mobile-profile-option';
+    profileOption.innerHTML = `
+        <span class="label">profile</span>
+    `;
+    mobileProfileOptions.appendChild(profileOption);
+    
+    // Add Dashboard for Admin
+    if (isAdmin) {
+        const dashboardOption = document.createElement('a');
+        dashboardOption.href = '/admin/dashboard.html';
+        dashboardOption.className = 'mobile-profile-option';
+        dashboardOption.innerHTML = `
+            <span class="label" style="color: #d73634; font-weight: 500;">dashboard</span>
+        `;
+        mobileProfileOptions.appendChild(dashboardOption);
+    }
+    
+    // Sign out (always at the end)
+    if (signoutOption) {
+        mobileProfileOptions.appendChild(signoutOption);
+    } else {
+        const newSignoutOption = document.createElement('a');
+        newSignoutOption.href = '#';
+        newSignoutOption.id = 'mobile-btn-signout';
+        newSignoutOption.className = 'mobile-profile-option';
+        newSignoutOption.innerHTML = `
+            <span class="label">sign out</span>
+        `;
+        newSignoutOption.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await logoutUser();
+        });
+        mobileProfileOptions.appendChild(newSignoutOption);
+    }
+}
+
+// NEW: TWITTER LOGIN FUNCTION
+function handleTwitterLogin() {
+    signInWithPopup(auth, twitterProvider)
+        .then(async (result) => {
+            const user = result.user;
+            console.log("Twitter Login Success:", user.displayName);
+
+            // Twitter usually provides the handle as the displayName or in providerData
+            // But Firebase standardizes 'user' object so it works with your DB function
+            
+            const newsletterBox = document.getElementById('newsletter-check');
+            const isSubscribed = newsletterBox ? newsletterBox.checked : false;
+            
+            // Save to Firestore using your existing function
+            await saveUserToDB(user, isSubscribed);
+
+            const overlay = document.getElementById('popupOverlay');
+            if (overlay) overlay.classList.remove('active');
+            updateUIForUser(user);
+        })
+        .catch((error) => {
+            console.error("Twitter Auth Error:", error);
+            if (error.code === 'auth/popup-closed-by-user') return; // Ignore if user just closed popup
+            alert("Login Failed: " + error.message);
+        });
+}
+

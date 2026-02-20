@@ -1,250 +1,376 @@
-        /* --- General Body & Font Styles --- */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #ffffff;
-            color: #000000;
-            margin: auto;
-            /* padding: 2rem; */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+/* ============================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-bg:           #ffffff;
+  --color-text:         #000000;
+  --color-text-body:    #555555;
+  --color-border:       #ccc;
+  --color-border-faint: #e0e0e0;
+  --color-red:          #d73634;
+  --color-red-soft:     rgba(222, 50, 50, 0.75);
+  --color-red-link:     rgb(79, 30, 30);
+  --color-red-link-hover: rgb(223, 8, 8);
+  --color-red-apply:    #a83c3c;
+
+  /* Table colors */
+  --color-table-head-bg:   #e8c5c5;
+  --color-table-head-text: #8b3a3a;
+  --color-table-cell-red:  #f5e5e5;
+  --color-table-row-gap:   #ffffff;
+
+  /* Typography */
+  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body:    "Roboto", sans-serif;
+
+  /* Transitions */
+  --transition-fast: 0.2s;
+}
 
 
-        #header {
-            background-color: rgba(255, 255, 255, 0.487);
-            opacity: 0.95;
-            position: sticky;
-            top: 0;
-            box-shadow: 0 0 1px 0;
-            backdrop-filter: blur(20px);
-            width: 100%;
-            height: 7.5vh;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* ============================================================
+   Base
+   ============================================================ */
+html { scroll-behavior: smooth; }
 
-        a {
-            text-decoration: none;
-            color: black;
-        }
+body {
+  font-family: var(--font-system);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-        .search-wrapper{
-            display: none;
-        }
+a {
+  text-decoration: none;
+  color: var(--color-text);
+}
 
+/* The floating search button from layout.css is not needed on this page */
+.search-wrapper { display: none; }
 
-
-        /* --- Flexbox Centering for Main Content --- */
-
-
-
-        .HOME {
-            height: 92vh;
-            width: 55%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
+/* Screen-reader-only helper — hides text visually but keeps it accessible */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 
-        .name {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: 3.2em;
-            font-weight: 300;
-        }
-
-        .HOME + div{
-            max-width: 900px;
-            width: 100%;
-            margin: auto;
-
-        }
-
-        .topic {
-            font-family: "Roboto", sans-serif;
-            font-weight: 200;
-            font-size: 1.4em;
-            text-align: left;
-            margin-left: 1rem;
-        }
+/* ============================================================
+   Header
+   Semi-transparent sticky bar with a blurred backdrop.
+   ============================================================ */
+#header {
+  background-color: rgba(255, 255, 255, 0.487);
+  opacity: 0.95;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 0 1px 0;
+  backdrop-filter: blur(20px);
+  width: 100%;
+  height: 7.5vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 
-        .l{
-            position: relative;
-            border: none;
-            border-top: 0.6px solid #ccc;
-            width: 90vw;
-        }
+/* ============================================================
+   Hero Section
+   Full-viewport intro with the page name centred.
+   ============================================================ */
+.HOME {
+  height: 92vh;
+  width: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
-        @media(min-width: 1300px){
-            .l{
-                width: 70vw;
-            }
-        }
+.name {
+  font-family: var(--font-display);
+  font-size: 3.2em;
+  font-weight: 300;
+  text-transform: capitalize;
+  letter-spacing: 0.1rem;
+}
 
+/* Constrain the section immediately after .HOME */
+.HOME + div {
+  max-width: 900px;
+  width: 100%;
+  margin: auto;
+}
 
-        /* --- Main Container --- */
-        .AI_intro {
-            max-width: 900px;
-            width: 95%;
-            height: max-content;
-            margin: auto;
-            margin-bottom: 5px;
-            padding: 0 1rem;
-        }
-
-
-        /* --- Typography --- */
-        h1,
-        h2 {
-            font-weight: 750;
-            /* Extra bold weight */
-            margin-top: 0;
-            /* margin-bottom: 0.75rem; */
-            text-transform: uppercase;
-        }
-
-        h1 {
-            font-size: 2rem;
-            letter-spacing: 0.01rem;
-            margin: 2rem 0;
-        }
-
-        h2 {
-            font-size: 1.75rem;
-            margin: 1.5rem 0 1.5rem 0;
-            letter-spacing: 0.04rem;
-        }
-
-        .name {
-            text-transform: capitalize;
-            letter-spacing: 0.1rem;
-        }
-
-        .info3 {
-            font-size: 1.1rem;
-            line-height: 1.2;
-            margin-top: 0;
-            margin-bottom: 0.4rem;
-            font-weight: 250;
-            font-family: 'Roboto', sans-serif;
-
-        }
-
-        .footer-link a {
-            text-decoration: none;
-            color: #555555;
-            font-size: 0.9rem;
-        }
-
-        /* --- Utility Classes --- */
-        .text-red {
-            color: #d73634;
-            /* A strong, slightly softer red than pure #FF0000 */
-        }
-
-        .text-red1 {
-            color: rgba(222, 50, 50, 0.75);
-            /* A strong, slightly softer red than pure #FF0000 */
-        }
-
-        .text-red1:hover {
-            color: #d73634;
-        }
-
-        /* --- Layout Sections --- */
-        .intro-section {
-            margin-bottom: 1.6rem;
-        }
-
-        .columns-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            /* Space between the two columns */
-            margin-bottom: 3rem;
-        }
-
-        /* --- Footer Elements --- */
-        footer {
-            margin-top: 2rem;
-        }
-
-        .Line2 {
-            border: none;
-            height: 1px;
-            background-color: #e0e0e0;
-            margin: 1rem auto;
-            width: 30%;
-        }
-
-        .footer-link {
-            text-align: center;
-        }
-
-        .footer-link a span {
-            font-size: 1rem;
-        }
-
-        /* --- Responsive Design for Mobile --- */
-        @media (max-width: 768px) {
-            .AI_intro{
-                width: 90%;
-            }
-            .topic{
-                margin-left: 1.6rem;
-            }
-            h1 {
-                font-size: 2rem;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            /* Stack columns on top of each other on smaller screens */
-            .columns-container {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-        }
+/* Section label ("AI Tools", "Resources", etc.) */
+.topic {
+  font-family: var(--font-body);
+  font-weight: 200;
+  font-size: 1.4em;
+  text-align: left;
+}
 
 
+/* ============================================================
+   Dividers
+   ============================================================ */
+
+/* Full-width rule below section labels */
+.l {
+  position: relative;
+  border: none;
+  border-top: 0.6px solid var(--color-border);
+  width: 90vw;
+}
+
+/* Narrows on large screens to avoid stretching too wide */
+@media (min-width: 1300px) {
+  .l { width: 70vw; }
+}
+
+/* Absolute-positioned rule that bleeds past the centred column */
+.Line1 {
+  position: absolute;
+  border: none;
+  border-top: 0.5px solid var(--color-border);
+  width: 70vw;
+  left: 15vw;
+}
+
+/* Centred decorative rule between sections */
+.Line2 {
+  border: none;
+  height: 1px;
+  background-color: var(--color-border-faint);
+  margin: 1rem auto;
+  width: 30%;
+}
+
+/* "Read more" line with text centred between two rules */
+.line-with-text {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: red;
+  font-size: 1.2rem;
+}
+
+.line-with-text::before,
+.line-with-text::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--color-border);
+  margin: 0 1rem;
+}
+
+.line2 { width: 60%; margin: auto; }
 
 
+/* ============================================================
+   Main Content Areas
+   Two shared content containers; scroll-margin ensures they
+   clear the sticky header when jumped to via anchor links.
+   ============================================================ */
+.AI_intro,
+.resources-section {
+  max-width: 900px;
+  width: 95%;
+  margin: auto;
+  padding: 0 1rem;
+  scroll-margin: 60px;
+}
+
+.resources-section { margin-bottom: 0; }
 
 
+/* ============================================================
+   Typography
+   ============================================================ */
+h1, h2 {
+  font-weight: 750;
+  margin-top: 0;
+  text-transform: uppercase;
+}
 
-        /* ========.  media QUERY FOR MOBILE ========= */
+h1 { font-size: 2rem;   letter-spacing: 0.01rem; margin: 2rem 0; }
+h2 { font-size: 1.75rem; letter-spacing: 0.04rem; margin: 1.5rem 0; }
 
+/* Body copy in the intro section */
+.info3 {
+  font-size: 1.1rem;
+  line-height: 1.2;
+  margin: 0 0 0.4rem;
+  font-weight: 250;
+  font-family: var(--font-body);
+}
+
+/* Red accent utilities */
+.text-red  { color: var(--color-red); }
+
+/* Faded red that brightens on hover — used for inline links */
+.text-red1 { color: var(--color-red-soft); }
+.text-red1:hover { color: var(--color-red); }
+
+
+/* ============================================================
+   Layout Sections
+   ============================================================ */
+.intro-section { margin-bottom: 1.6rem; }
+
+/* Two-column grid for AI tool cards or comparison lists */
+.columns-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+
+/* ============================================================
+   Footer
+   ============================================================ */
+footer { margin-top: 2rem; }
+
+.footer-link { text-align: center; }
+
+.footer-link a {
+  color: var(--color-text-body);
+  font-size: 0.9rem;
+}
+
+.footer-link a span { font-size: 1rem; }
+
+/* "Read more" red link */
+.link1 {
+  color: var(--color-red-link);
+  font-weight: 300;
+  font-family: var(--font-body);
+}
+
+.link1:hover { color: var(--color-red-link-hover); }
+
+
+/* ============================================================
+   Resources Table
+   Four-column table: Resource | Value | Description | Apply.
+   Columns 1 & 4 have a soft red tint; columns 2 & 3 are white.
+   border-collapse + a white row gap creates a card-row look.
+   ============================================================ */
+.resources-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-system);
+  margin-bottom: 2rem;
+}
+
+/* Header row */
+.resources-table thead th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: var(--color-table-head-text);
+  text-transform: capitalize;
+  background-color: var(--color-table-cell-red); /* softer tint on all headers */
+}
+
+/* Column widths */
+.resources-table thead th:nth-child(1) { width: 25%; }
+.resources-table thead th:nth-child(2) { width: 15%; }
+.resources-table thead th:nth-child(3) { width: 45%; }
+.resources-table thead th:nth-child(4) { width: 15%; }
+
+/* White gap between rows */
+.resources-table tbody tr { border-bottom: 4px solid var(--color-table-row-gap); }
+
+.resources-table tbody td {
+  padding: 1.2rem 1rem;
+  font-size: 1.035rem;
+  color: var(--color-text);
+}
+
+/* Col 1 — Resource name (soft red) */
+.resources-table tbody td:nth-child(1) {
+  background-color: var(--color-table-cell-red);
+  font-weight: 400;
+  width: 25%;
+}
+
+/* Col 2 — Value / price (white, bold) */
+.resources-table tbody td:nth-child(2) {
+  background-color: var(--color-table-row-gap);
+  font-weight: 600;
+  font-size: 1.15rem;
+  width: 15%;
+}
+
+/* Col 3 — Description (white) */
+.resources-table tbody td:nth-child(3) {
+  background-color: var(--color-table-row-gap);
+  font-size: 1rem;
+  line-height: 1.4;
+  width: 45%;
+}
+
+/* Col 4 — Apply link (soft red, centred) */
+.resources-table tbody td:nth-child(4) {
+  background-color: var(--color-table-cell-red);
+  text-align: center;
+  width: 15%;
+}
+
+/* "Apply now" link */
+.apply-link {
+  color: var(--color-red-apply);
+  font-weight: 400;
+  font-size: 1rem;
+  transition: color var(--transition-fast);
+}
+
+.apply-link:hover { color: var(--color-red); }
+
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .AI_intro        { width: 90%; }
+  .resources-section { width: 90%; padding: 0; }
+
+  .topic           { margin-left: 1.6rem; }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+
+  /* Stack two-column grid */
+  .columns-container { grid-template-columns: 1fr; gap: 2rem; }
+
+  /* Table — tighter padding and smaller text */
+  .resources-table                   { font-size: 0.9rem; }
+  .resources-table thead th          { padding: 0.8rem 0.5rem; font-size: 0.95rem; }
+  .resources-table tbody td          { padding: 1rem 0.5rem;   font-size: 0.9rem; }
+  .resources-table tbody td:nth-child(2) { font-size: 1rem; }
+  .resources-table tbody td:nth-child(3) { font-size: 0.85rem; }
+  .apply-link                        { font-size: 0.9rem; }
+}
+
+/* Mobile */
 @media (max-width: 550px) {
-
-    BODY{
-        padding-top: 0;
-
-    }
-
-
-    /* ====. CONTENT ========= */
-    .topic {
-        font-size: 1.2em;
-        align-self: start;
-    }
-
-    .intro-section h1{
-        font-size: 1.5rem;
-    }
-
-    .column h2{
-        font-size: 1.25rem;
-    }
-    .info {
-        font-size: 1rem;
-    }
-
-
-
+  .topic           { font-size: 1.2em; align-self: start; }
+  .intro-section h1 { font-size: 1.5rem; }
+  .column h2       { font-size: 1.25rem; }
 }

@@ -1,340 +1,304 @@
-body{
-    margin: 0;
-    padding: 0;
+/* ============================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-text:           #000;
+  --color-red:            #d73634;
+  --color-red-active:     #A93836;
+  --color-border:         #ccc;
+  --color-page-inactive:  #e5e7eb;
+  --color-page-inactive-hover: #d1d5db;
+  --color-page-text:      #6b7280;
+  --color-page-arrow:     #9ca3af;
+  --color-page-arrow-hover: #4b5563;
+  --color-page-placeholder: #f3f4f6;
+  --color-skeleton-base:  #f0f0f0;
+  --color-skeleton-shine: #e0e0e0;
+
+  /* Typography */
+  --font-body:    "Roboto", sans-serif;
+  --font-heading: "Circular Std", "Montserrat", sans-serif;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.2s ease-in-out;
 }
 
-a{
-    text-decoration: none;
-    color: black;
+
+/* ============================================================
+   Base
+   ============================================================ */
+body {
+  margin: 0;
+  padding: 0;
 }
 
+a {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.hidden { display: none !important; }
+
+.text-red { color: var(--color-red); }
+
+/* Uppercase dates consistently across articles and search results */
+.date,
+.result-date {
+  text-transform: uppercase;
+}
+
+
+/* ============================================================
+   Page Layout
+   Centered content column, 50% wide on desktop.
+   ============================================================ */
 .ma-main {
-    max-width: 50%;
-    margin: 2rem auto;
-  }
+  max-width: 50%;
+  margin: 0 auto;
+  padding-top: 80px;
+}
 
-  .topic {
-  font-family: "Roboto", sans-serif;
+/* Section label (e.g. "Latest", "Featured") */
+.topic {
+  font-family: var(--font-body);
   font-weight: 200;
   font-size: 1.4em;
 }
 
-
+/* Full-width rule below section labels.
+   position: absolute + left: 15vw bleeds it edge-to-edge
+   while the content column stays centered. */
 .Line1 {
   position: absolute;
   border: none;
-  border-top: 0.5px solid #ccc;
+  border-top: 0.5px solid var(--color-border);
   width: 70vw;
   left: 15vw;
-  /* margin: 10px auto; */
-}
-
-.articles-container{
-    margin: 6rem 0 2rem 0;
-}
-
-.article-card{
-    display: block;
-    margin: 3rem 0;
-}
-
-.article-card h3{
-  font-family: "Circular Std", "Montserrat", sans-serif;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    font-size: 1.27rem;
-}
-
-.date{
-    margin: 0.2rem 0 0.6rem 0;
-}
-
-.date + p{
-    font-family: "Roboto", sans-serif;
-    font-size: 1rem;
-
-}
-
-.article-card + hr{
-        border: none;
-    border-top: 1px solid #ccc;
-
-}
-
-p + a{
-    margin-top: -50rem;
-}
-
-.text-red{
-            color: #d73634;
 }
 
 
-/* ============Related Articles End===============*/
-
-
-/* media query */
-
-@media (max-width: 768px) {
-    .ma-main {
-        max-width: 90%;
-        margin: 1rem auto;
-        padding: 1rem;
-        margin-top: 2rem;
-    }
-
-    .articles-container {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
+/* ============================================================
+   Article Feed
+   ============================================================ */
+.articles-container {
+  margin: 6rem 0 2rem;
 }
 
-@media (max-width: 480px) {
-    .ma-main h2 {
-        font-size: 1.5rem;
-    }
-
-    .article-card h2 {
-        font-size: 1.2rem;
-    }
+/* Each article is a block link */
+.article-card {
+  display: block;
+  margin: 3rem 0;
 }
 
+.article-card h3 {
+  font-family: var(--font-heading);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-size: 1.27rem;
+}
 
+/* Date tag */
+.date {
+  margin: 0.2rem 0 0.6rem;
+}
 
-/* ======--- Pagination Container (Fixed Bottom) ---====== */
-        .pagination-bar {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            padding-top: 2rem;
-            padding-bottom: 3rem;
-            background: linear-gradient(to top, #f9fafb 80%, transparent);
-            /* position: sticky; */
-            /* bottom: 0; */
-        }
+/* Summary paragraph immediately after the date */
+.date + p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
 
-        .pagination-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            user-select: none;
-        }
-
-        /* --- Buttons & Arrows --- */
-        .arrow-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #9ca3af;
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 0.2s ease;
-        }
-
-        .arrow-btn:hover {
-            color: #4b5563;
-        }
-
-        .arrow-btn svg {
-            width: 12px;
-            height: 12px;
-            fill: currentColor;
-        }
-
-        /* Number Buttons */
-        #pages-container {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        /* Base Desktop Sizes */
-        .page-circle {
-            width: 2.5rem; /* 40px */
-            height: 2.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            font-family: "Roboto", sans-serif;
-            font-size: 1rem;
-        }
-
-        .page-circle.inactive {
-            background-color: #e5e7eb;
-            color: #6b7280;
-        }
-
-        .page-circle.inactive:hover {
-            background-color: #d1d5db;
-        }
-
-        .page-circle.active {
-            width: 3.5rem; /* 56px */
-            height: 3.5rem;
-            background-color: #A93836;
-            color: white;
-            font-size: 1.25rem;
-            font-weight: 700;
-            z-index: 2;
-            transform: scale(1.1);
-        }
-
-        .page-circle.placeholder {
-            background-color: #f3f4f6;
-            cursor: default;
-        }
-
-        /* --- MEDIA QUERIES FOR RESPONSIVENESS --- */
-
-        /* Tablet Devices (max-width: 768px) */
-        @media (max-width: 768px) {
-            .pagination-bar {
-                padding-top: 1.5rem;
-                padding-bottom: 1.5rem;
-            }
-
-            .pagination-wrapper {
-                gap: 0.75rem;
-            }
-
-            .page-circle {
-                width: 2.25rem; /* Slightly smaller */
-                height: 2.25rem;
-            }
-
-            .page-circle.active {
-                width: 3rem; /* Smaller active state */
-                height: 3rem;
-                font-size: 1.1rem;
-            }
-        }
-
-        @media (max-width: 550px) {
-              .Line1 {
-                    width: 100vw;
-                    left: 0;
-                }
-
-                .topic {
-                    font-size: 0.95rem;
-                }
-        }
-
-
-        /* Mobile Devices (max-width: 480px) */
-        @media (max-width: 480px) {
-            .pagination-bar {
-                padding-top: 1rem;
-                padding-bottom: 1.25rem; /* Tighter to bottom */
-                background: linear-gradient(to top, #f9fafb 90%, transparent); /* Stronger fade */
-            }
-
-            .pagination-wrapper {
-                gap: 0.5rem; /* Reduce gap between arrows and numbers */
-            }
-
-            #pages-container {
-                gap: 0.25rem; /* Tighter number spacing */
-            }
-
-            .page-circle {
-                width: 2rem; /* 32px - Standard mobile touch target */
-                height: 2rem;
-                font-size: 0.9rem;
-            }
-
-            .page-circle.active {
-                width: 2.75rem; /* 44px */
-                height: 2.75rem; 
-                font-size: 1rem;
-                transform: scale(1.05); /* Less aggressive zoom */
-            }
-
-            .arrow-btn {
-                padding: 0.25rem;
-            }
-        }
-
-
-
-
-
-/* EXTRA for filter functionality*/
-.hidden {
-    display: none !important;
+/* Thin divider between cards */
+.article-card + hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
 }
 
 
-/* =========================
-   SKELETON LOADER STYLES
-   ========================= */
+/* ============================================================
+   Pagination
+   Centered row of page circles with prev/next arrows.
+   The active circle is larger and red to stand out.
+   ============================================================ */
+.pagination-bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0 3rem;
+  background: linear-gradient(to top, #f9fafb 80%, transparent);
+}
 
-/* 1. Animation */
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  user-select: none;
+}
+
+/* Prev / next arrow buttons */
+.arrow-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-page-arrow);
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.arrow-btn:hover { color: var(--color-page-arrow-hover); }
+
+.arrow-btn svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+/* Row of numbered circles */
+#pages-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Base page circle */
+.page-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+/* Unselected page number */
+.page-circle.inactive {
+  background-color: var(--color-page-inactive);
+  color: var(--color-page-text);
+}
+
+.page-circle.inactive:hover {
+  background-color: var(--color-page-inactive-hover);
+}
+
+/* Currently selected page — larger red circle */
+.page-circle.active {
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: var(--color-red-active);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  z-index: 2;
+  transform: scale(1.1);
+}
+
+/* Non-interactive ellipsis placeholder ("…") */
+.page-circle.placeholder {
+  background-color: var(--color-page-placeholder);
+  cursor: default;
+}
+
+
+/* ============================================================
+   Skeleton Loader
+   Shimmer placeholders shown while articles are fetching.
+   ============================================================ */
 @keyframes shimmer {
-    0% { background-position: -1000px 0; }
-    100% { background-position: 1000px 0; }
+  0%   { background-position: -1000px 0; }
+  100% { background-position:  1000px 0; }
 }
 
-/* 2. Base Skeleton Class */
 .skeleton {
-    background: #f0f0f0;
-    background-image: linear-gradient(to right, #f0f0f0 0%, #e0e0e0 20%, #f0f0f0 40%, #f0f0f0 100%);
-    background-repeat: no-repeat;
-    background-size: 1000px 100%; 
-    display: block;
-    position: relative;
-    animation: shimmer 1.2s infinite linear forwards;
-    border-radius: 4px;
+  background: var(--color-skeleton-base);
+  background-image: linear-gradient(
+    to right,
+    var(--color-skeleton-base)  0%,
+    var(--color-skeleton-shine) 20%,
+    var(--color-skeleton-base)  40%,
+    var(--color-skeleton-base)  100%
+  );
+  background-repeat: no-repeat;
+  background-size: 1000px 100%;
+  display: block;
+  position: relative;
+  animation: shimmer 1.2s infinite linear forwards;
+  border-radius: 4px;
 }
 
-/* 3. Feed Item Shapes */
-.sk-card {
-    display: block;
-    margin: 3rem 0; /* Matches .article-card margin */
-}
+/* Skeleton card — mirrors .article-card spacing */
+.sk-card    { display: block; margin: 3rem 0; }
+.sk-title   { height: 24px;  width: 60%;  margin-bottom: 0.8rem; }
+.sk-date    { height: 14px;  width: 100px; margin-bottom: 1rem; }
+.sk-summary { height: 16px;  width: 100%; margin-bottom: 10px; }
+.sk-summary.short { width: 80%; }
 
-.sk-title {
-    height: 24px;
-    width: 60%;
-    margin-bottom: 0.8rem;
-}
-
-.sk-date {
-    height: 14px;
-    width: 100px;
-    margin-bottom: 1rem;
-}
-
-.sk-summary {
-    height: 16px;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.sk-summary.short {
-    width: 80%;
-}
-
+/* Skeleton divider rule */
 .sk-hr {
-    height: 1px;
-    background-color: #ccc;
-    margin: 2rem 0;
-    width: 100%;
-    border: none;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 2rem 0;
+  width: 100%;
+  border: none;
 }
-
-/* 4. Utilities */
-.hidden { display: none !important; }
-.fade-in { animation: fadeIn 0.5s ease-in; }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.fade-in { animation: fadeIn 0.5s ease-in; }
+
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .ma-main {
+    max-width: 90%;
+    margin: 2rem auto 1rem;
+    padding: 70px 1rem 1rem;
+  }
+
+  .pagination-bar    { padding: 1.5rem 0; }
+  .pagination-wrapper { gap: 0.75rem; }
+  .page-circle       { width: 2.25rem; height: 2.25rem; }
+  .page-circle.active { width: 3rem; height: 3rem; font-size: 1.1rem; }
+}
+
+/* Mobile */
+@media (max-width: 550px) {
+  .Line1 { width: 100vw; left: 0; }
+  .topic { font-size: 0.95rem; }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .ma-main h2       { font-size: 1.5rem; }
+  .article-card h2  { font-size: 1.2rem; }
+
+  .pagination-bar {
+    padding: 1rem 0 1.25rem;
+    background: linear-gradient(to top, #f9fafb 90%, transparent);
+  }
+
+  .pagination-wrapper { gap: 0.5rem; }
+  #pages-container    { gap: 0.25rem; }
+
+  .page-circle        { width: 2rem;   height: 2rem;   font-size: 0.9rem; }
+  .page-circle.active { width: 2.75rem; height: 2.75rem; font-size: 1rem; transform: scale(1.05); }
+
+  .arrow-btn { padding: 0.25rem; }
 }

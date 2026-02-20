@@ -1,308 +1,388 @@
-/* General Page Reset */
+/* ============================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-bg:           #fff;
+  --color-text:         #000;
+  --color-text-body:    #333;
+  --color-text-label:   #222;
+  --color-text-muted:   #555;
+  --color-text-faint:   #999;
+  --color-text-hint:    #aaa;
+  --color-border:       #eee;
+  --color-input-bg:     #f2f2f2;
+  --color-input-focus:  #e6e6e6;
+  --color-red:          #d73634;
+  --color-red-btn:      #b93b3b;
+  --color-tag-bg:       #f2f2f2;
+  --color-tag-hover:    #e6e6e6;
+  --color-suggest-bg:   #eee;
+  --color-suggest-hover:#e0e0e0;
+  --color-drag-border:  #4CAF50;
+  --color-drag-bg:      rgba(76, 175, 80, 0.1);
+  --color-overlay-dark: rgba(0, 0, 0, 0.85);
+  --color-upload-icon:  #777;
+
+  /* Typography */
+  --font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Transitions */
+  --transition-fast: 0.2s;
+  --transition-base: 0.2s ease;
+
+  /* Z-index */
+  --z-cropper: 2000;
+}
+
+
+/* ============================================================
+   Base
+   display: initial resets the global body { display: flex }
+   set in index.css so this page uses normal document flow.
+   ============================================================ */
 body {
-    background-color: #fff;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
-    display: initial;
+  background-color: var(--color-bg);
+  font-family: var(--font-primary);
+  color: var(--color-text-body);
+  display: initial;
 }
 
-/* --- Header Styling --- */
-.post-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding: 20px;
-    border-bottom: 1px solid #eee; /* Optional subtle separator */
-    margin-bottom: 30px;
-}
+form { flex-direction: column; }
 
-.post-header h1 {
-    font-size: 1.2rem;
-    font-weight: 400;
-    margin: 0;
-    text-transform: lowercase; /* Matches "post article" */
-    letter-spacing: 0.5px;
-}
-
-.back-btn {
-    position: absolute;
-    left: 20px;
-    color: #000;
-    display: flex;
-    align-items: center;
-    transition: opacity 0.2s;
-    cursor: pointer;
-}
-
-
-/* --- Form Container --- */
-.form-container {
-    max-width: 700px; /* Limits width like the image */
-    margin: 0 auto;
-    padding: 0 20px 50px 20px;
-}
-
-.form-group {
-    margin-bottom: 25px;
-}
-
-/* Label Styling */
-label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-    font-weight: 400;
-    color: #222;
-}
-
-/* Input Styling (The Grey Boxes) */
-.form-input {
-    width: 100%;
-    padding: 16px;
-    background-color: #f2f2f2; /* Exact light grey match */
-    border: none;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    color: #333;
-    box-sizing: border-box; /* Ensures padding doesn't break width */
-    outline: none;
-    transition: background 0.2s;
-}
-
-.form-input:focus {
-    background-color: #e6e6e6; /* Slightly darker on focus */
-}
-
-.form-input::placeholder {
-    color: #aaa;
-    font-weight: 300;
-}
-
-/* Textarea specific */
-.textarea {
-    min-height: 200px;
-    resize: vertical;
-    field-sizing: content; /* Automatically grows to fit text */
-    min-height: 80px;
-    resize: none;
-}
-
-
-/* --- File Upload Area --- */
-.file-drop-area {
-    background-color: #f2f2f2;
-    border-radius: 8px;
-            min-height: 200px;
-            display: flex;
-            align-items: center; justify-content: center;
-            position: relative; overflow: hidden;
-            cursor: pointer;
-            filter: grayscale(100%);
-            aspect-ratio: 16/10;
-
-}
-
-/* .file-drop-area:hover {
-    background-color: #e6e6e6;
-} */
-
-.drop-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    pointer-events: none; /* Let clicks pass through to container */
-}
-
-.upload-icon {
-    width: 28px;
-    height: 28px;
-    color: #777;
-    margin-bottom: 10px;
-}
-
-.drop-text {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 4px;
-}
-
-.drop-subtext {
-    font-size: 0.75rem;
-    color: #999;
-}
-
-/* Image Preview (Hidden by default) */
-#img-preview {
-    max-width: 100%;
-    object-fit: contain;
-    display: none; /* Hidden class controls this */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #f2f2f2;
-    aspect-ratio: 16/10;
-}
-
-/* --- Submit Button --- */
-.submit-btn {
-    width: 100%;
-    padding: 16px;
-    background-color: #b93b3b; /* The Red Color */
-    color: white;
-    font-size: 1rem;
-    font-weight: 400;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: opacity 0.2s;
-}
-
-.submit-btn:hover {
-    opacity: 0.9;
-}
-
-/* Utilities */
 .hidden { display: none !important; }
 
 
-/* === NEW TAG SELECTION STYLES === */
+/* ============================================================
+   Header
+   Centered title with an absolutely-positioned back arrow.
+   ============================================================ */
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 20px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 30px;
+}
+
+.post-header h1 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: 0;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+}
+
+/* Back arrow — absolute so it doesn't shift the centered title */
+.back-btn {
+  position: absolute;
+  left: 20px;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+
+/* ============================================================
+   Form Container
+   ============================================================ */
+.form-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 20px 50px;
+}
+
+.form-group { margin-bottom: 25px; }
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--color-text-label);
+}
+
+/* Grey input boxes — shared by text inputs and textareas */
+.form-input {
+  width: 100%;
+  padding: 16px;
+  background-color: var(--color-input-bg);
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-text-body);
+  box-sizing: border-box;
+  outline: none;
+  transition: background var(--transition-fast);
+}
+
+.form-input:focus      { background-color: var(--color-input-focus); }
+.form-input::placeholder { color: var(--color-text-hint); font-weight: 300; }
+
+/* Textarea — auto-grows with content; resize disabled for clean layout */
+.textarea {
+  min-height: 80px;
+  resize: none;
+  field-sizing: content; /* modern auto-grow; JS fallback may be needed */
+}
+
+
+/* ============================================================
+   Image Upload Drop Zone
+   Clicking or dropping an image here triggers the cropper.
+   aspect-ratio: 16/10 matches the published article image ratio.
+   ============================================================ */
+.file-drop-area {
+  background-color: var(--color-input-bg);
+  border-radius: 8px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  filter: grayscale(100%);
+  aspect-ratio: 16 / 10;
+}
+
+/* Inner placeholder content — pointer-events: none lets clicks
+   pass through to the parent .file-drop-area handler */
+.drop-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.upload-icon  { width: 28px; height: 28px; color: var(--color-upload-icon); margin-bottom: 10px; }
+.drop-text    { font-size: 0.9rem;  color: var(--color-text-muted); margin-bottom: 4px; }
+.drop-subtext { font-size: 0.75rem; color: var(--color-text-faint); }
+
+/* Image preview fills the drop zone once a file is selected.
+   Shown/hidden by JS via the .hidden utility class. */
+#img-preview {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--color-input-bg);
+  aspect-ratio: 16 / 10;
+}
+
+/* Green highlight applied by JS while a file is being dragged over */
+#drop-zone.drag-active {
+  border-color: var(--color-drag-border);
+  background-color: var(--color-drag-bg);
+  transform: scale(1.001);
+}
+
+
+/* ============================================================
+   Tag Selection
+   Two tag UIs exist on this page:
+     1. .tags-selection-area  — preset chip toggles (checkbox-driven)
+     2. .tags-input-container — free-text input with active chips
+   ============================================================ */
+
+/* ── Preset chips ── */
 .tags-selection-area {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 5px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 5px 0;
 }
 
-/* Hide the actual checkbox square */
-.tag-option input {
-    display: none;
-}
+/* Hide the native checkbox; the .tag-chip label is the visible button */
+.tag-option input { display: none; }
 
-/* The visual button (Unselected) */
 .tag-chip {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #f2f2f2;
-    color: #333;
-    border-radius: 25px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
-    user-select: none;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--color-tag-bg);
+  color: var(--color-text-body);
+  border-radius: 25px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: 1px solid transparent;
+  user-select: none;
 }
 
-.tag-chip:hover {
-    background-color: #e6e6e6;
-}
+.tag-chip:hover { background-color: var(--color-tag-hover); }
 
-/* The visual button (Selected) */
+/* Checked state — red fill + slight scale pop */
 .tag-option input:checked + .tag-chip {
-    background-color: #d73634; /* Red background when selected */
-    color: #fff;            /* White text */
-    transform: scale(1.05); /* Slight pop effect */
+  background-color: var(--color-red);
+  color: #fff;
+  transform: scale(1.05);
 }
 
-/* ... append to post-article.css ... */
+/* ── Free-text tag input ── */
+.tags-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  background-color: var(--color-input-bg);
+  border-radius: 8px;
+  min-height: 40px;
+}
 
-/* === CROPPER MODAL STYLES === */
+/* Invisible input that grows to fill remaining space */
+.tags-input-container input {
+  border: none;
+  background: transparent;
+  outline: none;
+  flex: 1;
+  min-width: 100px;
+}
+
+/* An active (selected) tag chip inside the input area */
+.tag-chip-active {
+  background-color: var(--color-red);
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+/* Remove (×) button inside an active chip */
+.tag-remove {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Tag suggestion pills shown below the input */
+.tag-suggestions  { margin-top: 10px; display: flex; }
+.suggestions-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+
+.suggestion-btn {
+  padding: 6px 15px;
+  background: var(--color-suggest-bg);
+  border: none;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.suggestion-btn:hover { background: var(--color-suggest-hover); }
+
+
+/* ============================================================
+   Submit Button
+   ============================================================ */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background-color: var(--color-red-btn);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: opacity var(--transition-fast);
+}
+
+.submit-btn:hover { opacity: 0.9; }
+
+
+/* ============================================================
+   Image Cropper Modal
+   Opens after a file is selected from the drop zone.
+   Same 16:10 canvas ratio as the published article image.
+   ============================================================ */
 #cropper-modal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85);
-    z-index: 2000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay-dark);
+  z-index: var(--z-cropper);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cropper-content {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 850px;
-    text-align: center;
+  background: var(--color-bg);
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 850px;
+  text-align: center;
 }
 
-/* The Fixed 16:9 Box */
+/* Drag-to-pan canvas */
 .crop-container {
-    width: 100%;
-    max-width: 800px;
-    aspect-ratio: 16 / 10; /* Enforces 800x450 ratio */
-    margin: 20px auto;
-    background: #333;
-    overflow: hidden; /* Hides parts of image outside box */
-    position: relative;
-    border: 1.5px solid #968b8b;
-    cursor: grab;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16 / 10;
+  margin: 20px auto;
+  background: #333;
+  overflow: hidden;
+  position: relative;
+  border: 1.5px solid #968b8b;
+  cursor: grab;
 }
 
-.crop-container:active {
-    cursor: grabbing;
-}
+.crop-container:active { cursor: grabbing; }
 
+/* position: absolute lets JS move the image freely inside the crop box */
 #cropper-img {
-    display: block;
-    max-width: 100%;
-    transform-origin: center center;
-    /* Position absolute ensures transform logic works from center/top-left correctly */
-    position: absolute; 
-    top: 0; left: 0;
-    width: 100%; 
+  display: block;
+  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform-origin: center center;
+  pointer-events: none; /* prevents native drag interfering with JS pan */
 }
 
-/* Controls */
+/* Zoom slider row */
 .cropper-controls {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 #zoom-slider {
-    width: 200px;
-    cursor: pointer;
+  width: 200px;
+  cursor: pointer;
 }
 
-input[type="range"] {
-  accent-color: #ff4500; /* Orange-red color for the thumb and track progress */
-}
+/* accent-color tints the range thumb and fill to the brand orange-red */
+input[type="range"] { accent-color: #ff4500; }
 
+/* Cancel / Save buttons */
 .cropper-actions {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
 }
 
 .cropper-actions button {
-    padding: 10px 25px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-    border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  border: none;
 }
 
-#btn-cancel-crop { background: #eee; color: #333; }
-#btn-save-crop { background: #000; color: #fff; }
-
-
-#drop-zone {
-    transition: all 0.3s ease;
-    border: 2px dashed #ccc;
-}
-
-/* This class is added by JS when dragging over */
-#drop-zone.drag-active {
-    border-color: #4CAF50; /* Green border */
-    background-color: rgba(76, 175, 80, 0.1); /* Light green background */
-    transform: scale(1.001); /* Slight pop effect */
-}
+#btn-cancel-crop { background: var(--color-suggest-bg); color: var(--color-text-body); }
+#btn-save-crop   { background: var(--color-text);       color: var(--color-bg); }

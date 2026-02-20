@@ -1,21 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAI ARTICLES PAGE</title>
+    <title>Loading Article... | bitfeed</title>
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/main/index.css">
     <link rel="stylesheet" href="/layout/layout.css">
     <link rel="stylesheet" href="article.css">
 
-    <meta property="og:title" content="Supernova Discovered Near Earth" />
-    <meta property="og:description" content="Scientists have just announced a major discovery..." />
-    <meta property="og:image" content="https://yourwebsite.com/assets/actual-news-image.jpg" /> 
-    <meta property="og:url" content="https://yourwebsite.com/news/article-1" />
-    <meta property="og:type" content="article" />
-    
+    <!-- Technical SEO -->
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+    <meta name="theme-color" content="#d73634">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" id="canonical-link" href="https://bitfeed.in/articles/article.html">
+
+    <!-- Standard Meta Tags (dynamic — updated by article.js) -->
+    <meta name="description" id="meta-description-tag"
+        content="Read this article on bitfeed — clean, minimal business & AI insights by custmr.team.">
+    <meta name="author" id="meta-author-tag" content="bitfeed">
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:site_name" content="bitfeed">
+    <meta property="og:title" id="og-title" content="bitfeed — Business & AI Insights">
+    <meta property="og:description" id="og-description"
+        content="Read this article on bitfeed — clean, minimal insights.">
+    <meta property="og:image" id="og-image" content="https://bitfeed.in/assets/favicon.png">
+    <meta property="og:url" id="og-url" content="https://bitfeed.in/articles/article.html">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Article featured image">
+
+    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="twitter-title" content="bitfeed — Business & AI Insights">
+    <meta name="twitter:description" id="twitter-description"
+        content="Read this article on bitfeed — clean, minimal insights.">
+    <meta name="twitter:image" id="twitter-image" content="https://bitfeed.in/assets/favicon.png">
+
+    <!-- Prerender.io Meta Tags -->
+    <meta name="fragment" content="!">
+    <meta name="prerender-status-code" content="200">
+
+    <!-- Structured Data: Article (populated dynamically by article.js) -->
+    <script type="application/ld+json" id="article-jsonld">
+    {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "publisher": {
+            "@type": "Organization",
+            "name": "bitfeed by custmr.team",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://bitfeed.in/assets/favicon.png"
+            }
+        }
+    }
+    </script>
+
 </head>
+
 <body>
 
     <!-- HEADER AND NAVIGATION BAR -->
@@ -23,8 +73,8 @@
 
 
     <!-- ARTICLE CONTENT -->
-<section class="main">
-        
+    <section class="main">
+
         <div id="skeleton-view">
             <div class="skeleton sk-title"></div>
             <div class="skeleton sk-date"></div>
@@ -48,39 +98,100 @@
             <br>
             <p id="news-date" class="date"></p>
             <hr class="last-hr">
-            
+
             <div class="article-meta">
-                <section class="author-profile">
-                    <a href="#" id="auth-link-img"><img src="" alt="" class="author-avatar"></a>
+                <div class="author-profile">
+                    <img src="" alt="Author" class="author-avatar" id="author-img">
                     <div class="author-info">
-                        <a href="#" id="auth-link-name"><span class="author-name"></span></a>
-                        <button class="follow-btn">Follow</button>
+                        <span class="author-name" id="author-name"></span>
                     </div>
-                </section>
-                     
+                </div>
+
                 <div class="article-actions">
-                    <a href="#">Share<img src="/assets/share icon unfilled.png" class="s-icon s-icon1"></a>
-                    <a href="#">Save<img src="/assets/save icon.png" class="s-icon s-icon2"></a>
+                    <a href="#" id="share-btn">Share<img src="/assets/share icon unfilled.png"
+                            class="s-icon s-icon1"></a>
+                    <a href="#" id="like-btn">Like<img src="/assets/like icon unfilled.png" id="like-icon"
+                            style="height: 20px; width: 20px;" class="s-icon s-icon2"></a>
                 </div>
             </div>
+
+
+            <div id="edit-toolbar" class="edit-actions-bar hidden">
+                <button class="btn-cancel-edit" id="btn-delete-article" onclick="deleteArticle()"
+                    style="color: #d73634; border-color: #d73634; margin-right: auto;">
+                    Delete Article
+                </button>
+
+                <button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button>
+                <button class="btn-save-edit" onclick="saveArticleChanges()">Save Changes</button>
+            </div>
+
+            <div id="featured-edit-row" class="hidden"
+                style="margin: 20px 0; padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                <input type="checkbox" id="edit-is-featured"
+                    style="width: 18px; height: 18px; accent-color: #d73634; cursor: pointer;">
+                <label for="edit-is-featured" style="font-size: 0.95rem; font-weight: 500; cursor: pointer;">Mark this
+                    article as Featured (Max 2 allowed)</label>
+            </div>
+
+            <div id="edit-toolbar" class="edit-actions-bar hidden">
+                <button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button>
+                <button class="btn-save-edit" onclick="saveArticleChanges()">Save Changes</button>
+            </div>
+
+            <input type="file" id="edit-img-input" accept="image/*" hidden onchange="handleImageUpdate(this)">
+
+            <div id="reader-container-vertical">
+                <div id="progress-bar-vertical" class="hidden">
+                    <div id="progress-fill-vertical">
+                        <div id="progress-handle-vertical"></div>
+                    </div>
+                    <div id="progress-end-marker"></div>
+                </div>
+                <button id="play-pause-btn-circle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" id="play-icon">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Progress Bar Container -->
+            <div id="mobile-progress-container">
+                <div id="progress-bar-horizontal">
+                    <div id="progress-fill-horizontal">
+                        <div id="progress-handle-horizontal"></div>
+                    </div>
+                    <div id="progress-end-marker-horizontal"></div>
+                </div>
+            </div>
+            <!-- ---------------- -->
 
             <figure>
                 <img src="" alt="Article Image" id="news-img"><br>
             </figure>
 
-            
+
+            <div class="level-selection-wrapper">
+                <div class="level-tabs">
+                    <button class="level-tab" id="btn-beginner" onclick="switchLevel('beginner')">Beginner</button>
+                    <button class="level-tab active" id="btn-intermediate"
+                        onclick="switchLevel('intermediate')">Technical</button>
+                    <button class="level-tab" id="btn-pro" onclick="switchLevel('pro')">Economist</button>
+                </div>
+            </div>
+
+
             <div id="article-content"></div>
 
             <hr class="last-hr">
 
-            <section class="tags">
-                </section>
+            <section class="tags"></section>
         </div>
 
-     </section>
+    </section>
 
-<section class="more-news">
-        
+    <section class="more-news">
+
         <div id="related-skeleton-view">
             <div class="sk-more-hr"></div>
             <div class="skeleton sk-related-heading"></div>
@@ -107,21 +218,34 @@
         <div id="related-real-view" class="hidden">
             <h2>Related News</h2>
             <hr class="more">
-            <div id="related-container" class="related-articles">
-                </div>
+            <div id="related-container" class="related-articles"></div>
         </div>
 
-     </section>
+    </section>
 
-
-
-
+    <div id="cropper-modal" class="hidden">
+        <div class="cropper-content">
+            <h3>Adjust Image</h3>
+            <p>Drag to reposition. Use slider to zoom.</p>
+            <div class="crop-container">
+                <img id="cropper-img" src="" alt="To Crop">
+            </div>
+            <div class="cropper-controls">
+                <label>Zoom:</label>
+                <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1">
+            </div>
+            <div class="cropper-actions">
+                <button type="button" id="btn-cancel-crop">Cancel</button>
+                <button type="button" id="btn-save-crop">Crop & Save</button>
+            </div>
+        </div>
+    </div>
 
     <!-- footer -->
     <div id="global-footer"></div>
 
     <script defer type="module" src="/layout/layout.js"></script>
     <script type="module" src="article.js"></script>
-    <script src="article-read.js"></script>
 </body>
+
 </html>

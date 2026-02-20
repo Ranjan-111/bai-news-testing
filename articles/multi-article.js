@@ -40,10 +40,10 @@ async function initPageData() {
 
     try {
         // Fetch from LocalStorage (0 Reads usually)
-        allArticles = await fetchAllSearchData();
+        allArticles = await fetchAllSearchData(true);
         
-        // Initial State: No Filter, Show All
-        filteredArticles = allArticles;
+        // 2. Explicitly filter for 'active' articles only
+        filteredArticles = allArticles.filter(a => a.status === 'active');
         
         setupPagination();
         
@@ -209,3 +209,32 @@ window.changePage = function(direction) {
     if (direction === 'prev' && centerPage > 1) { centerPage--; renderPaginationButtons(); }
     else if (direction === 'next' && centerPage < totalPages) { centerPage++; renderPaginationButtons(); }
 };
+
+
+// --- KEYBOARD SHORTCUTS FOR PAGINATION ---
+document.addEventListener('keydown', (e) => {
+    // 1. Identify if the user is typing in the search bar or any other input
+    const isTyping = e.target.tagName === 'INPUT' || 
+                     e.target.tagName === 'TEXTAREA' || 
+                     e.target.isContentEditable;
+
+    // 2. If they ARE typing, don't trigger the pagination
+    if (isTyping) return;
+
+    // 3. Handle Arrow Keys
+    if (e.key === 'ArrowRight') {
+        // Only go next if we aren't at the last page
+        if (currentPage < totalPages) {
+            // Using your existing centerPage logic to keep UI in sync
+            centerPage = Math.min(totalPages, currentPage + 1);
+            loadPage(currentPage + 1);
+        }
+    } 
+    else if (e.key === 'ArrowLeft') {
+        // Only go back if we aren't on page 1
+        if (currentPage > 1) {
+            centerPage = Math.max(1, currentPage - 1);
+            loadPage(currentPage - 1);
+        }
+    }
+});

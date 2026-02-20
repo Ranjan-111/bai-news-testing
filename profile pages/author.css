@@ -1,294 +1,490 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* ============================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-bg:             #fff;
+  --color-text:           #000;
+  --color-text-dark:      #111;
+  --color-text-body:      #333;
+  --color-text-muted:     #444;
+  --color-text-subtle:    #666;
+  --color-text-faint:     #888;
+  --color-red:            #d73634;
+  --color-red-hover:      #e95454;
+  --color-border:         #e0e0e0;
+  --color-border-light:   #eee;
+  --color-border-faint:   #f0f0f0;
+  --color-banner-bg:      #111;
+  --color-avatar-bg:      #e8e8e8;
+  --color-profile-ring:   #fff;
 
+  /* Typography */
+  --font-system:   -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-display:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body:     "Roboto", sans-serif;
+  --font-heading:  "Circular Std", "Montserrat", sans-serif;
+
+  /* Spacing */
+  --space-xs:   4px;
+  --space-sm:   8px;
+  --space-md:   12px;
+  --space-lg:   20px;
+  --space-xl:   2rem;
+  --space-2xl:  3rem;
+  --space-3xl:  5rem;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+}
+
+
+/* ============================================================
+   Global Reset
+   Zeroes out browser default margin/padding and enforces
+   border-box sizing on every element so padding never
+   causes unexpected overflow.
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   Body
+   Full-height flex column so the footer (if present) is always
+   pushed to the bottom of the viewport.
+   ============================================================ */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  font-family: var(--font-system);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-a { text-decoration: none; color: #000; }
+/* Strip underlines and default blue from all links */
+a {
+  text-decoration: none;
+  color: var(--color-text);
+}
 
-/* --- 1. BANNER SECTION --- */
+
+/* ============================================================
+   1. Banner
+   Full-width cover image at the top of the profile.
+   background-color is a fallback shown while the image loads
+   or if no image is set.
+   ============================================================ */
 .profile-banner {
-    width: 100%;
-    height: 200px;
-    background-color: #111; /* Fallback color */
-    background-size: cover;
-    background-position: center;
+  width: 100%;
+  height: 200px;
+  background-color: var(--color-banner-bg);
+  background-size: cover;
+  background-position: center;
 }
 
+
+/* ============================================================
+   Profile Container
+   Centered content column that fills remaining vertical space
+   (flex: 1) so short pages don't leave an empty gap below.
+   ============================================================ */
 .profile-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 1.5rem 2rem;
-    flex: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+  flex: 1;
 }
 
-/* --- 2. HEADER SECTION --- */
+
+/* ============================================================
+   2. Profile Header
+   Holds the avatar, name, stats, and follow button.
+   position: relative is needed so the avatar's negative
+   margin-top can overlap the banner without affecting siblings.
+   ============================================================ */
 .profile-header {
-    position: relative;
-    padding-bottom: 1rem;
-    margin-bottom: 2rem;
-    margin-top: 20px;
-    border: 0;
+  position: relative;
+  padding-bottom: 1rem;
+  margin-bottom: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 
+/* Flex row: avatar on the left, info text on the right,
+   both aligned to the bottom of the avatar image. */
 .header-content {
-    display: flex;
-    align-items: flex-end; /* Align to bottom of image */
-    gap: 2rem;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-xl);
 }
 
+/* Pulls the avatar upward to overlap the banner by 50px,
+   z-index: 2 keeps it above the banner's background layer. */
 .profile-img-container {
-    margin-top: -50px; /* Pull up over banner */
-    position: relative;
-    z-index: 2;
+  margin-top: -50px;
+  position: relative;
+  z-index: 2;
 }
 
+/* Circular avatar with a white border ring to separate it
+   from both the dark banner and the white page background. */
 .profile-img-container img {
-    width: 144px;
-    height: 145px;
-    border-radius: 50%;
-    border: 4px solid #fff; /* White ring */
-    object-fit: cover;
-    background-color: #fff;
+  width: 144px;
+  height: 145px;
+  border-radius: 50%;
+  border: 4px solid var(--color-profile-ring);
+  object-fit: cover;
+  background-color: var(--color-profile-ring);
 }
 
+/* Small bottom padding aligns the text baseline with
+   the bottom of the avatar circle. */
 .profile-info {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
+/* Name + verified tick side by side */
 .name-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
 }
 
 .profile-info h1 {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 2rem;
-    font-weight: 500;
-    margin: 0;
-    letter-spacing: -0.5px;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.5px;
 }
 
-/* Verified Tick */
+/* Verified checkmark icon */
 .verified-icon {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
+/* Reporter handle / tagline */
 .p-tag {
-    font-family: "Roboto", sans-serif;
-    color: #111;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    font-weight: 400;
+  font-family: var(--font-body);
+  color: var(--color-text-dark);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
 }
 
+/* Article count / follower stats line */
 .p-stats {
-    font-family: "Roboto", sans-serif;
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 1.2rem;
+  font-family: var(--font-body);
+  color: var(--color-text-subtle);
+  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
 }
 
-/* Follow Button */
+/* Follow / Following toggle button
+   Default state: outlined pill; hover turns red; 
+   .following class fills it black to signal active state. */
 .follow-btn {
-    font-size: 0.85rem;
-    font-family: inherit;
-    padding: 6px 16px;
-    border: 1px solid #000;
-    background: transparent;
-    color: #000;
-    cursor: pointer;
-    border-radius: 20px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-
+  font-size: 0.85rem;
+  font-family: inherit;
+  padding: 6px 16px;
+  border: 1px solid var(--color-text);
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all var(--transition-fast);
 }
 
 .follow-btn:hover {
-    background-color: #e95454;
-    color: white;
-    /* border-color: #711a1a; */
-    border: 1px solid #e95454;
+  background-color: var(--color-red-hover);
+  color: var(--color-bg);
+  border-color: var(--color-red-hover);
 }
 
+/* Filled black state after the user has followed */
 .follow-btn.following {
-    background-color: #000;
-    color: #fff;
+  background-color: var(--color-text);
+  color: var(--color-bg);
 }
 
-/* --- 3. TABS --- */
+
+/* ============================================================
+   3. Tabs
+   Horizontal nav switching between Articles and About panels.
+   margin-bottom: -1px makes the active tab's underline sit 
+   flush on top of the .profile-divider line below.
+   ============================================================ */
 .profile-tabs {
-    display: flex;
-    gap: 2.5rem;
-    margin-bottom: -1px;
-    position: relative;
-    z-index: 2;
-    margin-top: 1rem;
+  display: flex;
+  gap: 2.5rem;
+  margin-bottom: -1px;
+  position: relative;
+  z-index: 2;
+  margin-top: 1rem;
 }
 
+/* Default tab — muted text, no border */
 .tab-btn {
-    background: none;
-    border: none;
-    font-size: 1rem;
-    color: #888;
-    cursor: pointer;
-    padding: 10px 0;
-    font-family: "Roboto", sans-serif;
-    position: relative;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--color-text-faint);
+  cursor: pointer;
+  padding: 10px 0;
+  font-family: var(--font-body);
+  position: relative;
 }
 
-.tab-btn.active { color: #000; font-weight: 500; }
+/* Active tab — dark text, bold */
+.tab-btn.active {
+  color: var(--color-text);
+  font-weight: 500;
+}
 
+/* Underline indicator for the active tab, drawn with ::after
+   so it overlaps the divider below creating a connected look. */
 .tab-btn.active::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #000;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-text);
 }
 
+/* Horizontal rule between tabs and content */
 .profile-divider {
-    border: none;
-    border-top: 1px solid #e0e0e0;
-    margin-bottom: 3rem;
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin-bottom: var(--space-2xl);
 }
 
-/* --- 4. GRID LAYOUT --- */
+
+/* ============================================================
+   4. Main Grid
+   Two-column layout: articles (wider) + sidebar (narrower).
+   Collapses to a single column on mobile.
+   ============================================================ */
 .profile-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 5rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-3xl);
 }
 
-/* --- 5. ARTICLE CARD (Clean Text Only) --- */
+
+/* ============================================================
+   5. Article Cards
+   Text-only cards — no thumbnail — listed in the left column.
+   ============================================================ */
+
+/* Block-level link wrapper; cursor: pointer ensures the hand
+   cursor shows even when the JS click handler is used instead
+   of a native <a> navigation. */
 .article-card {
-    display: block;
-    margin-bottom: 1.5rem;
-    text-decoration: none;
-    cursor: pointer;
+  display: block;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  cursor: pointer;
 }
 
+/* Uppercase headline in the brand heading font */
 .article-card h3 {
-    font-family: "Circular Std", "Montserrat", sans-serif;
-    margin-bottom: 0.4rem;
-    text-transform: uppercase;
-    font-size: 1.2rem;
-    line-height: 1.3;
-    color: #000;
+  font-family: var(--font-heading);
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  color: var(--color-text);
 }
 
-.highlight-red { color: #d73634; }
+/* Used to accent specific words in a headline red */
+.highlight-red {
+  color: var(--color-red);
+}
 
+/* Date / category tag above the headline */
 .article-meta {
-    font-size: 0.75rem;
-    color: #d73634; /* Red Date */
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--color-red);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
 }
 
+/* Short article description below the headline */
 .article-summary {
-    font-family: "Roboto", sans-serif;
-    font-size: 0.95rem;
-    color: #444;
-    line-height: 1.6;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
 }
 
+/* Thin rule between article cards.
+   :last-of-type hides the rule after the final card so there's
+   no trailing line before the "see more" link. */
 .article-separator {
-    border: none;
-    border-top: 1px solid #eee;
-    margin-bottom: 2.5rem;
+  border: none;
+  border-top: 1px solid var(--color-border-light);
+  margin-bottom: 2.5rem;
 }
-.article-separator:last-of-type { display: none; }
 
-/* --- 6. ABOUT TAB --- */
-.hidden { display: none; }
+.article-separator:last-of-type {
+  display: none;
+}
+
+
+/* ============================================================
+   6. About Tab
+   Shown when the user clicks the "About" tab; hidden otherwise.
+   ============================================================ */
+.hidden {
+  display: none;
+}
+
+/* Bio paragraph */
 .about-bio {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #333;
-    margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-body);
+  margin-bottom: 1.5rem;
 }
 
+/* A single detail row (e.g. "Location: Bengaluru") */
 .detail-row {
-    margin-bottom: 2rem;
-    font-size: 0.95rem;
+  margin-bottom: var(--space-xl);
+  font-size: 0.95rem;
 }
-.detail-label { color: #888; margin-right: 10px; }
 
+/* Muted label before the value ("Location", "Joined", etc.) */
+.detail-label {
+  color: var(--color-text-faint);
+  margin-right: 10px;
+}
+
+/* Footer stats row at the bottom of the About tab */
 .about-footer-stats {
-    margin-top: 2rem;
-    font-size: 0.85rem;
-    color: #666;
-    border-top: 1px solid #f0f0f0;
-    padding-top: 15px;
+  margin-top: var(--space-xl);
+  font-size: 0.85rem;
+  color: var(--color-text-subtle);
+  border-top: 1px solid var(--color-border-faint);
+  padding-top: 15px;
 }
 
-/* --- 7. SIDEBAR --- */
+
+/* ============================================================
+   7. Sidebar
+   Right column — "Other Reporters" list and any secondary content.
+   ============================================================ */
+
+/* Section heading used above lists in the sidebar */
 .section-title {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    font-family: "Helvetica Neue", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-display);
 }
 
+/* One reporter row: avatar + name/bio + follow button */
 .reporter-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+  gap: var(--space-md);
 }
 
+/* Circular avatar placeholder (filled via inline background-image in JS) */
 .reporter-avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: #e8e8e8;
-    background-size: cover;
-    background-position: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: var(--color-avatar-bg);
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
 }
 
-.reporter-info h4 { margin: 0; font-size: 0.9rem; font-weight: 500; }
-.reporter-info p { margin: 0; font-size: 0.8rem; color: #888; }
+.reporter-info h4 {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
 
+.reporter-info p {
+  font-size: 0.8rem;
+  color: var(--color-text-faint);
+}
+
+/* Small follow pill button — margin-left: auto pushes it to
+   the far right of the flex row. */
 .btn-sm-follow {
-    margin-left: auto;
-    color: #000;
-    padding: 5px 16px;
-    border: 1px solid #000;
-    background: transparent;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  margin-left: auto;
+  color: var(--color-text);
+  padding: 5px 16px;
+  border: 1px solid var(--color-text);
+  background: transparent;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
 }
-.btn-sm-follow:hover { background-color: #e95454; color: #fff; border: 1px solid #e95454; }
-.btn-sm-follow.following { background: #000; color: #fff; }
 
+.btn-sm-follow:hover {
+  background-color: var(--color-red-hover);
+  color: var(--color-bg);
+  border-color: var(--color-red-hover);
+}
+
+/* Filled black state once following */
+.btn-sm-follow.following {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+/* "See all reporters →" link aligned right */
 .see-all-link {
-    color: #d73634;
-    font-size: 0.85rem;
-    display: block;
-    margin-top: 15px;
-    text-align: right;
+  color: var(--color-red);
+  font-size: 0.85rem;
+  display: block;
+  margin-top: 15px;
+  text-align: right;
 }
 
-/* Mobile */
+
+/* ============================================================
+   Responsive — Mobile (max 768px)
+   - Shorter banner
+   - Avatar and info stack vertically with left margin
+   - Grid collapses to a single column
+   ============================================================ */
 @media (max-width: 768px) {
-    .profile-banner { height: 150px; }
-    .header-content { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-    .profile-img-container { margin-top: -40px; margin-left: 20px; }
-    .profile-info { margin-left: 20px; }
-    .profile-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .profile-banner { height: 150px; }
+
+  /* Stack avatar above info text instead of side by side */
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  /* Offset avatar from the left edge to match page padding */
+  .profile-img-container {
+    margin-top: -40px;
+    margin-left: var(--space-lg);
+  }
+
+  .profile-info {
+    margin-left: var(--space-lg);
+  }
+
+  /* Single column — sidebar moves below articles */
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
 }

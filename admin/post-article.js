@@ -49,17 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- HELPER: Process the file (used by both Click and Drop) ---
     const processFile = (file) => {
-        if (!file) return;
-
-        // --- NEW: 5 MB LIMIT CHECK ---
-        const sizeLimit = 5 * 1024 * 1024; // 5 MB in bytes
-        if (file.size > sizeLimit) {
-            alert("File is too large. Please select an image under 5 MB.");
-            return;
-        }
-        // -----------------------------
-
-        if (file.type.startsWith('image/')) {
+        if (file && file.type.startsWith('image/')) {
             const reader = new FileReader();
             reader.onload = (ev) => {
                 cropperImg.src = ev.target.result;
@@ -188,32 +178,133 @@ document.addEventListener('DOMContentLoaded', () => {
         fileInput.value = ''; 
     });
 
+// ==========================================
+    // 3. TAGS LOGIC (Dynamic Suggestions)
     // ==========================================
-    // 3. TAGS LOGIC
-    // ==========================================
-    const tagCheckboxes = document.querySelectorAll('.tag-option input');
+    const tagsContainer = document.getElementById('tags-container');
+    const tagInput = document.getElementById('inp-tag-input');
+    const suggestionsList = document.getElementById('suggestions-list');
+    const suggestionsBox = document.getElementById('tag-suggestions-box');
 
-    tagCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', (e) => {
-            const selected = document.querySelectorAll('.tag-option input:checked');
-            
-            if (selected.length > 3) {
-                e.target.checked = false; 
-                alert("You can only select up to 3 tags.");
-                return;
-            }
-            tags = Array.from(selected).map(cb => cb.value);
-        });
-    });
+    // Categorized suggestions for contextual logic
+    const allSuggestions = ["AI", "Tech", "Finance", "Economy", "India", "Software", "Startup", "Future", "Gadgets", "Market", "Crypto", "Business"];
     
+    const contextMap = {
+        "AI": ["Software", "Tech", "Future"],
+        "Economy": ["Finance", "Market", "India", "Business"],
+        "Finance": ["Economy", "Crypto", "Market"],
+        "Tech": ["Gadgets", "Software", "AI"],
+        "India": ["Economy", "Startup", "Business"]
+    };
+
+    // Initially hide the suggestions box
+    suggestionsBox.classList.add('hidden');
+
+    function renderTags() {
+        const chips = tagsContainer.querySelectorAll('.tag-chip-active');
+        chips.forEach(chip => chip.remove());
+
+        tags.forEach((tag, index) => {
+            const chip = document.createElement('div');
+            chip.className = 'tag-chip-active';
+            chip.innerHTML = `
+                ${tag}
+                <span class="tag-remove" data-index="${index}">&times;</span>
+            `;
+            tagsContainer.insertBefore(chip, tagInput);
+        });
+        
+        // Show contextual suggestions after a tag is added
+        showContextualSuggestions();
+    }
+
+    function showContextualSuggestions() {
+        suggestionsList.innerHTML = "";
+        let related = new Set();
+
+        // Find related tags based on currently selected tags
+        tags.forEach(t => {
+            if (contextMap[t]) {
+                contextMap[t].forEach(rel => {
+                    if (!tags.includes(rel)) related.add(rel);
+                });
+            }
+        });
+
+        if (related.size > 0 && tags.length < 3) {
+            suggestionsBox.classList.remove('hidden');
+            related.forEach(suggestion => {
+                createSuggestionBtn(suggestion);
+            });
+        } else if (tagInput.value.trim() === "") {
+            suggestionsBox.classList.add('hidden');
+        }
+    }
+
+    function createSuggestionBtn(text) {
+        const btn = document.createElement('button');
+        btn.type = "button";
+        btn.className = "suggestion-btn";
+        btn.innerText = text;
+        btn.onclick = () => addTag(text);
+        suggestionsList.appendChild(btn);
+    }
+
+    function addTag(tag) {
+        tag = tag.trim().replace(/[^a-zA-Z0-9 ]/g, "");
+        if (tag && !tags.includes(tag) && tags.length < 3) {
+            tags.push(tag);
+            renderTags();
+        }
+        tagInput.value = "";
+        // Keep box visible if there are contextual suggestions, otherwise hide
+        if (tags.length >= 3) suggestionsBox.classList.add('hidden');
+    }
+
+    tagsContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('tag-remove')) {
+            const index = e.target.getAttribute('data-index');
+            tags.splice(index, 1);
+            renderTags();
+        }
+    });
+
+    tagInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            addTag(tagInput.value);
+        } else if (e.key === 'Backspace' && tagInput.value === "" && tags.length > 0) {
+            tags.pop();
+            renderTags();
+        }
+    });
+
+    // Handle Suggestions while typing
+    tagInput.addEventListener('input', () => {
+        const query = tagInput.value.toLowerCase().trim();
+        suggestionsList.innerHTML = "";
+
+        if (query.length > 0 && tags.length < 3) {
+            suggestionsBox.classList.remove('hidden');
+            const filtered = allSuggestions.filter(s => 
+                s.toLowerCase().includes(query) && !tags.includes(s)
+            );
+
+            filtered.forEach(suggestion => createSuggestionBtn(suggestion));
+        } else {
+            // If input is empty, revert to showing contextual suggestions based on existing tags
+            showContextualSuggestions();
+        }
+    });
+        
     // ==========================================
-    // 4. SUBMIT
+    // 4. SUBMIT (Corrected)
     // ==========================================
     const form = document.getElementById('post-form');
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        if(!imageBase64) {
+        if (!imageBase64) {
             alert("Please upload a cover image.");
             return;
         }
@@ -223,10 +314,22 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.innerText = "Sending...";
 
         try {
+            // 2. Capture Data using .innerHTML for rich-text divs
+            const targetLevel = document.getElementById('inp-target-level').value;
+            const writtenText = document.getElementById('inp-content').value; 
+            const titleText = document.getElementById('inp-title').value;     
+            const summaryText = document.getElementById('inp-summary').value;    // STANDARD INPUT
+
+            // 3. Construct Article Object
             const newArticle = {
-                title: document.getElementById('inp-title').value,
-                summary: document.getElementById('inp-summary').value,
-                content: document.getElementById('inp-content').value, 
+                title: titleText,      // FIXED: Uses the captured innerHTML
+                summary: summaryText,  // FIXED: Uses the summary variable
+                
+                // MAPPING LOGIC
+                content: targetLevel === 'intermediate' ? writtenText : "",
+                contentBeginner: targetLevel === 'beginner' ? writtenText : "",
+                contentPro: targetLevel === 'pro' ? writtenText : "",
+                
                 tags: tags,
                 imageUrl: imageBase64,
                 
@@ -244,14 +347,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             await addDoc(collection(db, "articles"), newArticle);
 
-            alert("Article Sent for Approval!");
+            alert("Article Sent for Approval! The remaining versions will be generated automatically.");
             window.location.href = "/main/index.html"; 
 
         } catch (error) {
             console.error("Error posting:", error);
-            alert("Failed: " + error.message);
+            alert("Failed to send article: " + error.message);
             btn.disabled = false;
             btn.innerText = "Send for Approval";
         }
     });
 });
+
+
+

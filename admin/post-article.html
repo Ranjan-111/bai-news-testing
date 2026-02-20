@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Article - BAI.NEWS</title>
+    <title>Post Article - bitfeed</title>
     
     <link rel="stylesheet" href="/layout/layout.css">
     <link rel="stylesheet" href="/main/index.css">
     <link rel="stylesheet" href="post-article.css">
+        <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+
 </head>
 <body>
 
@@ -33,7 +36,7 @@
 
             <div class="form-group">
                 <label>Title</label>
-                <input type="text" id="inp-title" class="form-input" placeholder="Needs to be Catchy..." required>
+                <input type="text" id="inp-title" class="form-input" placeholder="Enter title..." required>
             </div>
 
             <div class="form-group">
@@ -42,45 +45,18 @@
             </div>
 
             <div class="form-group">
-                <label>Tags (Select Max 3)</label>
-                <div class="tags-selection-area">
-                    <label class="tag-option">
-                        <input type="checkbox" value="ai">
-                        <span class="tag-chip">AI</span>
-                    </label>
-
-                    <label class="tag-option">
-                        <input type="checkbox" value="tech">
-                        <span class="tag-chip">Tech</span>
-                    </label>
-
-                    <label class="tag-option">
-                        <input type="checkbox" value="gpt">
-                        <span class="tag-chip">GPT</span>
-                    </label>
-
-                    <label class="tag-option">
-                        <input type="checkbox" value="india">
-                        <span class="tag-chip">India</span>
-                    </label>
-
-                    <label class="tag-option">
-                        <input type="checkbox" value="startup">
-                        <span class="tag-chip">Startup</span>
-                    </label>
-
-                    <label class="tag-option">
-                        <input type="checkbox" value="finance">
-                        <span class="tag-chip">Finance</span>
-                    </label>
-
-                    <label class="tag-option">
-                        <input type="checkbox" value="education">
-                        <span class="tag-chip">Education</span>
-                    </label>
+                <label>Tags (Type & Press Enter | Max 3)</label>
+                <div class="tags-input-container" id="tags-container">
+                    <input type="text" id="inp-tag-input" placeholder="Add a tag..." autocomplete="off">
+                </div>
+                
+                <div class="tag-suggestions" id="tag-suggestions-box">
+                    <p style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Suggestions:</p>
+                    <div class="suggestions-list" id="suggestions-list">
+                        </div>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label>Image</label>
                 <div class="file-drop-area" id="drop-zone">
@@ -96,6 +72,18 @@
                     </div>
                     <img id="img-preview" class="hidden">
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label>Target Audience Level</label>
+                <select id="inp-target-level" class="form-input">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate" selected>Intermediate (Standard)</option>
+                    <option value="pro">Professional</option>
+                </select>
+                <p style="font-size: 0.75rem; color: #888; margin-top: 5px;">
+                    Note: The other two levels will be generated automatically via AI.
+                </p>
             </div>
 
             <div class="form-group">
