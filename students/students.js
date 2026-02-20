@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadStudentResources() {
     const tableBody = document.getElementById('student-table-body');
-    
+
     try {
-        const response = await fetch('resources-data.json');
+        const response = await fetch('resources/resources-data.json');
         const data = await response.json();
-        
+
         // 1. Filter by a specific tag (e.g., 'credits')
         // 2. Use .slice(-3) to get the LAST 3 items
         // 3. .reverse() if you want the very latest item at the top
@@ -21,7 +21,7 @@ async function loadStudentResources() {
 
         latestResources.forEach((item, index) => {
             const row = document.createElement('tr');
-            
+
             // Add fade-in animation similar to your resources page
             row.style.animation = `fadeIn 0.4s ease-in ${index * 0.1}s both`;
 
@@ -98,7 +98,7 @@ window.addEventListener('scroll', () => {
             const offsetBottom = offsetTop + el.offsetHeight;
             if (scrollPos >= offsetTop && scrollPos <= offsetBottom) {
                 currentSectionIndex = idx;
-                isSteppedScrolling = true; 
+                isSteppedScrolling = true;
             }
         }
     });

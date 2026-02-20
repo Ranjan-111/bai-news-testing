@@ -22,58 +22,58 @@ document.addEventListener('DOMContentLoaded', () => {
     loadResources();
     setupTabListeners();
 
-// --- KEYBOARD NAVIGATION FOR CATEGORIES ---
+    // --- KEYBOARD NAVIGATION FOR CATEGORIES ---
 
-// Define the order of categories as they appear in your HTML
-const categories = ['credits', 'discounts', 'courses'];
+    // Define the order of categories as they appear in your HTML
+    const categories = ['credits', 'discounts', 'courses'];
 
-document.addEventListener('keydown', (e) => {
-    // 1. Identify current index
-    let currentIndex = categories.indexOf(currentCategory);
+    document.addEventListener('keydown', (e) => {
+        // 1. Identify current index
+        let currentIndex = categories.indexOf(currentCategory);
 
-    // 2. Handle Right Arrow (Next Category)
-    if (e.key === 'ArrowRight') {
-        if (currentIndex < categories.length - 1) {
-            const nextCategory = categories[currentIndex + 1];
-            switchCategory(nextCategory);
+        // 2. Handle Right Arrow (Next Category)
+        if (e.key === 'ArrowRight') {
+            if (currentIndex < categories.length - 1) {
+                const nextCategory = categories[currentIndex + 1];
+                switchCategory(nextCategory);
+            }
         }
-    }
 
-    // 3. Handle Left Arrow (Previous Category)
-    if (e.key === 'ArrowLeft') {
-        if (currentIndex > 0) {
-            const prevCategory = categories[currentIndex - 1];
-            switchCategory(prevCategory);
-        }
-    }
-});
-
-/**
- * Helper function to programmatically trigger a category switch
- * This reuses your existing displayResources logic and updates UI state
- */
-function switchCategory(category) {
-    // Update the global state
-    currentCategory = category;
-
-    // Update the UI (Active Tab Styling)
-    tabButtons.forEach(btn => {
-        if (btn.getAttribute('data-category') === category) {
-            btn.classList.add('active');
-            // Ensure the tab is visible if it's a scrolling container on mobile
-            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        } else {
-            btn.classList.remove('active');
+        // 3. Handle Left Arrow (Previous Category)
+        if (e.key === 'ArrowLeft') {
+            if (currentIndex > 0) {
+                const prevCategory = categories[currentIndex - 1];
+                switchCategory(prevCategory);
+            }
         }
     });
 
-    // Reset pagination to page 1 for the new category
-    centerPage = 1;
-    currentPage = 1;
+    /**
+     * Helper function to programmatically trigger a category switch
+     * This reuses your existing displayResources logic and updates UI state
+     */
+    function switchCategory(category) {
+        // Update the global state
+        currentCategory = category;
 
-    // Trigger the existing data display logic
-    displayResources(category);
-}
+        // Update the UI (Active Tab Styling)
+        tabButtons.forEach(btn => {
+            if (btn.getAttribute('data-category') === category) {
+                btn.classList.add('active');
+                // Ensure the tab is visible if it's a scrolling container on mobile
+                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Reset pagination to page 1 for the new category
+        centerPage = 1;
+        currentPage = 1;
+
+        // Trigger the existing data display logic
+        displayResources(category);
+    }
 });
 
 // Load resources from JSON file
@@ -99,10 +99,10 @@ function setupTabListeners() {
             tabButtons.forEach(b => {
                 b.classList.remove('active');
             });
-            
+
             // Add active state to clicked tab
             btn.classList.add('active');
-            
+
             // Get category and display
             currentCategory = btn.getAttribute('data-category');
             displayResources(currentCategory);
@@ -115,10 +115,10 @@ function displayResources(category) {
     loadingState.style.display = 'block';
     resourcesTable.style.display = 'none';
     noResults.style.display = 'none';
-    
+
     setTimeout(() => {
         // Filter by tags (based on your previous request)
-        filteredResources = allResources.all_items.filter(item => 
+        filteredResources = allResources.all_items.filter(item =>
             item.tags.includes(category)
         );
 
@@ -168,13 +168,13 @@ function renderPaginationButtons() {
     const createBtn = (text, type, onClick) => {
         const btn = document.createElement(type === 'placeholder' ? 'div' : 'button');
         btn.className = `page-circle ${type}`;
-        if (type !== 'placeholder') { 
-            btn.textContent = text; 
-            btn.onclick = onClick; 
+        if (type !== 'placeholder') {
+            btn.textContent = text;
+            btn.onclick = onClick;
         } else {
             // Placeholder takes up space but is invisible
-            btn.style.width = "3.5rem"; 
-            btn.style.visibility = "hidden"; 
+            btn.style.width = "3.5rem";
+            btn.style.visibility = "hidden";
         }
         container.appendChild(btn);
     };
@@ -213,28 +213,29 @@ function createTableRow(resource, index) {
     const nameCell = document.createElement('td');
     nameCell.textContent = resource.resource;
     row.appendChild(nameCell);
-    
+
     // Value cell
     const valueCell = document.createElement('td');
     valueCell.textContent = resource.value;
     row.appendChild(valueCell);
-    
+
     // Description cell
     const descCell = document.createElement('td');
     descCell.textContent = resource.description;
     row.appendChild(descCell);
-    
+
     // Updated Apply link cell
     const actionCell = document.createElement('td');
     const link = document.createElement('a');
     link.href = resource.link || '#'; // Use the new link key
     link.target = "_blank";           // Open in new tab
     link.className = 'apply-link';
+    link.setAttribute('aria-label', `Apply for ${resource.resource}`);
     link.textContent = 'Apply Now';
-    
+
     actionCell.appendChild(link);
     row.appendChild(actionCell);
-    
+
     return row;
 }
 
@@ -259,7 +260,7 @@ function changePage(direction, totalPages) {
 function calculateTotalValue(resources) {
     let total = 0;
     let hasNonNumeric = false;
-    
+
     resources.forEach(resource => {
         const value = resource.value;
         // Extract numeric value from string like "$100", "$200K+", "85% off"
@@ -275,10 +276,10 @@ function calculateTotalValue(resources) {
             hasNonNumeric = true;
         }
     });
-    
+
     // Format and display total
     if (total > 0) {
-        const formattedTotal = total >= 1000 
+        const formattedTotal = total >= 1000
             ? `$${(total / 1000).toFixed(1)}K${hasNonNumeric ? '+' : ''}`
             : `$${total.toFixed(0)}${hasNonNumeric ? '+' : ''}`;
         totalValueDisplay.textContent = formattedTotal;
@@ -313,19 +314,19 @@ function showError() {
 function filterResources(searchTerm) {
     const resources = allResources[currentCategory];
     if (!resources) return;
-    
-    const filtered = resources.filter(resource => 
+
+    const filtered = resources.filter(resource =>
         resource.resource.toLowerCase().includes(searchTerm.toLowerCase()) ||
         resource.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    
+
     // Clear and populate with filtered results
     tableBody.innerHTML = '';
     filtered.forEach((resource, index) => {
         const row = createTableRow(resource, index);
         tableBody.appendChild(row);
     });
-    
+
     calculateTotalValue(filtered);
 }
 

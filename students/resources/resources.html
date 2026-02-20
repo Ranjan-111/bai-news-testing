@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Access free student resources, exclusive discounts, and credits for AI tools and courses. Bitfeed helps students learn for less." />
+    <meta name="keywords"
+        content="student discounts, free resources, AI credits, student courses, bitfeed, education, savings" />
+    <meta name="author" content="Bitfeed" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://bitfeed.in/students/resources/" />
+
+    <meta property="og:title" content="Free Student Resources & Discounts - Bitfeed" />
+    <meta property="og:description"
+        content="Get free resources, exclusive discounts, and credits for AI tools and learning." />
+    <meta property="og:url" content="https://bitfeed.in/students/resources/" />
+    <meta property="og:type" content="website" />
+
+    <title>Free Student Resources & Discounts - Bitfeed</title>
+    <link rel="stylesheet" href="resources.css">
+    <link rel="stylesheet" href="/layout/layout.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Free Student Resources & Discounts",
+        "description": "Access free student resources, exclusive discounts, and credits for AI tools and courses.",
+        "url": "https://bitfeed.in/students/resources/",
+        "provider": {
+            "@type": "Organization",
+            "name": "Bitfeed",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://bitfeed.in/assets/favicon.png"
+            }
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://bitfeed.in/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Students",
+                    "item": "https://bitfeed.in/students/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Resources",
+                    "item": "https://bitfeed.in/students/resources/"
+                }
+            ]
+        }
+    }
+    </script>
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header id="global-header"></header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <h1 class="visually-hidden">Free Student Resources & Discounts</h1>
+
+        <!-- Breadcrumb Navigation -->
+        <nav class="visually-hidden" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Home</a></li>
+                <li><a href="/students/">Students</a></li>
+                <li>Resources</li>
+            </ol>
+        </nav>
+
+        <div style="display: none;" class="value-summary">
+            Total Value: <span id="total-value">$0</span>
+        </div>
+
+        <!-- Category Navigation Tabs -->
+        <nav class="category-tabs" aria-label="Resource Categories">
+            <button class="tab-btn active" data-category="credits" aria-label="View Credit Resources">Credit</button>
+            <button class="tab-btn" data-category="discounts" aria-label="View Discount Resources">Discounts</button>
+            <button class="tab-btn" data-category="courses" aria-label="View Course Resources">Courses
+                (Selected)</button>
+        </nav>
+
+        <!-- Resources Table Container -->
+        <section class="resources-section">
+            <div class="loading-state" id="loading">
+                <p>Loading resources...</p>
+            </div>
+
+            <table class="resources-table" id="resources-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th scope="col">Resource</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Description</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+
+            <div class="no-results" id="no-results" style="display: none;">
+                <p>No resources found in this category.</p>
+            </div>
+
+            <noscript>
+                <p>Please enable JavaScript to view the resources table.</p>
+            </noscript>
+        </section>
+
+
+        <!-- Pagination Container -->
+        <div class="pagination-bar">
+            <div class="pagination-wrapper">
+
+                <button id="prev-page" class="arrow-btn" aria-label="Previous Page">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M2 12l20 10V2z" />
+                    </svg>
+                </button>
+
+                <div id="pages-container"></div>
+
+                <button id="next-page" class="arrow-btn" aria-label="Next Page">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M22 12l-20 10V2z" />
+                    </svg>
+                </button>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="global-footer"></footer>
+
+    <script defer type="module" src="/layout/layout.js"></script>
+    <script defer src="resources.js"></script>
+
+</body>
+
+</html>

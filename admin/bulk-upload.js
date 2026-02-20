@@ -3,7 +3,9 @@ import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstat
 import { app } from '/Article/firebase-db.js';
 
 const auth = getAuth(app);
-const db = getFirestore(app);
+const db = getFirestore(app, {
+  localCache: persistentLocalCache({tabManager: persistentMultipleTabManager()})
+});
 
 // STATE VARIABLES
 let articleQueue = []; // Holds objects: { data: jsonPart, image: base64_OR_url }
@@ -290,5 +292,40 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         btnFinal.innerText = `Done (${successCount} OK, ${failCount} Failed)`;
+    };
+
+    //to handle the n8n trigger and response
+    const btnGenerate = document.getElementById('btn-generate-news');
+    const loadingModal = document.getElementById('loading-modal');
+
+    btnGenerate.onclick = async () => {
+        // 1. Show loading state
+        loadingModal.classList.remove('hidden');
+        
+        try {
+            // 2. Call n8n Production Webhook
+            const response = await fetch('http://localhost:5678/webhook/53562d30-4d3d-46c4-b393-27cf17bd5cdd', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-N8N-AUTH': '9B#p(65\UE&5Y' // If you set Header Auth
+                }
+            });
+
+            if (!response.ok) throw new Error("Failed to reach n8n");
+
+            // 3. Receive the generated news articles
+            const generatedNews = await response.json(); 
+            
+            // 4. Pass the data to your existing handleJSONData function
+            handleJSONData(generatedNews);
+            
+            alert("News generated successfully!");
+        } catch (err) {
+            alert("Error: " + err.message);
+        } finally {
+            // 5. Hide loading state
+            loadingModal.classList.add('hidden');
+        }
     };
 });
