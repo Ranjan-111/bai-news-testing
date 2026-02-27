@@ -1,200 +1,309 @@
-/* General Page Reset */
+/* ============================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-bg:            #fff;
+  --color-text:          #333;
+  --color-text-dark:     #222;
+  --color-border:        #eee;
+  --color-input-bg:      #f2f2f2;
+  --color-input-focus:   #e6e6e6;
+  --color-placeholder:   #aaa;
+  --color-upload-icon:   #999;
+  --color-drop-text:     #777;
+  --color-btn-red:       #b93b3b;
+  --color-btn-disabled:  #ccc;
+
+  /* Typography */
+  --font-primary:   "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-secondary: "Roboto", sans-serif;
+  --font-system:    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                    "Helvetica Neue", sans-serif;
+
+  /* Spacing */
+  --space-sm:   12px;
+  --space-md:   20px;
+  --space-lg:   25px;
+  --space-xl:   40px;
+  --space-2xl:  50px;
+  --space-3xl:  60px;
+
+  /* Transitions */
+  --transition-fast: 0.2s;
+
+  /* Border radius */
+  --radius-sm:  6px;
+  --radius-md:  8px;
+}
+
+
+/* ============================================================
+   Page Reset
+   Overrides the centered flex layout set in the global index.css
+   so this page uses normal document flow instead.
+   ============================================================ */
 body {
-    background-color: #fff;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
-    margin: 0;
-    display: initial;
+  background-color: var(--color-bg);
+  font-family: var(--font-primary);
+  color: var(--color-text);
+  margin: 0;
+  display: initial; /* reset from global body { display: flex } */
 }
 
-/* --- Header Styling --- */
+
+/* ============================================================
+   Page Header
+   Centered title with an absolutely-positioned back button on the left.
+   Using position: relative on the header lets .back-btn use left: 20px
+   without breaking the centered h1.
+   ============================================================ */
 .page-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding: 20px;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-xl);
 }
 
+/* Page title */
 .page-header h1 {
-    font-size: 1.25rem;
-    font-weight: 350;
-    margin: 0;
-    letter-spacing: 0.5px;
+  font-size: 1.25rem;
+  font-weight: 350;
+  margin: 0;
+  letter-spacing: 0.5px;
 }
 
+/* Back arrow — pulled out of flow to the far left */
 .back-btn {
-    position: absolute;
-    left: 20px;
-    color: #000;
-    display: flex;
-    align-items: center;
-    transition: opacity 0.2s;
+  position: absolute;
+  left: var(--space-md);
+  color: #000;
+  display: flex;
+  align-items: center;
+  transition: opacity var(--transition-fast);
 }
 
-/* --- Form Layout --- */
+
+/* ============================================================
+   Form Container
+   Centered column, max 700px wide, with bottom padding so the
+   submit button doesn't sit flush against the viewport edge.
+   ============================================================ */
 .form-container {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 0 20px 60px 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 var(--space-md) var(--space-3xl);
 }
 
-#apply-form{
-    display: initial;
+/* Ensures the form itself uses normal block flow */
+#apply-form {
+  display: initial;
 }
 
+/* Intro paragraph below the header */
 .sub-text {
-    text-align: center;
-    font-size: 0.95rem;
-    color: #333;
-    margin-bottom: 4.4rem;
-    line-height: 1.5;
-    font-weight: 300;
-    font-family: 'Roboto', sans-serif;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  margin-bottom: 4.4rem;
+  line-height: 1.5;
+  font-weight: 300;
+  font-family: var(--font-secondary);
 }
 
+
+/* ============================================================
+   Form Fields
+   ============================================================ */
+
+/* Wrapper that adds consistent vertical spacing between fields */
 .form-group {
-    margin-bottom: 25px;
+  margin-bottom: var(--space-lg);
 }
 
+/* Field label */
 label {
-    display: block;
-    margin-bottom: 12px;
-    font-size: 0.95rem;
-    font-weight: 400;
-    color: #222;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--color-text-dark);
+  font-family: var(--font-system);
 }
 
-/* Grey Input Boxes */
+/* Text inputs and textareas
+   box-sizing: border-box prevents width overflow when padding is applied.
+   outline: none removes the browser's default focus ring (handled by background change). */
 .form-input {
-    width: 100%;
-    padding: 16px;
-    background-color: #f2f2f2;
-    border: none;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 0.9rem;
-    color: #333;
-    box-sizing: border-box;
-    outline: none;
-    margin-bottom: 15px;
+  width: 100%;
+  padding: 16px;
+  background-color: var(--color-input-bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  box-sizing: border-box;
+  outline: none;
+  margin-bottom: 15px;
 }
 
+/* Subtle darkening to signal keyboard focus */
 .form-input:focus {
-    background-color: #e6e6e6;
+  background-color: var(--color-input-focus);
 }
 
 .form-input::placeholder {
-    color: #aaa;
+  color: var(--color-placeholder);
 }
 
-/* --- Double Upload Section --- */
+
+/* ============================================================
+   Upload Row — Side-by-Side Drop Zones
+   Two equal-width drop areas for image + document uploads.
+   Stacks to a single column on mobile (see media query below).
+   ============================================================ */
 .upload-row {
-    display: flex;
-    gap: 75px;
-    margin-bottom: 50px;
+  display: flex;
+  gap: 75px;
+  margin-bottom: var(--space-2xl);
 }
 
+/* Each drop zone takes 50% of the row */
 .upload-col {
-    flex: 1; /* 50% width each */
+  flex: 1;
 }
 
+/* Drop zone box
+   position: relative is required so preview images/text can be
+   absolutely positioned inside without escaping the box. */
 .file-drop-area {
-    width: 100%;
-    background-color: #f2f2f2;
-    border-radius: 8px;
-    padding: 30px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    position: relative;
-    height: 170px; /* Fixed height for consistency */
-    box-sizing: border-box;
-    overflow: hidden;
-    transition: background 0.2s;
+  width: 100%;
+  background-color: var(--color-input-bg);
+  border-radius: var(--radius-md);
+  padding: 30px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  height: 170px;
+  box-sizing: border-box;
+  overflow: hidden; /* clips preview images to the rounded border */
+  transition: background var(--transition-fast);
 }
 
 .file-drop-area:hover {
-    background-color: #e6e6e6;
+  background-color: var(--color-input-focus);
 }
 
+/* Inner content (icon + labels)
+   pointer-events: none lets click events pass through to the parent
+   drop zone so the hidden <input type="file"> still triggers. */
 .drop-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
 }
 
+/* Upload icon */
 .upload-icon {
-    color: #999;
-    margin-bottom: 10px;
+  color: var(--color-upload-icon);
+  margin-bottom: 10px;
 }
 
+/* Primary drop-zone label */
 .drop-text {
-    font-size: 0.8rem;
-    color: #777;
-    margin-bottom: 4px;
+  font-size: 0.8rem;
+  color: var(--color-drop-text);
+  margin-bottom: 4px;
 }
 
+/* Secondary hint (file type / size limit) */
 .drop-subtext {
-    font-size: 0.65rem;
-    color: #aaa;
+  font-size: 0.65rem;
+  color: var(--color-placeholder);
 }
 
-/* Previews */
+
+/* ============================================================
+   Upload Previews
+   Both previews are absolutely positioned to fill the drop zone
+   box once a file is selected, hiding the placeholder content.
+   ============================================================ */
+
+/* Image preview — covers the entire drop zone */
 .preview-img {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    padding: 5px;
-    background: #f2f2f2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 5px;
+  background: var(--color-input-bg);
 }
 
+/* Text/PDF preview — centered label inside the drop zone */
 .preview-text {
-    position: absolute;
-    background: #f2f2f2;
-    padding: 10px;
-    font-size: 0.85rem;
-    color: #333;
-    font-weight: 500;
+  position: absolute;
+  background: var(--color-input-bg);
+  padding: 10px;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  font-weight: 500;
 }
 
-/* --- Submit Button --- */
+
+/* ============================================================
+   Submit Button
+   Full-width red CTA at the bottom of the form.
+   Disabled state turns grey and blocks interaction.
+   ============================================================ */
 .submit-btn {
-    width: 100%;
-    padding: 16px;
-    background-color: #b93b3b; /* Red */
-    color: white;
-    font-size: 1rem;
-    font-weight: 400;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 3rem;
-    transition: opacity 0.2s;
+  width: 100%;
+  padding: 16px;
+  background-color: var(--color-btn-red);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  margin-top: 3rem;
+  transition: opacity var(--transition-fast);
 }
 
 .submit-btn:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
+/* Shown while the form is submitting or validation fails */
 .submit-btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: var(--color-btn-disabled);
+  cursor: not-allowed;
 }
 
+
+/* ============================================================
+   Utility
+   ============================================================ */
 .hidden { display: none !important; }
 
-/* Responsive: Stack uploads on mobile */
+
+/* ============================================================
+   Responsive — Mobile (max 600px)
+   Stack the two upload columns vertically on small screens.
+   ============================================================ */
 @media (max-width: 600px) {
-    .upload-row {
-        flex-direction: column;
-    }
+  .upload-row {
+    flex-direction: column;
+  }
 }

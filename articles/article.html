@@ -1,42 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading Article... | bitfeed</title>
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/main/index.css">
     <link rel="stylesheet" href="/layout/layout.css">
     <link rel="stylesheet" href="article.css">
 
-        <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <!-- Technical SEO -->
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="apple-touch-icon" href="/assets/favicon.png">
+    <meta name="theme-color" content="#d73634">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" id="canonical-link" href="https://bitfeed.in/articles/article.html">
 
+    <!-- Standard Meta Tags (dynamic — updated by article.js) -->
+    <meta name="description" id="meta-description-tag"
+        content="Read this article on bitfeed — clean, minimal business & AI insights by custmr.team.">
+    <meta name="author" id="meta-author-tag" content="bitfeed">
 
-    <!-- Standard Meta Tags -->
-    <meta name="description" id="meta-description-tag" content="Clean. Minimal. Insights.">
-    
     <!-- Open Graph / Facebook Meta Tags -->
-    <meta property="og:site_name" content="bitfeed" />
-    <meta property="og:title" id="og-title" content="bitfeed - Business & Finance Insights" />
-    <meta property="og:description" id="og-description" content="Clean. Minimal. Insights." />
-    <meta property="og:image" id="og-image" content="https://bai.news/assets/default-share-image.jpg" /> 
-    <meta property="og:url" id="og-url" content="https://bai.news/" />
-    <meta property="og:type" content="article" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Article featured image" />
-    
+    <meta property="og:site_name" content="bitfeed">
+    <meta property="og:title" id="og-title" content="bitfeed — Business & AI Insights">
+    <meta property="og:description" id="og-description"
+        content="Read this article on bitfeed — clean, minimal insights.">
+    <meta property="og:image" id="og-image" content="https://bitfeed.in/assets/favicon.png">
+    <meta property="og:url" id="og-url" content="https://bitfeed.in/articles/article.html">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Article featured image">
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="twitter-title" content="bitfeed - Business & Finance Insights">
-    <meta name="twitter:description" id="twitter-description" content="Clean. Minimal. Insights.">
-    <meta name="twitter:image" id="twitter-image" content="https://bai.news/assets/default-share-image.jpg">
-    
-    <!-- Prerender.io Meta Tag -->
+    <meta name="twitter:title" id="twitter-title" content="bitfeed — Business & AI Insights">
+    <meta name="twitter:description" id="twitter-description"
+        content="Read this article on bitfeed — clean, minimal insights.">
+    <meta name="twitter:image" id="twitter-image" content="https://bitfeed.in/assets/favicon.png">
+
+    <!-- Prerender.io Meta Tags -->
     <meta name="fragment" content="!">
     <meta name="prerender-status-code" content="200">
-    
+
+    <!-- Structured Data: Article (populated dynamically by article.js) -->
+    <script type="application/ld+json" id="article-jsonld">
+    {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "publisher": {
+            "@type": "Organization",
+            "name": "bitfeed by custmr.team",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://bitfeed.in/assets/favicon.png"
+            }
+        }
+    }
+    </script>
+
 </head>
+
 <body>
 
     <!-- HEADER AND NAVIGATION BAR -->
@@ -44,8 +73,8 @@
 
 
     <!-- ARTICLE CONTENT -->
-<section class="main">
-        
+    <section class="main">
+
         <div id="skeleton-view">
             <div class="skeleton sk-title"></div>
             <div class="skeleton sk-date"></div>
@@ -69,7 +98,7 @@
             <br>
             <p id="news-date" class="date"></p>
             <hr class="last-hr">
-            
+
             <div class="article-meta">
                 <div class="author-profile">
                     <img src="" alt="Author" class="author-avatar" id="author-img">
@@ -77,26 +106,32 @@
                         <span class="author-name" id="author-name"></span>
                     </div>
                 </div>
-                
+
                 <div class="article-actions">
-                    <a href="#" id="share-btn">Share<img src="/assets/share icon unfilled.png" class="s-icon s-icon1"></a>
-                    <a href="#" id="like-btn">Like<img src="/assets/like icon unfilled.png" id="like-icon" style="height: 20px; width: 20px;" class="s-icon s-icon2"></a>
+                    <a href="#" id="share-btn">Share<img src="/assets/share icon unfilled.png"
+                            class="s-icon s-icon1"></a>
+                    <a href="#" id="like-btn">Like<img src="/assets/like icon unfilled.png" id="like-icon"
+                            style="height: 20px; width: 20px;" class="s-icon s-icon2"></a>
                 </div>
             </div>
 
- 
+
             <div id="edit-toolbar" class="edit-actions-bar hidden">
-                <button class="btn-cancel-edit" id="btn-delete-article" onclick="deleteArticle()" style="color: #d73634; border-color: #d73634; margin-right: auto;">
+                <button class="btn-cancel-edit" id="btn-delete-article" onclick="deleteArticle()"
+                    style="color: #d73634; border-color: #d73634; margin-right: auto;">
                     Delete Article
                 </button>
-                
+
                 <button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button>
                 <button class="btn-save-edit" onclick="saveArticleChanges()">Save Changes</button>
             </div>
 
-            <div id="featured-edit-row" class="hidden" style="margin: 20px 0; padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
-                <input type="checkbox" id="edit-is-featured" style="width: 18px; height: 18px; accent-color: #d73634; cursor: pointer;">
-                <label for="edit-is-featured" style="font-size: 0.95rem; font-weight: 500; cursor: pointer;">Mark this article as Featured (Max 2 allowed)</label>
+            <div id="featured-edit-row" class="hidden"
+                style="margin: 20px 0; padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                <input type="checkbox" id="edit-is-featured"
+                    style="width: 18px; height: 18px; accent-color: #d73634; cursor: pointer;">
+                <label for="edit-is-featured" style="font-size: 0.95rem; font-weight: 500; cursor: pointer;">Mark this
+                    article as Featured (Max 2 allowed)</label>
             </div>
 
             <div id="edit-toolbar" class="edit-actions-bar hidden">
@@ -115,7 +150,7 @@
                 </div>
                 <button id="play-pause-btn-circle">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" id="play-icon">
-                        <path d="M8 5v14l11-7z"/>
+                        <path d="M8 5v14l11-7z" />
                     </svg>
                 </button>
             </div>
@@ -129,7 +164,7 @@
                     <div id="progress-end-marker-horizontal"></div>
                 </div>
             </div>
-<!-- ---------------- -->
+            <!-- ---------------- -->
 
             <figure>
                 <img src="" alt="Article Image" id="news-img"><br>
@@ -139,12 +174,13 @@
             <div class="level-selection-wrapper">
                 <div class="level-tabs">
                     <button class="level-tab" id="btn-beginner" onclick="switchLevel('beginner')">Beginner</button>
-                    <button class="level-tab active" id="btn-intermediate" onclick="switchLevel('intermediate')">Technical</button>
+                    <button class="level-tab active" id="btn-intermediate"
+                        onclick="switchLevel('intermediate')">Technical</button>
                     <button class="level-tab" id="btn-pro" onclick="switchLevel('pro')">Economist</button>
                 </div>
             </div>
 
-            
+
             <div id="article-content"></div>
 
             <hr class="last-hr">
@@ -152,10 +188,10 @@
             <section class="tags"></section>
         </div>
 
-     </section>
+    </section>
 
-<section class="more-news">
-        
+    <section class="more-news">
+
         <div id="related-skeleton-view">
             <div class="sk-more-hr"></div>
             <div class="skeleton sk-related-heading"></div>
@@ -185,7 +221,7 @@
             <div id="related-container" class="related-articles"></div>
         </div>
 
-     </section>
+    </section>
 
     <div id="cropper-modal" class="hidden">
         <div class="cropper-content">
@@ -211,4 +247,5 @@
     <script defer type="module" src="/layout/layout.js"></script>
     <script type="module" src="article.js"></script>
 </body>
+
 </html>

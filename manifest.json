@@ -1,0 +1,22 @@
+{
+  "name": "bitfeed — Clean. Minimal. Insights.",
+  "short_name": "bitfeed",
+  "description": "Community-driven business, AI, and innovation news by custmr.team. Clean insights, delivered directly.",
+  "start_url": "/main/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#d73634",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -323,10 +323,11 @@ async function loadRelated(tags, currentId) {
  */
 function updateSocialMetaTags(article) {
     // 1. SET YOUR ACTUAL DOMAIN HERE (Must start with https://)
-    const siteBaseUrl = "https://bai.news"; 
+    const siteBaseUrl = "https://bitfeed.in"; 
     
-    const title = article.title || "bitFeed";
+    const title = article.title || "bitfeed";
     const summary = article.summary || "Clean. Minimal. Insights.";
+    const authorName = article.authorName || article.authorId || "bitfeed";
     
     // 2. CONVERT TO ABSOLUTE URLs (Critical for bots/crawlers)
     const absoluteImageUrl = article.imageUrl.startsWith('http') 
@@ -336,11 +337,15 @@ function updateSocialMetaTags(article) {
     const currentAbsoluteUrl = window.location.href;
 
     // 3. UPDATE BROWSER TAB
-    document.title = `${title} | bitFeed`;
+    document.title = `${title} | bitfeed`;
 
     // 4. UPDATE STANDARD META DESCRIPTION
     const metaDesc = document.getElementById('meta-description-tag');
     if (metaDesc) metaDesc.setAttribute("content", summary);
+
+    // 4b. UPDATE AUTHOR META
+    const metaAuthor = document.getElementById('meta-author-tag');
+    if (metaAuthor) metaAuthor.setAttribute("content", authorName);
 
     // 5. UPDATE OPEN GRAPH (Facebook/LinkedIn)
     const ogTitle = document.getElementById('og-title');
@@ -361,6 +366,50 @@ function updateSocialMetaTags(article) {
     if (twitterTitle) twitterTitle.setAttribute("content", title);
     if (twitterDesc) twitterDesc.setAttribute("content", summary);
     if (twitterImg) twitterImg.setAttribute("content", absoluteImageUrl);
+
+    // 7. UPDATE CANONICAL URL
+    const canonicalLink = document.getElementById('canonical-link');
+    if (canonicalLink) canonicalLink.setAttribute("href", currentAbsoluteUrl);
+
+    // 8. UPDATE ARTICLE JSON-LD STRUCTURED DATA
+    const jsonLdEl = document.getElementById('article-jsonld');
+    if (jsonLdEl) {
+        let datePublished = "";
+        if (article.datePosted) {
+            const dateObj = typeof article.datePosted.toDate === 'function' 
+                ? article.datePosted.toDate() 
+                : new Date(article.datePosted);
+            datePublished = dateObj.toISOString();
+        }
+
+        const jsonLd = {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "headline": title,
+            "description": summary,
+            "image": absoluteImageUrl,
+            "datePublished": datePublished,
+            "url": currentAbsoluteUrl,
+            "author": {
+                "@type": "Person",
+                "name": authorName
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "bitfeed by custmr.team",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://bitfeed.in/assets/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": currentAbsoluteUrl
+            }
+        };
+
+        jsonLdEl.textContent = JSON.stringify(jsonLd);
+    }
 }
 
 async function initLikeButton(articleId) {
@@ -1207,5 +1256,5 @@ class ArticleReader {
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { 
         window.articleReaderInstance = new ArticleReader(); 
-    }, 2000); // Wait for Firebase content
+    }, 2000); // Wait for Firebase content 
 });

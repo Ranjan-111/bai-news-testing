@@ -853,31 +853,6 @@ function initShareLogic() {
             }
         });
     }
-
-    // B. Web Share API Logic
-    if (shareIcon) {
-        const shareBtnParent = shareIcon.parentElement;
-        shareBtnParent.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const articleTitle = document.querySelector('#news-headline')?.textContent || document.title;
-            const articleUrl = window.location.href;
-
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: articleTitle,
-                        text: `${articleTitle}\n\nRead more here:`,
-                        url: articleUrl
-                    });
-                } catch (error) {
-                    if (error.name !== 'AbortError') console.error('Error sharing:', error);
-                }
-            } else {
-                // Fallback or do nothing
-                console.log('Share API not supported on this browser');
-            }
-        });
-    }
 }
 
 // ==========================================
