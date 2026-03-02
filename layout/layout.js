@@ -1,6 +1,6 @@
-import { initPopupLogic, logoutUser } from '/layout/auth.js'; 
+import { initPopupLogic, logoutUser } from '/layout/auth.js';
 import { fetchAllSearchData } from '/Article/firebase-db.js';
-import { saveToNewsletterList } from '/admin/user-db.js'; 
+import { saveToNewsletterList } from '/admin/user-db.js';
 
 // =========================================================================
 //  EMBEDDED CSS (Paste your layout.css content here)
@@ -538,17 +538,17 @@ const layoutHTML = `
             <nav class="sidebar">
                 <hr class="hr1">
                 <a href="/main/index.html" class="menu-item">
-                    <img src="/assets/home.png" alt="img" class="icon4">
+                    <img src="/assets/icons/home.png" alt="img" class="icon4">
                     <span class="label">home</span>
                 </a>
                 <hr>
                 <a href="/students/Students.html" class="menu-item">
-                    <img src="/assets/Student Icon.png" alt="img" class="icon4">
+                    <img src="/assets/icons/Student Icon.png" alt="img" class="icon4">
                     <span class="label">students</span>
                 </a>
                 <hr>
                 <a href="/others/x-error.html" class="menu-item">
-                    <img src="/assets/Tech Icons.png" alt="img" class="icon4">
+                    <img src="/assets/icons/Tech Icons.png" alt="img" class="icon4">
                     <span class="label">artificial intelligence</span>
                 </a>
                 
@@ -559,7 +559,7 @@ const layoutHTML = `
                 </div>
                 
                 <a href="javascript:void(0)" class="menu-item profile-btn profilebtn-auto" id="profileTrigger" style="display: none;">
-                    <img src="/assets/profile Image.png" alt="img" class="icon4" id="responsiveImg">
+                    <img src="/assets/icons/profile Image.png" alt="img" class="icon4" id="responsiveImg">
                     <span class="label lst-lbl">profile</span>
                 </a>
                 <div class="profile-popup" id="profilePopup">
@@ -592,7 +592,7 @@ const layoutHTML = `
             <div id="view-options">
                 <div class="pop-body">
                     <button class="sm-btn" id="google-login-btn">
-                        <img src="/assets/google.svg" alt="Google" class="btn-icon">
+                        <img src="/assets/icons/google.svg" alt="Google" class="btn-icon">
                         <span id="text-google">Sign up with Google</span>
                     </button>
                     <button class="sm-btn" id="twitter-login-btn">
@@ -728,13 +728,13 @@ const layoutHTML = `
             <input type="text" placeholder="Search..." id="searchInput" class="search-input">
         </div>
         <button class="search-toggle-btn" id="search-toggle-btn">
-            <img src="/assets/Filter empty Icon.png" alt="Filter" class="filter-icon1" />
+            <img src="/assets/icons/Filter empty Icon.png" alt="Filter" class="filter-icon1" />
             <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <img src="/assets/Filter filled Icon.png" alt="filter" class="filter-icon2" />
+            <img src="/assets/icons/Filter filled Icon.png" alt="filter" class="filter-icon2" />
         </button>
     </div>
 </div>
@@ -802,7 +802,7 @@ function initGlobalLogic() {
 
     // 5. Initialize Share Icons
     initShareLogic();
-    
+
     // 6. Initialize Mobile Profile Options Toggle
     initMobileProfileToggle();
 
@@ -833,8 +833,8 @@ function initShareLogic() {
     const shareIcon = shareLink ? shareLink.querySelector('.s-icon1') : null;
 
     if (shareLink && shareIcon) {
-        const unfilledIconPath = "/assets/share icon unfilled.png";
-        const filledIconPath = "/assets/share icon filled.png";
+        const unfilledIconPath = "/assets/icons/share icon unfilled.png";
+        const filledIconPath = "/assets/icons/share icon filled.png";
 
         shareLink.addEventListener('click', function (event) {
             event.preventDefault();
@@ -886,7 +886,7 @@ export function initSearchLogic() {
         if (showImage === 2 && imgFilterEmpty) imgFilterEmpty.style.display = 'block';
         if (showImage === 3 && imgFilterFilled) imgFilterFilled.style.display = 'block';
     }
-    updateImages(1); 
+    updateImages(1);
 
     // --- Click Handler ---
     searchToggleBtn.addEventListener('click', async (e) => {
@@ -904,7 +904,7 @@ export function initSearchLogic() {
             if (!window.cachedSearchData) {
                 resultsBox.innerHTML = '<p style="padding:10px; color:#888;">Loading Search Index...</p>';
                 await fetchAllSearchData();
-                resultsBox.innerHTML = ''; 
+                resultsBox.innerHTML = '';
             }
 
         } else { // Toggle Filter
@@ -997,7 +997,7 @@ export function initSearchLogic() {
 
         resultsBox.innerHTML = '';
         const viewClass = data.length < 5 ? "search-scroll-view few-results" : "search-scroll-view";
-        
+
         const scrollView = document.createElement('div');
         scrollView.className = viewClass;
         resultsBox.appendChild(scrollView);
@@ -1027,7 +1027,7 @@ export function initSearchLogic() {
         if (data.length >= 5) {
             scrollView.addEventListener('scroll', function() {
                 if (hasTyped && this.scrollTop > 0) {
-                    const fadeDistance = 60; 
+                    const fadeDistance = 60;
                     let alpha = 1 - Math.min(this.scrollTop / fadeDistance, 1);
                     const mask = `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%, black 10%, black 100%)`;
                     this.style.maskImage = mask;
@@ -1045,7 +1045,7 @@ export function initSearchLogic() {
         const safeText = text.replace(/(<([^>]+)>)/gi, "");
         const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const regex = new RegExp(`(${safeQuery})`, 'gi');
-        
+
         if (type === 'red') return safeText.replace(regex, '<span class="highlight-red">$1</span>');
         return safeText.replace(regex, '<strong>$1</strong>');
     }
@@ -1056,8 +1056,8 @@ export function initSearchLogic() {
 // ==========================================
 function initResponsiveProfile() {
     const myImg = document.getElementById('responsiveImg');
-    const desktopImg = "/assets/profile Image.png";
-    const mobileImg = "/assets/Customer Icon Windows 10.png"; 
+    const desktopImg = "/assets/icons/profile Image.png";
+    const mobileImg = "/assets/icons/Customer Icon Windows 10.png";
 
     function updateImageSource() {
         if (!myImg) return;
@@ -1099,9 +1099,9 @@ function initFooterNewsletter() {
 function initMobileProfileToggle() {
     const profileTrigger = document.getElementById('profileTrigger');
     const mobileProfileOptions = document.getElementById('mobileProfileOptions');
-    
+
     if (!profileTrigger || !mobileProfileOptions) return;
-    
+
     // Toggle mobile profile options on profile button click (only on mobile)
     profileTrigger.addEventListener('click', (e) => {
         // Check if we're on mobile view
@@ -1113,7 +1113,7 @@ function initMobileProfileToggle() {
         }
         // On desktop, the existing profile popup logic from auth.js will handle it
     });
-    
+
     // Handle mobile sign out button (using event delegation since it might be dynamically created)
     mobileProfileOptions.addEventListener('click', async (e) => {
         const signoutBtn = e.target.closest('#mobile-btn-signout');
@@ -1125,7 +1125,7 @@ function initMobileProfileToggle() {
             }
         }
     });
-    
+
     // Close mobile profile options when clicking outside (only on mobile)
     document.addEventListener('click', (e) => {
         if (window.innerWidth <= 550) {

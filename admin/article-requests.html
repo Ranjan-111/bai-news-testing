@@ -58,32 +58,98 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Image (Click to Change)</label>
-                    <div class="img-edit-area" id="img-drop-zone">
-                        <img id="edit-img-preview" class="current-img" src="">
-                        <div class="upload-overlay">Click to replace image</div>
-                        <input type="file" id="edit-file-input" accept="image/*" hidden>
+                    <label class="form-label">Choose Image</label>
+                    <div class="img-preview-box" id="img-preview-box">
+                        <span class="no-img-text" id="no-img-text">No image selected</span>
+                        <img id="edit-img-preview" class="hidden" alt="Selected Image">
+                    </div>
+                    <div class="img-suggestions">
+                        <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">Image Tags:</div>
+                        <div class="img-suggest-option">
+                            <input type="radio" name="img-suggest" id="suggest-alg" value="/assets/article-img/alg.png" data-tag="Algorithm">
+                            <label for="suggest-alg">Algorithm</label>
+                        </div>
+                        <div class="img-suggest-option">
+                            <input type="radio" name="img-suggest" id="suggest-img-m" value="/assets/article-img/img-m.png" data-tag="Image Model">
+                            <label for="suggest-img-m">Image Model</label>
+                        </div>
+                        <div class="img-suggest-option">
+                            <input type="radio" name="img-suggest" id="suggest-llm" value="/assets/article-img/llm.png" data-tag="LLM">
+                            <label for="suggest-llm">LLM</label>
+                        </div>
+                        <div class="img-suggest-option">
+                            <input type="radio" name="img-suggest" id="suggest-research" value="/assets/article-img/research.png" data-tag="Research">
+                            <label for="suggest-research">Research</label>
+                        </div>
+                        <div class="img-suggest-option">
+                            <input type="radio" name="img-suggest" id="suggest-rob" value="/assets/article-img/rob.png" data-tag="Robotics">
+                            <label for="suggest-rob">Robotics</label>
+                        </div>
+                        <div class="img-suggest-option">
+                            <input type="radio" name="img-suggest" id="suggest-sec" value="/assets/article-img/sec.png" data-tag="Security">
+                            <label for="suggest-sec">Security</label>
+                        </div>
+                        <div class="img-suggest-option">
+                            <input type="radio" name="img-suggest" id="suggest-vid-m" value="/assets/article-img/vid-m.png" data-tag="Video Model">
+                            <label for="suggest-vid-m">Video Model</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Beginner Content</label>
-                    <textarea id="edit-content-beginner" class="edit-input edit-textarea"></textarea>
+                    <label class="form-label">Concise Content</label>
+                    <textarea id="edit-content-concise" class="edit-input edit-textarea"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Intermediate Content</label>
-                    <textarea id="edit-content-intermediate" class="edit-input edit-textarea"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Pro Content</label>
-                    <textarea id="edit-content-pro" class="edit-input edit-textarea"></textarea>
+                    <label class="form-label">Technical Content</label>
+                    <textarea id="edit-content-technical" class="edit-input edit-textarea"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Summary (50 words)</label>
                     <textarea id="edit-summary" class="edit-input summary-textarea"></textarea>
+                </div>
+
+                <!-- <div class="form-group">
+                    <label class="form-label">Secondary Tag — Company (Max 2)</label>
+                    <div class="company-tags">
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Google"><label>Google</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="OpenAI"><label>OpenAI</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Anthropic"><label>Anthropic</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Apple"><label>Apple</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Nvidia"><label>Nvidia</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Meta"><label>Meta</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Microsoft"><label>Microsoft</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Amazon"><label>Amazon</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Tesla"><label>Tesla</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Samsung"><label>Samsung</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="xAI"><label>xAI</label></div>
+                        <div class="company-tag-option"><input type="checkbox" name="company-tag" value="DeepMind"><label>DeepMind</label></div>
+                        <div class="company-tag-option">
+                            <input type="checkbox" name="company-tag" id="company-other-cb" value="__other__">
+                            <label for="company-other-cb">Others</label>
+                        </div>
+                        <input type="text" id="company-other-input" class="company-other-input hidden" placeholder="Enter company name..." autocomplete="off">
+                    </div>
+                </div> -->
+
+                <div class="form-group">
+                    <label class="form-label">Additional Tags (Max 5)</label>
+                    <div class="tags-input-container" id="edit-tags-container">
+                        <input type="text" id="edit-tag-input" placeholder="Type & Press Enter" autocomplete="off">
+                    </div>
+                    <div class="tag-suggestions" id="tag-suggestions">
+                        <p style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Suggestions:</p>
+                        <span class="tag-suggest-btn" data-tag="Training">Training</span>
+                        <span class="tag-suggest-btn" data-tag="Benchmark">Benchmark</span>
+                        <span class="tag-suggest-btn" data-tag="Open Source">Open Source</span>
+                        <span class="tag-suggest-btn" data-tag="Multimodal">Multimodal</span>
+                        <span class="tag-suggest-btn" data-tag="Funding">Funding</span>
+                        <span class="tag-suggest-btn" data-tag="Regulation">Regulation</span>
+                        <span class="tag-suggest-btn" data-tag="Hardware">Hardware</span>
+                        <span class="tag-suggest-btn" data-tag="Dataset">Dataset</span>
+                    </div>
                 </div>
 
                 <div class="feature-row">
@@ -99,26 +165,6 @@
         </div>
     </div>
 
-    <div id="cropper-modal" class="hidden">
-        <div class="cropper-content">
-            <h3>Adjust Image</h3>
-            <p>Drag to reposition. Use slider to zoom.</p>
-            
-            <div class="crop-container">
-                <img id="cropper-img" src="" alt="To Crop">
-            </div>
-
-            <div class="cropper-controls">
-                <label>Zoom:</label>
-                <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1">
-            </div>
-
-            <div class="cropper-actions">
-                <button type="button" id="btn-cancel-crop">Cancel</button>
-                <button type="button" id="btn-save-crop">Crop & Save</button>
-            </div>
-        </div>
-    </div>
 
 
     <script type="module" src="article-requests.js"></script>

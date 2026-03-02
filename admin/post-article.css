@@ -3,26 +3,26 @@
    ============================================================ */
 :root {
   /* Colors */
-  --color-bg:           #fff;
-  --color-text:         #000;
-  --color-text-body:    #333;
-  --color-text-label:   #222;
-  --color-text-muted:   #555;
-  --color-text-faint:   #999;
-  --color-text-hint:    #aaa;
-  --color-border:       #eee;
-  --color-input-bg:     #f2f2f2;
-  --color-input-focus:  #e6e6e6;
-  --color-red:          #d73634;
-  --color-red-btn:      #b93b3b;
-  --color-tag-bg:       #f2f2f2;
-  --color-tag-hover:    #e6e6e6;
-  --color-suggest-bg:   #eee;
-  --color-suggest-hover:#e0e0e0;
-  --color-drag-border:  #4CAF50;
-  --color-drag-bg:      rgba(76, 175, 80, 0.1);
+  --color-bg: #fff;
+  --color-text: #000;
+  --color-text-body: #333;
+  --color-text-label: #222;
+  --color-text-muted: #555;
+  --color-text-faint: #999;
+  --color-text-hint: #aaa;
+  --color-border: #eee;
+  --color-input-bg: #f2f2f2;
+  --color-input-focus: #e6e6e6;
+  --color-red: #d73634;
+  --color-red-btn: #b93b3b;
+  --color-tag-bg: #f2f2f2;
+  --color-tag-hover: #e6e6e6;
+  --color-suggest-bg: #eee;
+  --color-suggest-hover: #e0e0e0;
+  --color-drag-border: #4CAF50;
+  --color-drag-bg: rgba(76, 175, 80, 0.1);
   --color-overlay-dark: rgba(0, 0, 0, 0.85);
-  --color-upload-icon:  #777;
+  --color-upload-icon: #777;
 
   /* Typography */
   --font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -48,9 +48,13 @@ body {
   display: initial;
 }
 
-form { flex-direction: column; }
+form {
+  flex-direction: column;
+}
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 
 
 /* ============================================================
@@ -61,10 +65,19 @@ form { flex-direction: column; }
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  position: sticky;
+  top: 0;
   padding: 20px;
-  border-bottom: 1px solid var(--color-border);
   margin-bottom: 30px;
+  background: var(--color-bg);
+  z-index: 100;
+  box-shadow: 0 0 1px 0;
+}
+
+@media (max-width: 768px) {
+  .post-header {
+    height: 50px;
+  }
 }
 
 .post-header h1 {
@@ -91,12 +104,14 @@ form { flex-direction: column; }
    Form Container
    ============================================================ */
 .form-container {
-  max-width: 700px;
+  max-width: 850px;
   margin: 0 auto;
   padding: 0 20px 50px;
 }
 
-.form-group { margin-bottom: 25px; }
+.form-group {
+  margin-bottom: 35px;
+}
 
 label {
   display: block;
@@ -121,77 +136,172 @@ label {
   transition: background var(--transition-fast);
 }
 
-.form-input:focus      { background-color: var(--color-input-focus); }
-.form-input::placeholder { color: var(--color-text-hint); font-weight: 300; }
+.form-input:focus {
+  background-color: var(--color-input-focus);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-hint);
+  font-weight: 300;
+}
 
 /* Textarea — auto-grows with content; resize disabled for clean layout */
 .textarea {
   min-height: 80px;
   resize: none;
-  field-sizing: content; /* modern auto-grow; JS fallback may be needed */
+  field-sizing: content;
+  /* modern auto-grow; JS fallback may be needed */
 }
 
 
 /* ============================================================
-   Image Upload Drop Zone
-   Clicking or dropping an image here triggers the cropper.
-   aspect-ratio: 16/10 matches the published article image ratio.
+   Image Suggestions (Primary Tag)
+   Radio buttons styled as small boxes — same as article-requests.
    ============================================================ */
-.file-drop-area {
-  background-color: var(--color-input-bg);
+.img-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.img-suggest-option {
+  display: flex;
+  align-items: center;
+}
+
+.img-suggest-option input[type="radio"] {
+  display: none;
+}
+
+.img-suggest-option label {
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  border-radius: 20px;
+  cursor: pointer;
+  background: var(--color-input-bg);
+  color: var(--color-text-body);
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  margin-bottom: 0;
+}
+
+.img-suggest-option input[type="radio"]:checked+label {
+  background: #d95851;
+  color: #fff;
+}
+
+/* ============================================================
+   Company Tags (Secondary Tag)
+   Checkbox buttons styled similarly — max 2 enforced by JS.
+   ============================================================ */
+.company-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.company-tag-option {
+  display: flex;
+  align-items: center;
+}
+
+.company-tag-option input[type="checkbox"] {
+  display: none;
+}
+
+.company-tag-option label {
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  border-radius: 20px;
+  cursor: pointer;
+  background: var(--color-input-bg);
+  color: var(--color-text-body);
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  margin-bottom: 0;
+}
+
+.company-tag-option input[type="checkbox"]:checked+label {
+  background: #333;
+  color: #fff;
+}
+
+.company-other-input {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
   border-radius: 8px;
-  min-height: 200px;
+  border: 1px solid #ddd;
+  background: var(--color-input-bg);
+  color: var(--color-text-body);
+  outline: none;
+}
+
+/* ============================================================
+   Image Preview Box
+   Shows the image for the selected primary tag radio.
+   ============================================================ */
+.img-preview-box {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--color-input-bg);
+  border-radius: 8px;
+  margin-top: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   overflow: hidden;
-  cursor: pointer;
-  filter: grayscale(100%);
-  aspect-ratio: 16 / 10;
+  position: relative;
 }
 
-/* Inner placeholder content — pointer-events: none lets clicks
-   pass through to the parent .file-drop-area handler */
-.drop-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  pointer-events: none;
+.img-preview-box .no-img-text {
+  font-size: 0.85rem;
+  color: var(--color-text-faint);
 }
 
-.upload-icon  { width: 28px; height: 28px; color: var(--color-upload-icon); margin-bottom: 10px; }
-.drop-text    { font-size: 0.9rem;  color: var(--color-text-muted); margin-bottom: 4px; }
-.drop-subtext { font-size: 0.75rem; color: var(--color-text-faint); }
-
-/* Image preview fills the drop zone once a file is selected.
-   Shown/hidden by JS via the .hidden utility class. */
-#img-preview {
-  display: none;
-  position: absolute;
-  inset: 0;
+.img-preview-box img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  background: var(--color-input-bg);
-  aspect-ratio: 16 / 10;
+  object-fit: cover;
 }
-
-/* Green highlight applied by JS while a file is being dragged over */
-#drop-zone.drag-active {
-  border-color: var(--color-drag-border);
-  background-color: var(--color-drag-bg);
-  transform: scale(1.001);
-}
-
 
 /* ============================================================
-   Tag Selection
-   Two tag UIs exist on this page:
-     1. .tags-selection-area  — preset chip toggles (checkbox-driven)
-     2. .tags-input-container — free-text input with active chips
+   Tag Suggestions (under additional tags input)
    ============================================================ */
+.tag-suggestions {
+  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.tag-suggestions.visible {
+  display: flex;
+}
+
+.tag-suggest-btn {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  border-radius: 16px;
+  cursor: pointer;
+  background: var(--color-input-bg);
+  color: var(--color-text-muted);
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  height: 15px;
+  margin-top: 7px;
+}
+
+.tag-suggest-btn:hover {
+  background: var(--color-input-focus);
+  color: var(--color-text-body);
+}
 
 /* ── Preset chips ── */
 .tags-selection-area {
@@ -202,7 +312,9 @@ label {
 }
 
 /* Hide the native checkbox; the .tag-chip label is the visible button */
-.tag-option input { display: none; }
+.tag-option input {
+  display: none;
+}
 
 .tag-chip {
   display: inline-block;
@@ -217,10 +329,12 @@ label {
   user-select: none;
 }
 
-.tag-chip:hover { background-color: var(--color-tag-hover); }
+.tag-chip:hover {
+  background-color: var(--color-tag-hover);
+}
 
 /* Checked state — red fill + slight scale pop */
-.tag-option input:checked + .tag-chip {
+.tag-option input:checked+.tag-chip {
   background-color: var(--color-red);
   color: #fff;
   transform: scale(1.05);
@@ -234,7 +348,7 @@ label {
   padding: 10px;
   background-color: var(--color-input-bg);
   border-radius: 8px;
-  min-height: 40px;
+  height: 37px;
 }
 
 /* Invisible input that grows to fill remaining space */
@@ -248,26 +362,29 @@ label {
 
 /* An active (selected) tag chip inside the input area */
 .tag-chip-active {
-  background-color: var(--color-red);
+  background-color: var(--color-red-btn);
   color: #fff;
   padding: 5px 12px;
   border-radius: 20px;
   display: flex;
   align-items: center;
-  gap: 8px;
   font-size: 0.85rem;
-}
-
-/* Remove (×) button inside an active chip */
-.tag-remove {
+  height: 25px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
+  transition: opacity 0.15s;
 }
 
-/* Tag suggestion pills shown below the input */
-.tag-suggestions  { margin-top: 10px; display: flex; }
-.suggestions-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.tag-chip-active:hover {
+  opacity: 0.8;
+}
+
+
+.suggestions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
 
 .suggestion-btn {
   padding: 6px 15px;
@@ -278,14 +395,28 @@ label {
   cursor: pointer;
 }
 
-.suggestion-btn:hover { background: var(--color-suggest-hover); }
+.suggestion-btn:hover {
+  background: var(--color-suggest-hover);
+}
 
 
 /* ============================================================
-   Submit Button
+   Submit & Preview Buttons
    ============================================================ */
+.submit-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.main1 {
+  margin: 0 auto;
+  width: 60%;
+  margin-bottom: 40px;
+}
+
 .submit-btn {
-  width: 100%;
+  flex: 2;
   padding: 16px;
   background-color: var(--color-red-btn);
   color: #fff;
@@ -294,95 +425,88 @@ label {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 10px;
   transition: opacity var(--transition-fast);
 }
 
-.submit-btn:hover { opacity: 0.9; }
+.submit-btn:hover {
+  opacity: 0.9;
+}
+
+.preview-btn {
+  flex: 1;
+  padding: 16px;
+  background-color: #888;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.preview-btn:hover {
+  background-color: #aaa;
+}
+
+
 
 
 /* ============================================================
-   Image Cropper Modal
-   Opens after a file is selected from the drop zone.
-   Same 16:10 canvas ratio as the published article image.
+   Preview Overlay
    ============================================================ */
-#cropper-modal {
+#preview-overlay {
   position: fixed;
   inset: 0;
-  background: var(--color-overlay-dark);
-  z-index: var(--z-cropper);
+  background-color: var(--color-bg);
+  z-index: 3000;
+  overflow-y: auto;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
 }
 
-.cropper-content {
-  background: var(--color-bg);
-  padding: 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 850px;
-  text-align: center;
-}
-
-/* Drag-to-pan canvas */
-.crop-container {
-  width: 100%;
-  max-width: 800px;
-  aspect-ratio: 16 / 10;
-  margin: 20px auto;
-  background: #333;
-  overflow: hidden;
-  position: relative;
-  border: 1.5px solid #968b8b;
-  cursor: grab;
-}
-
-.crop-container:active { cursor: grabbing; }
-
-/* position: absolute lets JS move the image freely inside the crop box */
-#cropper-img {
-  display: block;
-  max-width: 100%;
-  position: absolute;
+.preview-topbar {
+  position: sticky;
   top: 0;
-  left: 0;
-  width: 100%;
-  transform-origin: center center;
-  pointer-events: none; /* prevents native drag interfering with JS pan */
-}
-
-/* Zoom slider row */
-.cropper-controls {
-  margin: 20px 0;
+  width: stretch;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--color-border);
+  z-index: 10;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 10px;
 }
 
-#zoom-slider {
-  width: 200px;
-  cursor: pointer;
-}
-
-/* accent-color tints the range thumb and fill to the brand orange-red */
-input[type="range"] { accent-color: #ff4500; }
-
-/* Cancel / Save buttons */
-.cropper-actions {
+.back-btn-preview {
   display: flex;
-  gap: 15px;
-  justify-content: center;
-}
-
-.cropper-actions button {
-  padding: 10px 25px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
   border: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-body);
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: background var(--transition-fast);
 }
 
-#btn-cancel-crop { background: var(--color-suggest-bg); color: var(--color-text-body); }
-#btn-save-crop   { background: var(--color-text);       color: var(--color-bg); }
+/* Ensure preview body paragraph styles match article.css */
+#preview-article-body {
+  width: 100%;
+}
+
+#preview-headline {
+  margin-top: 0;
+}
+
+#preview-article-body p {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-body);
+}

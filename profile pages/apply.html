@@ -139,6 +139,25 @@
         </form>
     </main>
 
+    <!-- Profile Photo Cropper Modal -->
+    <div id="cropper-modal" class="hidden">
+        <div class="cropper-content">
+            <h3>Adjust Profile Photo</h3>
+            <p>Drag to reposition. Use slider to zoom.</p>
+            <div class="crop-container">
+                <img id="cropper-img" src="" alt="To Crop">
+            </div>
+            <div class="cropper-controls">
+                <label>Zoom:</label>
+                <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1">
+            </div>
+            <div class="cropper-actions">
+                <button type="button" id="btn-cancel-crop">Cancel</button>
+                <button type="button" id="btn-save-crop">Crop & Save</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="apply.js"></script>
 
 </body>

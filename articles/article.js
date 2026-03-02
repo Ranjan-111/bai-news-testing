@@ -1,5 +1,5 @@
 // 1. Import Firebase Firestore functions
-import { 
+import {
     getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove, increment, deleteDoc, query, where, getDocs, orderBy, collection
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -20,7 +20,7 @@ let currentScale = 1, currentX = 0, currentY = 0, isDragging = false, startX, st
 const AUTHOR_DEFAULTS = {
     "Priyanshu": "/assets/author-profile.jpeg",
     "Tiara": "/assets/img2.jpg",
-    "Harsh": "/assets/img1.jpg" 
+    "Harsh": "/assets/img1.jpg"
 };
 
 // STATE VARIABLES
@@ -48,7 +48,7 @@ function initFollowButton() {
     if (!followBtn || !authorNameEl) return;
 
     const authorName = authorNameEl.textContent.trim();
-    const storageKey = `isFollowing_${authorName}`; 
+    const storageKey = `isFollowing_${authorName}`;
 
     // Check localStorage only if previously followed
     if (localStorage.getItem(storageKey) === 'true') {
@@ -63,7 +63,7 @@ function initFollowButton() {
             // User is Logged OUT -> Open the Popup
             const overlay = document.getElementById('popupOverlay');
             const viewOptions = document.getElementById('view-options');
-            
+
             // Reset views (hide email/otp forms, show main options)
             const hiddenViews = ['view-email', 'view-otp'];
             hiddenViews.forEach(id => {
@@ -73,7 +73,7 @@ function initFollowButton() {
 
             if (viewOptions) viewOptions.classList.remove('hidden');
             if (overlay) overlay.classList.add('active');
-            
+
             return; // Stop here, don't toggle follow
         }
 
@@ -103,7 +103,7 @@ function initFollowButton() {
 // MAIN ARTICLE LOAD
 // ==========================================
 document.addEventListener('DOMContentLoaded', async () => {
-    
+
     // 1. SELECT MAIN SKELETON ELEMENTS
     const skeletonView = document.getElementById('skeleton-view');
     const realView = document.getElementById('real-view');
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!articleId) return;
 
-// 2. FETCH DATA
+    // 2. FETCH DATA
     const article = await getArticleById(articleId);
     if (article) {
         updateSocialMetaTags(article); // THE NEW CALL
@@ -126,16 +126,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- NEW: STORE CONTENT VERSIONS ---
-    // We check if the specific field exists, otherwise fallback to standard content or a placeholder
-    contentVersions.intermediate = article.content || "";
-    
-    contentVersions.beginner = article.contentBeginner 
-        ? article.contentBeginner 
-        : "<p><em>(Beginner version not available for this article. Showing standard content.)</em></p>" + article.content;
+    // Helper: wrap plain text in <p> tags (split by newlines)
+    function wrapInParagraphs(text) {
+        if (!text) return "";
+        // If already contains <p> tags, return as-is
+        if (text.trim().startsWith('<p>') || text.trim().startsWith('<p ')) return text;
+        return text.split('\n').filter(line => line.trim()).map(line => `<p>${line}</p>`).join('');
+    }
 
-    contentVersions.pro = article.contentPro 
-        ? article.contentPro 
-        : "<p><em>(Pro version not available for this article. Showing standard content.)</em></p>" + article.content;
+    // We check if the specific field exists, otherwise fallback to standard content or a placeholder
+    contentVersions.intermediate = wrapInParagraphs(article.content) || "";
+
+    contentVersions.concise = article.conciseContent
+        ? wrapInParagraphs(article.conciseContent)
+        : "<p><em>(Concise version not available for this article. Showing standard content.)</em></p>" + wrapInParagraphs(article.content);
     // -----------------------------------
 
 
@@ -155,14 +159,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const titleEl = document.getElementById('news-headline');
     if (titleEl) titleEl.innerText = article.title;
 
-    const dateEl = document.getElementById('news-date'); 
+    const dateEl = document.getElementById('news-date');
     if (dateEl && article.datePosted) {
-        let dateObj = typeof article.datePosted.toDate === 'function' 
-            ? article.datePosted.toDate() 
+        let dateObj = typeof article.datePosted.toDate === 'function'
+            ? article.datePosted.toDate()
             : new Date(article.datePosted);
-        
-        dateEl.innerText = dateObj.toLocaleDateString('en-GB', { 
-            day: 'numeric', month: 'short', year: 'numeric' 
+
+        dateEl.innerText = dateObj.toLocaleDateString('en-GB', {
+            day: 'numeric', month: 'short', year: 'numeric'
         });
     }
 
@@ -175,7 +179,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tagsSection = document.querySelector('.tags');
     if (tagsSection) {
         if (article.tags && article.tags.length > 0) {
-            tagsSection.innerHTML = ''; 
+            tagsSection.innerHTML = '';
             article.tags.forEach(tag => {
                 const tagDiv = document.createElement('div');
                 tagDiv.className = 'article-tags';
@@ -183,13 +187,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 tagsSection.appendChild(tagDiv);
             });
         } else {
-            tagsSection.style.display = 'none'; 
+            tagsSection.style.display = 'none';
         }
     }
 
     // --- AUTHOR SECTION ---
-    const authorName = article.authorName || article.authorId || "Editor"; 
-    const authorEmail = article.authorEmail || "priyanshuranjank@gmail.com"; 
+    const authorName = article.authorName || article.authorId || "Editor";
+    const authorEmail = article.authorEmail || "priyanshuranjank@gmail.com";
     let authorPicUrl = article.authorImage || AUTHOR_DEFAULTS[authorName] || "/assets/default-user.png";
 
     const authorNameEl = document.querySelector('.author-name');
@@ -215,16 +219,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     initFollowButton();
 
     initLikeButton(articleId);
-    
+
     // 5. LOAD RELATED (This triggers the second skeleton logic)
     if (article.tags && article.tags.length > 0) {
         loadRelated(article.tags, article.id);
     }
 
-// 6. CHECK IF USER IS ADMIN OR AUTHOR -> OVERRIDE HEADER BUTTON
+    // 6. CHECK IF USER IS ADMIN OR AUTHOR -> OVERRIDE HEADER BUTTON
     onAuthStateChanged(auth, async (user) => {
         if (user && window.currentArticleData) {
-            
+
             let isAdmin = false;
             let isAuthor = (user.email === window.currentArticleData.authorEmail);
 
@@ -246,7 +250,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     headerBtn.style.pointerEvents = 'auto';
                     headerBtn.style.backgroundColor = '#000'; // Black background
                     headerBtn.style.color = '#fff';
-                    
+
                     // Override Text & Icon
                     headerBtn.innerHTML = `
                         <span class="edit-text-mobile-hide" style="position: relative; transform: translateX(30px); font-family: Helvetica, Arial, sans-serif; font-weight:300; font-size: 1.1rem; letter-spacing: 1px;">Edit Article</span>
@@ -256,7 +260,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // Cloning node is the cleanest way to strip existing listeners (like Dashboard link)
                     const newBtn = headerBtn.cloneNode(true);
                     headerBtn.parentNode.replaceChild(newBtn, headerBtn);
-                    
+
                     newBtn.onclick = (e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -275,13 +279,13 @@ async function loadRelated(tags, currentId) {
     const container = document.getElementById('related-container');
     const skeletonView = document.getElementById('related-skeleton-view');
     const realView = document.getElementById('related-real-view');
-    
+
     if (!container) return;
 
     try {
         // 1. Fetch only active articles from the local cache
         const related = await getLocalRelatedArticles(tags, currentId);
-        container.innerHTML = ''; 
+        container.innerHTML = '';
 
         if (related.length === 0) {
             // If no active related articles, hide the entire section
@@ -298,7 +302,7 @@ async function loadRelated(tags, currentId) {
                             <h3><a href="article.html?id=${item.id}">${item.title}</a></h3>
                         </div>
                     `;
-                    container.insertAdjacentHTML('beforeend', html); 
+                    container.insertAdjacentHTML('beforeend', html);
                 }
             });
         }
@@ -323,17 +327,17 @@ async function loadRelated(tags, currentId) {
  */
 function updateSocialMetaTags(article) {
     // 1. SET YOUR ACTUAL DOMAIN HERE (Must start with https://)
-    const siteBaseUrl = "https://bitfeed.in"; 
-    
+    const siteBaseUrl = "https://bitfeed.in";
+
     const title = article.title || "bitfeed";
     const summary = article.summary || "Clean. Minimal. Insights.";
     const authorName = article.authorName || article.authorId || "bitfeed";
-    
+
     // 2. CONVERT TO ABSOLUTE URLs (Critical for bots/crawlers)
-    const absoluteImageUrl = article.imageUrl.startsWith('http') 
-        ? article.imageUrl 
+    const absoluteImageUrl = article.imageUrl.startsWith('http')
+        ? article.imageUrl
         : `${siteBaseUrl}${article.imageUrl}`;
-    
+
     const currentAbsoluteUrl = window.location.href;
 
     // 3. UPDATE BROWSER TAB
@@ -376,8 +380,8 @@ function updateSocialMetaTags(article) {
     if (jsonLdEl) {
         let datePublished = "";
         if (article.datePosted) {
-            const dateObj = typeof article.datePosted.toDate === 'function' 
-                ? article.datePosted.toDate() 
+            const dateObj = typeof article.datePosted.toDate === 'function'
+                ? article.datePosted.toDate()
                 : new Date(article.datePosted);
             datePublished = dateObj.toISOString();
         }
@@ -415,11 +419,11 @@ function updateSocialMetaTags(article) {
 async function initLikeButton(articleId) {
     const likeBtn = document.getElementById('like-btn');
     const likeIcon = document.getElementById('like-icon');
-    
+
     if (!likeBtn || !likeIcon) return;
 
-    const UNFILLED_IMAGE = "/assets/like icon unfilled.png";
-    const FILLED_IMAGE = "/assets/like icon filled.png";
+    const UNFILLED_IMAGE = "/assets/icons/like icon unfilled.png";
+    const FILLED_IMAGE = "/assets/icons/like icon filled.png";
 
     // Check initial state
     if (auth.currentUser) {
@@ -431,7 +435,7 @@ async function initLikeButton(articleId) {
                 likeBtn.classList.add('liked');
                 likeIcon.src = FILLED_IMAGE;
                 // Update text to "Liked"
-                    likeBtn.childNodes[0].textContent = "Liked";
+                likeBtn.childNodes[0].textContent = "Liked";
             }
         }
     }
@@ -441,7 +445,9 @@ async function initLikeButton(articleId) {
 
         if (!auth.currentUser) {
             const overlay = document.getElementById('popupOverlay');
+            const viewOptions = document.getElementById('view-options');
             if (overlay) overlay.classList.add('active');
+            if (viewOptions) viewOptions.classList.remove('hidden');
             return;
         }
 
@@ -476,9 +482,9 @@ async function initLikeButton(articleId) {
 
 
 
-window.toggleEditMode = function() {
+window.toggleEditMode = function () {
     const headerBtn = document.getElementById('openPopupBtn');
-    if(headerBtn) headerBtn.style.visibility = 'hidden';
+    if (headerBtn) headerBtn.style.visibility = 'hidden';
     if (isEditing) return;
     isEditing = true;
 
@@ -493,7 +499,7 @@ window.toggleEditMode = function() {
     const deleteBtn = document.getElementById('btn-delete-article');
 
     // Show toolbar
-    if(toolbar) toolbar.classList.remove('hidden');
+    if (toolbar) toolbar.classList.remove('hidden');
 
     // Only show the Delete button if the user is an admin
     // We can check the isAdmin status we fetched earlier or check the current user role
@@ -501,13 +507,13 @@ window.toggleEditMode = function() {
         if (user) {
             const userRef = doc(db, "users", user.email);
             const snap = await getDoc(userRef);
-            
+
             if (snap.exists() && snap.data().role === 'admin') {
                 const subBtn = document.getElementById('openPopupBtn');
                 const deleteBtn = document.getElementById('btn-delete-article');
 
                 // Show delete button for admin
-                if(deleteBtn) deleteBtn.style.display = 'block';
+                if (deleteBtn) deleteBtn.style.display = 'block';
 
                 if (subBtn) {
                     // Transform Subscribe Button to Edit Button
@@ -524,69 +530,98 @@ window.toggleEditMode = function() {
             } else {
                 // Hide delete button if not admin
                 const deleteBtn = document.getElementById('btn-delete-article');
-                if(deleteBtn) deleteBtn.style.display = 'none';
+                if (deleteBtn) deleteBtn.style.display = 'none';
             }
         }
     });
 
     // Save Originals
-    originalTitle = titleEl.value; 
+    originalTitle = titleEl.value;
     originalContent = contentEl.value;
     originalImageSrc = imgEl.src;
 
     // 1. Make tags editable without a toolbar
     titleEl.contentEditable = "true";
     titleEl.style.border = "2px dashed #ccc"; // Visual hint
-    
+
     contentEl.contentEditable = "true";
     contentEl.style.border = "2px dashed #ccc"; // Visual hint
 
     // 2. Show the Save/Cancel bar
-    if(toolbar) toolbar.classList.remove('hidden');
+    if (toolbar) toolbar.classList.remove('hidden');
 
     // 1. Set Featured Checkbox state
     if (window.currentArticleData && featuredCheck) {
         featuredCheck.checked = window.currentArticleData.isFeatured === true;
     }
 
-    if(featuredRow) featuredRow.classList.remove('hidden');
+    if (featuredRow) featuredRow.classList.remove('hidden');
 
     // 5. Image Overlay
     const wrapper = document.createElement('div');
     wrapper.className = 'edit-img-wrapper';
     imgEl.parentNode.insertBefore(wrapper, imgEl);
     wrapper.appendChild(imgEl);
-    
+
     const overlay = document.createElement('div');
     overlay.className = 'img-upload-overlay';
     overlay.innerHTML = "<span>Click to Change Image</span>";
     overlay.onclick = () => document.getElementById('edit-img-input').click();
     wrapper.appendChild(overlay);
+
+    // 6. Show image suggestion radios
+    const editImgSuggestions = document.getElementById('edit-img-suggestions');
+    if (editImgSuggestions) {
+        editImgSuggestions.classList.remove('hidden');
+
+        // Reset radios
+        document.querySelectorAll('input[name="edit-img-suggest"]').forEach(r => r.checked = false);
+
+        // Add change listener to update the article image live
+        document.querySelectorAll('input[name="edit-img-suggest"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                imgEl.src = e.target.value;
+                newImageBase64 = null; // Clear any cropped image — use radio path instead
+            });
+        });
+    }
+
+    // 7. Show Tag Editor
+    const tagsSection = document.querySelector('.tags');
+    if (tagsSection) {
+        tagsSection.classList.add('hidden');
+        tagsSection.style.display = 'none';
+    }
+
+    document.getElementById('edit-tags-group').classList.remove('hidden');
+    window.currentEditTags = (window.currentArticleData && window.currentArticleData.tags) ? [...window.currentArticleData.tags] : [];
+    if (window.renderEditTags) window.renderEditTags();
+
 };
 
 
-window.cancelEdit = function() {
+window.cancelEdit = function () {
     location.reload();// Simple reload to discard changes
 };
 
 // Handle Image File Selection
-window.handleImageUpdate = function(input) {
+window.handleImageUpdate = function (input) {
     if (input.files && input.files[0]) {
         const file = input.files[0];
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             // Open Cropper
             const modal = document.getElementById('cropper-modal');
             const img = document.getElementById('cropper-img');
             const slider = document.getElementById('zoom-slider');
-            
+
             img.src = e.target.result;
             modal.classList.remove('hidden');
-            
+
             // Reset
             currentScale = 1; currentX = 0; currentY = 0; slider.value = 1;
             img.style.transform = `translate(0px, 0px) scale(1)`;
-            
+
             initEditCropper(img, slider, modal);
         };
         reader.readAsDataURL(file);
@@ -603,8 +638,8 @@ function initEditCropper(cropperImg, zoomSlider, modal) {
     // Drag
     cropContainer.onmousedown = (e) => { e.preventDefault(); isDragging = true; startX = e.clientX - currentX; startY = e.clientY - currentY; };
     window.onmouseup = () => { isDragging = false; };
-    window.onmousemove = (e) => { if(!isDragging)return; e.preventDefault(); currentX = e.clientX - startX; currentY = e.clientY - startY; updateTrans(); };
-    
+    window.onmousemove = (e) => { if (!isDragging) return; e.preventDefault(); currentX = e.clientX - startX; currentY = e.clientY - startY; updateTrans(); };
+
     // Zoom
     zoomSlider.oninput = (e) => { currentScale = parseFloat(e.target.value); updateTrans(); };
 
@@ -614,34 +649,34 @@ function initEditCropper(cropperImg, zoomSlider, modal) {
         canvas.width = 800; canvas.height = 450;
         const ctx = canvas.getContext('2d');
         const ratio = 800 / cropContainer.clientWidth;
-        
-        ctx.fillStyle = "#fff"; ctx.fillRect(0,0,800,450);
+
+        ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, 800, 450);
         ctx.save();
-        
+
         const imgWidth = 800;
         const imgHeight = (cropperImg.naturalHeight / cropperImg.naturalWidth) * 800;
 
         ctx.translate(currentX * ratio, currentY * ratio);
-        ctx.translate(imgWidth/2, imgHeight/2);
+        ctx.translate(imgWidth / 2, imgHeight / 2);
         ctx.scale(currentScale, currentScale);
-        ctx.translate(-imgWidth/2, -imgHeight/2);
+        ctx.translate(-imgWidth / 2, -imgHeight / 2);
         ctx.drawImage(cropperImg, 0, 0, imgWidth, imgHeight);
         ctx.restore();
 
         // Save to Global var and UI
         newImageBase64 = canvas.toDataURL('image/jpeg', 0.8);
-        document.getElementById('news-img').src = newImageBase64; 
-        
+        document.getElementById('news-img').src = newImageBase64;
+
         modal.classList.add('hidden');
     };
-    
+
     btnCancel.onclick = () => modal.classList.add('hidden');
 }
 
-window.saveArticleChanges = async function() {
+window.saveArticleChanges = async function () {
     const btn = document.querySelector('.btn-save-edit');
     // Ensure this ID matches your HTML checkbox
-    const isFeaturedChecked = document.getElementById('edit-is-featured').checked; 
+    const isFeaturedChecked = document.getElementById('edit-is-featured').checked;
     btn.innerText = "Saving...";
     btn.disabled = true;
 
@@ -654,8 +689,8 @@ window.saveArticleChanges = async function() {
         // Now that query/where/getDocs are imported, this will work
         if (isFeaturedChecked && window.currentArticleData.isFeatured !== true) {
             const qFeatured = query(
-                collection(db, "articles"), 
-                where("status", "==", "active"), 
+                collection(db, "articles"),
+                where("status", "==", "active"),
                 where("isFeatured", "==", true),
                 orderBy("datePosted", "asc")
             );
@@ -670,13 +705,20 @@ window.saveArticleChanges = async function() {
         // 2. COLLECT DATA
         const updateData = {
             // FIX: Use .innerText for the <h1> tag, not .value
-            title: document.getElementById('news-headline').innerText, 
+            title: document.getElementById('news-headline').innerText,
             content: document.getElementById('article-content').innerHTML,
-            isFeatured: isFeaturedChecked
+            isFeatured: isFeaturedChecked,
+            tags: window.currentEditTags || []
         };
 
         if (newImageBase64) {
             updateData.imageUrl = newImageBase64;
+        } else {
+            // Check if an image suggestion radio was selected
+            const selectedRadio = document.querySelector('input[name="edit-img-suggest"]:checked');
+            if (selectedRadio) {
+                updateData.imageUrl = selectedRadio.value;
+            }
         }
 
         await updateDoc(articleRef, updateData);
@@ -695,7 +737,7 @@ window.saveArticleChanges = async function() {
 // ==========================================
 // CONTENT LEVEL SWITCHER
 // ==========================================
-window.switchLevel = function(level) {
+window.switchLevel = function (level) {
     // STOP READING if it's currently playing
     if (window.articleReaderInstance) {
         window.articleReaderInstance.stopReading();
@@ -708,16 +750,16 @@ window.switchLevel = function(level) {
 
     // 1. Update Content
     const contentEl = document.getElementById('article-content');
-    
+
     // Fade out effect (Optional polish)
     contentEl.style.opacity = '0.5';
-    
+
     setTimeout(() => {
         if (contentVersions[level]) {
             contentEl.innerHTML = contentVersions[level];
         }
         contentEl.style.opacity = '1';
-        
+
         // RE-PREPARE the article text for the new content
         if (window.articleReaderInstance) {
             window.articleReaderInstance.prepareArticleText();
@@ -728,15 +770,15 @@ window.switchLevel = function(level) {
     document.querySelectorAll('.level-tab').forEach(btn => { // Target .level-tab
         btn.classList.remove('active');
     });
-    
+
     const activeBtn = document.getElementById(`btn-${level}`);
     if (activeBtn) activeBtn.classList.add('active');
 };
 
 
-window.deleteArticle = async function() {
+window.deleteArticle = async function () {
     const confirmDelete = confirm("Are you sure you want to permanently delete this article? This action cannot be undone.");
-    
+
     if (!confirmDelete) return;
 
     const btn = document.getElementById('btn-delete-article');
@@ -746,7 +788,7 @@ window.deleteArticle = async function() {
     try {
         const params = new URLSearchParams(window.location.search);
         const articleId = params.get('id');
-        
+
         if (!articleId) throw new Error("Article ID not found.");
 
         await deleteDoc(doc(db, "articles", articleId));
@@ -795,19 +837,19 @@ class ArticleReader {
 
         playBtn.addEventListener('click', () => {
             const isMobile = window.innerWidth <= 600;
-            
+
             // FIX: Check if words are prepared, if not prepare them first
             if (this.words.length === 0) {
                 this.prepareArticleText();
             }
-            
+
             if (!this.isPlaying) {
                 // Start playing from current position
-                
+
                 // Mobile: animate container to left FIRST, then start playing
                 if (isMobile) {
                     readerContainer.classList.add('expanded');
-                    
+
                     // Wait for button to move to left, then change to red and start playing
                     setTimeout(() => {
                         this.startReading();
@@ -829,13 +871,13 @@ class ArticleReader {
                 this.pauseReading();
             }
         });
-        
+
         // Make the vertical progress bar draggable (desktop/tablet)
         this.initDraggableProgress(verticalBar, progressHandle);
-        
+
         // Initialize horizontal progress bar for mobile
         this.initMobileProgressBar();
-        
+
         // Prepare text immediately when initialized (prevents double-click issue)
         // But do it after a small delay to ensure DOM is ready
         setTimeout(() => {
@@ -846,7 +888,7 @@ class ArticleReader {
     initMobileProgressBar() {
         const horizontalBar = document.getElementById('progress-bar-horizontal');
         const horizontalHandle = document.getElementById('progress-handle-horizontal');
-        
+
         if (!horizontalBar || !horizontalHandle) return;
 
         const seekToPosition = (clientX) => {
@@ -857,14 +899,14 @@ class ArticleReader {
             const offsetX = clientX - rect.left;
             const clampedX = Math.max(0, Math.min(offsetX, barWidth));
             const percentage = Math.max(0, Math.min(1, clampedX / barWidth));
-            
+
             let newIndex = Math.floor(percentage * this.words.length);
             if (newIndex >= this.words.length) newIndex = this.words.length - 1;
             if (newIndex < 0) newIndex = 0;
-            
+
             this.currentWordIndex = newIndex;
             this.updateProgress();
-            
+
             if (!this.isDragging && this.isPlaying && !this.isPaused) {
                 window.speechSynthesis.cancel();
                 this.readWords();
@@ -937,18 +979,18 @@ class ArticleReader {
             const barHeight = rect.height;
             const offsetY = clientY - rect.top;
             const clampedY = Math.max(0, Math.min(offsetY, barHeight));
-            
+
             // FIX: Invert the calculation - top of bar = 0%, bottom of bar = 100%
             // Since progress-fill grows from bottom, we need to invert the Y position
             const percentage = Math.max(0, Math.min(1, 1 - (clampedY / barHeight)));
-            
+
             let newIndex = Math.floor(percentage * this.words.length);
             if (newIndex >= this.words.length) newIndex = this.words.length - 1;
             if (newIndex < 0) newIndex = 0;
-            
+
             this.currentWordIndex = newIndex;
             this.updateProgress();
-            
+
             // Update highlighter immediately when dragging
             if (!this.isDragging && this.isPlaying && !this.isPaused) {
                 window.speechSynthesis.cancel();
@@ -1019,7 +1061,7 @@ class ArticleReader {
     prepareArticleText() {
         const contentEl = document.getElementById('article-content');
         if (!contentEl) return;
-        
+
         const textBlocks = contentEl.querySelectorAll('p, div, h1, h2, h3, h4, h5, h6, li, blockquote');
         this.words = [];
         this.wordElements = [];
@@ -1036,7 +1078,7 @@ class ArticleReader {
 
             const text = block.textContent;
             const wordsArr = text.split(/(\s+)/);
-            
+
             wordsArr.forEach(word => {
                 if (word.trim()) {
                     const span = document.createElement('span');
@@ -1049,7 +1091,7 @@ class ArticleReader {
                     newBlock.appendChild(document.createTextNode(word));
                 }
             });
-            
+
             newContainer.appendChild(newBlock);
         });
 
@@ -1092,17 +1134,17 @@ class ArticleReader {
         this.highlighters.forEach(h => h.remove());
         this.highlighters = [];
         this.updateProgress();
-        
+
         // Reset mobile UI
         const isMobile = window.innerWidth <= 600;
         if (isMobile) {
             const readerContainer = document.getElementById('reader-container-vertical');
             const mobileProgress = document.getElementById('mobile-progress-container');
-            
+
             if (mobileProgress) {
                 mobileProgress.classList.remove('active');
             }
-            
+
             setTimeout(() => {
                 if (readerContainer) {
                     readerContainer.classList.remove('expanded');
@@ -1122,12 +1164,12 @@ class ArticleReader {
         this.updateFloatingHighlighter(this.currentWordIndex);
 
         const word = this.words[this.currentWordIndex];
-        
+
         if (!window.speechSynthesis) {
             console.error('Speech synthesis not supported');
             return;
         }
-        
+
         this.utterance = new SpeechSynthesisUtterance(word);
         this.utterance.rate = 1.0;
         this.utterance.pitch = 1.0;
@@ -1167,10 +1209,10 @@ class ArticleReader {
         if (!currentWord) return;
 
         const articleContent = document.getElementById('article-content');
-        
+
         // Use prev, current, next for broader highlight flow
         const words = [prevWord, currentWord, nextWord].filter(w => w !== null);
-        
+
         // Group words by line (handle line wrapping)
         const lineGroups = [];
         let currentLine = [];
@@ -1181,7 +1223,7 @@ class ArticleReader {
             if (rect.width === 0) return;
 
             const top = Math.round(rect.top);
-            
+
             if (lastTop === null || Math.abs(top - lastTop) < 5) {
                 currentLine.push(word);
             } else {
@@ -1190,7 +1232,7 @@ class ArticleReader {
             }
             lastTop = top;
         });
-        
+
         if (currentLine.length > 0) {
             lineGroups.push(currentLine);
         }
@@ -1199,14 +1241,14 @@ class ArticleReader {
         lineGroups.forEach(lineWords => {
             const firstWord = lineWords[0];
             const lastWord = lineWords[lineWords.length - 1];
-            
+
             const firstRect = firstWord.getBoundingClientRect();
             const lastRect = lastWord.getBoundingClientRect();
             const contentRect = articleContent.getBoundingClientRect();
 
             const highlighter = document.createElement('div');
             highlighter.className = 'floating-highlighter';
-            
+
             // Calculate position relative to the container
             const left = firstRect.left - contentRect.left;
             const top = firstRect.top - contentRect.top;
@@ -1226,13 +1268,13 @@ class ArticleReader {
     updateProgress() {
         if (this.words.length === 0) return;
         const progress = (this.currentWordIndex / this.words.length) * 100;
-        
+
         // Update vertical progress bar (desktop/tablet)
         const progressFillVertical = document.getElementById('progress-fill-vertical');
         if (progressFillVertical) {
             progressFillVertical.style.height = `${progress}%`;
         }
-        
+
         // Update horizontal progress bar (mobile)
         const progressFillHorizontal = document.getElementById('progress-fill-horizontal');
         if (progressFillHorizontal) {
@@ -1254,7 +1296,152 @@ class ArticleReader {
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => { 
-        window.articleReaderInstance = new ArticleReader(); 
+    setTimeout(() => {
+        window.articleReaderInstance = new ArticleReader();
     }, 2000); // Wait for Firebase content 
+
+    // Tag Editor Logic
+    window.currentEditTags = [];
+    const editTagsContainer = document.getElementById('edit-tags-container');
+    const editTagInput = document.getElementById('edit-tag-input');
+    const tagSuggestions = document.getElementById('tag-suggestions');
+
+    window.renderEditTags = function () {
+        if (!editTagsContainer) return;
+        const chips = editTagsContainer.querySelectorAll('.tag-chip-active');
+        chips.forEach(chip => chip.remove());
+
+        window.currentEditTags.forEach((tag, index) => {
+            const chip = document.createElement('div');
+            chip.className = 'tag-chip-active';
+            chip.textContent = tag;
+            chip.dataset.index = index;
+            // Style specifically for inline edit
+            chip.style.backgroundColor = '#b93b3b';
+            chip.style.color = '#fff';
+            chip.style.padding = '5px 12px';
+            chip.style.borderRadius = '20px';
+            chip.style.display = 'flex';
+            chip.style.alignItems = 'center';
+            chip.style.fontSize = '0.85rem';
+            chip.style.height = '25px';
+            chip.style.cursor = 'pointer';
+
+            chip.addEventListener('click', () => {
+                window.currentEditTags.splice(index, 1);
+                window.renderEditTags();
+            });
+            editTagsContainer.insertBefore(chip, editTagInput);
+        });
+
+        if (editTagInput) editTagInput.placeholder = window.currentEditTags.length >= 5 ? '' : 'Type & Press Enter';
+    };
+
+    if (editTagInput) {
+        editTagInput.addEventListener('input', () => {
+            if (editTagInput.value.trim().length > 0) {
+                if (tagSuggestions) tagSuggestions.style.display = 'flex';
+            } else {
+                if (tagSuggestions) tagSuggestions.style.display = 'none';
+            }
+        });
+
+        editTagInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const val = editTagInput.value.trim().replace(/[^a-zA-Z0-9 ]/g, "");
+                if (val && !window.currentEditTags.includes(val) && window.currentEditTags.length < 5) {
+                    window.currentEditTags.push(val);
+                    window.renderEditTags();
+                }
+                editTagInput.value = "";
+                if (tagSuggestions) tagSuggestions.style.display = 'none';
+            } else if (e.key === 'Backspace' && editTagInput.value === "" && window.currentEditTags.length > 0) {
+                window.currentEditTags.pop();
+                window.renderEditTags();
+            }
+        });
+    }
+
+    document.querySelectorAll('.tag-suggest-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const val = btn.dataset.tag;
+            if (val && !window.currentEditTags.includes(val) && window.currentEditTags.length < 5) {
+                window.currentEditTags.push(val);
+                window.renderEditTags();
+            }
+        });
+    });
+
+    // Share Button Logic
+    const shareBtn = document.getElementById('share-btn');
+    const sharePopup = document.getElementById('share-popup');
+    if (shareBtn && sharePopup) {
+        shareBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            sharePopup.classList.toggle('hidden');
+        });
+
+        // Hide popup when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!shareBtn.contains(e.target) && !sharePopup.contains(e.target)) {
+                sharePopup.classList.add('hidden');
+            }
+        });
+    }
 });
+
+// Share Function (Global)
+window.shareArticle = function (platform) {
+    if (!window.currentArticleData) return;
+
+    const article = window.currentArticleData;
+    const url = encodeURIComponent(window.location.href);
+
+    // Build text to share
+    const textToShare = `${article.title || 'Check out this article!'}\n\n${article.summary || ''}`;
+    const encodedText = encodeURIComponent(textToShare);
+
+    let shareUrl = '';
+
+    switch (platform) {
+        case 'copy':
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const textEl = document.getElementById('share-copy-text');
+                if (textEl) {
+                    const originalText = textEl.innerText;
+                    textEl.innerText = 'Copied!';
+                    setTimeout(() => {
+                        textEl.innerText = originalText;
+                        const popup = document.getElementById('share-popup');
+                        if (popup) popup.classList.add('hidden');
+                    }, 2000);
+                }
+            }).catch(err => console.error('Failed to copy: ', err));
+            // Return early so we don't immediately hide the popup or open a window
+            return;
+        case 'telegram':
+            shareUrl = `https://t.me/share/url?url=${url}&text=${encodedText}`;
+            break;
+        case 'facebook':
+            // Facebook extracts info from meta tags
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            break;
+        case 'whatsapp':
+            shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + '\n' + window.location.href)}`;
+            break;
+        case 'linkedin':
+            shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+            break;
+        case 'twitter':
+            shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${encodedText}`;
+            break;
+    }
+
+    if (shareUrl) {
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+    }
+
+    const popup = document.getElementById('share-popup');
+    if (popup) popup.classList.add('hidden');
+};

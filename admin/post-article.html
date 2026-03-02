@@ -7,8 +7,10 @@
     
     <link rel="stylesheet" href="/layout/layout.css">
     <link rel="stylesheet" href="/main/index.css">
+    <!-- Include article.css so the preview overlay gets correct styling -->
+    <link rel="stylesheet" href="/articles/article.css">
     <link rel="stylesheet" href="post-article.css">
-        <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="apple-touch-icon" href="/assets/favicon.png">
 
 </head>
@@ -18,7 +20,7 @@
         <a class="back-btn">
          <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="u-turn-to-left" class="back-btn" onclick="history.back()"/>
         </a>
-        <h1><a href="/main/index.html">post article</a></h1>
+        <h1><a href="/main/index.html" style="font-weight: 400;">post article</a></h1>
     </header>
 
     <div class="form-container">
@@ -40,50 +42,73 @@
             </div>
 
             <div class="form-group">
-                <label>Summary (300 characters)</label>
-                <input type="text" id="inp-summary" class="form-input" minlength="50" maxlength="300"  placeholder="Write...">
-            </div>
-
-            <div class="form-group">
-                <label>Tags (Type & Press Enter | Max 3)</label>
-                <div class="tags-input-container" id="tags-container">
-                    <input type="text" id="inp-tag-input" placeholder="Add a tag..." autocomplete="off">
+                <label>Choose Image</label>
+                <div class="img-preview-box" id="img-preview-box">
+                    <span class="no-img-text" id="no-img-text">No image selected</span>
+                    <img id="img-preview" class="hidden" alt="Selected Image">
                 </div>
-                
-                <div class="tag-suggestions" id="tag-suggestions-box">
-                    <p style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Suggestions:</p>
-                    <div class="suggestions-list" id="suggestions-list">
-                        </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Image</label>
-                <div class="file-drop-area" id="drop-zone">
-                    <input type="file" id="inp-file" accept="image/*" hidden>
-                    <div class="drop-content">
-                        <svg class="upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="17 8 12 3 7 8"></polyline>
-                            <line x1="12" y1="3" x2="12" y2="15"></line>
-                        </svg>
-                        <span class="drop-text">Drop your files here or browse</span>
-                        <span class="drop-subtext">Max file size up to 1 MB</span>
+                <div class="img-suggestions">
+                    <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">Image Tags:</div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="img-suggest" id="post-suggest-alg" value="/assets/article-img/alg.png" data-tag="Algorithm">
+                        <label for="post-suggest-alg">Algorithm</label>
                     </div>
-                    <img id="img-preview" class="hidden">
+                    <div class="img-suggest-option">
+                        <input type="radio" name="img-suggest" id="post-suggest-img-m" value="/assets/article-img/img-m.png" data-tag="Image Model">
+                        <label for="post-suggest-img-m">Image Model</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="img-suggest" id="post-suggest-llm" value="/assets/article-img/llm.png" data-tag="LLM">
+                        <label for="post-suggest-llm">LLM</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="img-suggest" id="post-suggest-research" value="/assets/article-img/research.png" data-tag="Research">
+                        <label for="post-suggest-research">Research</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="img-suggest" id="post-suggest-rob" value="/assets/article-img/rob.png" data-tag="Robotics">
+                        <label for="post-suggest-rob">Robotics</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="img-suggest" id="post-suggest-sec" value="/assets/article-img/sec.png" data-tag="Security">
+                        <label for="post-suggest-sec">Security</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="img-suggest" id="post-suggest-vid-m" value="/assets/article-img/vid-m.png" data-tag="Video Model">
+                        <label for="post-suggest-vid-m">Video Model</label>
+                    </div>
                 </div>
             </div>
+
+            <!-- <div class="form-group">
+                <label>Secondary Tag — Company (Max 2)</label>
+                <div class="company-tags">
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Google"><label>Google</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="OpenAI"><label>OpenAI</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Anthropic"><label>Anthropic</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Apple"><label>Apple</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Nvidia"><label>Nvidia</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Meta"><label>Meta</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Microsoft"><label>Microsoft</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Amazon"><label>Amazon</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Tesla"><label>Tesla</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="Samsung"><label>Samsung</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="xAI"><label>xAI</label></div>
+                    <div class="company-tag-option"><input type="checkbox" name="company-tag" value="DeepMind"><label>DeepMind</label></div>
+                    <div class="company-tag-option">
+                        <input type="checkbox" name="company-tag" id="company-other-cb" value="__other__">
+                        <label for="company-other-cb">Others</label>
+                    </div>
+                    <input type="text" id="company-other-input" class="company-other-input hidden" placeholder="Enter company name..." autocomplete="off">
+                </div>
+            </div> -->
 
             <div class="form-group">
                 <label>Target Audience Level</label>
                 <select id="inp-target-level" class="form-input">
-                    <option value="beginner">Beginner</option>
-                    <option value="intermediate" selected>Intermediate (Standard)</option>
-                    <option value="pro">Professional</option>
+                    <option value="concise">Concise</option>
+                    <option value="intermediate" selected>Technical (Standard)</option>
                 </select>
-                <p style="font-size: 0.75rem; color: #888; margin-top: 5px;">
-                    Note: The other two levels will be generated automatically via AI.
-                </p>
             </div>
 
             <div class="form-group">
@@ -91,31 +116,80 @@
                 <textarea id="inp-content" class="form-input textarea" placeholder="Write..." required></textarea>
             </div>
 
-            <button type="submit" class="submit-btn">Send for Approval</button>
+            <div class="form-group">
+                <label>Summary (300 characters)</label>
+                <input type="text" id="inp-summary" class="form-input" minlength="50" maxlength="300"  placeholder="Write...">
+            </div>
+
+            <div class="form-group">
+                <label>Additional Tags (Max 5)</label>
+                <div class="tags-input-container" id="tags-container">
+                    <input type="text" id="inp-tag-input" placeholder="Type & Press Enter" autocomplete="off">
+                </div>
+                <div class="tag-suggestions" id="tag-suggestions">
+                    <p style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Suggestions:</p>
+                    <span class="tag-suggest-btn" data-tag="Training">Training</span>
+                    <span class="tag-suggest-btn" data-tag="Benchmark">Benchmark</span>
+                    <span class="tag-suggest-btn" data-tag="Open Source">Open Source</span>
+                    <span class="tag-suggest-btn" data-tag="Multimodal">Multimodal</span>
+                    <span class="tag-suggest-btn" data-tag="Funding">Funding</span>
+                    <span class="tag-suggest-btn" data-tag="Regulation">Regulation</span>
+                    <span class="tag-suggest-btn" data-tag="Hardware">Hardware</span>
+                    <span class="tag-suggest-btn" data-tag="Dataset">Dataset</span>
+                </div>
+            </div>
+
+            <div class="submit-row">
+                <button type="button" class="preview-btn" id="btn-preview">Preview</button>
+                <button type="submit" class="submit-btn">Send for Approval</button>
+            </div>
 
         </form>
     </div>
 
-
-    <div id="cropper-modal" class="hidden">
-        <div class="cropper-content">
-            <h3>Adjust Image</h3>
-            <p>Drag to reposition. Use slider to zoom.</p>
-            
-            <div class="crop-container">
-                <img id="cropper-img" src="" alt="To Crop">
-            </div>
-
-            <div class="cropper-controls">
-                <label>Zoom:</label>
-                <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1">
-            </div>
-
-            <div class="cropper-actions">
-                <button type="button" id="btn-cancel-crop">Cancel</button>
-                <button type="button" id="btn-save-crop">Crop & Save</button>
-            </div>
+    <!-- PREVIEW OVERLAY -->
+    <div id="preview-overlay" class="hidden">
+        <div class="preview-topbar">
+            <button type="button" id="btn-close-preview" class="back-btn-preview">
+                <img width="20" height="20" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="Back" />
+            </button>
         </div>
+        
+        <!-- Reuse .main from article.css for proper width/centering -->
+        <section class="main1" style="margin-top: 60px;">
+            <div id="preview-content-area">
+                <h1 id="preview-headline"></h1>
+                <br>
+                <p id="preview-date" class="date"></p>
+                <hr class="last-hr">
+
+                <div class="article-meta">
+                    <div class="author-profile">
+                        <img src="/assets/icons/profile Image.png" alt="Author" class="author-avatar" id="preview-author-img">
+                        <div class="author-info">
+                            <span class="author-name" id="preview-author-name"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <figure>
+                    <img src="" alt="Article Image" id="preview-img"><br>
+                </figure>
+
+                <div class="level-selection-wrapper">
+                    <div class="level-tabs">
+                        <button class="level-tab" disabled>Concise</button>
+                        <button class="level-tab active" disabled>Technical</button>
+                    </div>
+                </div>
+
+                <div id="preview-article-body"></div>
+
+                <hr class="last-hr">
+
+                <section class="tags" id="preview-tags"></section>
+            </div>
+        </section>
     </div>
 
     <script type="module" src="post-article.js"></script>

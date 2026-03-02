@@ -107,36 +107,53 @@
                     </div>
                 </div>
 
-                <div class="article-actions">
-                    <a href="#" id="share-btn">Share<img src="/assets/share icon unfilled.png"
+                <div class="article-actions" style="position: relative;">
+                    <a href="#" id="share-btn">Share<img src="/assets/icons/share icon unfilled.png"
                             class="s-icon s-icon1"></a>
-                    <a href="#" id="like-btn">Like<img src="/assets/like icon unfilled.png" id="like-icon"
+
+                    <!-- Share Popup -->
+                    <div id="share-popup" class="share-popup hidden">
+                        <div class="share-option" id="share-copy-option" onclick="shareArticle('copy')">
+                            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> <span id="share-copy-text">Copy URL</span>
+                        </div>
+                        <div class="share-option" onclick="shareArticle('telegram')">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l4.5 1.5 2 6 2-4.5 5 4.5 6.5-12.5L12 2zm1.5 9.5l-4-3 9-5.5-5 8.5z"/></svg> Telegram
+                        </div>
+                        <div class="share-option" onclick="shareArticle('facebook')">
+                            <svg viewBox="0 0 24 24"><path d="M12 2.04c-5.5 0-10 4.48-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.67c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 008.44-9.9c0-5.54-4.48-10.02-10-10.02z"/></svg> Facebook
+                        </div>
+                        <div class="share-option" onclick="shareArticle('whatsapp')">
+                            <svg viewBox="0 0 24 24"><path d="M12.03 2.5a9.5 9.5 0 00-8.2 14.3l-1.4 4.1 4.2-1.1a9.5 9.5 0 005.4 1.7h.02A9.5 9.5 0 0021.5 12a9.5 9.5 0 00-9.47-9.5zM12.03 20c-1.6 0-3.16-.4-4.52-1.2l-.3-.18-3.36.9.9-3.26-.2-.31a7.9 7.9 0 01-1.2-4.16c0-4.36 3.55-7.9 7.92-7.9a7.9 7.9 0 017.9 7.9c0 4.36-3.55 7.9-7.9 7.9h-.02zm3.96-5.41c-.22-.1-1.28-.63-1.48-.7-.2-.07-.35-.1-.5.12-.13.22-.56.7-.68.85-.14.14-.27.16-.49.04-1.03-.49-1.92-1.03-2.65-2.03-.18-.26-.01-.39.1-.5.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.07-.15.03-.28-.02-.39-.06-.1-.5-1.2-.68-1.64-.17-.42-.35-.36-.5-.37h-.42c-.15 0-.4.06-.6.28-.2.22-.76.75-.76 1.83s.77 2.12.88 2.26c.11.15 1.54 2.36 3.73 3.3.52.22.92.36 1.25.46.52.17 1 .15 1.38.09.43-.07 1.28-.53 1.46-1.04.18-.5.18-.94.13-1.03-.06-.1-.2-.16-.41-.27z"/></svg> WhatsApp
+                        </div>
+                        <div class="share-option" onclick="shareArticle('linkedin')">
+                            <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zm-11.5 6h-3v9h3V9zM6 5.5A1.5 1.5 0 106 8.5 1.5 1.5 0 006 5.5zm5.5 3.5h-3v9h3v-4.5c0-1.24.23-2.5 1.76-2.5 1.5 0 1.5 1.47 1.5 2.5V18h3v-5.2c0-3.3-1.87-4.8-4.13-4.8-1.78 0-2.66.97-3.13 1.72V9z"/></svg> Linkedin
+                        </div>
+                        <div class="share-option" onclick="shareArticle('twitter')">
+                            <svg viewBox="0 0 24 24"><path d="M18.9 3h3.4l-7.4 8.5 8.7 11.5h-6.8l-5.3-7-6.2 7H1.8l7.9-9.1L1.4 3h7l4.8 6.2L18.9 3zm-1.2 18h1.9L7.3 5H5.4l12.3 16z"/></svg> X (twitter)
+                        </div>
+                    </div>
+
+                    <a href="#" id="like-btn">Like<img src="/assets/icons/like icon unfilled.png" id="like-icon"
                             style="height: 20px; width: 20px;" class="s-icon s-icon2"></a>
                 </div>
             </div>
-
-
-            <div id="edit-toolbar" class="edit-actions-bar hidden">
-                <button class="btn-cancel-edit" id="btn-delete-article" onclick="deleteArticle()"
-                    style="color: #d73634; border-color: #d73634; margin-right: auto;">
-                    Delete Article
-                </button>
-
-                <button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button>
-                <button class="btn-save-edit" onclick="saveArticleChanges()">Save Changes</button>
-            </div>
-
-            <div id="featured-edit-row" class="hidden"
-                style="margin: 20px 0; padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
-                <input type="checkbox" id="edit-is-featured"
-                    style="width: 18px; height: 18px; accent-color: #d73634; cursor: pointer;">
-                <label for="edit-is-featured" style="font-size: 0.95rem; font-weight: 500; cursor: pointer;">Mark this
-                    article as Featured (Max 2 allowed)</label>
-            </div>
-
-            <div id="edit-toolbar" class="edit-actions-bar hidden">
-                <button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button>
-                <button class="btn-save-edit" onclick="saveArticleChanges()">Save Changes</button>
+            <div id="edit-toolbar" class="edit-actions-bar hidden" style="flex-direction: column; align-items: stretch;">
+                <div id="featured-edit-row" class="hidden"
+                    style="margin-bottom: 10px; padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 10px; width: 100%;">
+                    <input type="checkbox" id="edit-is-featured"
+                        style="width: 18px; height: 18px; accent-color: #d73634; cursor: pointer;">
+                    <label for="edit-is-featured" style="font-size: 0.95rem; font-weight: 500; cursor: pointer;">Mark this
+                        article as Featured (Max 2 allowed)</label>
+                </div>
+                
+                <div style="display: flex; gap: 10px; width: 100%;">
+                    <button class="btn-cancel-edit" id="btn-delete-article" onclick="deleteArticle()"
+                        style="color: #d73634; border-color: #d73634; margin-right: auto;">
+                        Delete Article
+                    </button>
+                    <button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button>
+                    <button class="btn-save-edit" onclick="saveArticleChanges()">Save Changes</button>
+                </div>
             </div>
 
             <input type="file" id="edit-img-input" accept="image/*" hidden onchange="handleImageUpdate(this)">
@@ -170,13 +187,47 @@
                 <img src="" alt="Article Image" id="news-img"><br>
             </figure>
 
+            <div id="edit-img-suggestions" class="hidden" style="margin: 10px 0 20px 0;">
+                
+                <div class="img-suggestions" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <label style="font-size: 0.85rem; font-weight: 500; display: block; margin-top: 6px;">Change Image:</label>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="edit-img-suggest" id="edit-suggest-alg" value="/assets/article-img/alg.png">
+                        <label for="edit-suggest-alg">Algorithm</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="edit-img-suggest" id="edit-suggest-img-m" value="/assets/article-img/img-m.png">
+                        <label for="edit-suggest-img-m">Image Model</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="edit-img-suggest" id="edit-suggest-llm" value="/assets/article-img/llm.png">
+                        <label for="edit-suggest-llm">LLM</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="edit-img-suggest" id="edit-suggest-research" value="/assets/article-img/research.png">
+                        <label for="edit-suggest-research">Research</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="edit-img-suggest" id="edit-suggest-rob" value="/assets/article-img/rob.png">
+                        <label for="edit-suggest-rob">Robotics</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="edit-img-suggest" id="edit-suggest-sec" value="/assets/article-img/sec.png">
+                        <label for="edit-suggest-sec">Security</label>
+                    </div>
+                    <div class="img-suggest-option">
+                        <input type="radio" name="edit-img-suggest" id="edit-suggest-vid-m" value="/assets/article-img/vid-m.png">
+                        <label for="edit-suggest-vid-m">Video Model</label>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="level-selection-wrapper">
                 <div class="level-tabs">
-                    <button class="level-tab" id="btn-beginner" onclick="switchLevel('beginner')">Beginner</button>
+                    <button class="level-tab" id="btn-concise" onclick="switchLevel('concise')">Concise</button>
                     <button class="level-tab active" id="btn-intermediate"
                         onclick="switchLevel('intermediate')">Technical</button>
-                    <button class="level-tab" id="btn-pro" onclick="switchLevel('pro')">Economist</button>
                 </div>
             </div>
 
@@ -184,6 +235,21 @@
             <div id="article-content"></div>
 
             <hr class="last-hr">
+
+            <div id="edit-tags-group" class="hidden" style="margin-bottom: 35px;">
+                <label style="font-size: 0.85rem; font-weight: 500; display: block; margin-bottom: 8px;">Edit Tags (Max 5)</label>
+                <div class="tags-input-container" id="edit-tags-container" style="display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; background-color: var(--color-input-bg); border-radius: 8px; height: 37px;">
+                    <input type="text" id="edit-tag-input" placeholder="Type & Press Enter" autocomplete="off" style="border: none; background: transparent; outline: none; flex: 1; min-width: 100px; font-family: inherit; font-size: 0.95rem;">
+                </div>
+                <div class="tag-suggestions" id="tag-suggestions" style="display: none; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+                    <p style="font-size: 0.8rem; color: #888; margin-bottom: 5px; width: 100%;">Suggestions:</p>
+                    <span class="tag-suggest-btn" data-tag="Training" style="display: inline-block; padding: 4px 12px; font-size: 0.75rem; border-radius: 16px; cursor: pointer; background: var(--color-input-bg); color: var(--color-text-muted); height: 15px; margin-top: 7px; transition: all 0.15s;">Training</span>
+                    <span class="tag-suggest-btn" data-tag="Benchmark" style="display: inline-block; padding: 4px 12px; font-size: 0.75rem; border-radius: 16px; cursor: pointer; background: var(--color-input-bg); color: var(--color-text-muted); height: 15px; margin-top: 7px; transition: all 0.15s;">Benchmark</span>
+                    <span class="tag-suggest-btn" data-tag="Open Source" style="display: inline-block; padding: 4px 12px; font-size: 0.75rem; border-radius: 16px; cursor: pointer; background: var(--color-input-bg); color: var(--color-text-muted); height: 15px; margin-top: 7px; transition: all 0.15s;">Open Source</span>
+                    <span class="tag-suggest-btn" data-tag="Ethics" style="display: inline-block; padding: 4px 12px; font-size: 0.75rem; border-radius: 16px; cursor: pointer; background: var(--color-input-bg); color: var(--color-text-muted); height: 15px; margin-top: 7px; transition: all 0.15s;">Ethics</span>
+                    <span class="tag-suggest-btn" data-tag="Legal" style="display: inline-block; padding: 4px 12px; font-size: 0.75rem; border-radius: 16px; cursor: pointer; background: var(--color-input-bg); color: var(--color-text-muted); height: 15px; margin-top: 7px; transition: all 0.15s;">Legal</span>
+                </div>
+            </div>
 
             <section class="tags"></section>
         </div>

@@ -181,6 +181,12 @@
         }
         .btn-reject:hover { background: #c82333; }
 
+        @media (max-width: 768px) {
+            .panel-header {
+                height: 50px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -239,7 +245,7 @@
                 pendingRequests.push({ id: docId, ...data });
 
                 // Use placeholder if no photo
-                const photo = data.photoURL || '/assets/profile Image.png';
+                const photo = data.photoURL || '/assets/icons/profile Image.png';
 
                 const div = document.createElement('div');
                 div.className = 'request-card';
@@ -277,7 +283,7 @@
 
             const modal = document.getElementById('detailModal');
             const content = document.getElementById('modalContent');
-            const photo = data.photoURL || '/assets/profile Image.png';
+            const photo = data.photoURL || '/assets/icons/profile Image.png';
 
             // UPDATED: Fields changed as requested
             content.innerHTML = `
