@@ -3,6 +3,7 @@
    ============================================================ */
 :root {
   /* Colors */
+<<<<<<< HEAD
   --color-bg: #fff;
   --color-text: #333;
   --color-text-dark: #222;
@@ -29,13 +30,46 @@
   --space-xl: 40px;
   --space-2xl: 50px;
   --space-3xl: 60px;
+=======
+  --color-bg:            #fff;
+  --color-text:          #333;
+  --color-text-dark:     #222;
+  --color-border:        #eee;
+  --color-input-bg:      #f2f2f2;
+  --color-input-focus:   #e6e6e6;
+  --color-placeholder:   #aaa;
+  --color-upload-icon:   #999;
+  --color-drop-text:     #777;
+  --color-btn-red:       #b93b3b;
+  --color-btn-disabled:  #ccc;
+
+  /* Typography */
+  --font-primary:   "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-secondary: "Roboto", sans-serif;
+  --font-system:    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                    "Helvetica Neue", sans-serif;
+
+  /* Spacing */
+  --space-sm:   12px;
+  --space-md:   20px;
+  --space-lg:   25px;
+  --space-xl:   40px;
+  --space-2xl:  50px;
+  --space-3xl:  60px;
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
   /* Transitions */
   --transition-fast: 0.2s;
 
   /* Border radius */
+<<<<<<< HEAD
   --radius-sm: 6px;
   --radius-md: 8px;
+=======
+  --radius-sm:  6px;
+  --radius-md:  8px;
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 }
 
 
@@ -49,8 +83,12 @@ body {
   font-family: var(--font-primary);
   color: var(--color-text);
   margin: 0;
+<<<<<<< HEAD
   display: initial;
   /* reset from global body { display: flex } */
+=======
+  display: initial; /* reset from global body { display: flex } */
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 }
 
 
@@ -195,8 +233,12 @@ label {
   position: relative;
   height: 170px;
   box-sizing: border-box;
+<<<<<<< HEAD
   overflow: hidden;
   /* clips preview images to the rounded border */
+=======
+  overflow: hidden; /* clips preview images to the rounded border */
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
   transition: background var(--transition-fast);
 }
 
@@ -297,6 +339,7 @@ label {
 /* ============================================================
    Utility
    ============================================================ */
+<<<<<<< HEAD
 .hidden {
   display: none !important;
 }
@@ -404,6 +447,9 @@ label {
   background: var(--color-btn-red);
   color: #fff;
 }
+=======
+.hidden { display: none !important; }
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
 
 /* ============================================================

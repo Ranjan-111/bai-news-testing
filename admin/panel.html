@@ -181,12 +181,15 @@
         }
         .btn-reject:hover { background: #c82333; }
 
+<<<<<<< HEAD
         @media (max-width: 768px) {
             .panel-header {
                 height: 50px;
             }
         }
 
+=======
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     </style>
 </head>
 <body>
@@ -245,7 +248,11 @@
                 pendingRequests.push({ id: docId, ...data });
 
                 // Use placeholder if no photo
+<<<<<<< HEAD
                 const photo = data.photoURL || '/assets/icons/profile Image.png';
+=======
+                const photo = data.photoURL || '/assets/profile Image.png';
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
                 const div = document.createElement('div');
                 div.className = 'request-card';
@@ -283,7 +290,11 @@
 
             const modal = document.getElementById('detailModal');
             const content = document.getElementById('modalContent');
+<<<<<<< HEAD
             const photo = data.photoURL || '/assets/icons/profile Image.png';
+=======
+            const photo = data.photoURL || '/assets/profile Image.png';
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
             // UPDATED: Fields changed as requested
             content.innerHTML = `

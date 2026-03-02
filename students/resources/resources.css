@@ -151,8 +151,12 @@ a { text-decoration: none; color: var(--color-text); }
   font-size: 1.15rem;
   color: var(--color-table-head-text);
   text-transform: capitalize;
+<<<<<<< HEAD
   background-color: #e8c5c5;
 
+=======
+  background-color: var(--color-table-cell-red);
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 }
 
 /* Column widths */
@@ -161,6 +165,7 @@ a { text-decoration: none; color: var(--color-text); }
 .resources-table thead th:nth-child(3) { width: 48%; }
 .resources-table thead th:nth-child(4) { width: 15%; }
 
+<<<<<<< HEAD
 .resources-table thead th:nth-child(3) {
     background-color: #f5e5e5;
 }
@@ -170,6 +175,8 @@ a { text-decoration: none; color: var(--color-text); }
 }
 
 
+=======
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 /* White gap between rows */
 .resources-table tbody tr { border-bottom: 4px solid var(--color-table-row-gap); }
 

@@ -8,24 +8,37 @@ let profilePhotoBase64 = null; // Store image data
 let sampleFileBase64 = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     // 1. Check Login & Auto-fill
     onAuthStateChanged(auth, (user) => {
         if (user) {
             currentUser = user;
             document.getElementById('inp-email').value = user.email;
+<<<<<<< HEAD
             if (user.displayName) document.getElementById('inp-name').value = user.displayName;
+=======
+            if(user.displayName) document.getElementById('inp-name').value = user.displayName;
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         } else {
             alert("Please sign in to apply.");
             window.location.href = "/main/index.html";
         }
     });
 
+<<<<<<< HEAD
     // 2. Handle Profile Photo Upload (with Cropper)
+=======
+    // 2. Handle Profile Photo Upload (Preview + Base64)
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     const dropZonePhoto = document.getElementById('drop-zone-photo');
     const inputPhoto = document.getElementById('inp-file-photo');
     const previewPhoto = document.getElementById('preview-photo');
 
+<<<<<<< HEAD
     // Cropper elements
     const cropperModal = document.getElementById('cropper-modal');
     const cropperImg = document.getElementById('cropper-img');
@@ -138,6 +151,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cancel crop
     btnCancelCrop.addEventListener('click', () => {
         cropperModal.classList.add('hidden');
+=======
+    dropZonePhoto.addEventListener('click', () => inputPhoto.click());
+    
+    inputPhoto.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                profilePhotoBase64 = e.target.result; // Save Data URL
+                previewPhoto.src = e.target.result;
+                previewPhoto.classList.remove('hidden');
+                dropZonePhoto.querySelector('.drop-content').style.opacity = '0';
+            };
+            reader.readAsDataURL(file);
+        }
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     });
 
     // 3. Handle Sample File Upload (Visual + Base64)
@@ -163,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+<<<<<<< HEAD
     // 4. Handle Submit
     const form = document.getElementById('apply-form');
     form.addEventListener('submit', async (e) => {
@@ -172,6 +202,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById('btn-submit');
         const status = document.getElementById('status-msg');
 
+=======
+// 4. Handle Submit
+    const form = document.getElementById('apply-form');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // --- DEFINE VARIABLES HERE ---
+        const btn = document.getElementById('btn-submit');
+        const status = document.getElementById('status-msg');
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         // Disable button & show loading text
         btn.disabled = true;
         btn.innerText = "Submitting...";
@@ -196,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
             status.innerText = "✅ Application Sent! We will review it shortly.";
             status.style.color = "green";
             form.reset();
+<<<<<<< HEAD
 
             // Reset Previews
             const previewPhoto = document.getElementById('preview-photo');
@@ -204,6 +246,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (previewSample) previewSample.classList.add('hidden');
             document.querySelectorAll('.drop-content').forEach(el => el.style.opacity = '1');
 
+=======
+            
+            // Reset Previews
+            const previewPhoto = document.getElementById('preview-photo');
+            const previewSample = document.getElementById('preview-sample-text');
+            if(previewPhoto) previewPhoto.classList.add('hidden');
+            if(previewSample) previewSample.classList.add('hidden');
+            document.querySelectorAll('.drop-content').forEach(el => el.style.opacity = '1');
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             // Re-enable button
             btn.disabled = false;
             btn.innerText = "Submit";

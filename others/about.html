@@ -160,12 +160,15 @@
             }
         }
 
+<<<<<<< HEAD
         @media (max-width: 768px) {
             .about-header {
                 height: 50px;
             }
         }
 
+=======
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         @media (max-width: 550px) {
             body {
                 font-size: 1rem;
@@ -188,11 +191,19 @@
 
     <header class="about-header">
         <a href="/"
+<<<<<<< HEAD
             onclick="history.back()"
             class="back-btn">
             <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="Back Icon" />
         </a>
         <h1><a href="/main/index.html">About Us</a></h1>
+=======
+            onclick="event.preventDefault(); if(history.length > 1){ history.back(); } else { window.location.href='/'; }"
+            class="back-btn">
+            <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="Back Icon" />
+        </a>
+        <h1>About Us</h1>
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     </header>
 
     <main class="about-main">

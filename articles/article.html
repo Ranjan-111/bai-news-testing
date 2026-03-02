@@ -107,6 +107,7 @@
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 <div class="article-actions" style="position: relative;">
                     <a href="#" id="share-btn">Share<img src="/assets/icons/share icon unfilled.png"
                             class="s-icon s-icon1"></a>
@@ -154,6 +155,38 @@
                     <button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button>
                     <button class="btn-save-edit" onclick="saveArticleChanges()">Save Changes</button>
                 </div>
+=======
+                <div class="article-actions">
+                    <a href="#" id="share-btn">Share<img src="/assets/share icon unfilled.png"
+                            class="s-icon s-icon1"></a>
+                    <a href="#" id="like-btn">Like<img src="/assets/like icon unfilled.png" id="like-icon"
+                            style="height: 20px; width: 20px;" class="s-icon s-icon2"></a>
+                </div>
+            </div>
+
+
+            <div id="edit-toolbar" class="edit-actions-bar hidden">
+                <button class="btn-cancel-edit" id="btn-delete-article" onclick="deleteArticle()"
+                    style="color: #d73634; border-color: #d73634; margin-right: auto;">
+                    Delete Article
+                </button>
+
+                <button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button>
+                <button class="btn-save-edit" onclick="saveArticleChanges()">Save Changes</button>
+            </div>
+
+            <div id="featured-edit-row" class="hidden"
+                style="margin: 20px 0; padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                <input type="checkbox" id="edit-is-featured"
+                    style="width: 18px; height: 18px; accent-color: #d73634; cursor: pointer;">
+                <label for="edit-is-featured" style="font-size: 0.95rem; font-weight: 500; cursor: pointer;">Mark this
+                    article as Featured (Max 2 allowed)</label>
+            </div>
+
+            <div id="edit-toolbar" class="edit-actions-bar hidden">
+                <button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button>
+                <button class="btn-save-edit" onclick="saveArticleChanges()">Save Changes</button>
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             </div>
 
             <input type="file" id="edit-img-input" accept="image/*" hidden onchange="handleImageUpdate(this)">
@@ -187,6 +220,7 @@
                 <img src="" alt="Article Image" id="news-img"><br>
             </figure>
 
+<<<<<<< HEAD
             <div id="edit-img-suggestions" class="hidden" style="margin: 10px 0 20px 0;">
                 
                 <div class="img-suggestions" style="display: flex; flex-wrap: wrap; gap: 8px;">
@@ -228,6 +262,15 @@
                     <button class="level-tab" id="btn-concise" onclick="switchLevel('concise')">Concise</button>
                     <button class="level-tab active" id="btn-intermediate"
                         onclick="switchLevel('intermediate')">Technical</button>
+=======
+
+            <div class="level-selection-wrapper">
+                <div class="level-tabs">
+                    <button class="level-tab" id="btn-beginner" onclick="switchLevel('beginner')">Beginner</button>
+                    <button class="level-tab active" id="btn-intermediate"
+                        onclick="switchLevel('intermediate')">Technical</button>
+                    <button class="level-tab" id="btn-pro" onclick="switchLevel('pro')">Economist</button>
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
                 </div>
             </div>
 
@@ -236,6 +279,7 @@
 
             <hr class="last-hr">
 
+<<<<<<< HEAD
             <div id="edit-tags-group" class="hidden" style="margin-bottom: 35px;">
                 <label style="font-size: 0.85rem; font-weight: 500; display: block; margin-bottom: 8px;">Edit Tags (Max 5)</label>
                 <div class="tags-input-container" id="edit-tags-container" style="display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; background-color: var(--color-input-bg); border-radius: 8px; height: 37px;">
@@ -251,6 +295,8 @@
                 </div>
             </div>
 
+=======
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             <section class="tags"></section>
         </div>
 

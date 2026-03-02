@@ -83,7 +83,11 @@ a {
    Article Feed
    ============================================================ */
 .articles-container {
+<<<<<<< HEAD
   margin: 2rem 0 2rem;
+=======
+  margin: 6rem 0 2rem;
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 }
 
 /* Each article is a block link */

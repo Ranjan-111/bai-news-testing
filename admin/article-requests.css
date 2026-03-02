@@ -3,6 +3,7 @@
    ============================================================ */
 :root {
   /* Colors */
+<<<<<<< HEAD
   --color-bg: #fff;
   --color-text: #000;
   --color-text-body: #333;
@@ -21,6 +22,26 @@
   --color-overlay: rgba(0, 0, 0, 0.5);
   --color-overlay-dark: rgba(0, 0, 0, 0.85);
   --color-cropper-bg: #f5f5f5;
+=======
+  --color-bg:             #fff;
+  --color-text:           #000;
+  --color-text-body:      #333;
+  --color-text-muted:     #666;
+  --color-text-faint:     #777;
+  --color-text-label:     #222;
+  --color-red:            #d73634;
+  --color-red-dark:       #c02a28;
+  --color-border:         #f0f0f0;
+  --color-border-mid:     #e0e0e0;
+  --color-border-eee:     #eee;
+  --color-card-bg:        #f0f0f0;
+  --color-card-hover:     #e6e6e6;
+  --color-input-bg:       #f2f2f2;
+  --color-img-placeholder: #d9d9d9;
+  --color-overlay:        rgba(0, 0, 0, 0.5);
+  --color-overlay-dark:   rgba(0, 0, 0, 0.85);
+  --color-cropper-bg:     #f5f5f5;
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
   /* Typography */
   --font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -29,7 +50,11 @@
   --transition-fast: 0.2s;
 
   /* Z-index */
+<<<<<<< HEAD
   --z-header: 1000;
+=======
+  --z-header:  1000;
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
   --z-cropper: 9999;
 }
 
@@ -44,9 +69,13 @@ body {
   margin: 0;
 }
 
+<<<<<<< HEAD
 .hidden {
   display: none !important;
 }
+=======
+.hidden { display: none !important; }
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
 
 /* ============================================================
@@ -62,17 +91,24 @@ body {
   top: 0;
   width: 100%;
   background: var(--color-bg);
+<<<<<<< HEAD
+=======
+  border-bottom: 1px solid var(--color-border);
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
   height: 67px;
   z-index: var(--z-header);
   box-shadow: 0 0 1px 0;
 }
 
+<<<<<<< HEAD
 @media (max-width: 768px) {
   .admin-header {
     height: 50px;
   }
 }
 
+=======
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 /* Back arrow — pulled out of flow so it doesn't shift the title */
 .header-back-btn {
   position: absolute;
@@ -152,9 +188,13 @@ body {
   min-height: 160px;
 }
 
+<<<<<<< HEAD
 .req-card:hover {
   background-color: var(--color-card-hover);
 }
+=======
+.req-card:hover { background-color: var(--color-card-hover); }
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
 /* Fixed-size thumbnail — grayscale matches the site-wide image treatment */
 .card-img {
@@ -164,6 +204,10 @@ body {
   border-radius: 8px;
   background: var(--color-img-placeholder);
   flex-shrink: 0;
+<<<<<<< HEAD
+=======
+  filter: grayscale(100%);
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 }
 
 /* Text column fills remaining space */
@@ -213,6 +257,7 @@ body {
   margin-top: auto;
 }
 
+<<<<<<< HEAD
 .status-val {
   font-weight: 700;
 }
@@ -224,15 +269,24 @@ body {
 .status-black {
   color: var(--color-text);
 }
+=======
+.status-val   { font-weight: 700; }
+.status-red   { color: var(--color-red); }
+.status-black { color: var(--color-text); }
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
 
 /* ============================================================
    Detail View — Edit Form
    Shown when an admin clicks a card to review / approve / reject.
    ============================================================ */
+<<<<<<< HEAD
 .form-group {
   margin-bottom: 35px;
 }
+=======
+.form-group { margin-bottom: 25px; }
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
 .form-label {
   display: block;
@@ -267,6 +321,7 @@ body {
 
 
 /* ============================================================
+<<<<<<< HEAD
    Tag Editing (free-text chips)
    ============================================================ */
 .tags-input-container {
@@ -308,6 +363,8 @@ body {
 
 
 /* ============================================================
+=======
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
    Image Edit Area
    Clicking the image opens the cropper modal.
    The upload overlay fades in on hover.
@@ -322,7 +379,12 @@ body {
   position: relative;
   overflow: hidden;
   cursor: pointer;
+<<<<<<< HEAD
   aspect-ratio: 16 / 9;
+=======
+  filter: grayscale(100%);
+  aspect-ratio: 16 / 10;
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 }
 
 .current-img {
@@ -345,6 +407,7 @@ body {
   font-size: 0.9rem;
 }
 
+<<<<<<< HEAD
 .img-edit-area:hover .upload-overlay {
   opacity: 1;
 }
@@ -520,6 +583,12 @@ body {
 }
 
 /* ============================================================
+=======
+.img-edit-area:hover .upload-overlay { opacity: 1; }
+
+
+/* ============================================================
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
    Approve / Reject Action Row
    Two equal buttons side by side at the bottom of the form.
    ============================================================ */
@@ -617,7 +686,11 @@ body {
 /* Drag-to-pan canvas; enforces the 16:10 article image ratio */
 .crop-container {
   width: 100%;
+<<<<<<< HEAD
   aspect-ratio: 16 / 9;
+=======
+  aspect-ratio: 16 / 10;
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
   background: var(--color-cropper-bg);
   border-radius: 8px;
   overflow: hidden;
@@ -626,9 +699,13 @@ body {
   margin-bottom: 20px;
 }
 
+<<<<<<< HEAD
 .crop-container:active {
   cursor: grabbing;
 }
+=======
+.crop-container:active { cursor: grabbing; }
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
 #cropper-img {
   max-width: 100%;
@@ -637,8 +714,12 @@ body {
   transform-origin: center center;
   transition: transform 0.05s ease-out;
   user-select: none;
+<<<<<<< HEAD
   pointer-events: none;
   /* prevents drag from grabbing the image element */
+=======
+  pointer-events: none; /* prevents drag from grabbing the image element */
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 }
 
 /* Zoom slider row */
@@ -700,6 +781,7 @@ body {
   transition: all var(--transition-fast);
 }
 
+<<<<<<< HEAD
 #btn-cancel-crop {
   background: var(--color-card-bg);
   color: var(--color-text-body);
@@ -717,3 +799,10 @@ body {
 #btn-save-crop:hover {
   background: var(--color-red-dark);
 }
+=======
+#btn-cancel-crop       { background: var(--color-card-bg);   color: var(--color-text-body); }
+#btn-cancel-crop:hover { background: var(--color-card-hover); }
+
+#btn-save-crop         { background: var(--color-red);       color: var(--color-bg); }
+#btn-save-crop:hover   { background: var(--color-red-dark); }
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7

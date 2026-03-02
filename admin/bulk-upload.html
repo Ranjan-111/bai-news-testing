@@ -22,6 +22,7 @@
         .item-info h4 { margin: 0 0 5px 0; font-size: 0.95rem; text-transform: uppercase; }
         .item-info p { margin: 0; font-size: 0.8rem; color: #666; }
 
+<<<<<<< HEAD
         /* Image Preview Box */
         .item-img-box {
             flex: 0 0 140px;
@@ -136,13 +137,60 @@
             }
         }
 
+=======
+        /* Small Drop Box */
+        .mini-drop { width: 120px; height: 70px; border: 2px dashed #ccc; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.7rem; color: #888; position: relative; overflow: hidden; background: #fff; }
+        .mini-drop img { width: 100%; height: 100%; object-fit: cover; position: absolute; }
+        
+        .btn-main { background: #000; color: #fff; border: none; padding: 15px 30px; font-size: 1rem; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 20px; }
+        .btn-main:disabled { background: #ccc; cursor: not-allowed; }
+
+        .img-edit-area.drag-active {
+            border: 2px dashed #d73634;
+            background-color: #fceaea;
+        }
+        
+        .hidden { display: none !important; }
+
+
+
+        /* CROPPER STYLES */
+        #cropper-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .cropper-content {
+            background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 850px; text-align: center;
+        }
+        .crop-container {
+            width: 100%; max-width: 800px; aspect-ratio: 16 / 10; margin: 20px auto;
+            background: #333; overflow: hidden; position: relative; cursor: grab;
+        }
+        .crop-container:active { cursor: grabbing; }
+        #cropper-img {
+            display: block; max-width: 100%; position: absolute; top: 0; left: 0; width: 100%;
+            transform-origin: center center;
+        }
+        .cropper-controls { margin: 20px 0; display: flex; justify-content: center; gap: 10px; }
+        .cropper-actions { display: flex; gap: 15px; justify-content: center; }
+        .cropper-actions button { padding: 10px 25px; border-radius: 6px; cursor: pointer; border: none; }
+        #btn-cancel-crop { background: #eee; color: #333; }
+        #btn-save-crop { background: #000; color: #fff; }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     </style>
 </head>
 <body>
 
     <header class="bulk-header">
         <a href="/admin/dashboard.html" class="back-btn"><img width="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png"></a>
+<<<<<<< HEAD
         <h1><a href="/main/index.html">Bulk Article Upload</a></h1>
+=======
+        <h1>Bulk Article Upload</h1>
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     </header>
 
     <div class="admin-container">
@@ -158,10 +206,29 @@
                 style="width: 100%; height: 150px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: monospace; font-size: 0.85rem; outline: none; resize: vertical; box-sizing: border-box;"></textarea>
             
             <button id="btn-process-text" class="btn-main" style="padding: 10px 20px; font-size: 0.9rem; margin-top: 10px;">Load JSON from Text</button>
+<<<<<<< HEAD
         </div>
         
         <div id="step-2" class="hidden">
             <h3 style="margin-bottom: 20px;">Step 2: Review &amp; Upload</h3>
+=======
+
+            <div style="margin: 20px 0; font-weight: bold; color: #ccc;">--- OR ---</div>
+
+            <div style="text-align: center;">
+                <p style="font-size: 0.85rem; color: #666;">Automatically generate news from RSS feeds.</p>
+                <button id="btn-generate-news" class="btn-main" style="background: #2ecc71;">Generate AI News</button>
+            </div>
+
+            <div id="loading-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="spinner" style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #333; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                <p style="margin-top: 15px; font-weight: bold;">AI is writing your articles... Please wait.</p>
+            </div>
+        </div>
+        
+        <div id="step-2" class="hidden">
+            <h3 style="margin-bottom: 20px;">Step 2: Attach Cover Images</h3>
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             <div id="article-queue"></div>
             <button id="btn-final-upload" class="btn-main" disabled>Upload All Articles</button>
         </div>
@@ -169,6 +236,7 @@
         <div id="status-log" style="margin-top: 20px; font-family: monospace; font-size: 0.8rem; white-space: pre-wrap;"></div>
     </div>
 
+<<<<<<< HEAD
     <!-- Image Popup Modal -->
     <div id="img-popup" class="img-popup-overlay hidden">
         <div class="img-popup-content">
@@ -180,6 +248,23 @@
             </div>
             <div class="popup-suggestions" id="img-popup-suggestions"></div>
             <!-- <div class="popup-suggestions" id="img-popup-tags" style="margin-top: 8px;"></div> -->
+=======
+    <div id="cropper-modal" class="hidden">
+        <div class="cropper-content">
+            <h3>Adjust Image</h3>
+            <p>Drag to reposition. Use slider to zoom.</p>
+            <div class="crop-container">
+                <img id="cropper-img" src="" alt="To Crop">
+            </div>
+            <div class="cropper-controls">
+                <label>Zoom:</label>
+                <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1">
+            </div>
+            <div class="cropper-actions">
+                <button type="button" id="btn-cancel-crop">Cancel</button>
+                <button type="button" id="btn-save-crop">Crop & Save</button>
+            </div>
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         </div>
     </div>
 

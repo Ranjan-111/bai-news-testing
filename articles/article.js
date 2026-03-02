@@ -1,5 +1,9 @@
 // 1. Import Firebase Firestore functions
+<<<<<<< HEAD
 import {
+=======
+import { 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove, increment, deleteDoc, query, where, getDocs, orderBy, collection
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -20,7 +24,11 @@ let currentScale = 1, currentX = 0, currentY = 0, isDragging = false, startX, st
 const AUTHOR_DEFAULTS = {
     "Priyanshu": "/assets/author-profile.jpeg",
     "Tiara": "/assets/img2.jpg",
+<<<<<<< HEAD
     "Harsh": "/assets/img1.jpg"
+=======
+    "Harsh": "/assets/img1.jpg" 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 };
 
 // STATE VARIABLES
@@ -48,7 +56,11 @@ function initFollowButton() {
     if (!followBtn || !authorNameEl) return;
 
     const authorName = authorNameEl.textContent.trim();
+<<<<<<< HEAD
     const storageKey = `isFollowing_${authorName}`;
+=======
+    const storageKey = `isFollowing_${authorName}`; 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
     // Check localStorage only if previously followed
     if (localStorage.getItem(storageKey) === 'true') {
@@ -63,7 +75,11 @@ function initFollowButton() {
             // User is Logged OUT -> Open the Popup
             const overlay = document.getElementById('popupOverlay');
             const viewOptions = document.getElementById('view-options');
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             // Reset views (hide email/otp forms, show main options)
             const hiddenViews = ['view-email', 'view-otp'];
             hiddenViews.forEach(id => {
@@ -73,7 +89,11 @@ function initFollowButton() {
 
             if (viewOptions) viewOptions.classList.remove('hidden');
             if (overlay) overlay.classList.add('active');
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             return; // Stop here, don't toggle follow
         }
 
@@ -103,7 +123,11 @@ function initFollowButton() {
 // MAIN ARTICLE LOAD
 // ==========================================
 document.addEventListener('DOMContentLoaded', async () => {
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     // 1. SELECT MAIN SKELETON ELEMENTS
     const skeletonView = document.getElementById('skeleton-view');
     const realView = document.getElementById('real-view');
@@ -113,7 +137,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!articleId) return;
 
+<<<<<<< HEAD
     // 2. FETCH DATA
+=======
+// 2. FETCH DATA
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     const article = await getArticleById(articleId);
     if (article) {
         updateSocialMetaTags(article); // THE NEW CALL
@@ -126,6 +154,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- NEW: STORE CONTENT VERSIONS ---
+<<<<<<< HEAD
     // Helper: wrap plain text in <p> tags (split by newlines)
     function wrapInParagraphs(text) {
         if (!text) return "";
@@ -140,6 +169,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     contentVersions.concise = article.conciseContent
         ? wrapInParagraphs(article.conciseContent)
         : "<p><em>(Concise version not available for this article. Showing standard content.)</em></p>" + wrapInParagraphs(article.content);
+=======
+    // We check if the specific field exists, otherwise fallback to standard content or a placeholder
+    contentVersions.intermediate = article.content || "";
+    
+    contentVersions.beginner = article.contentBeginner 
+        ? article.contentBeginner 
+        : "<p><em>(Beginner version not available for this article. Showing standard content.)</em></p>" + article.content;
+
+    contentVersions.pro = article.contentPro 
+        ? article.contentPro 
+        : "<p><em>(Pro version not available for this article. Showing standard content.)</em></p>" + article.content;
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     // -----------------------------------
 
 
@@ -159,6 +200,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const titleEl = document.getElementById('news-headline');
     if (titleEl) titleEl.innerText = article.title;
 
+<<<<<<< HEAD
     const dateEl = document.getElementById('news-date');
     if (dateEl && article.datePosted) {
         let dateObj = typeof article.datePosted.toDate === 'function'
@@ -167,6 +209,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         dateEl.innerText = dateObj.toLocaleDateString('en-GB', {
             day: 'numeric', month: 'short', year: 'numeric'
+=======
+    const dateEl = document.getElementById('news-date'); 
+    if (dateEl && article.datePosted) {
+        let dateObj = typeof article.datePosted.toDate === 'function' 
+            ? article.datePosted.toDate() 
+            : new Date(article.datePosted);
+        
+        dateEl.innerText = dateObj.toLocaleDateString('en-GB', { 
+            day: 'numeric', month: 'short', year: 'numeric' 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         });
     }
 
@@ -179,7 +231,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tagsSection = document.querySelector('.tags');
     if (tagsSection) {
         if (article.tags && article.tags.length > 0) {
+<<<<<<< HEAD
             tagsSection.innerHTML = '';
+=======
+            tagsSection.innerHTML = ''; 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             article.tags.forEach(tag => {
                 const tagDiv = document.createElement('div');
                 tagDiv.className = 'article-tags';
@@ -187,13 +243,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 tagsSection.appendChild(tagDiv);
             });
         } else {
+<<<<<<< HEAD
             tagsSection.style.display = 'none';
+=======
+            tagsSection.style.display = 'none'; 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         }
     }
 
     // --- AUTHOR SECTION ---
+<<<<<<< HEAD
     const authorName = article.authorName || article.authorId || "Editor";
     const authorEmail = article.authorEmail || "priyanshuranjank@gmail.com";
+=======
+    const authorName = article.authorName || article.authorId || "Editor"; 
+    const authorEmail = article.authorEmail || "priyanshuranjank@gmail.com"; 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     let authorPicUrl = article.authorImage || AUTHOR_DEFAULTS[authorName] || "/assets/default-user.png";
 
     const authorNameEl = document.querySelector('.author-name');
@@ -219,16 +284,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     initFollowButton();
 
     initLikeButton(articleId);
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     // 5. LOAD RELATED (This triggers the second skeleton logic)
     if (article.tags && article.tags.length > 0) {
         loadRelated(article.tags, article.id);
     }
 
+<<<<<<< HEAD
     // 6. CHECK IF USER IS ADMIN OR AUTHOR -> OVERRIDE HEADER BUTTON
     onAuthStateChanged(auth, async (user) => {
         if (user && window.currentArticleData) {
 
+=======
+// 6. CHECK IF USER IS ADMIN OR AUTHOR -> OVERRIDE HEADER BUTTON
+    onAuthStateChanged(auth, async (user) => {
+        if (user && window.currentArticleData) {
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             let isAdmin = false;
             let isAuthor = (user.email === window.currentArticleData.authorEmail);
 
@@ -250,7 +326,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     headerBtn.style.pointerEvents = 'auto';
                     headerBtn.style.backgroundColor = '#000'; // Black background
                     headerBtn.style.color = '#fff';
+<<<<<<< HEAD
 
+=======
+                    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
                     // Override Text & Icon
                     headerBtn.innerHTML = `
                         <span class="edit-text-mobile-hide" style="position: relative; transform: translateX(30px); font-family: Helvetica, Arial, sans-serif; font-weight:300; font-size: 1.1rem; letter-spacing: 1px;">Edit Article</span>
@@ -260,7 +340,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // Cloning node is the cleanest way to strip existing listeners (like Dashboard link)
                     const newBtn = headerBtn.cloneNode(true);
                     headerBtn.parentNode.replaceChild(newBtn, headerBtn);
+<<<<<<< HEAD
 
+=======
+                    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
                     newBtn.onclick = (e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -279,13 +363,21 @@ async function loadRelated(tags, currentId) {
     const container = document.getElementById('related-container');
     const skeletonView = document.getElementById('related-skeleton-view');
     const realView = document.getElementById('related-real-view');
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     if (!container) return;
 
     try {
         // 1. Fetch only active articles from the local cache
         const related = await getLocalRelatedArticles(tags, currentId);
+<<<<<<< HEAD
         container.innerHTML = '';
+=======
+        container.innerHTML = ''; 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
         if (related.length === 0) {
             // If no active related articles, hide the entire section
@@ -302,7 +394,11 @@ async function loadRelated(tags, currentId) {
                             <h3><a href="article.html?id=${item.id}">${item.title}</a></h3>
                         </div>
                     `;
+<<<<<<< HEAD
                     container.insertAdjacentHTML('beforeend', html);
+=======
+                    container.insertAdjacentHTML('beforeend', html); 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
                 }
             });
         }
@@ -327,6 +423,7 @@ async function loadRelated(tags, currentId) {
  */
 function updateSocialMetaTags(article) {
     // 1. SET YOUR ACTUAL DOMAIN HERE (Must start with https://)
+<<<<<<< HEAD
     const siteBaseUrl = "https://bitfeed.in";
 
     const title = article.title || "bitfeed";
@@ -338,6 +435,19 @@ function updateSocialMetaTags(article) {
         ? article.imageUrl
         : `${siteBaseUrl}${article.imageUrl}`;
 
+=======
+    const siteBaseUrl = "https://bitfeed.in"; 
+    
+    const title = article.title || "bitfeed";
+    const summary = article.summary || "Clean. Minimal. Insights.";
+    const authorName = article.authorName || article.authorId || "bitfeed";
+    
+    // 2. CONVERT TO ABSOLUTE URLs (Critical for bots/crawlers)
+    const absoluteImageUrl = article.imageUrl.startsWith('http') 
+        ? article.imageUrl 
+        : `${siteBaseUrl}${article.imageUrl}`;
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     const currentAbsoluteUrl = window.location.href;
 
     // 3. UPDATE BROWSER TAB
@@ -380,8 +490,13 @@ function updateSocialMetaTags(article) {
     if (jsonLdEl) {
         let datePublished = "";
         if (article.datePosted) {
+<<<<<<< HEAD
             const dateObj = typeof article.datePosted.toDate === 'function'
                 ? article.datePosted.toDate()
+=======
+            const dateObj = typeof article.datePosted.toDate === 'function' 
+                ? article.datePosted.toDate() 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
                 : new Date(article.datePosted);
             datePublished = dateObj.toISOString();
         }
@@ -419,11 +534,19 @@ function updateSocialMetaTags(article) {
 async function initLikeButton(articleId) {
     const likeBtn = document.getElementById('like-btn');
     const likeIcon = document.getElementById('like-icon');
+<<<<<<< HEAD
 
     if (!likeBtn || !likeIcon) return;
 
     const UNFILLED_IMAGE = "/assets/icons/like icon unfilled.png";
     const FILLED_IMAGE = "/assets/icons/like icon filled.png";
+=======
+    
+    if (!likeBtn || !likeIcon) return;
+
+    const UNFILLED_IMAGE = "/assets/like icon unfilled.png";
+    const FILLED_IMAGE = "/assets/like icon filled.png";
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
     // Check initial state
     if (auth.currentUser) {
@@ -435,7 +558,11 @@ async function initLikeButton(articleId) {
                 likeBtn.classList.add('liked');
                 likeIcon.src = FILLED_IMAGE;
                 // Update text to "Liked"
+<<<<<<< HEAD
                 likeBtn.childNodes[0].textContent = "Liked";
+=======
+                    likeBtn.childNodes[0].textContent = "Liked";
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             }
         }
     }
@@ -445,9 +572,13 @@ async function initLikeButton(articleId) {
 
         if (!auth.currentUser) {
             const overlay = document.getElementById('popupOverlay');
+<<<<<<< HEAD
             const viewOptions = document.getElementById('view-options');
             if (overlay) overlay.classList.add('active');
             if (viewOptions) viewOptions.classList.remove('hidden');
+=======
+            if (overlay) overlay.classList.add('active');
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             return;
         }
 
@@ -482,9 +613,15 @@ async function initLikeButton(articleId) {
 
 
 
+<<<<<<< HEAD
 window.toggleEditMode = function () {
     const headerBtn = document.getElementById('openPopupBtn');
     if (headerBtn) headerBtn.style.visibility = 'hidden';
+=======
+window.toggleEditMode = function() {
+    const headerBtn = document.getElementById('openPopupBtn');
+    if(headerBtn) headerBtn.style.visibility = 'hidden';
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     if (isEditing) return;
     isEditing = true;
 
@@ -499,7 +636,11 @@ window.toggleEditMode = function () {
     const deleteBtn = document.getElementById('btn-delete-article');
 
     // Show toolbar
+<<<<<<< HEAD
     if (toolbar) toolbar.classList.remove('hidden');
+=======
+    if(toolbar) toolbar.classList.remove('hidden');
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
     // Only show the Delete button if the user is an admin
     // We can check the isAdmin status we fetched earlier or check the current user role
@@ -507,13 +648,21 @@ window.toggleEditMode = function () {
         if (user) {
             const userRef = doc(db, "users", user.email);
             const snap = await getDoc(userRef);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             if (snap.exists() && snap.data().role === 'admin') {
                 const subBtn = document.getElementById('openPopupBtn');
                 const deleteBtn = document.getElementById('btn-delete-article');
 
                 // Show delete button for admin
+<<<<<<< HEAD
                 if (deleteBtn) deleteBtn.style.display = 'block';
+=======
+                if(deleteBtn) deleteBtn.style.display = 'block';
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
                 if (subBtn) {
                     // Transform Subscribe Button to Edit Button
@@ -530,44 +679,69 @@ window.toggleEditMode = function () {
             } else {
                 // Hide delete button if not admin
                 const deleteBtn = document.getElementById('btn-delete-article');
+<<<<<<< HEAD
                 if (deleteBtn) deleteBtn.style.display = 'none';
+=======
+                if(deleteBtn) deleteBtn.style.display = 'none';
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             }
         }
     });
 
     // Save Originals
+<<<<<<< HEAD
     originalTitle = titleEl.value;
+=======
+    originalTitle = titleEl.value; 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     originalContent = contentEl.value;
     originalImageSrc = imgEl.src;
 
     // 1. Make tags editable without a toolbar
     titleEl.contentEditable = "true";
     titleEl.style.border = "2px dashed #ccc"; // Visual hint
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     contentEl.contentEditable = "true";
     contentEl.style.border = "2px dashed #ccc"; // Visual hint
 
     // 2. Show the Save/Cancel bar
+<<<<<<< HEAD
     if (toolbar) toolbar.classList.remove('hidden');
+=======
+    if(toolbar) toolbar.classList.remove('hidden');
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
     // 1. Set Featured Checkbox state
     if (window.currentArticleData && featuredCheck) {
         featuredCheck.checked = window.currentArticleData.isFeatured === true;
     }
 
+<<<<<<< HEAD
     if (featuredRow) featuredRow.classList.remove('hidden');
+=======
+    if(featuredRow) featuredRow.classList.remove('hidden');
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
 
     // 5. Image Overlay
     const wrapper = document.createElement('div');
     wrapper.className = 'edit-img-wrapper';
     imgEl.parentNode.insertBefore(wrapper, imgEl);
     wrapper.appendChild(imgEl);
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     const overlay = document.createElement('div');
     overlay.className = 'img-upload-overlay';
     overlay.innerHTML = "<span>Click to Change Image</span>";
     overlay.onclick = () => document.getElementById('edit-img-input').click();
     wrapper.appendChild(overlay);
+<<<<<<< HEAD
 
     // 6. Show image suggestion radios
     const editImgSuggestions = document.getElementById('edit-img-suggestions');
@@ -601,19 +775,34 @@ window.toggleEditMode = function () {
 
 
 window.cancelEdit = function () {
+=======
+};
+
+
+window.cancelEdit = function() {
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     location.reload();// Simple reload to discard changes
 };
 
 // Handle Image File Selection
+<<<<<<< HEAD
 window.handleImageUpdate = function (input) {
     if (input.files && input.files[0]) {
         const file = input.files[0];
         const reader = new FileReader();
         reader.onload = function (e) {
+=======
+window.handleImageUpdate = function(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             // Open Cropper
             const modal = document.getElementById('cropper-modal');
             const img = document.getElementById('cropper-img');
             const slider = document.getElementById('zoom-slider');
+<<<<<<< HEAD
 
             img.src = e.target.result;
             modal.classList.remove('hidden');
@@ -622,6 +811,16 @@ window.handleImageUpdate = function (input) {
             currentScale = 1; currentX = 0; currentY = 0; slider.value = 1;
             img.style.transform = `translate(0px, 0px) scale(1)`;
 
+=======
+            
+            img.src = e.target.result;
+            modal.classList.remove('hidden');
+            
+            // Reset
+            currentScale = 1; currentX = 0; currentY = 0; slider.value = 1;
+            img.style.transform = `translate(0px, 0px) scale(1)`;
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             initEditCropper(img, slider, modal);
         };
         reader.readAsDataURL(file);
@@ -638,8 +837,13 @@ function initEditCropper(cropperImg, zoomSlider, modal) {
     // Drag
     cropContainer.onmousedown = (e) => { e.preventDefault(); isDragging = true; startX = e.clientX - currentX; startY = e.clientY - currentY; };
     window.onmouseup = () => { isDragging = false; };
+<<<<<<< HEAD
     window.onmousemove = (e) => { if (!isDragging) return; e.preventDefault(); currentX = e.clientX - startX; currentY = e.clientY - startY; updateTrans(); };
 
+=======
+    window.onmousemove = (e) => { if(!isDragging)return; e.preventDefault(); currentX = e.clientX - startX; currentY = e.clientY - startY; updateTrans(); };
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     // Zoom
     zoomSlider.oninput = (e) => { currentScale = parseFloat(e.target.value); updateTrans(); };
 
@@ -649,22 +853,36 @@ function initEditCropper(cropperImg, zoomSlider, modal) {
         canvas.width = 800; canvas.height = 450;
         const ctx = canvas.getContext('2d');
         const ratio = 800 / cropContainer.clientWidth;
+<<<<<<< HEAD
 
         ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, 800, 450);
         ctx.save();
 
+=======
+        
+        ctx.fillStyle = "#fff"; ctx.fillRect(0,0,800,450);
+        ctx.save();
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         const imgWidth = 800;
         const imgHeight = (cropperImg.naturalHeight / cropperImg.naturalWidth) * 800;
 
         ctx.translate(currentX * ratio, currentY * ratio);
+<<<<<<< HEAD
         ctx.translate(imgWidth / 2, imgHeight / 2);
         ctx.scale(currentScale, currentScale);
         ctx.translate(-imgWidth / 2, -imgHeight / 2);
+=======
+        ctx.translate(imgWidth/2, imgHeight/2);
+        ctx.scale(currentScale, currentScale);
+        ctx.translate(-imgWidth/2, -imgHeight/2);
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         ctx.drawImage(cropperImg, 0, 0, imgWidth, imgHeight);
         ctx.restore();
 
         // Save to Global var and UI
         newImageBase64 = canvas.toDataURL('image/jpeg', 0.8);
+<<<<<<< HEAD
         document.getElementById('news-img').src = newImageBase64;
 
         modal.classList.add('hidden');
@@ -677,6 +895,20 @@ window.saveArticleChanges = async function () {
     const btn = document.querySelector('.btn-save-edit');
     // Ensure this ID matches your HTML checkbox
     const isFeaturedChecked = document.getElementById('edit-is-featured').checked;
+=======
+        document.getElementById('news-img').src = newImageBase64; 
+        
+        modal.classList.add('hidden');
+    };
+    
+    btnCancel.onclick = () => modal.classList.add('hidden');
+}
+
+window.saveArticleChanges = async function() {
+    const btn = document.querySelector('.btn-save-edit');
+    // Ensure this ID matches your HTML checkbox
+    const isFeaturedChecked = document.getElementById('edit-is-featured').checked; 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     btn.innerText = "Saving...";
     btn.disabled = true;
 
@@ -689,8 +921,13 @@ window.saveArticleChanges = async function () {
         // Now that query/where/getDocs are imported, this will work
         if (isFeaturedChecked && window.currentArticleData.isFeatured !== true) {
             const qFeatured = query(
+<<<<<<< HEAD
                 collection(db, "articles"),
                 where("status", "==", "active"),
+=======
+                collection(db, "articles"), 
+                where("status", "==", "active"), 
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
                 where("isFeatured", "==", true),
                 orderBy("datePosted", "asc")
             );
@@ -705,20 +942,29 @@ window.saveArticleChanges = async function () {
         // 2. COLLECT DATA
         const updateData = {
             // FIX: Use .innerText for the <h1> tag, not .value
+<<<<<<< HEAD
             title: document.getElementById('news-headline').innerText,
             content: document.getElementById('article-content').innerHTML,
             isFeatured: isFeaturedChecked,
             tags: window.currentEditTags || []
+=======
+            title: document.getElementById('news-headline').innerText, 
+            content: document.getElementById('article-content').innerHTML,
+            isFeatured: isFeaturedChecked
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         };
 
         if (newImageBase64) {
             updateData.imageUrl = newImageBase64;
+<<<<<<< HEAD
         } else {
             // Check if an image suggestion radio was selected
             const selectedRadio = document.querySelector('input[name="edit-img-suggest"]:checked');
             if (selectedRadio) {
                 updateData.imageUrl = selectedRadio.value;
             }
+=======
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         }
 
         await updateDoc(articleRef, updateData);
@@ -737,7 +983,11 @@ window.saveArticleChanges = async function () {
 // ==========================================
 // CONTENT LEVEL SWITCHER
 // ==========================================
+<<<<<<< HEAD
 window.switchLevel = function (level) {
+=======
+window.switchLevel = function(level) {
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     // STOP READING if it's currently playing
     if (window.articleReaderInstance) {
         window.articleReaderInstance.stopReading();
@@ -750,16 +1000,27 @@ window.switchLevel = function (level) {
 
     // 1. Update Content
     const contentEl = document.getElementById('article-content');
+<<<<<<< HEAD
 
     // Fade out effect (Optional polish)
     contentEl.style.opacity = '0.5';
 
+=======
+    
+    // Fade out effect (Optional polish)
+    contentEl.style.opacity = '0.5';
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     setTimeout(() => {
         if (contentVersions[level]) {
             contentEl.innerHTML = contentVersions[level];
         }
         contentEl.style.opacity = '1';
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         // RE-PREPARE the article text for the new content
         if (window.articleReaderInstance) {
             window.articleReaderInstance.prepareArticleText();
@@ -770,15 +1031,25 @@ window.switchLevel = function (level) {
     document.querySelectorAll('.level-tab').forEach(btn => { // Target .level-tab
         btn.classList.remove('active');
     });
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     const activeBtn = document.getElementById(`btn-${level}`);
     if (activeBtn) activeBtn.classList.add('active');
 };
 
 
+<<<<<<< HEAD
 window.deleteArticle = async function () {
     const confirmDelete = confirm("Are you sure you want to permanently delete this article? This action cannot be undone.");
 
+=======
+window.deleteArticle = async function() {
+    const confirmDelete = confirm("Are you sure you want to permanently delete this article? This action cannot be undone.");
+    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
     if (!confirmDelete) return;
 
     const btn = document.getElementById('btn-delete-article');
@@ -788,7 +1059,11 @@ window.deleteArticle = async function () {
     try {
         const params = new URLSearchParams(window.location.search);
         const articleId = params.get('id');
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         if (!articleId) throw new Error("Article ID not found.");
 
         await deleteDoc(doc(db, "articles", articleId));
@@ -837,11 +1112,16 @@ class ArticleReader {
 
         playBtn.addEventListener('click', () => {
             const isMobile = window.innerWidth <= 600;
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             // FIX: Check if words are prepared, if not prepare them first
             if (this.words.length === 0) {
                 this.prepareArticleText();
             }
+<<<<<<< HEAD
 
             if (!this.isPlaying) {
                 // Start playing from current position
@@ -850,6 +1130,16 @@ class ArticleReader {
                 if (isMobile) {
                     readerContainer.classList.add('expanded');
 
+=======
+            
+            if (!this.isPlaying) {
+                // Start playing from current position
+                
+                // Mobile: animate container to left FIRST, then start playing
+                if (isMobile) {
+                    readerContainer.classList.add('expanded');
+                    
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
                     // Wait for button to move to left, then change to red and start playing
                     setTimeout(() => {
                         this.startReading();
@@ -871,6 +1161,7 @@ class ArticleReader {
                 this.pauseReading();
             }
         });
+<<<<<<< HEAD
 
         // Make the vertical progress bar draggable (desktop/tablet)
         this.initDraggableProgress(verticalBar, progressHandle);
@@ -878,6 +1169,15 @@ class ArticleReader {
         // Initialize horizontal progress bar for mobile
         this.initMobileProgressBar();
 
+=======
+        
+        // Make the vertical progress bar draggable (desktop/tablet)
+        this.initDraggableProgress(verticalBar, progressHandle);
+        
+        // Initialize horizontal progress bar for mobile
+        this.initMobileProgressBar();
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         // Prepare text immediately when initialized (prevents double-click issue)
         // But do it after a small delay to ensure DOM is ready
         setTimeout(() => {
@@ -888,7 +1188,11 @@ class ArticleReader {
     initMobileProgressBar() {
         const horizontalBar = document.getElementById('progress-bar-horizontal');
         const horizontalHandle = document.getElementById('progress-handle-horizontal');
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         if (!horizontalBar || !horizontalHandle) return;
 
         const seekToPosition = (clientX) => {
@@ -899,6 +1203,7 @@ class ArticleReader {
             const offsetX = clientX - rect.left;
             const clampedX = Math.max(0, Math.min(offsetX, barWidth));
             const percentage = Math.max(0, Math.min(1, clampedX / barWidth));
+<<<<<<< HEAD
 
             let newIndex = Math.floor(percentage * this.words.length);
             if (newIndex >= this.words.length) newIndex = this.words.length - 1;
@@ -907,6 +1212,16 @@ class ArticleReader {
             this.currentWordIndex = newIndex;
             this.updateProgress();
 
+=======
+            
+            let newIndex = Math.floor(percentage * this.words.length);
+            if (newIndex >= this.words.length) newIndex = this.words.length - 1;
+            if (newIndex < 0) newIndex = 0;
+            
+            this.currentWordIndex = newIndex;
+            this.updateProgress();
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             if (!this.isDragging && this.isPlaying && !this.isPaused) {
                 window.speechSynthesis.cancel();
                 this.readWords();
@@ -979,6 +1294,7 @@ class ArticleReader {
             const barHeight = rect.height;
             const offsetY = clientY - rect.top;
             const clampedY = Math.max(0, Math.min(offsetY, barHeight));
+<<<<<<< HEAD
 
             // FIX: Invert the calculation - top of bar = 0%, bottom of bar = 100%
             // Since progress-fill grows from bottom, we need to invert the Y position
@@ -991,6 +1307,20 @@ class ArticleReader {
             this.currentWordIndex = newIndex;
             this.updateProgress();
 
+=======
+            
+            // FIX: Invert the calculation - top of bar = 0%, bottom of bar = 100%
+            // Since progress-fill grows from bottom, we need to invert the Y position
+            const percentage = Math.max(0, Math.min(1, 1 - (clampedY / barHeight)));
+            
+            let newIndex = Math.floor(percentage * this.words.length);
+            if (newIndex >= this.words.length) newIndex = this.words.length - 1;
+            if (newIndex < 0) newIndex = 0;
+            
+            this.currentWordIndex = newIndex;
+            this.updateProgress();
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             // Update highlighter immediately when dragging
             if (!this.isDragging && this.isPlaying && !this.isPaused) {
                 window.speechSynthesis.cancel();
@@ -1061,7 +1391,11 @@ class ArticleReader {
     prepareArticleText() {
         const contentEl = document.getElementById('article-content');
         if (!contentEl) return;
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         const textBlocks = contentEl.querySelectorAll('p, div, h1, h2, h3, h4, h5, h6, li, blockquote');
         this.words = [];
         this.wordElements = [];
@@ -1078,7 +1412,11 @@ class ArticleReader {
 
             const text = block.textContent;
             const wordsArr = text.split(/(\s+)/);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             wordsArr.forEach(word => {
                 if (word.trim()) {
                     const span = document.createElement('span');
@@ -1091,7 +1429,11 @@ class ArticleReader {
                     newBlock.appendChild(document.createTextNode(word));
                 }
             });
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             newContainer.appendChild(newBlock);
         });
 
@@ -1134,17 +1476,29 @@ class ArticleReader {
         this.highlighters.forEach(h => h.remove());
         this.highlighters = [];
         this.updateProgress();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         // Reset mobile UI
         const isMobile = window.innerWidth <= 600;
         if (isMobile) {
             const readerContainer = document.getElementById('reader-container-vertical');
             const mobileProgress = document.getElementById('mobile-progress-container');
+<<<<<<< HEAD
 
             if (mobileProgress) {
                 mobileProgress.classList.remove('active');
             }
 
+=======
+            
+            if (mobileProgress) {
+                mobileProgress.classList.remove('active');
+            }
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             setTimeout(() => {
                 if (readerContainer) {
                     readerContainer.classList.remove('expanded');
@@ -1164,12 +1518,20 @@ class ArticleReader {
         this.updateFloatingHighlighter(this.currentWordIndex);
 
         const word = this.words[this.currentWordIndex];
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         if (!window.speechSynthesis) {
             console.error('Speech synthesis not supported');
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         this.utterance = new SpeechSynthesisUtterance(word);
         this.utterance.rate = 1.0;
         this.utterance.pitch = 1.0;
@@ -1209,10 +1571,17 @@ class ArticleReader {
         if (!currentWord) return;
 
         const articleContent = document.getElementById('article-content');
+<<<<<<< HEAD
 
         // Use prev, current, next for broader highlight flow
         const words = [prevWord, currentWord, nextWord].filter(w => w !== null);
 
+=======
+        
+        // Use prev, current, next for broader highlight flow
+        const words = [prevWord, currentWord, nextWord].filter(w => w !== null);
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         // Group words by line (handle line wrapping)
         const lineGroups = [];
         let currentLine = [];
@@ -1223,7 +1592,11 @@ class ArticleReader {
             if (rect.width === 0) return;
 
             const top = Math.round(rect.top);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             if (lastTop === null || Math.abs(top - lastTop) < 5) {
                 currentLine.push(word);
             } else {
@@ -1232,7 +1605,11 @@ class ArticleReader {
             }
             lastTop = top;
         });
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         if (currentLine.length > 0) {
             lineGroups.push(currentLine);
         }
@@ -1241,14 +1618,22 @@ class ArticleReader {
         lineGroups.forEach(lineWords => {
             const firstWord = lineWords[0];
             const lastWord = lineWords[lineWords.length - 1];
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             const firstRect = firstWord.getBoundingClientRect();
             const lastRect = lastWord.getBoundingClientRect();
             const contentRect = articleContent.getBoundingClientRect();
 
             const highlighter = document.createElement('div');
             highlighter.className = 'floating-highlighter';
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
             // Calculate position relative to the container
             const left = firstRect.left - contentRect.left;
             const top = firstRect.top - contentRect.top;
@@ -1268,13 +1653,21 @@ class ArticleReader {
     updateProgress() {
         if (this.words.length === 0) return;
         const progress = (this.currentWordIndex / this.words.length) * 100;
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         // Update vertical progress bar (desktop/tablet)
         const progressFillVertical = document.getElementById('progress-fill-vertical');
         if (progressFillVertical) {
             progressFillVertical.style.height = `${progress}%`;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
         // Update horizontal progress bar (mobile)
         const progressFillHorizontal = document.getElementById('progress-fill-horizontal');
         if (progressFillHorizontal) {
@@ -1296,6 +1689,7 @@ class ArticleReader {
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
+<<<<<<< HEAD
     setTimeout(() => {
         window.articleReaderInstance = new ArticleReader();
     }, 2000); // Wait for Firebase content 
@@ -1445,3 +1839,9 @@ window.shareArticle = function (platform) {
     const popup = document.getElementById('share-popup');
     if (popup) popup.classList.add('hidden');
 };
+=======
+    setTimeout(() => { 
+        window.articleReaderInstance = new ArticleReader(); 
+    }, 2000); // Wait for Firebase content
+});
+>>>>>>> c585c7018a2d3e0b95ac9c5a56fba3db88c989f7
