@@ -3,35 +3,35 @@
    ============================================================ */
 :root {
   /* Colors */
-  --color-bg:             #fafafa;
-  --color-text:           #000;
-  --color-text-body:      #444;
-  --color-text-muted:     #999;
-  --color-text-dark:      #333;
-  --color-red:            #d73634;
-  --color-red-date:       #e74c3c;
-  --color-red-hover:      #e95454;
-  --color-red-deep:       #c0392b;
-  --color-border:         #ccc;
-  --color-border-light:   #eee;
-  --color-avatar-bg:      #e8e8e8;
+  --color-bg: #fafafa;
+  --color-text: #000;
+  --color-text-body: #444;
+  --color-text-muted: #999;
+  --color-text-dark: #333;
+  --color-red: #d73634;
+  --color-red-date: #e74c3c;
+  --color-red-hover: #e95454;
+  --color-red-deep: #c0392b;
+  --color-border: #ccc;
+  --color-border-light: #eee;
+  --color-avatar-bg: #e8e8e8;
 
   /* Typography */
-  --font-system:   -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  --font-body:     "Roboto", sans-serif;
-  --font-heading:  "Circular Std", "Montserrat", sans-serif;
+  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-body: "Roboto", sans-serif;
+  --font-heading: "Circular Std", "Montserrat", sans-serif;
 
   /* Spacing */
-  --space-sm:   15px;
-  --space-md:   25px;
-  --space-lg:   40px;
-  --space-xl:   50px;
-  --space-2xl:  60px;
-  --space-3xl:  80px;
+  --space-sm: 15px;
+  --space-md: 25px;
+  --space-lg: 40px;
+  --space-xl: 50px;
+  --space-2xl: 60px;
+  --space-3xl: 80px;
 
   /* Transitions */
-  --transition-fast:  0.2s ease;
-  --transition-base:  0.3s ease;
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
 }
 
 
@@ -168,7 +168,7 @@ body {
    browser's default blue link colour from showing through. */
 .article-card {
   display: block;
-  margin: 0 0 3rem;
+  margin: 2.5rem 0 2rem;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
@@ -195,7 +195,7 @@ body {
 }
 
 /* Article summary paragraph that immediately follows the date */
-.date + p {
+.date+p {
   font-family: var(--font-body);
   font-size: 1rem;
   color: var(--color-text-body);
@@ -268,7 +268,8 @@ body {
   border-radius: 50%;
   background-color: var(--color-avatar-bg);
   margin-right: var(--space-sm);
-  flex-shrink: 0; /* prevents the avatar from squishing on narrow screens */
+  flex-shrink: 0;
+  /* prevents the avatar from squishing on narrow screens */
   background-size: cover;
   background-position: center;
 }
@@ -276,7 +277,8 @@ body {
 /* Text block that expands to fill space between avatar and button */
 .reporter-info {
   flex: 1;
-  min-width: 0; /* allows long names to truncate instead of overflow */
+  min-width: 0;
+  /* allows long names to truncate instead of overflow */
 }
 
 .reporter-name {
@@ -330,7 +332,8 @@ body {
   cursor: pointer;
   transition: all var(--transition-fast);
   font-family: inherit;
-  min-width: 80px; /* prevents the button from shrinking on narrow layouts */
+  min-width: 80px;
+  /* prevents the button from shrinking on narrow layouts */
   text-align: center;
 }
 
@@ -379,4 +382,36 @@ body {
     border-top: 1px solid var(--color-border-light);
     padding-top: 30px;
   }
+}
+
+
+.vertical-line{
+  box-sizing: none !important;
+}
+
+
+/* ============================================================
+   Pagination overrides (ensures multi-article.css page circles
+   lay out horizontally inside user.css's flex-column body)
+   ============================================================ */
+#saved-pages-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pagination-bar {
+  width: 100%;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center;
+  padding: 2rem 0 3rem;
+}
+
+.pagination-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 1rem;
 }

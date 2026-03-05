@@ -40,7 +40,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/layout/layout.css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.css" media="print" onload="this.media='all'">
 
     <!-- Structured Data: WebSite + Organization -->
     <script type="application/ld+json">
@@ -141,7 +141,7 @@
             <div id="featured-real" class="hidden">
                 <article class="Article LEFT">
                     <figure>
-                        <img src="" alt="Featured article image" class="img">
+                        <img src="" alt="Featured article image" class="img" loading="lazy">
                     </figure>
                     <section class="info1 info">
                         <h3></h3>
@@ -154,7 +154,7 @@
 
                 <article class="Article RIGHT">
                     <figure>
-                        <img src="" alt="Featured article image" class="img img2">
+                        <img src="" alt="Featured article image" class="img img2" loading="lazy">
                     </figure>
                     <section class="info2 info">
                         <h3></h3>
@@ -313,7 +313,7 @@
 
 
     <script defer type="module" src="/layout/layout.js"></script>
-    <script type="module" src="index.js"></script>
+    <script defer type="module" src="index.js"></script>
 </body>
 
 </html>

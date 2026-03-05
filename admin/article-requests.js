@@ -112,14 +112,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.renderEditTags = renderEditTags;
 
+    // PREDEFINED LOCAL TAGS FOR SUGGESTIONS
+    const PREDEFINED_TAGS = [
+        "Algorithms", "Image Modal", "Video Modal", "LLMs", "Research", "Google", "AI Agents",
+        "AI", "ML", "Deep Learning", "Neural Networks",
+        "Generative AI", "NLP", "Computer Vision", "Robotics", "Automation",
+        "Startup", "Funding", "Venture Capital", "SaaS", "Entrepreneurship", "Fintech",
+        "Tech", "Software", "Hardware", "Cloud Computing", "Cybersecurity", "Blockchain",
+        "OpenAI", "Anthropic", "Meta", "Microsoft", "Apple", "Nvidia", "Data Science",
+        "Analytics", "Web3", "Crypto", "AR", "VR", "IoT", "5G", "Quantum Computing",
+        "Open Source", "Ethics", "Regulation", "Dataset", "Benchmark", "Training", "Multimodal"
+    ];
+
     // Show suggestions while typing, hide on Enter
+    let editSuggestionTimeout;
+
     editTagInput.addEventListener('input', () => {
-        if (editTagInput.value.trim().length > 0) {
-            tagSuggestions.classList.add('visible');
+        const val = editTagInput.value.trim().replace(/[^a-zA-Z0-9 ]/g, "");
+        if (val.length > 0) {
+            clearTimeout(editSuggestionTimeout);
+            editSuggestionTimeout = setTimeout(() => {
+                fetchEditSuggestions(val);
+            }, 100); // 100ms debounce for local search
         } else {
             tagSuggestions.classList.remove('visible');
         }
     });
+
+    function fetchEditSuggestions(userInput) {
+        const query = userInput.toLowerCase();
+        // Filter local array
+        const results = PREDEFINED_TAGS.filter(tag => tag.toLowerCase().startsWith(query)).slice(0, 8);
+
+        if (results.length > 0) {
+            tagSuggestions.innerHTML = '<p style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Suggestions:</p>';
+            results.forEach(word => {
+                const span = document.createElement('span');
+                span.className = 'tag-suggest-btn';
+                span.textContent = word;
+                span.dataset.tag = word;
+
+                span.addEventListener('click', () => {
+                    if (word && !currentEditTags.includes(word) && currentEditTags.length < 5) {
+                        currentEditTags.push(word);
+                        renderEditTags();
+                    }
+                    editTagInput.value = "";
+                    tagSuggestions.classList.remove('visible');
+                });
+
+                tagSuggestions.appendChild(span);
+            });
+            tagSuggestions.classList.add('visible');
+        } else {
+            tagSuggestions.classList.remove('visible');
+        }
+    }
 
     editTagInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {

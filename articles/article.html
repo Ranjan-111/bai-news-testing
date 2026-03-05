@@ -7,9 +7,9 @@
     <title>Loading Article... | bitfeed</title>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/main/index.css">
+    <link rel="stylesheet" href="/main/index.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="/layout/layout.css">
-    <link rel="stylesheet" href="article.css">
+    <link rel="stylesheet" href="article.css" media="print" onload="this.media='all'">
 
     <!-- Technical SEO -->
     <link rel="icon" type="image/png" href="/assets/favicon.png">
@@ -68,6 +68,20 @@
 
 <body>
 
+    <style>
+        #preview-header {
+            display: flex; align-items: center; justify-content: center; position: sticky; top: 0; width: 100%; padding: 20px; background: #fff; box-shadow: 0 0 1px 0; z-index: 1000; box-sizing: border-box; 
+        }
+        @media (max-width: 768px) {
+            #preview-header { height: 50px; padding: 0; }
+        }
+    </style>
+    <!-- PREVIEW HEADER (Hidden by default) -->
+    <header id="preview-header" class="hidden" style="padding: 5px;">
+        <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="Back" style="position: absolute; left: 20px; cursor: pointer;" onclick="history.back()" />
+        <h1 style="font-size: 1.25rem; font-weight: 400; margin: 0; text-transform: lowercase; letter-spacing: 0.5px;">Preview</h1>
+    </header>
+
     <!-- HEADER AND NAVIGATION BAR -->
     <div id="global-header"></div>
 
@@ -101,7 +115,7 @@
 
             <div class="article-meta">
                 <div class="author-profile">
-                    <img src="" alt="Author" class="author-avatar" id="author-img">
+                    <img src="" alt="Author" class="author-avatar" id="author-img" loading="lazy">
                     <div class="author-info">
                         <span class="author-name" id="author-name"></span>
                     </div>
@@ -133,6 +147,8 @@
                         </div>
                     </div>
 
+                    <a href="#" id="save-btn" style="margin-right: 15px;">Save<img src="/assets/icons/save icon.png" id="save-icon"
+                            style="height: 20px; width: 20px; filter: grayscale(100%) opacity(0.5);" class="s-icon s-icon2"></a>
                     <a href="#" id="like-btn">Like<img src="/assets/icons/like icon unfilled.png" id="like-icon"
                             style="height: 20px; width: 20px;" class="s-icon s-icon2"></a>
                 </div>
@@ -184,7 +200,7 @@
             <!-- ---------------- -->
 
             <figure>
-                <img src="" alt="Article Image" id="news-img"><br>
+                <img src="" alt="Article Image" id="news-img" loading="lazy"><br>
             </figure>
 
             <div id="edit-img-suggestions" class="hidden" style="margin: 10px 0 20px 0;">
@@ -311,7 +327,7 @@
     <div id="global-footer"></div>
 
     <script defer type="module" src="/layout/layout.js"></script>
-    <script type="module" src="article.js"></script>
+    <script defer type="module" src="article.js"></script>
 </body>
 
 </html>

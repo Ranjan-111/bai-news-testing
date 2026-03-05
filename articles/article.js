@@ -4,7 +4,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // 2. Import your custom functions and auth
-import { getArticleById, getLocalRelatedArticles, auth, app } from '/Article/firebase-db.js';
+import { getArticleById, getLocalRelatedArticles, auth, app, toggleSaveArticle } from '/Article/firebase-db.js';
 
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
@@ -41,63 +41,7 @@ let contentVersions = {
 // ==========================================
 // FOLLOW BUTTON LOGIC
 // ==========================================
-function initFollowButton() {
-    const followBtn = document.querySelector('.follow-btn');
-    const authorNameEl = document.querySelector('.author-name');
-
-    if (!followBtn || !authorNameEl) return;
-
-    const authorName = authorNameEl.textContent.trim();
-    const storageKey = `isFollowing_${authorName}`;
-
-    // Check localStorage only if previously followed
-    if (localStorage.getItem(storageKey) === 'true') {
-        setFollowedState();
-    }
-
-    followBtn.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default link behavior if it's an <a> tag
-
-        // --- NEW: CHECK LOGIN STATUS ---
-        if (!auth.currentUser) {
-            // User is Logged OUT -> Open the Popup
-            const overlay = document.getElementById('popupOverlay');
-            const viewOptions = document.getElementById('view-options');
-
-            // Reset views (hide email/otp forms, show main options)
-            const hiddenViews = ['view-email', 'view-otp'];
-            hiddenViews.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.add('hidden');
-            });
-
-            if (viewOptions) viewOptions.classList.remove('hidden');
-            if (overlay) overlay.classList.add('active');
-
-            return; // Stop here, don't toggle follow
-        }
-
-        // --- USER IS LOGGED IN: TOGGLE FOLLOW ---
-        const isCurrentlyFollowing = followBtn.classList.contains('following');
-        if (isCurrentlyFollowing) {
-            setUnfollowedState();
-            localStorage.removeItem(storageKey);
-        } else {
-            setFollowedState();
-            localStorage.setItem(storageKey, 'true');
-        }
-    });
-
-    function setFollowedState() {
-        followBtn.textContent = 'Following';
-        followBtn.classList.add('following');
-    }
-
-    function setUnfollowedState() {
-        followBtn.textContent = 'Follow';
-        followBtn.classList.remove('following');
-    }
-}
+// Follow button removed
 
 // ==========================================
 // MAIN ARTICLE LOAD
@@ -110,15 +54,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const params = new URLSearchParams(window.location.search);
     const articleId = params.get('id');
+    const isPreview = params.get('preview') === 'true';
 
-    if (!articleId) return;
+    let article = null;
 
-    // 2. FETCH DATA
-    const article = await getArticleById(articleId);
-    if (article) {
-        updateSocialMetaTags(article); // THE NEW CALL
+    if (isPreview) {
+        // --- PREVIEW MODE START ---
+        const previewData = sessionStorage.getItem('previewArticle');
+        if (previewData) {
+            article = JSON.parse(previewData);
+            window.currentArticleData = article;
+
+            // Adjust UI for preview mode
+            document.getElementById('global-header').style.display = 'none';
+            document.getElementById('preview-header').classList.remove('hidden');
+
+            const actionButtons = document.querySelector('.article-actions');
+            if (actionButtons) actionButtons.style.display = 'none';
+        } else {
+            document.querySelector('.main').innerHTML = "<h1 style='text-align:center;'>Preview data not found.</h1>";
+            return;
+        }
+        // --- PREVIEW MODE END ---
+    } else {
+        if (!articleId) return;
+
+        // 2. FETCH DATA (Normal Mode)
+        article = await getArticleById(articleId);
+        if (article) {
+            updateSocialMetaTags(article); // THE NEW CALL
+        }
+        window.currentArticleData = article;
     }
-    window.currentArticleData = article;
 
     if (!article) {
         document.querySelector('.main').innerHTML = "<h1 style='text-align:center;'>Article not found.</h1>";
@@ -144,14 +111,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     // --- NEW: INCREMENT VIEW COUNT ---
-    try {
-        const articleRef = doc(db, "articles", articleId);
-        await updateDoc(articleRef, {
-            "stats.views": increment(1)
-        });
-        console.log("📈 View recorded");
-    } catch (e) {
-        console.error("Error updating view count:", e);
+    if (!isPreview) {
+        try {
+            const articleRef = doc(db, "articles", articleId);
+            await updateDoc(articleRef, {
+                "stats.views": increment(1)
+            });
+            console.log("📈 View recorded");
+        } catch (e) {
+            console.error("Error updating view count:", e);
+        }
     }
     // ---------------------------------
 
@@ -174,7 +143,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (imgEl && article.imageUrl) imgEl.src = article.imageUrl;
 
     const contentEl = document.getElementById('article-content');
-    if (contentEl && article.content) contentEl.innerHTML = article.content;
+    if (contentEl) {
+        // Determine starting tab level (if intermediate is empty, default to concise)
+        const hasIntermediate = !!article.content;
+        const initialLevel = hasIntermediate ? 'intermediate' : 'concise';
+
+        // Initializing with contentVersions ensures <p> wrapper exists so ArticleReader doesn't strip it
+        contentEl.innerHTML = contentVersions[initialLevel] || "";
+
+        // Correct active tab state if necessary
+        if (!hasIntermediate && article.conciseContent) {
+            const btnIntermediate = document.getElementById('btn-intermediate');
+            const btnConcise = document.getElementById('btn-concise');
+            if (btnIntermediate) btnIntermediate.classList.remove('active');
+            if (btnConcise) btnConcise.classList.add('active');
+        }
+    }
+
+    // Hide related news skeleton if in preview mode
+    if (isPreview) {
+        const moreNewsSect = document.querySelector('.more-news');
+        if (moreNewsSect) moreNewsSect.style.display = 'none';
+    }
 
     const tagsSection = document.querySelector('.tags');
     if (tagsSection) {
@@ -215,61 +205,64 @@ document.addEventListener('DOMContentLoaded', async () => {
         realView.classList.add('fade-in');
     }
 
-    // 4. INIT UTILS
-    initFollowButton();
+    // 4. INIT UTILS (Only if not in preview)
+    if (!isPreview) {
+        initLikeButton(articleId);
+        initSaveButton(articleId, article);
 
-    initLikeButton(articleId);
-
-    // 5. LOAD RELATED (This triggers the second skeleton logic)
-    if (article.tags && article.tags.length > 0) {
-        loadRelated(article.tags, article.id);
+        // 5. LOAD RELATED (This triggers the second skeleton logic)
+        if (article.tags && article.tags.length > 0) {
+            loadRelated(article.tags, article.id);
+        }
     }
 
-    // 6. CHECK IF USER IS ADMIN OR AUTHOR -> OVERRIDE HEADER BUTTON
-    onAuthStateChanged(auth, async (user) => {
-        if (user && window.currentArticleData) {
+    // 6. CHECK IF USER IS ADMIN OR AUTHOR -> OVERRIDE HEADER BUTTON (Only if not in preview)
+    if (!isPreview) {
+        onAuthStateChanged(auth, async (user) => {
+            if (user && window.currentArticleData) {
 
-            let isAdmin = false;
-            let isAuthor = (user.email === window.currentArticleData.authorEmail);
+                let isAdmin = false;
+                let isAuthor = (user.email === window.currentArticleData.authorEmail);
 
-            // Fetch Role to check for Admin
-            try {
-                const userRef = doc(db, "users", user.email);
-                const snap = await getDoc(userRef);
-                if (snap.exists() && snap.data().role === 'admin') {
-                    isAdmin = true;
-                }
-            } catch (e) { console.error("Role check failed", e); }
+                // Fetch Role to check for Admin
+                try {
+                    const userRef = doc(db, "users", user.email);
+                    const snap = await getDoc(userRef);
+                    if (snap.exists() && snap.data().role === 'admin') {
+                        isAdmin = true;
+                    }
+                } catch (e) { console.error("Role check failed", e); }
 
-            // If Admin or Original Author -> Change Header Button to "Edit"
-            if (isAdmin || isAuthor) {
-                const headerBtn = document.getElementById('openPopupBtn');
-                if (headerBtn) {
-                    // Force display flex in case it was hidden
-                    headerBtn.style.display = 'flex';
-                    headerBtn.style.pointerEvents = 'auto';
-                    headerBtn.style.backgroundColor = '#000'; // Black background
-                    headerBtn.style.color = '#fff';
+                // If Admin or Original Author -> Change Header Button to "Edit"
+                if (isAdmin || isAuthor) {
+                    const headerBtn = document.getElementById('openPopupBtn');
+                    if (headerBtn) {
+                        // Force display flex in case it was hidden
+                        headerBtn.style.display = 'flex';
+                        headerBtn.style.pointerEvents = 'auto';
+                        headerBtn.style.backgroundColor = '#000'; // Black background
+                        headerBtn.style.color = '#fff';
 
-                    // Override Text & Icon
-                    headerBtn.innerHTML = `
+                        // Override Text & Icon
+                        headerBtn.innerHTML = `
                         <span class="edit-text-mobile-hide" style="position: relative; transform: translateX(30px); font-family: Helvetica, Arial, sans-serif; font-weight:300; font-size: 1.1rem; letter-spacing: 1px;">Edit Article</span>
                     `;
 
-                    // Remove old listeners and attach Edit Mode toggle
-                    // Cloning node is the cleanest way to strip existing listeners (like Dashboard link)
-                    const newBtn = headerBtn.cloneNode(true);
-                    headerBtn.parentNode.replaceChild(newBtn, headerBtn);
+                        // Remove old listeners and attach Edit Mode toggle
+                        // Cloning node is the cleanest way to strip existing listeners (like Dashboard link)
+                        const newBtn = headerBtn.cloneNode(true);
+                        headerBtn.parentNode.replaceChild(newBtn, headerBtn);
 
-                    newBtn.onclick = (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        window.toggleEditMode();
-                    };
+                        newBtn.onclick = (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.toggleEditMode();
+                        };
+                    }
                 }
             }
-        }
-    });
+        });
+    }
 });
 
 // ==========================================
@@ -297,7 +290,7 @@ async function loadRelated(tags, currentId) {
                     const html = `
                         <div>
                             <a href="article.html?id=${item.id}">
-                                <img class="rel-img" src="${item.imageUrl || '/assets/default.png'}" alt="Related Image">
+                                <img class="rel-img" src="${item.imageUrl || '/assets/default.png'}" alt="Related Image" loading="lazy">
                             </a>
                             <h3><a href="article.html?id=${item.id}">${item.title}</a></h3>
                         </div>
@@ -475,6 +468,52 @@ async function initLikeButton(articleId) {
             }
         } catch (error) {
             console.error("Error toggling like:", error);
+        }
+    });
+}
+
+async function initSaveButton(articleId, articleData) {
+    const saveBtn = document.getElementById('save-btn');
+    const saveIcon = document.getElementById('save-icon');
+
+    if (!saveBtn || !saveIcon) return;
+
+    // Check initial state from LocalStorage
+    try {
+        const saved = JSON.parse(localStorage.getItem('user_saves') || '[]');
+        if (saved.includes(articleId)) {
+            saveIcon.style.filter = "grayscale(0%) opacity(1)";
+            saveBtn.childNodes[0].textContent = "Saved";
+        }
+    } catch (e) { console.warn(e); }
+
+    saveBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        if (!auth.currentUser) {
+            const overlay = document.getElementById('popupOverlay');
+            const viewOptions = document.getElementById('view-options');
+            if (overlay) overlay.classList.add('active');
+            if (viewOptions) viewOptions.classList.remove('hidden');
+            return;
+        }
+
+        const currentlySaved = saveBtn.childNodes[0].textContent === "Saved";
+
+        try {
+            if (currentlySaved) {
+                // UI optimistic update
+                saveIcon.style.filter = "grayscale(100%) opacity(0.5)";
+                saveBtn.childNodes[0].textContent = "Save";
+                // DB update
+                await toggleSaveArticle(articleId, false, articleData);
+            } else {
+                saveIcon.style.filter = "grayscale(0%) opacity(1)";
+                saveBtn.childNodes[0].textContent = "Saved";
+                await toggleSaveArticle(articleId, true, articleData);
+            }
+        } catch (error) {
+            console.error("Error toggling save:", error);
         }
     });
 }

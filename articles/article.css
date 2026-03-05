@@ -244,6 +244,11 @@ figure+p {
    Article Footer — Actions, Tags, Rule
    ============================================================ */
 
+.tags {
+  margin-bottom: 20px;
+  /* 20px space between tags and footer */
+}
+
 /* Share / save icon links */
 .article-actions {
   display: inline-block;
@@ -1156,4 +1161,3 @@ figure+p {
   height: 18px;
   fill: currentColor;
 }
-

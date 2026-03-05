@@ -3,10 +3,10 @@
 // 1. IMPORT SDKs (All in one place)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { 
-    getFirestore, collection, query, where, orderBy, limit, startAt, endAt, 
-    getDocs, getDoc, doc, onSnapshot, updateDoc, arrayUnion, arrayRemove, increment, 
-    enableIndexedDbPersistence, getCountFromServer 
+import {
+    getFirestore, collection, query, where, orderBy, limit, startAt, endAt,
+    getDocs, getDoc, doc, onSnapshot, updateDoc, arrayUnion, arrayRemove, increment,
+    enableIndexedDbPersistence, getCountFromServer, setDoc, deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 // 1. ADD THIS IMPORT LINE (Keep the version matching your other imports, e.g., 10.7.1)
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
@@ -27,15 +27,15 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 // 2. ADD THIS LINE TO START ANALYTICS
-const analytics = getAnalytics(app); 
+const analytics = getAnalytics(app);
 
 // 3. (Optional) Export it if you need to log specific events later
 export { analytics };
 
 // 4. OFFLINE CACHE (Protocol #5)
-try { 
-    enableIndexedDbPersistence(db).catch(err => console.log("Persistence:", err.code)); 
-} catch (e) {}
+try {
+    enableIndexedDbPersistence(db).catch(err => console.log("Persistence:", err.code));
+} catch (e) { }
 
 
 // ======================================================
@@ -45,7 +45,7 @@ export async function getFeaturedNews() {
     const q = query(
         collection(db, "articles"),
         where("status", "==", "active"), // <--- ADD THIS
-        where("isFeatured", "==", true), 
+        where("isFeatured", "==", true),
         limit(2)
     );
 
@@ -86,10 +86,10 @@ export async function getArticlesBySerial(startSerial) {
     // e.g. Start at 443, get 443, 442, 441...
     const q = query(
         collection(db, "articles"),
-        where("serialNumber", "<=", startSerial), 
-        orderBy("serialNumber", "desc"),           
+        where("serialNumber", "<=", startSerial),
+        orderBy("serialNumber", "desc"),
         limit(7),
-        where("status", "==", "active")                               
+        where("status", "==", "active")
     );
 
     const snapshot = await getDocs(q);
@@ -129,7 +129,7 @@ export async function getArticleById(articleId) {
 // Get Related News (Same Tag)
 export async function getRelatedArticles(tags, currentId) {
     if (!tags || tags.length === 0) return [];
-    
+
     const q = query(
         collection(db, "articles"),
         where("status", "==", "active"),
@@ -150,7 +150,7 @@ export async function getRelatedArticles(tags, currentId) {
 // ======================================================
 export async function searchArticles(term) {
     if (!term) return [];
-    
+
     // Firestore Prefix Search (Case Sensitive)
     const q = query(
         collection(db, "articles"),
@@ -174,27 +174,62 @@ export async function searchArticles(term) {
 // ======================================================
 // SECTION 6: USER ACTIONS (Save / Debounce)
 // ======================================================
-export async function toggleSaveArticle(articleId, isSaving) {
+export async function toggleSaveArticle(articleId, isSaving, articleData = null) {
     const user = auth.currentUser;
     if (!user) return alert("Please login to save.");
 
-    const userRef = doc(db, "users", user.uid);
+    const saveRef = doc(db, "savedArticles", `${user.uid}_${articleId}`);
     const articleRef = doc(db, "articles", articleId);
 
     try {
         if (isSaving) {
-            await updateDoc(userRef, { savedArticles: arrayUnion(articleId) });
+            await setDoc(saveRef, {
+                userId: user.uid,
+                articleId: articleId,
+                title: articleData && articleData.title ? articleData.title : "Untitled Article",
+                summary: articleData && articleData.summary ? articleData.summary : "",
+                datePosted: articleData && articleData.datePosted ? articleData.datePosted : new Date(),
+                savedAt: new Date(),
+                imageUrl: articleData && articleData.imageUrl ? articleData.imageUrl : "/assets/placeholder.jpg"
+            });
             await updateDoc(articleRef, { "stats.saves": increment(1) });
+
+            // Update local storage
+            let saved = JSON.parse(localStorage.getItem('user_saves') || '[]');
+            if (!saved.includes(articleId)) {
+                saved.push(articleId);
+                localStorage.setItem('user_saves', JSON.stringify(saved));
+            }
         } else {
-            await updateDoc(userRef, { savedArticles: arrayRemove(articleId) });
+            await deleteDoc(saveRef);
             await updateDoc(articleRef, { "stats.saves": increment(-1) });
+
+            // Update local storage
+            let saved = JSON.parse(localStorage.getItem('user_saves') || '[]');
+            saved = saved.filter(id => id !== articleId);
+            localStorage.setItem('user_saves', JSON.stringify(saved));
         }
     } catch (e) { console.error("Error saving:", e); }
 }
 
+export async function fetchUserSavedArticles(uid) {
+    try {
+        const q = query(
+            collection(db, "savedArticles"),
+            where("userId", "==", uid)
+        );
+        const snapshot = await getDocs(q);
+        const ids = snapshot.docs.map(doc => doc.data().articleId);
+        return ids;
+    } catch (e) {
+        console.error("Error fetching user saved articles:", e);
+        return [];
+    }
+}
+
 export function debounce(func, wait) {
     let timeout;
-    return function(...args) {
+    return function (...args) {
         clearTimeout(timeout);
         timeout = setTimeout(() => func.apply(this, args), wait);
     };
@@ -225,37 +260,37 @@ export async function fetchAllSearchData() {
     let latestServerSerial = 0;
     try {
         console.log("🔥 [READ COST: 1] Checking latest Serial Number...");
-        
+
         // --- FIX 1: ADD status == active ---
         const q = query(
-            collection(db, "articles"), 
+            collection(db, "articles"),
             where("status", "==", "active"), // <--- IMPORTANT
-            orderBy("serialNumber", "desc"), 
+            orderBy("serialNumber", "desc"),
             limit(1)
         );
         const snapshot = await getDocs(q);
         if (!snapshot.empty) latestServerSerial = snapshot.docs[0].data().serialNumber || 0;
     } catch (e) {
-        console.log("⚠️ Offline or Error. Using Cache.", e); 
-        window.cachedSearchData = localData; 
-        return localData; 
+        console.log("⚠️ Offline or Error. Using Cache.", e);
+        window.cachedSearchData = localData;
+        return localData;
     }
 
     // Sync if needed
     if (latestServerSerial > lastSerial) {
         console.log("Downloading new articles...");
-        
+
         // --- FIX 2: ADD status == active ---
         const updateQ = query(
-            collection(db, "articles"), 
+            collection(db, "articles"),
             where("status", "==", "active"), // <--- IMPORTANT
             where("serialNumber", ">", lastSerial)
         );
         const updateSnapshot = await getDocs(updateQ);
-        
+
         const count = updateSnapshot.size;
-        console.log(`🔥 [READ COST: ${count}] Downloading ${count} new articles...`); 
-        
+        console.log(`🔥 [READ COST: ${count}] Downloading ${count} new articles...`);
+
         const newArticles = updateSnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
@@ -267,17 +302,17 @@ export async function fetchAllSearchData() {
         const mergedData = [...newArticles, ...localData];
         // Sort by Date Descending (Newest First)
         mergedData.sort((a, b) => {
-            const dateA = a.datePosted && a.datePosted.seconds ? a.datePosted.seconds : new Date(a.datePosted).getTime()/1000;
-            const dateB = b.datePosted && b.datePosted.seconds ? b.datePosted.seconds : new Date(b.datePosted).getTime()/1000;
+            const dateA = a.datePosted && a.datePosted.seconds ? a.datePosted.seconds : new Date(a.datePosted).getTime() / 1000;
+            const dateB = b.datePosted && b.datePosted.seconds ? b.datePosted.seconds : new Date(b.datePosted).getTime() / 1000;
             return dateB - dateA;
         });
-        
+
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedData));
         localStorage.setItem(META_KEY, latestServerSerial.toString());
         localData = mergedData;
     } else {
-        console.log("✅ [READ COST: 0] Cache is up to date. Using LocalStorage."); 
+        console.log("✅ [READ COST: 0] Cache is up to date. Using LocalStorage.");
     }
 
     window.cachedSearchData = localData;
@@ -298,7 +333,7 @@ export async function getLocalRelatedArticles(currentTags, currentId) {
 
     // Filter and Score
     const scoredArticles = data
-        .filter(article => article.id !== currentId) // Remove current article
+        .filter(article => article.id !== currentId && article.status === 'active') // Remove current & inactive
         .map(article => {
             // Count how many tags match
             const intersection = article.searchTags.filter(t => normalizedTags.includes(t));

@@ -341,7 +341,7 @@ label {
 .crop-container {
   width: 100%;
   max-width: 400px;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 16 / 9;
   margin: 15px auto;
   background: #333;
   overflow: hidden;

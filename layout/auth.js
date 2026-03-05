@@ -1,16 +1,16 @@
-import { auth, app } from '/Article/firebase-db.js'; // Added 'app' here
+import { auth, app, fetchUserSavedArticles } from '/Article/firebase-db.js'; // Added 'app' here
 // ADDED: fetchSignInMethodsForEmail, deleteUser
-import { 
-    GoogleAuthProvider, 
-    signInWithPopup, 
-    onAuthStateChanged, 
-    signOut, 
-    signInAnonymously, 
+import {
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged,
+    signOut,
+    signInAnonymously,
     TwitterAuthProvider,
-    updateProfile, 
+    updateProfile,
     updateEmail,
-    fetchSignInMethodsForEmail, 
-    deleteUser 
+    fetchSignInMethodsForEmail,
+    deleteUser
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 // ADDED: Firestore imports needed for the Role Check
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -58,13 +58,18 @@ function handleGoogleLogin() {
 }
 
 // 3. CHECK LOGIN STATE (Runs on page load)
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     const subscribeBtn = document.getElementById('openPopupBtn');
 
     if (user) {
         updateUIForUser(user);
+        try {
+            const ids = await fetchUserSavedArticles(user.uid);
+            localStorage.setItem('user_saves', JSON.stringify(ids));
+        } catch (e) { console.warn("Could not fetch user saves"); }
     } else {
         resetUI();
+        localStorage.removeItem('user_saves');
     }
 
     if (subscribeBtn) {
@@ -79,9 +84,9 @@ async function updateUIForUser(user) {
     const subscribeBtn = document.getElementById('openPopupBtn');
     const profileTrigger = document.getElementById('profileTrigger');
     const mediaQuery = window.matchMedia('(max-width: 550px)');
-    
+
     if (user && user.email) {
-        
+
         // 1. CHECK ROLE FROM DB
         let isAuthor = false;
         let isAdmin = false;
@@ -92,7 +97,7 @@ async function updateUIForUser(user) {
             if (snap.exists()) {
                 const data = snap.data();
                 const role = data.role ? data.role.toLowerCase() : "";
-                
+
                 if (role === 'author') isAuthor = true;
                 if (role === 'admin') isAdmin = true;
             }
@@ -102,16 +107,16 @@ async function updateUIForUser(user) {
 
         // 2. CONFIGURE BUTTON (Dashboard / Create Post / Subscribed)
         if (subscribeBtn) {
-            subscribeBtn.classList.add('auth-ready'); 
-            
+            subscribeBtn.classList.add('auth-ready');
+
             if (isAdmin) {
                 // --- ADMIN VIEW: DASHBOARD ---
                 subscribeBtn.style.backgroundColor = "#000";
                 subscribeBtn.style.color = "#fff";
                 subscribeBtn.innerHTML = '<span style="position: relative; transform: translateX(30px); color: white; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 1.4em; font-weight: 200; letter-spacing: 1.5px;">dashboard</span>';
                 subscribeBtn.style.pointerEvents = "auto";
-                subscribeBtn.style.display = "flex"; 
-                
+                subscribeBtn.style.display = "flex";
+
                 subscribeBtn.onclick = (e) => {
                     e.stopPropagation();
                     window.location.href = "/admin/dashboard.html";
@@ -123,8 +128,8 @@ async function updateUIForUser(user) {
                 subscribeBtn.style.color = "#fff";
                 subscribeBtn.innerHTML = '<span style="position: relative; transform: translateX(35px); color: white; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 1.4em; font-weight: 200; letter-spacing: 1.5px;">create post</span>';
                 subscribeBtn.style.pointerEvents = "auto";
-                subscribeBtn.style.display = "flex"; 
-                
+                subscribeBtn.style.display = "flex";
+
                 subscribeBtn.onclick = (e) => {
                     e.stopPropagation();
                     window.location.href = "/admin/post-article.html";
@@ -136,7 +141,7 @@ async function updateUIForUser(user) {
                 subscribeBtn.style.color = "#fff";
                 subscribeBtn.innerHTML = '<span class="text">subscribed</span>';
                 subscribeBtn.style.pointerEvents = "none";
-                
+
                 // Hide on mobile if subscribed
                 if (mediaQuery.matches) { subscribeBtn.style.display = "none"; }
                 else { subscribeBtn.style.display = "flex"; }
@@ -157,7 +162,7 @@ async function updateUIForUser(user) {
 function resetUI() {
     const subscribeBtn = document.getElementById('openPopupBtn');
     if (subscribeBtn) {
-        subscribeBtn.style.backgroundColor = ""; 
+        subscribeBtn.style.backgroundColor = "";
         subscribeBtn.style.color = "";
         subscribeBtn.innerHTML = '<span class="text">subscribe</span> <span class="icon"><svg viewBox="0 0 448 512" class="bell"><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"></path></svg></span>';
         subscribeBtn.style.pointerEvents = "auto";
@@ -209,8 +214,10 @@ export function initPopupLogic() {
                 if (txtGoogle) txtGoogle.textContent = "Sign in with Google";
                 if (txtTwitter) txtTwitter.textContent = "Sign in with X";
                 // if (txtEmail) txtEmail.textContent = "Sign in with email";
-                if (txtEmail) {btnToEmail.style.display = "none";
-                                popBody.style.marginTop = "33px";}
+                if (txtEmail) {
+                    btnToEmail.style.display = "none";
+                    popBody.style.marginTop = "33px";
+                }
                 if (footerPrompt) footerPrompt.textContent = "New here? ";
                 toggleLink.textContent = "Create an account";
                 if (checkboxRow) checkboxRow.classList.add('hidden');
@@ -280,13 +287,13 @@ export function initPopupLogic() {
     function startOtpTimer() {
         if (!resendWrapper || !resendTimerDisplay) return;
 
-        resendWrapper.style.pointerEvents = "none"; 
-        resendWrapper.style.opacity = "0.75";        
-        resendWrapper.classList.add('disabled');    
+        resendWrapper.style.pointerEvents = "none";
+        resendWrapper.style.opacity = "0.75";
+        resendWrapper.classList.add('disabled');
         resendWrapper.style.cursor = "default";
         if (resendText) resendText.textContent = "resend ";
 
-        let timeLeft = 30; 
+        let timeLeft = 30;
         if (timerInterval) clearInterval(timerInterval);
 
         resendTimerDisplay.style.display = "inline";
@@ -326,7 +333,7 @@ export function initPopupLogic() {
         const wrapper = e.target.closest('.resend-wrapper');
         if (wrapper) {
             if (wrapper.style.pointerEvents === 'none' || wrapper.classList.contains('disabled')) return;
-            
+
             if (inputEmail && inputEmail.value) {
                 console.log("Resending code to:", inputEmail.value);
                 sendOTP(inputEmail.value);
@@ -342,7 +349,7 @@ export function initPopupLogic() {
 
     otpInputs.forEach((input, index) => {
         input.addEventListener('input', (e) => {
-            e.target.value = e.target.value.replace(/[^0-9]/g, ''); 
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
             if (e.target.value.length === 1 && index < otpInputs.length - 1) {
                 otpInputs[index + 1].focus();
             }
@@ -366,7 +373,7 @@ export function initPopupLogic() {
 
     otpInputs.forEach((input) => {
         input.addEventListener('paste', (e) => {
-            e.preventDefault(); 
+            e.preventDefault();
             const paste = (e.clipboardData || window.clipboardData).getData('text');
             const cleanPaste = paste.replace(/[^0-9]/g, '').slice(0, 6);
 
@@ -389,13 +396,13 @@ export function initPopupLogic() {
     // GOOGLE APPS SCRIPT AUTH LOGIC
     // ==========================================
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyL2BWoLKA7nNoAEV80NeaU66zp3p-drCsQKHOgAfw43FPWH3f5XcNTBYlJUGtzCyaGzg/exec";
-    let generatedOTP = null; 
+    let generatedOTP = null;
 
     function sendOTP(email) {
         generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
         // console.log("Dev Check (Code):", generatedOTP); 
 
-        const toast = document.getElementById('otp-toast'); 
+        const toast = document.getElementById('otp-toast');
         if (toast) {
             toast.textContent = "Sending Code...";
             toast.classList.add('show');
@@ -405,7 +412,7 @@ export function initPopupLogic() {
             method: "POST",
             body: JSON.stringify({ email: email, otp: generatedOTP }),
         })
-            .then(response => response.text()) 
+            .then(response => response.text())
             .then(result => {
                 if (toast) {
                     toast.textContent = "Code Sent!";
@@ -428,7 +435,7 @@ export function initPopupLogic() {
         inputs.forEach(input => enteredCode += input.value);
 
         if (enteredCode === generatedOTP) {
-            
+
             // Start the Anonymous Login + Upgrade Flow
             signInAnonymously(auth)
                 .then(async (result) => {
@@ -461,7 +468,7 @@ export function initPopupLogic() {
 
                         // --- CRITICAL ERROR HANDLING FOR EXISTING USERS ---
                         if (error.code === 'auth/email-already-in-use') {
-                            
+
                             // A. Check if they have Google linked
                             try {
                                 const methods = await fetchSignInMethodsForEmail(auth, userEmail);
@@ -476,8 +483,8 @@ export function initPopupLogic() {
                             }
 
                             // B. CLEANUP: Delete the temp anonymous user so they aren't stuck
-                            try { await deleteUser(user); } catch(e) { console.log("Cleanup error", e); }
-                            
+                            try { await deleteUser(user); } catch (e) { console.log("Cleanup error", e); }
+
                             // C. Reset UI
                             resetPopupState();
 
@@ -529,7 +536,7 @@ export function initPopupLogic() {
     // Verify Button Click
     document.addEventListener('click', (e) => {
         if (e.target.closest('#btn-verify-otp')) {
-            e.preventDefault(); 
+            e.preventDefault();
             verifyOTP();
         }
     });
@@ -560,7 +567,7 @@ function initProfilePopupLogic(user, isAdmin = false) {
 
         // B. Add "Dashboard" Link
         const profileLink = popup.querySelector('a[href*="user.html"]'); // Find 'Profile' link
-        
+
         if (profileLink) {
             const dashboardLink = document.createElement('a');
             dashboardLink.className = 'profile-menu-item admin-dashboard-link';
@@ -569,15 +576,15 @@ function initProfilePopupLogic(user, isAdmin = false) {
             dashboardLink.style.color = '#d73634'; // Red highlight
             dashboardLink.style.fontWeight = '500';
 
-            profileLink.after(dashboardLink); 
+            profileLink.after(dashboardLink);
         }
     }
 
     // 4. Toggle Logic (ONLY for desktop - mobile handled separately in layout.js)
     trigger.onclick = (e) => {
         e.preventDefault();
-        e.stopPropagation(); 
-        
+        e.stopPropagation();
+
         // Only toggle popup on desktop (>550px)
         if (window.innerWidth > 550) {
             popup.classList.toggle('active');
@@ -589,7 +596,7 @@ function initProfilePopupLogic(user, isAdmin = false) {
     if (signoutBtn) {
         signoutBtn.onclick = async (e) => {
             e.preventDefault();
-            await logoutUser(); 
+            await logoutUser();
         };
     }
 
@@ -601,7 +608,7 @@ function initProfilePopupLogic(user, isAdmin = false) {
             }
         }
     });
-    
+
     // 7. Update mobile profile options with admin info
     updateMobileProfileOptions(user, isAdmin);
 }
@@ -614,7 +621,7 @@ export async function logoutUser() {
         // Clear the typewriter flag so they see it again next time they log in
         sessionStorage.removeItem('typewriterPlayed');
 
-        window.location.reload(); 
+        window.location.reload();
     } catch (error) {
         console.error("Logout Error:", error);
     }
@@ -626,11 +633,11 @@ export async function logoutUser() {
 function updateMobileProfileOptions(user, isAdmin = false) {
     const mobileProfileOptions = document.getElementById('mobileProfileOptions');
     if (!mobileProfileOptions) return;
-    
+
     // Clear existing options (except sign out which we'll keep)
     const signoutOption = mobileProfileOptions.querySelector('#mobile-btn-signout');
     mobileProfileOptions.innerHTML = '';
-    
+
     // Profile link (always present)
     const profileOption = document.createElement('a');
     profileOption.href = '/profile pages/user.html';
@@ -639,7 +646,7 @@ function updateMobileProfileOptions(user, isAdmin = false) {
         <span class="label">profile</span>
     `;
     mobileProfileOptions.appendChild(profileOption);
-    
+
     // Add Dashboard for Admin
     if (isAdmin) {
         const dashboardOption = document.createElement('a');
@@ -650,7 +657,7 @@ function updateMobileProfileOptions(user, isAdmin = false) {
         `;
         mobileProfileOptions.appendChild(dashboardOption);
     }
-    
+
     // Sign out (always at the end)
     if (signoutOption) {
         mobileProfileOptions.appendChild(signoutOption);
@@ -679,10 +686,10 @@ function handleTwitterLogin() {
 
             // Twitter usually provides the handle as the displayName or in providerData
             // But Firebase standardizes 'user' object so it works with your DB function
-            
+
             const newsletterBox = document.getElementById('newsletter-check');
             const isSubscribed = newsletterBox ? newsletterBox.checked : false;
-            
+
             // Save to Firestore using your existing function
             await saveUserToDB(user, isSubscribed);
 

@@ -38,7 +38,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/layout/layout.css">
-    <link rel="stylesheet" href="author.css">
+    <link rel="stylesheet" href="author.css" media="print" onload="this.media='all'">
 
     <!-- Structured Data: ProfilePage (populated dynamically) -->
     <script type="application/ld+json" id="profile-jsonld">
@@ -73,7 +73,7 @@
         <section class="profile-header">
             <div class="header-content">
                 <div class="profile-img-container">
-                    <img src="/assets/default-user.png" alt="Author" id="p-image">
+                    <img src="/assets/default-user.png" alt="Author" id="p-image" loading="lazy">
                 </div>
 
                 <div class="profile-info">
@@ -154,8 +154,8 @@
 
     <div id="global-footer"></div>
 
-    <script type="module" src="/layout/layout.js"></script>
-    <script type="module" src="author.js"></script>
+    <script defer type="module" src="/layout/layout.js"></script>
+    <script defer type="module" src="author.js"></script>
     <script>
         function switchTab(name) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

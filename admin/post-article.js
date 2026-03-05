@@ -104,14 +104,61 @@ document.addEventListener('DOMContentLoaded', () => {
         tagInput.placeholder = tags.length >= 5 ? '' : 'Type & Press Enter';
     }
 
+    // PREDEFINED LOCAL TAGS FOR SUGGESTIONS
+    const PREDEFINED_TAGS = [
+        "Algorithms", "Image Modal", "Video Modal", "LLMs", "Research", "Google", "AI Agents",
+        "Artificial Intelligence", "Machine Learning", "Deep Learning", "Neural Networks",
+        "Generative AI", "NLP", "Computer Vision", "Robotics", "Automation",
+        "Startup", "Funding", "Venture Capital", "SaaS", "Entrepreneurship", "Fintech",
+        "Tech", "Software", "Hardware", "Cloud Computing", "Cybersecurity", "Blockchain",
+        "OpenAI", "Anthropic", "Meta", "Microsoft", "Apple", "Nvidia", "Data Science",
+        "Analytics", "Web3", "Crypto", "AR/VR", "IoT", "5G", "Quantum Computing",
+        "Open Source", "Ethics", "Regulation", "Dataset", "Benchmark", "Training", "Multimodal"
+    ];
+
     // Show suggestions while typing, hide on Enter
+    let suggestionTimeout;
+
     tagInput.addEventListener('input', () => {
-        if (tagInput.value.trim().length > 0) {
-            tagSuggestions.classList.add('visible');
+        const val = tagInput.value.trim().replace(/[^a-zA-Z0-9 ]/g, "");
+        if (val.length > 0) {
+            clearTimeout(suggestionTimeout);
+            suggestionTimeout = setTimeout(() => {
+                fetchSuggestions(val);
+            }, 100); // 100ms debounce for local search
         } else {
             tagSuggestions.classList.remove('visible');
         }
     });
+
+    function fetchSuggestions(userInput) {
+        const query = userInput.toLowerCase();
+        // Filter local array
+        const results = PREDEFINED_TAGS.filter(tag => tag.toLowerCase().startsWith(query)).slice(0, 8);
+
+        if (results.length > 0) {
+            tagSuggestions.innerHTML = '<p style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Suggestions:</p>';
+            results.forEach(word => {
+                const span = document.createElement('span');
+                span.className = 'tag-suggest-btn';
+                span.textContent = word;
+                span.dataset.tag = word;
+
+                span.addEventListener('click', () => {
+                    if (word && !tags.includes(word) && tags.length < 5) {
+                        tags.push(word);
+                        renderTags();
+                    }
+                    tagInput.value = "";
+                    tagSuggestions.classList.remove('visible');
+                });
+                tagSuggestions.appendChild(span);
+            });
+            tagSuggestions.classList.add('visible');
+        } else {
+            tagSuggestions.classList.remove('visible');
+        }
+    }
 
     tagInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
@@ -160,59 +207,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 4. PREVIEW LOGIC
+    // 4. PREVIEW LOGIC (Redirect to article.html)
     // ==========================================
     const btnPreview = document.getElementById('btn-preview');
-    const previewOverlay = document.getElementById('preview-overlay');
-    const btnClosePreview = document.getElementById('btn-close-preview');
 
     btnPreview.addEventListener('click', () => {
         const titleText = document.getElementById('inp-title').value.trim();
         const contentText = document.getElementById('inp-content').value.trim();
+        const summaryText = document.getElementById('inp-summary').value.trim();
+        const targetLevel = document.getElementById('inp-target-level').value;
         const imageUrl = getSelectedImageUrl();
 
         if (!titleText) { alert("Please enter a Title before previewing."); return; }
         if (!contentText) { alert("Please enter Content before previewing."); return; }
         if (!imageUrl) { alert("Please select a primary tag / image before previewing."); return; }
 
-        document.getElementById('preview-headline').innerText = titleText;
+        const authorNameStr = currentUser ? (currentUser.displayName || currentUser.email) : "Author Name";
 
-        const dateObj = new Date();
-        const dateStr = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-        document.getElementById('preview-date').innerText = dateStr;
+        // Construct article object mimicking DB structure
+        const previewData = {
+            id: 'preview',
+            title: titleText,
+            summary: summaryText,
+            content: targetLevel === 'intermediate' ? contentText : "",
+            conciseContent: targetLevel === 'concise' ? contentText : "",
+            imageUrl: imageUrl,
+            tags: collectAllTags(),
+            authorName: authorNameStr,
+            authorEmail: currentUser ? currentUser.email : "",
+            datePosted: new Date().toISOString() // Fake date
+        };
 
-        const authorName = currentUser ? (currentUser.displayName || currentUser.email) : "Author Name";
-        document.getElementById('preview-author-name').innerText = authorName;
+        // Save to sessionStorage
+        sessionStorage.setItem('previewArticle', JSON.stringify(previewData));
 
-        document.getElementById('preview-img').src = imageUrl;
-
-        const formattedContent = contentText.split('\n').map(p => {
-            p = p.trim();
-            return p ? `<p>${p}</p>` : '';
-        }).join('');
-        document.getElementById('preview-article-body').innerHTML = formattedContent;
-
-        // Tags
-        const previewTagsSection = document.getElementById('preview-tags');
-        previewTagsSection.innerHTML = '';
-        const allPreviewTags = collectAllTags();
-        if (allPreviewTags.length > 0) {
-            allPreviewTags.forEach(tag => {
-                const tagDiv = document.createElement('div');
-                tagDiv.className = 'article-tags';
-                tagDiv.innerHTML = `<a href="#">${tag}</a>`;
-                previewTagsSection.appendChild(tagDiv);
-            });
-        }
-
-        previewOverlay.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
+        // Open in same tab
+        window.location.href = '/articles/article.html?preview=true';
     });
 
-    btnClosePreview.addEventListener('click', () => {
-        previewOverlay.classList.add('hidden');
-        document.body.style.overflow = '';
-    });
 
     // ==========================================
     // 5. SUBMIT

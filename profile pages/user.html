@@ -18,7 +18,8 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/layout/layout.css">
-    <link rel="stylesheet" href="user.css">
+    <link rel="stylesheet" href="/articles/multi-article.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="user.css" media="print" onload="this.media='all'">
 
     <style>
         .menu__icon {
@@ -39,36 +40,36 @@
         <h2 class="section-title">Saved News</h2>
         <hr class="header-line">
 
-        <div class="content-wrapper">
-            <div class="main-content">
-                <div id="saved-articles-list">
-                    <div class="loader">Loading saved articles...</div>
-                </div>
+        <div class="main-content">
+            <section id="saved-articles-list" class="articles-container">
+                <div class="loader">Loading saved articles...</div>
+            </section>
+        </div>
+    </div>
 
-                <div class="line-with-text" id="load-more-container" style="display: none;">
-                    <span class="link1 see-more-btn" id="trigger-load-more" style="cursor:pointer;">Load more</span>
-                </div>
-            </div>
+    <!-- Pagination Bar (same as multi-article) -->
+    <div class="pagination-bar" id="pagination-container" style="display:none;">
+        <div class="pagination-wrapper">
+            <button onclick="changeSavedPage('prev')" class="arrow-btn" aria-label="Previous Page">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2 12l20 10V2z" />
+                </svg>
+            </button>
 
-            <div class="user-sidebar">
-                <div class="sticky-sidebar">
-                    <h3>Following</h3>
+            <div id="saved-pages-container"></div>
 
-                    <div id="sidebar-following-list">
-                        <p style="color:#999; font-size:13px;">Loading...</p>
-                    </div>
-
-                    <div class="see-more" onclick="window.location.href='/students/Students.html'">find more reporters
-                    </div>
-                </div>
-            </div>
+            <button onclick="changeSavedPage('next')" class="arrow-btn" aria-label="Next Page">
+                <svg viewBox="0 0 24 24">
+                    <path d="M22 12l-20 10V2z" />
+                </svg>
+            </button>
         </div>
     </div>
 
     <div id="global-footer"></div>
 
-    <script type="module" src="/layout/layout.js"></script>
-    <script type="module" src="user-profile.js"></script>
+    <script defer type="module" src="/layout/layout.js"></script>
+    <script defer type="module" src="user-profile.js"></script>
 </body>
 
 </html>
