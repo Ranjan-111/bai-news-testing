@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>Post Article - bitfeed</title>
     
     <link rel="stylesheet" href="/layout/layout.css">
     <link rel="stylesheet" href="/main/index.css">
     <!-- Include article.css so the preview overlay gets correct styling -->
     <link rel="stylesheet" href="/articles/article.css">
-    <link rel="stylesheet" href="post-article.css">
+    <link rel="stylesheet" href="/admin/post-article.css">
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="apple-touch-icon" href="/assets/favicon.png">
 
@@ -20,7 +21,7 @@
         <a class="back-btn">
          <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="u-turn-to-left" class="back-btn" onclick="history.back()"/>
         </a>
-        <h1><a href="/main/index.html" style="font-weight: 400;">post article</a></h1>
+        <h1><a href="/" style="font-weight: 400;">post article</a></h1>
     </header>
 
     <div class="form-container">
@@ -47,36 +48,9 @@
                     <span class="no-img-text" id="no-img-text">No image selected</span>
                     <img id="img-preview" class="hidden" alt="Selected Image">
                 </div>
-                <div class="img-suggestions">
+                <div class="img-suggestions" id="img-suggest-options">
                     <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">Image Tags:</div>
-                    <div class="img-suggest-option">
-                        <input type="radio" name="img-suggest" id="post-suggest-alg" value="/assets/article-img/alg.png" data-tag="Algorithm">
-                        <label for="post-suggest-alg">Algorithm</label>
-                    </div>
-                    <div class="img-suggest-option">
-                        <input type="radio" name="img-suggest" id="post-suggest-img-m" value="/assets/article-img/img-m.png" data-tag="Image Model">
-                        <label for="post-suggest-img-m">Image Model</label>
-                    </div>
-                    <div class="img-suggest-option">
-                        <input type="radio" name="img-suggest" id="post-suggest-llm" value="/assets/article-img/llm.png" data-tag="LLM">
-                        <label for="post-suggest-llm">LLM</label>
-                    </div>
-                    <div class="img-suggest-option">
-                        <input type="radio" name="img-suggest" id="post-suggest-research" value="/assets/article-img/research.png" data-tag="Research">
-                        <label for="post-suggest-research">Research</label>
-                    </div>
-                    <div class="img-suggest-option">
-                        <input type="radio" name="img-suggest" id="post-suggest-rob" value="/assets/article-img/rob.png" data-tag="Robotics">
-                        <label for="post-suggest-rob">Robotics</label>
-                    </div>
-                    <div class="img-suggest-option">
-                        <input type="radio" name="img-suggest" id="post-suggest-sec" value="/assets/article-img/sec.png" data-tag="Security">
-                        <label for="post-suggest-sec">Security</label>
-                    </div>
-                    <div class="img-suggest-option">
-                        <input type="radio" name="img-suggest" id="post-suggest-vid-m" value="/assets/article-img/vid-m.png" data-tag="Video Model">
-                        <label for="post-suggest-vid-m">Video Model</label>
-                    </div>
+                    <!-- Dynamically loaded from /assets/tags/img-tags.json -->
                 </div>
             </div>
 
@@ -127,15 +101,6 @@
                     <input type="text" id="inp-tag-input" placeholder="Type & Press Enter" autocomplete="off">
                 </div>
                 <div class="tag-suggestions" id="tag-suggestions">
-                    <p style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Suggestions:</p>
-                    <span class="tag-suggest-btn" data-tag="Training">Training</span>
-                    <span class="tag-suggest-btn" data-tag="Benchmark">Benchmark</span>
-                    <span class="tag-suggest-btn" data-tag="Open Source">Open Source</span>
-                    <span class="tag-suggest-btn" data-tag="Multimodal">Multimodal</span>
-                    <span class="tag-suggest-btn" data-tag="Funding">Funding</span>
-                    <span class="tag-suggest-btn" data-tag="Regulation">Regulation</span>
-                    <span class="tag-suggest-btn" data-tag="Hardware">Hardware</span>
-                    <span class="tag-suggest-btn" data-tag="Dataset">Dataset</span>
                 </div>
             </div>
 
@@ -148,7 +113,7 @@
     </div>
 
 
-    <script type="module" src="post-article.js"></script>
+    <script type="module" src="/admin/post-article.js"></script>
 
 </body>
 </html>

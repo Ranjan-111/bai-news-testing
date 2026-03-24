@@ -130,7 +130,7 @@ async function loadAuthorArticles(email) { // Input matches the email from loadA
             }
 
             const html = `
-                <a href="/articles/article.html?id=${doc.id}" class="article-card">
+                <a href="/article?id=${doc.id}" class="article-card">
                     <h3>${article.title}</h3>
                     <div class="article-meta">${dateStr}</div>
                     <p class="article-summary">${article.summary || "No summary available."}</p>
@@ -177,10 +177,10 @@ async function loadSidebarSuggestions(currentTargetId) {
 
             div.innerHTML = `
                 <div class="reporter-avatar" style="background-image: url('${author.photoURL || '/assets/default-user.png'}')">
-                    <a href="/profile pages/author.html?id=${encodeURIComponent(authorDocId)}" style="display:block; width:100%; height:100%;"></a>
+                    <a href="/author?id=${encodeURIComponent(authorDocId)}" style="display:block; width:100%; height:100%;"></a>
                 </div>
                 <div class="reporter-info">
-                    <h4><a href="/profile pages/author.html?id=${encodeURIComponent(authorDocId)}" style="color:inherit; text-decoration:none;">
+                    <h4><a href="/author?id=${encodeURIComponent(authorDocId)}" style="color:inherit; text-decoration:none;">
                         ${author.displayName || authorDocId}
                     </a></h4>
                     <p>${author.specialization || "Reporter"}</p>

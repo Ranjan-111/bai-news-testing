@@ -18,8 +18,8 @@ const totalValueDisplay = document.getElementById('total-value');
 const tabButtons = document.querySelectorAll('.tab-btn');
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-    loadResources();
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadResources();
     setupTabListeners();
 
     // --- KEYBOARD NAVIGATION FOR CATEGORIES ---
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Load resources from JSON file
 async function loadResources() {
     try {
-        const response = await fetch('resources-data.json');
+        const response = await fetch('/students/resources/resources-data.json');
         if (!response.ok) {
             throw new Error('Failed to load resources');
         }
@@ -117,6 +117,11 @@ function displayResources(category) {
     noResults.style.display = 'none';
 
     setTimeout(() => {
+        // Guard: ensure data is loaded
+        if (!allResources.all_items) {
+            showError();
+            return;
+        }
         // Filter by tags (based on your previous request)
         filteredResources = allResources.all_items.filter(item =>
             item.tags.includes(category)

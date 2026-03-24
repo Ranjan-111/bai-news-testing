@@ -24,18 +24,11 @@ let currentEditTags = []; // free-text tags for editing
 // Company names for secondary tag matching
 const COMPANY_NAMES = ['Google', 'OpenAI', 'Anthropic', 'Apple', 'Nvidia', 'Meta', 'Microsoft', 'Amazon', 'Tesla', 'Samsung', 'xAI', 'DeepMind'];
 
-// Predefined image tag names for primary tag matching (maps to image file names)
-const IMAGE_TAG_MAP = {
-    'Algorithm': '/assets/article-img/alg.png',
-    'Image Model': '/assets/article-img/img-m.png',
-    'LLM': '/assets/article-img/llm.png',
-    'Research': '/assets/article-img/research.png',
-    'Robotics': '/assets/article-img/rob.png',
-    'Security': '/assets/article-img/sec.png',
-    'Video Model': '/assets/article-img/vid-m.png'
-};
+// Image tag data — loaded dynamically from JSON
+let IMG_TAGS_DATA = [];
+let IMAGE_TAG_MAP = {};
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // 1. Initialize Page Data
     loadArticlesLog();
     setupDetailLogic();
@@ -63,30 +56,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2b. IMAGE PREVIEW on radio change
+    // 2b. IMAGE TAGS — DYNAMIC FROM JSON
     const imgPreview = document.getElementById('edit-img-preview');
     const noImgText = document.getElementById('no-img-text');
+    const imgSuggestContainer = document.getElementById('edit-img-suggest-options');
 
-    document.querySelectorAll('input[name="img-suggest"]').forEach(radio => {
-        radio.addEventListener('change', (e) => {
-            imgPreview.src = e.target.value;
-            imgPreview.classList.remove('hidden');
-            noImgText.style.display = 'none';
+    try {
+        const imgTagsRes = await fetch('/assets/tags/img-tags.json');
+        IMG_TAGS_DATA = await imgTagsRes.json();
+
+        // Build IMAGE_TAG_MAP from fetched data
+        IMG_TAGS_DATA.forEach(tag => {
+            IMAGE_TAG_MAP[tag.name] = tag.path;
         });
-    });
 
-    // 2c. TAG SUGGESTIONS (click to add)
+        // Render radio buttons
+        IMG_TAGS_DATA.forEach(tag => {
+            const id = 'suggest-' + tag.name.toLowerCase().replace(/\s+/g, '-');
+            const div = document.createElement('div');
+            div.className = 'img-suggest-option';
+            div.innerHTML = `
+                <input type="radio" name="img-suggest" id="${id}" value="${tag.path}" data-tag="${tag.name}">
+                <label for="${id}">${tag.name}</label>
+            `;
+            imgSuggestContainer.appendChild(div);
+
+            // Attach preview listener
+            div.querySelector('input').addEventListener('change', (e) => {
+                imgPreview.src = e.target.value;
+                imgPreview.classList.remove('hidden');
+                noImgText.style.display = 'none';
+            });
+        });
+    } catch (e) { console.error('Error loading image tags:', e); }
+
+    // 2c. TAG SUGGESTIONS (dynamic via typing)
     const tagSuggestions = document.getElementById('tag-suggestions');
-
-    document.querySelectorAll('.tag-suggest-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const val = btn.dataset.tag;
-            if (val && !currentEditTags.includes(val) && currentEditTags.length < 5) {
-                currentEditTags.push(val);
-                renderEditTags();
-            }
-        });
-    });
 
     // 3. TAG EDITING LOGIC (Free-text, max 5)
     const editTagsContainer = document.getElementById('edit-tags-container');
@@ -113,16 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.renderEditTags = renderEditTags;
 
     // PREDEFINED LOCAL TAGS FOR SUGGESTIONS
-    const PREDEFINED_TAGS = [
-        "Algorithms", "Image Modal", "Video Modal", "LLMs", "Research", "Google", "AI Agents",
-        "AI", "ML", "Deep Learning", "Neural Networks",
-        "Generative AI", "NLP", "Computer Vision", "Robotics", "Automation",
-        "Startup", "Funding", "Venture Capital", "SaaS", "Entrepreneurship", "Fintech",
-        "Tech", "Software", "Hardware", "Cloud Computing", "Cybersecurity", "Blockchain",
-        "OpenAI", "Anthropic", "Meta", "Microsoft", "Apple", "Nvidia", "Data Science",
-        "Analytics", "Web3", "Crypto", "AR", "VR", "IoT", "5G", "Quantum Computing",
-        "Open Source", "Ethics", "Regulation", "Dataset", "Benchmark", "Training", "Multimodal"
-    ];
+    // PREDEFINED TAGS — LOADED FROM JSON
+    let PREDEFINED_TAGS = [];
+    try {
+        const tagsRes = await fetch('/assets/tags/tag-suggestions.json');
+        PREDEFINED_TAGS = await tagsRes.json();
+    } catch (e) { console.error('Error loading tag suggestions:', e); }
 
     // Show suggestions while typing, hide on Enter
     let editSuggestionTimeout;

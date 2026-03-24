@@ -5,21 +5,19 @@ import { app } from '/Article/firebase-db.js';
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Image suggestion map
-const IMAGE_SUGGESTIONS = [
-    { name: 'Algorithm', path: '/assets/article-img/alg.png' },
-    { name: 'Image Model', path: '/assets/article-img/img-m.png' },
-    { name: 'LLM', path: '/assets/article-img/llm.png' },
-    { name: 'Research', path: '/assets/article-img/research.png' },
-    { name: 'Robotics', path: '/assets/article-img/rob.png' },
-    { name: 'Security', path: '/assets/article-img/sec.png' },
-    { name: 'Video Model', path: '/assets/article-img/vid-m.png' }
-];
+// Image suggestion map — loaded dynamically from JSON
+let IMAGE_SUGGESTIONS = [];
 
 // STATE
 let articleQueue = []; // { data: jsonPart, image: url_or_empty }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // Load image tags from JSON
+    try {
+        const res = await fetch('/assets/tags/img-tags.json');
+        IMAGE_SUGGESTIONS = await res.json();
+    } catch (e) { console.error('Error loading image tags:', e); }
+
     const jsonInput = document.getElementById('json-input');
     const jsonTextInput = document.getElementById('json-text-input');
     const btnProcessText = document.getElementById('btn-process-text');
@@ -168,6 +166,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             btn.addEventListener('click', () => {
                 articleQueue[currentPopupIndex].image = suggestion.path;
+
+                // Add image tag to article tags (swap old image tag for new one)
+                const IMAGE_TAG_NAMES = IMAGE_SUGGESTIONS.map(s => s.name);
+                let currentTags = articleQueue[currentPopupIndex].data.tags || [];
+                // Remove any previous image tags
+                currentTags = currentTags.filter(t => !IMAGE_TAG_NAMES.includes(t));
+                // Add the new image tag
+                currentTags.push(suggestion.name);
+                articleQueue[currentPopupIndex].data.tags = currentTags;
 
                 imgPopupImg.src = suggestion.path;
                 imgPopupImg.classList.remove('hidden');

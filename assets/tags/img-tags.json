@@ -1,0 +1,9 @@
+[
+  { "name": "Algorithm", "path": "/assets/article-img/alg.png" },
+  { "name": "Image Model", "path": "/assets/article-img/img-m.png" },
+  { "name": "LLM", "path": "/assets/article-img/llm.png" },
+  { "name": "Research", "path": "/assets/article-img/research.png" },
+  { "name": "Robotics", "path": "/assets/article-img/rob.png" },
+  { "name": "Security", "path": "/assets/article-img/sec.png" },
+  { "name": "Video Model", "path": "/assets/article-img/vid-m.png" }
+]

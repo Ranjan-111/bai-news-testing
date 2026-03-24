@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (user.displayName) document.getElementById('inp-name').value = user.displayName;
         } else {
             alert("Please sign in to apply.");
-            window.location.href = "/main/index.html";
+            window.location.href = "/";
         }
     });
 
@@ -193,6 +193,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await submitAuthorRequest(formData);
 
         if (result.success) {
+            // Send "Application Received / Waiting" email to the reporter
+            const REPORTER_EMAIL_SCRIPT = "https://script.google.com/macros/s/AKfycbxhg8RVuWDx_tvidbuIj0yAxjZ_GY15Z7GBTcRqBiUvjFBbwPh8bA8MiiF9ucYRPnka/exec";
+            try {
+                await fetch(REPORTER_EMAIL_SCRIPT, {
+                    method: "POST",
+                    mode: "no-cors",
+                    body: JSON.stringify({
+                        type: "apply_waiting",
+                        email: formData.email,
+                        name: formData.displayName || formData.email.split('@')[0]
+                    })
+                });
+                console.log("✅ Waiting email sent to reporter");
+            } catch (emailErr) {
+                console.warn("⚠️ Could not send waiting email:", emailErr);
+            }
+
             status.innerText = "✅ Application Sent! We will review it shortly.";
             status.style.color = "green";
             form.reset();

@@ -415,3 +415,7 @@ body {
   align-items: center;
   gap: 1rem;
 }
+
+.sidebar{
+  height: 99vh !important;
+}

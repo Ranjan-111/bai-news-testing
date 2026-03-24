@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (nameEl) nameEl.textContent = user.displayName || "Reader";
             await loadUserProfileData(user);
         } else {
-            window.location.href = "/main/index.html";
+            window.location.href = "/";
         }
     });
 });
@@ -139,7 +139,7 @@ function renderArticles(articles) {
     articles.forEach((article, index) => {
         const isLast = index === articles.length - 1;
         const html = `
-            <a href="/articles/article.html?id=${article.articleId}" class="article-card">
+            <a href="/article?id=${article.articleId}" class="article-card">
                 <h3 class="article-title">${article.title || "Untitled Article"}</h3>
                 <p class="date">${formatDate(article.datePosted)}</p>
                 <p class="article-summary">${article.summary || ""}</p>

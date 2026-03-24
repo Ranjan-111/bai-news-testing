@@ -6,7 +6,7 @@ async function loadStudentResources() {
     const tableBody = document.getElementById('student-table-body');
 
     try {
-        const response = await fetch('resources/resources-data.json');
+        const response = await fetch('/students/resources/resources-data.json');
         const data = await response.json();
 
         // 1. Filter by a specific tag (e.g., 'credits')
@@ -75,6 +75,19 @@ document.addEventListener('keydown', (e) => {
                 }
             }
         }
+    }
+
+    // Page navigation shortcuts
+    switch (e.key.toLowerCase()) {
+        case 'h':
+            window.location.href = '/';
+            break;
+        case 'i':
+            window.location.href = '/error';
+            break;
+        case 'm':
+            window.location.href = '/news';
+            break;
     }
 });
 

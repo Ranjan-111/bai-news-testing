@@ -150,6 +150,20 @@
 
     <h3>4o4 Under Development...</h3>
 
+    <!-- Keyboard Shortcuts -->
+    <script>
+        document.addEventListener('keydown', function(e) {
+            const isTyping = e.target.tagName === 'INPUT' || 
+                             e.target.tagName === 'TEXTAREA' || 
+                             e.target.isContentEditable;
+            if (isTyping) return;
+            switch (e.key.toLowerCase()) {
+                case 'h': window.location.href = '/'; break;
+                case 's': window.location.href = '/students'; break;
+                case 'm': window.location.href = '/news'; break;
+            }
+        });
+    </script>
     <!-- JavaScript -->
     <script defer type="module" src="/layout/layout.js"></script>
 </body>

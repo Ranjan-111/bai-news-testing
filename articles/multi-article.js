@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function initPageData() {
     const skeletonView = document.getElementById('skeleton-view');
     const realView = document.getElementById('articles-list');
-    
+
     // Ensure Skeleton is ON and Real View is OFF initially
     if (skeletonView) skeletonView.classList.remove('hidden');
     if (realView) realView.classList.add('hidden');
@@ -41,12 +41,12 @@ async function initPageData() {
     try {
         // Fetch from LocalStorage (0 Reads usually)
         allArticles = await fetchAllSearchData(true);
-        
+
         // 2. Explicitly filter for 'active' articles only
         filteredArticles = allArticles.filter(a => a.status === 'active');
-        
+
         setupPagination();
-        
+
         // LOAD DATA
         loadPage(1);
 
@@ -77,15 +77,15 @@ function handleSearchInput(queryOverride = null) {
     currentSearchQuery = query; // For Highlighting
 
     const activeTags = Array.from(document.querySelectorAll('input[name="filter-tags"]:checked'))
-                            .map(cb => cb.value.toLowerCase());
+        .map(cb => cb.value.toLowerCase());
 
     // Filter the master list
     filteredArticles = allArticles.filter(article => {
-        const matchesText = !query || 
-                            article.searchTitle.includes(query) || 
-                            article.searchSummary.includes(query);
-        const matchesTags = activeTags.length === 0 || 
-                            activeTags.some(tag => article.searchTags.includes(tag));
+        const matchesText = !query ||
+            article.searchTitle.includes(query) ||
+            article.searchSummary.includes(query);
+        const matchesTags = activeTags.length === 0 ||
+            activeTags.some(tag => article.searchTags.includes(tag));
         return matchesText && matchesTags;
     });
 
@@ -100,7 +100,7 @@ function handleSearchInput(queryOverride = null) {
 function setupPagination() {
     totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
     if (totalPages === 0) totalPages = 1;
-    
+
     // Ensure UI is visible
     const pageContainer = document.getElementById('pages-container');
     if (pageContainer) pageContainer.style.display = 'flex';
@@ -115,7 +115,7 @@ function loadPage(pageNumber) {
     const visibleArticles = filteredArticles.slice(start, end);
 
     renderArticlesToScreen(visibleArticles);
-    
+
     currentPage = pageNumber;
     renderPaginationButtons();
 }
@@ -151,7 +151,7 @@ function renderArticlesToScreen(articles) {
         const displaySummary = highlightText(article.summary, currentSearchQuery);
 
         const html = `
-            <a class="article-card" href="article.html?id=${article.id}">
+            <a class="article-card" href="/article?id=${article.id}">
                 <h3 class="article-title">${displayTitle}</h3>
                 <p class="date">${dateStr}</p>
                 <p class="article-summary">${displaySummary}</p>
@@ -205,7 +205,7 @@ function goToPage(num) {
     loadPage(num);
 }
 
-window.changePage = function(direction) {
+window.changePage = function (direction) {
     if (direction === 'prev' && centerPage > 1) { centerPage--; renderPaginationButtons(); }
     else if (direction === 'next' && centerPage < totalPages) { centerPage++; renderPaginationButtons(); }
 };
@@ -214,9 +214,9 @@ window.changePage = function(direction) {
 // --- KEYBOARD SHORTCUTS FOR PAGINATION ---
 document.addEventListener('keydown', (e) => {
     // 1. Identify if the user is typing in the search bar or any other input
-    const isTyping = e.target.tagName === 'INPUT' || 
-                     e.target.tagName === 'TEXTAREA' || 
-                     e.target.isContentEditable;
+    const isTyping = e.target.tagName === 'INPUT' ||
+        e.target.tagName === 'TEXTAREA' ||
+        e.target.isContentEditable;
 
     // 2. If they ARE typing, don't trigger the pagination
     if (isTyping) return;
@@ -229,12 +229,25 @@ document.addEventListener('keydown', (e) => {
             centerPage = Math.min(totalPages, currentPage + 1);
             loadPage(currentPage + 1);
         }
-    } 
+    }
     else if (e.key === 'ArrowLeft') {
         // Only go back if we aren't on page 1
         if (currentPage > 1) {
             centerPage = Math.max(1, currentPage - 1);
             loadPage(currentPage - 1);
         }
+    }
+
+    // 4. Page navigation shortcuts
+    switch (e.key.toLowerCase()) {
+        case 'h':
+            window.location.href = '/';
+            break;
+        case 's':
+            window.location.href = '/students';
+            break;
+        case 'i':
+            window.location.href = '/error';
+            break;
     }
 });

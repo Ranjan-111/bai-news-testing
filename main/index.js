@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // ONLY animate if user is logged in AND hasn't seen it this session
         if (user && !hasPlayed) {
             // Clear the hardcoded text before starting the animation
-            if (wrap) wrap.innerHTML = ''; 
-            
+            if (wrap) wrap.innerHTML = '';
+
             initTypewriter();
             sessionStorage.setItem('typewriterPlayed', 'true');
         } else {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             featReal.classList.remove('hidden');
             featReal.classList.add('fade-in');
         }
-    } catch (e) { 
+    } catch (e) {
         console.error("Featured News Error:", e);
         if (featSkeleton) featSkeleton.classList.add('hidden');
     }
@@ -56,29 +56,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     initPromoSystem();
 });
 
-document.addEventListener('keydown', function(e) {
-  // 1. Identify if the user is typing in an input, textarea, or contentEditable element
-  const isTyping = e.target.tagName === 'INPUT' || 
-                   e.target.tagName === 'TEXTAREA' || 
-                   e.target.isContentEditable;
+document.addEventListener('keydown', function (e) {
+    // 1. Identify if the user is typing in an input, textarea, or contentEditable element
+    const isTyping = e.target.tagName === 'INPUT' ||
+        e.target.tagName === 'TEXTAREA' ||
+        e.target.isContentEditable;
 
-  // 2. If they ARE typing, do nothing and let the letter appear in the box
-  if (isTyping) return;
+    // 2. If they ARE typing, do nothing and let the letter appear in the box
+    if (isTyping) return;
 
-  const pressedKeys = {};
+    const pressedKeys = {};
 
-  // 3. Define your lowercase shortcuts
-  switch (e.key.toLowerCase()) {
-    case 's':
-      window.location.href = '/students/Students.html';
-      break;
-    case 'i':
-      window.location.href = '/others/x-error.html';
-      break;
-    case 'm':
-      window.location.href = '/articles/multi-article.html';
-      break;
-  }
+    // 3. Define your lowercase shortcuts
+    switch (e.key.toLowerCase()) {
+        case 's':
+            window.location.href = '/students';
+            break;
+        case 'i':
+            window.location.href = '/error';
+            break;
+        case 'm':
+            window.location.href = '/news';
+            break;
+    }
 });
 
 function initPromoSystem() {
@@ -91,10 +91,10 @@ function initPromoSystem() {
 
                 if (snap.exists()) {
                     const data = snap.data();
-                    
+
                     // Normalize role to lowercase to avoid "Admin" vs "admin" bugs
                     const userRole = data.role ? data.role.toLowerCase() : "reader";
-                    
+
                     console.log(`👤 Logged in as: ${user.email} | Role: ${userRole}`);
 
                     // SHOW POPUP ONLY IF:
@@ -130,7 +130,7 @@ function showPromos() {
             }
         }, 1000); // 2 second delay
 
-        
+
     }
 }
 
@@ -154,12 +154,12 @@ function updateFeaturedCard(selector, data) {
     if (summaryEl && data.summary) summaryEl.innerText = data.summary;
 
     card.style.cursor = "pointer";
-    card.onclick = () => window.location.href = `/articles/article.html?id=${data.id}`;
+    card.onclick = () => window.location.href = `/article?id=${data.id}`;
 }
 
 function initLatestNews() {
     const container = document.getElementById('latest-news-container');
-    
+
     // Select the Wrappers
     const skeletonView = document.getElementById('latest-skeleton-view');
     const realView = document.getElementById('latest-real-view');
@@ -167,18 +167,18 @@ function initLatestNews() {
     if (!container) return;
 
     // --- A. MOBILE TAP LOGIC ---
-    container.addEventListener('click', function(e) {
+    container.addEventListener('click', function (e) {
         if (window.innerWidth > 600) return; // Only for Mobile
 
         const card = e.target.closest('.news-card');
-        if (!card) return; 
+        if (!card) return;
 
         // Check if clicked the Headline Link
         const link = card.querySelector('a');
         if (link && link.contains(e.target)) {
             // IF CLOSED: Stop link, open details
             if (!card.classList.contains('active')) {
-                e.preventDefault(); 
+                e.preventDefault();
                 // Close others (Accordion style)
                 document.querySelectorAll('.news-card.active').forEach(c => {
                     c.classList.remove('active');
@@ -191,10 +191,10 @@ function initLatestNews() {
 
     // --- B. LOAD DATA ---
     subscribeLatestNews((articles) => {
-        container.innerHTML = ''; 
-        
-        if (articles.length === 0) { 
-            container.innerHTML = '<p style="padding:20px;">No updates yet.</p>'; 
+        container.innerHTML = '';
+
+        if (articles.length === 0) {
+            container.innerHTML = '<p style="padding:20px;">No updates yet.</p>';
         } else {
             articles.forEach(article => {
                 let dateObj = typeof article.datePosted.toDate === 'function' ? article.datePosted.toDate() : new Date(article.datePosted);
@@ -205,7 +205,7 @@ function initLatestNews() {
                     <section class="timeline-item">
                         <section class="time">${timeAgo}</section>
                         <section class="news-card">
-                            <a href="/articles/article.html?id=${article.id}" style="text-decoration:none; color:inherit;">
+                            <a href="/article?id=${article.id}" style="text-decoration:none; color:inherit;">
                                 <h3>${capitalizeWords(article.title)}</h3>
                             </a>
                             <section class="details">
@@ -225,7 +225,7 @@ function initLatestNews() {
 
         // 2. Hide Skeleton Wrapper
         if (skeletonView) skeletonView.classList.add('hidden');
-        
+
         // 3. Show Real Wrapper
         if (realView) {
             realView.classList.remove('hidden');
@@ -235,15 +235,15 @@ function initLatestNews() {
 }
 
 function capitalizeWords(str) {
-  const words = str.split(" ");
+    const words = str.split(" ");
 
-  for (let i = 0; i < words.length; i++) {
-    words[i] =
-      words[i].charAt(0).toUpperCase() +
-      words[i].slice(1).toLowerCase();
-  }
+    for (let i = 0; i < words.length; i++) {
+        words[i] =
+            words[i].charAt(0).toUpperCase() +
+            words[i].slice(1).toLowerCase();
+    }
 
-  return words.join(" ");
+    return words.join(" ");
 }
 
 
@@ -261,9 +261,9 @@ function getTimeAgo(date) {
 // --- STEPPED SCROLL LOGIC ---
 const sections = [
     { selector: '.HOME' },
-    { selector: '.page1' }, // Featured Section
-    { selector: '.PAGE:nth-of-type(2)' }, // Latest News
-    { selector: '.PAGE:nth-of-type(3)' }  // Top News
+    { selector: '#featured-section' },
+    { selector: '#latest-news-section' },
+    { selector: '#top-news-section' }
 ];
 
 let currentSectionIndex = 0;
@@ -324,7 +324,7 @@ window.addEventListener('scroll', () => {
             if (scrollPos >= offsetTop && scrollPos <= offsetBottom) {
                 currentSectionIndex = idx;
                 // Re-engage stepped logic if they scrolled back into range
-                isSteppedScrolling = true; 
+                isSteppedScrolling = true;
             }
         }
     });
@@ -332,7 +332,7 @@ window.addEventListener('scroll', () => {
 
 
 // --- TYPEWRITER LOGIC ---
-var TxtType = function(el, toRotate, period) {
+var TxtType = function (el, toRotate, period) {
     this.toRotate = toRotate;
     this.el = el;
     this.loopNum = 0;
@@ -343,7 +343,7 @@ var TxtType = function(el, toRotate, period) {
     this.tick();
 };
 
-TxtType.prototype.tick = function() {
+TxtType.prototype.tick = function () {
     if (this.isFinished) return;
 
     var i = this.loopNum;
@@ -383,7 +383,7 @@ TxtType.prototype.tick = function() {
         delta = 500;
     }
 
-    setTimeout(function() {
+    setTimeout(function () {
         that.tick();
     }, delta);
 };

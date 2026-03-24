@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bit.feed</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tagline {
+      font-size: 1.45rem;
+      font-weight: 300;
+      color: #9ca3af;
+      text-align: center;
+      margin-bottom: 56px;
+      letter-spacing: 0.01em;
+    }
+
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 72px;
+    }
+
+    .link-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .link-btn:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+
+    .link-btn.primary {
+      background-color: #d05c52;
+      color: #ffffff;
+    }
+
+    .link-btn.secondary {
+      background-color: #f0f0f0;
+      color: #111111;
+    }
+
+    .link-btn.secondary:hover {
+      background-color: #d05c52;
+      color: #ffffff;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background-color: #e5e7eb;
+      margin: 16px auto;
+      border-radius: 2px;
+    }
+
+    .footer {
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: #111111;
+      margin-bottom: 4px;
+    }
+
+    .logo span.dot-it {
+      color: #d05c52;
+    }
+
+    .by-line {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      font-weight: 300;
+    }
+
+    .by-line a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p class="tagline">Clean. Minimal. Business &amp; AI Insights.</p>
+
+    <div class="links">
+      <a href="https://bitfeed.in" class="link-btn primary" target="_blank">website</a>
+      <div class="divider"></div>
+      <a href="https://bitfeed.in/apply" class="link-btn secondary" target="_blank">Apply as a reporter</a>
+      <a href="www.youtube.com/@yukone-team" class="link-btn secondary" target="_blank">youtube</a>
+      <a href="https://instagram.com/bitfeed.in" class="link-btn secondary" target="_blank">instagram</a>
+      <a href="mailto:custmr.team@gmail.com" class="link-btn secondary">contact us</a>
+    </div>
+
+    <div class="footer">
+      <div class="logo">bi<span class="dot-it">t.</span>feed</div>
+      <div class="by-line">by <a href="https://custmr.team" target="_blank">custmr.team</a></div>
+    </div>
+  </div>
+</body>
+</html>

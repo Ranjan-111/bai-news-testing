@@ -11,6 +11,15 @@
 
     <!-- Private page — do not index -->
     <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="View your saved articles on bitfeed.">
+    <link rel="canonical" href="https://bitfeed.in/user">
+    <meta property="og:title" content="User Profile — bitfeed">
+    <meta property="og:description" content="View your saved articles on bitfeed.">
+    <meta property="og:image" content="https://bitfeed.in/assets/favicon.png">
+    <meta property="og:url" content="https://bitfeed.in/user">
+    <meta property="og:type" content="profile">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="User Profile — bitfeed">
     <meta name="theme-color" content="#d73634">
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/png" href="/assets/favicon.png">
@@ -19,7 +28,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/layout/layout.css">
     <link rel="stylesheet" href="/articles/multi-article.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="user.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/profile pages/user.css" media="print" onload="this.media='all'">
 
     <style>
         .menu__icon {
@@ -37,7 +46,7 @@
     <div class="container">
         <h1 class="greeting">Hi, <span id="user-name-display">Reader</span></h1>
 
-        <h2 class="section-title">Saved News</h2>
+        <h2 class="section-title">Liked News</h2>
         <hr class="header-line">
 
         <div class="main-content">
@@ -69,7 +78,7 @@
     <div id="global-footer"></div>
 
     <script defer type="module" src="/layout/layout.js"></script>
-    <script defer type="module" src="user-profile.js"></script>
+    <script defer type="module" src="/profile pages/user-profile.js"></script>
 </body>
 
 </html>

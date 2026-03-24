@@ -8,7 +8,7 @@ const db = getFirestore(app);
 let currentUser = null;
 let tags = [];
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 
     // 1. CHECK AUTH
     onAuthStateChanged(auth, async (user) => {
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('inp-author').value = user.displayName || user.email;
         } else {
             alert("You must be logged in.");
-            window.location.href = "/main/index.html";
+            window.location.href = "/";
         }
     });
 
@@ -50,34 +50,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 2b. IMAGE PREVIEW on radio change
+    // 2b. IMAGE TAGS — DYNAMIC FROM JSON
     // ==========================================
     const imgPreviewBox = document.getElementById('img-preview-box');
     const imgPreview = document.getElementById('img-preview');
     const noImgText = document.getElementById('no-img-text');
+    const imgSuggestContainer = document.getElementById('img-suggest-options');
 
-    document.querySelectorAll('input[name="img-suggest"]').forEach(radio => {
-        radio.addEventListener('change', (e) => {
-            imgPreview.src = e.target.value;
-            imgPreview.classList.remove('hidden');
-            noImgText.style.display = 'none';
+    try {
+        const imgTagsRes = await fetch('/assets/tags/img-tags.json');
+        const imgTags = await imgTagsRes.json();
+
+        imgTags.forEach(tag => {
+            const id = 'post-suggest-' + tag.name.toLowerCase().replace(/\s+/g, '-');
+            const div = document.createElement('div');
+            div.className = 'img-suggest-option';
+            div.innerHTML = `
+                <input type="radio" name="img-suggest" id="${id}" value="${tag.path}" data-tag="${tag.name}">
+                <label for="${id}">${tag.name}</label>
+            `;
+            imgSuggestContainer.appendChild(div);
+
+            // Attach preview listener
+            div.querySelector('input').addEventListener('change', (e) => {
+                imgPreview.src = e.target.value;
+                imgPreview.classList.remove('hidden');
+                noImgText.style.display = 'none';
+            });
         });
-    });
+    } catch (e) { console.error('Error loading image tags:', e); }
 
     // ==========================================
-    // 2c. TAG SUGGESTIONS (click to add)
+    // 2c. TAG SUGGESTIONS (removed static buttons — now dynamic via typing)
     // ==========================================
     const tagSuggestions = document.getElementById('tag-suggestions');
-
-    document.querySelectorAll('.tag-suggest-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const val = btn.dataset.tag;
-            if (val && !tags.includes(val) && tags.length < 5) {
-                tags.push(val);
-                renderTags();
-            }
-        });
-    });
 
     // ==========================================
     // 3. TAGS LOGIC (Free-text, max 5)
@@ -104,17 +110,12 @@ document.addEventListener('DOMContentLoaded', () => {
         tagInput.placeholder = tags.length >= 5 ? '' : 'Type & Press Enter';
     }
 
-    // PREDEFINED LOCAL TAGS FOR SUGGESTIONS
-    const PREDEFINED_TAGS = [
-        "Algorithms", "Image Modal", "Video Modal", "LLMs", "Research", "Google", "AI Agents",
-        "Artificial Intelligence", "Machine Learning", "Deep Learning", "Neural Networks",
-        "Generative AI", "NLP", "Computer Vision", "Robotics", "Automation",
-        "Startup", "Funding", "Venture Capital", "SaaS", "Entrepreneurship", "Fintech",
-        "Tech", "Software", "Hardware", "Cloud Computing", "Cybersecurity", "Blockchain",
-        "OpenAI", "Anthropic", "Meta", "Microsoft", "Apple", "Nvidia", "Data Science",
-        "Analytics", "Web3", "Crypto", "AR/VR", "IoT", "5G", "Quantum Computing",
-        "Open Source", "Ethics", "Regulation", "Dataset", "Benchmark", "Training", "Multimodal"
-    ];
+    // PREDEFINED TAGS — LOADED FROM JSON
+    let PREDEFINED_TAGS = [];
+    try {
+        const tagsRes = await fetch('/assets/tags/tag-suggestions.json');
+        PREDEFINED_TAGS = await tagsRes.json();
+    } catch (e) { console.error('Error loading tag suggestions:', e); }
 
     // Show suggestions while typing, hide on Enter
     let suggestionTimeout;
@@ -242,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('previewArticle', JSON.stringify(previewData));
 
         // Open in same tab
-        window.location.href = '/articles/article.html?preview=true';
+        window.location.href = '/article?preview=true';
     });
 
 
@@ -293,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             await addDoc(collection(db, "articles"), newArticle);
             alert("Article Sent for Approval!");
-            window.location.href = "/main/index.html";
+            window.location.href = "/";
 
         } catch (error) {
             console.error("Error posting:", error);

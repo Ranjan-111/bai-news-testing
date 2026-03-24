@@ -1,8 +1,13 @@
 # bitfeed.in Robots Configuration
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /profile%20pages/user.html
+Disallow: /dashboard
+Disallow: /post-article
+Disallow: /article-requests
+Disallow: /bulk-upload
+Disallow: /panel
+Disallow: /user
+Disallow: /error
 
 # Sitemap location
 Sitemap: https://bitfeed.in/sitemap.xml

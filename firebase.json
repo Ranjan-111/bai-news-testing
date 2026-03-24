@@ -6,13 +6,6 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "redirects": [
-      {
-        "source": "/",
-        "destination": "/main/index.html",
-        "type": 301
-      }
-    ],
     "headers": [
       {
         "source": "**",
@@ -73,6 +66,82 @@
       }
     ],
     "rewrites": [
+      {
+        "source": "/",
+        "destination": "/main/index.html"
+      },
+      {
+        "source": "/home",
+        "destination": "/main/index.html"
+      },
+      {
+        "source": "/article",
+        "destination": "/articles/article.html"
+      },
+      {
+        "source": "/news",
+        "destination": "/articles/multi-article.html"
+      },
+      {
+        "source": "/multi-article",
+        "destination": "/articles/multi-article.html"
+      },
+      {
+        "source": "/error",
+        "destination": "/others/x-error.html"
+      },
+      {
+        "source": "/students",
+        "destination": "/students/Students.html"
+      },
+      {
+        "source": "/resources",
+        "destination": "/students/resources/resources.html"
+      },
+      {
+        "source": "/user",
+        "destination": "/profile pages/user.html"
+      },
+      {
+        "source": "/author",
+        "destination": "/profile pages/author.html"
+      },
+      {
+        "source": "/apply",
+        "destination": "/profile pages/apply.html"
+      },
+      {
+        "source": "/about",
+        "destination": "/others/about.html"
+      },
+      {
+        "source": "/privacy-policy",
+        "destination": "/others/privacy-policy.html"
+      },
+      {
+        "source": "/dashboard",
+        "destination": "/admin/dashboard.html"
+      },
+      {
+        "source": "/post-article",
+        "destination": "/admin/post-article.html"
+      },
+      {
+        "source": "/article-requests",
+        "destination": "/admin/article-requests.html"
+      },
+      {
+        "source": "/bulk-upload",
+        "destination": "/admin/bulk-upload.html"
+      },
+      {
+        "source": "/panel",
+        "destination": "/admin/panel.html"
+      },
+      {
+        "source": "/links",
+        "destination": "/Linktree.html"
+      },
       {
         "source": "**",
         "destination": "/main/index.html"

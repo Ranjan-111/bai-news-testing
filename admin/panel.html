@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel - bitfeed</title>
+    <meta name="robots" content="noindex, nofollow">
         <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="apple-touch-icon" href="/assets/favicon.png">
 
@@ -194,7 +195,7 @@
     <header class="panel-header">
         <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" 
              alt="Back" class="back-btn" onclick="history.back()"/>
-        <a href="/main/index.html"><h1>Reporter Applications</h1></a>
+        <a href="/"><h1>Reporter Applications</h1></a>
     </header>
 
     <main class="container">
@@ -217,7 +218,7 @@
         import { app } from '/Article/firebase-db.js';
         
         const db = getFirestore(app);
-        const GOOGLE_SCRIPT_URL = "YOUR_SCRIPT_URL_HERE"; 
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxhg8RVuWDx_tvidbuIj0yAxjZ_GY15Z7GBTcRqBiUvjFBbwPh8bA8MiiF9ucYRPnka/exec";
 
         // Store fetched data to access details later
         let pendingRequests = [];
@@ -253,7 +254,7 @@
                 div.onclick = () => openDetailModal(index);
 
                 div.innerHTML = `
-                    <img src="${photo}" class="req-thumb" alt="User">
+                    <img src="/admin/${photo}" class="req-thumb" alt="User">
                     <div class="request-info">
                         <h3>${data.displayName}</h3>
                         <p>${data.email}</p>
@@ -262,7 +263,7 @@
                     <button class="btn-approve" onclick="event.stopPropagation(); approveReporter('${docId}', '${data.displayName}', '${data.email}')">
                         Approve
                     </button>
-                    <button class="btn-reject" onclick="event.stopPropagation(); rejectReporter('${docId}', '${data.displayName}')">
+                    <button class="btn-reject" onclick="event.stopPropagation(); rejectReporter('${docId}', '${data.displayName}', '${data.email}')">
                         Reject
                     </button>
                 `;
@@ -288,7 +289,7 @@
             // UPDATED: Fields changed as requested
             content.innerHTML = `
                 <div class="detail-header">
-                    <img src="${photo}" class="detail-img">
+                    <img src="/admin/${photo}" class="detail-img">
                     <div class="detail-name">${data.displayName}</div>
                     <div class="detail-email">${data.email}</div>
                 </div>
@@ -350,41 +351,14 @@
                 await updateDoc(doc(db, "authors", docId), { status: "active", role: "author" });
                 await updateDoc(doc(db, "users", email), { role: "author" });
 
-                // 2. PREPARE EMAIL HTML
-                const emailHtml = `
-                <!DOCTYPE html>
-                <html>
-                <body style="margin:0;padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background-color:#ffffff;color:#333;">
-                    <div style="max-width:600px;margin:0 auto;padding-top:40px;">
-                        <div style="text-align:center;margin-bottom:30px;">
-                            <span style="font-size:24px;color:#000;">bitfeed</span>
-                        </div>
-                        <hr style="border:none;border-top:1px solid #e0e0e0;margin:0 0 40px 0;">
-                        <div style="padding:0 20px;">
-                            <p style="font-size:16px;line-height:1.6;margin-bottom:25px;">Hi ${name},</p>
-                            <p style="font-size:16px;line-height:1.6;margin-bottom:25px;"><strong>Congratulations!</strong> We’ve received your application and we are thrilled to officially welcome you to the bitfeed news newsroom.</p>
-                            <ul style="font-size:16px;line-height:1.6;margin-bottom:25px;padding-left:20px;">
-                                <li style="margin-bottom:15px;"><strong>Review our Style Guide:</strong> Check out our <a href="https://bai.news/others/privacy-policy.html" style="color:#333;text-decoration:underline;">Guidelines</a>.</li>
-                                <li style="margin-bottom:15px;"><strong>Submit Your First Lead:</strong> Head over to your <a href="https://bai.news/profile pages/user.html" style="color:#333;text-decoration:underline;">Dashboard</a> to start.</li>
-                            </ul>
-                            <p style="font-size:16px;line-height:1.6;margin-bottom:60px;">Happy reporting,<br><br><strong>bitfeed.team</strong></p>
-                        </div>
-                        <div style="background-color:#000;color:#fff;padding:30px 20px;text-align:center;font-size:12px;">
-                            <p style="margin:0;">&copy; 2025 bitfeed news. All rights reserved.</p>
-                        </div>
-                    </div>
-                <\/body>
-                <\/html>
-                `;
-
-                // 3. Send Email
+                // 2. Send Approved Email via Google Apps Script
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: "POST",
                     mode: "no-cors",
                     body: JSON.stringify({
                         type: "approve",
                         email: email,
-                        htmlTemplate: emailHtml
+                        name: name
                     })
                 });
 
@@ -397,18 +371,30 @@
             }
         };
 
-        window.rejectReporter = async (docId, name) => {
+
+        window.rejectReporter = async (docId, name, email) => {
             if(!confirm(`Reject ${name}'s reporter application? This will delete their request.`)) return;
 
             // Close modal if open
             closeModal();
 
             try {
-                // Delete the document from Firestore
+                // 1. Send Rejection Email via Google Apps Script
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    body: JSON.stringify({
+                        type: "reject",
+                        email: email,
+                        name: name
+                    })
+                });
+
+                // 2. Delete the document from Firestore
                 const docRef = doc(db, "authors", docId);
                 await deleteDoc(docRef);
 
-                alert(`${name}'s application has been rejected and removed.`);
+                alert(`${name}'s application has been rejected. Email sent & record removed.`);
                 loadRequests(); // Reload to remove rejected card
             } catch (error) {
                 console.error("Error rejecting reporter:", error);

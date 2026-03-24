@@ -3,55 +3,63 @@
   <!-- Homepage -->
   <url>
     <loc>https://bitfeed.in/</loc>
-    <lastmod>2026-02-21</lastmod>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- All Articles Listing -->
+  <!-- All Articles / News -->
   <url>
-    <loc>https://bitfeed.in/articles/multi-article.html</loc>
-    <lastmod>2026-02-21</lastmod>
+    <loc>https://bitfeed.in/news</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- Students / AI Learning -->
   <url>
-    <loc>https://bitfeed.in/students/Students.html</loc>
-    <lastmod>2026-02-21</lastmod>
+    <loc>https://bitfeed.in/students</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Student Resources -->
   <url>
-    <loc>https://bitfeed.in/students/resources/resources.html</loc>
-    <lastmod>2026-02-21</lastmod>
+    <loc>https://bitfeed.in/resources</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <!-- About -->
   <url>
-    <loc>https://bitfeed.in/others/about.html</loc>
-    <lastmod>2026-02-21</lastmod>
+    <loc>https://bitfeed.in/about</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <!-- Privacy Policy -->
   <url>
-    <loc>https://bitfeed.in/others/privacy-policy.html</loc>
-    <lastmod>2026-02-21</lastmod>
+    <loc>https://bitfeed.in/privacy-policy</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <!-- Apply / Join Newsroom -->
   <url>
-    <loc>https://bitfeed.in/profile%20pages/apply.html</loc>
-    <lastmod>2026-02-21</lastmod>
+    <loc>https://bitfeed.in/apply</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Linktree / Socials -->
+  <url>
+    <loc>https://bitfeed.in/links</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

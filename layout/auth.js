@@ -10,7 +10,9 @@ import {
     updateProfile,
     updateEmail,
     fetchSignInMethodsForEmail,
-    deleteUser
+    deleteUser,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 // ADDED: Firestore imports needed for the Role Check
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -119,7 +121,7 @@ async function updateUIForUser(user) {
 
                 subscribeBtn.onclick = (e) => {
                     e.stopPropagation();
-                    window.location.href = "/admin/dashboard.html";
+                    window.location.href = "/dashboard";
                 };
 
             } else if (isAuthor) {
@@ -132,7 +134,7 @@ async function updateUIForUser(user) {
 
                 subscribeBtn.onclick = (e) => {
                     e.stopPropagation();
-                    window.location.href = "/admin/post-article.html";
+                    window.location.href = "/post-article";
                 };
 
             } else {
@@ -180,15 +182,34 @@ export function initPopupLogic() {
     const viewOptions = document.getElementById('view-options');
     const viewEmail = document.getElementById('view-email');
     const viewOtp = document.getElementById('view-otp');
+    const viewPassword = document.getElementById('view-password');
 
     const popBody = document.querySelector('.pop-body');
     const btnToEmail = document.getElementById('btn-to-email');
     const btnBack = document.getElementById('btn-back');
     const formEmail = document.getElementById('form-email');
     const inputEmail = document.getElementById('email-input');
+    const emailErrorMsg = document.getElementById('email-error-msg');
+    
     const displayEmail = document.getElementById('display-email');
     const newsletterCheck = document.getElementById('newsletter-check');
     const checkboxRow = document.querySelector('.checkbox-row');
+
+    const formPassword = document.getElementById('form-password');
+    const inputPassword = document.getElementById('password-input');
+    const btnBackPassword = document.getElementById('btn-back-password');
+    const passwordHeading = document.getElementById('password-heading');
+    const passwordErrorMsg = document.getElementById('password-error-msg');
+
+    const togglePasswordView = document.getElementById('toggle-password-view');
+    const eyeOpen = document.getElementById('eye-icon-open');
+    const eyeClosed = document.getElementById('eye-icon-closed');
+    const passwordChecklist = document.getElementById('password-checklist');
+    const reqLength = document.getElementById('req-length');
+    const reqUpper = document.getElementById('req-uppercase');
+    const reqLower = document.getElementById('req-lowercase');
+    const reqNum = document.getElementById('req-number');
+    const reqSym = document.getElementById('req-symbol');
 
     const otpInputs = document.querySelectorAll('.otp-digit');
     const otpToast = document.getElementById('otp-toast');
@@ -213,11 +234,9 @@ export function initPopupLogic() {
             if (isLoginMode) {
                 if (txtGoogle) txtGoogle.textContent = "Sign in with Google";
                 if (txtTwitter) txtTwitter.textContent = "Sign in with X";
-                // if (txtEmail) txtEmail.textContent = "Sign in with email";
-                if (txtEmail) {
-                    btnToEmail.style.display = "none";
-                    popBody.style.marginTop = "33px";
-                }
+                if (txtEmail) txtEmail.textContent = "Sign in with email";
+                if (btnToEmail) btnToEmail.style.display = "flex";
+                if (popBody) popBody.style.marginTop = "";
                 if (footerPrompt) footerPrompt.textContent = "New here? ";
                 toggleLink.textContent = "Create an account";
                 if (checkboxRow) checkboxRow.classList.add('hidden');
@@ -225,6 +244,8 @@ export function initPopupLogic() {
                 if (txtGoogle) txtGoogle.textContent = "Sign up with Google";
                 if (txtTwitter) txtTwitter.textContent = "Sign up with X";
                 if (txtEmail) txtEmail.textContent = "Sign up with email";
+                if (btnToEmail) btnToEmail.style.display = "flex";
+                if (popBody) popBody.style.marginTop = "";
                 if (footerPrompt) footerPrompt.textContent = "Already have an account? ";
                 toggleLink.textContent = "Sign in";
                 if (checkboxRow) checkboxRow.classList.remove('hidden');
@@ -238,20 +259,36 @@ export function initPopupLogic() {
         if (viewOptions) viewOptions.classList.add('hidden');
         if (viewEmail) viewEmail.classList.add('hidden');
         if (viewOtp) viewOtp.classList.add('hidden');
+        if (viewPassword) viewPassword.classList.add('hidden');
 
         isLoginMode = false;
         if (toggleLink) toggleLink.textContent = "Sign in";
 
         if (inputEmail) inputEmail.value = "";
+        if (emailErrorMsg) { emailErrorMsg.textContent = ""; emailErrorMsg.classList.add('hidden'); }
+        if (passwordErrorMsg) { passwordErrorMsg.textContent = ""; passwordErrorMsg.classList.add('hidden'); }
+        
+        if (inputPassword) {
+            inputPassword.value = "";
+            inputPassword.type = "password";
+            if (eyeOpen) eyeOpen.classList.add('hidden');
+            if (eyeClosed) eyeClosed.classList.remove('hidden');
+        }
+        if (passwordChecklist) passwordChecklist.classList.add('hidden');
+        
+        [reqLength, reqUpper, reqLower, reqNum, reqSym].forEach(req => { 
+            if (req) { req.style.color = "#d73634"; const s = req.querySelector('span'); if(s) s.textContent = "✕"; } 
+        });
+        
         otpInputs.forEach(input => input.value = "");
         if (newsletterCheck) newsletterCheck.checked = false;
         if (timerInterval) clearInterval(timerInterval);
 
         if (footerPrompt) footerPrompt.textContent = "Already have an account? ";
         if (checkboxRow) checkboxRow.classList.remove('hidden');
-        if (txtGoogle) txtGoogle.textContent = "Sign in with Google";
-        if (txtTwitter) txtTwitter.textContent = "Sign in with X";
-        if (txtEmail) txtEmail.textContent = "Sign in with email";
+        if (txtGoogle) txtGoogle.textContent = "Sign up with Google";
+        if (txtTwitter) txtTwitter.textContent = "Sign up with X";
+        if (txtEmail) txtEmail.textContent = "Sign up with email";
     }
 
     document.addEventListener('click', (e) => {
@@ -273,6 +310,7 @@ export function initPopupLogic() {
         btnToEmail.addEventListener('click', () => {
             viewOptions.classList.add('hidden');
             viewEmail.classList.remove('hidden');
+            if (emailErrorMsg) { emailErrorMsg.textContent = ""; emailErrorMsg.classList.add('hidden'); }
             if (inputEmail) inputEmail.focus();
         });
     }
@@ -281,6 +319,17 @@ export function initPopupLogic() {
         btnBack.addEventListener('click', () => {
             viewEmail.classList.add('hidden');
             viewOptions.classList.remove('hidden');
+            if (inputEmail) inputEmail.value = "";
+            if (emailErrorMsg) { emailErrorMsg.textContent = ""; emailErrorMsg.classList.add('hidden'); }
+        });
+    }
+
+    if (btnBackPassword) {
+        btnBackPassword.addEventListener('click', () => {
+            if (viewPassword) viewPassword.classList.add('hidden');
+            if (emailErrorMsg) { emailErrorMsg.textContent = ""; emailErrorMsg.classList.add('hidden'); }
+            if (passwordErrorMsg) { passwordErrorMsg.textContent = ""; passwordErrorMsg.classList.add('hidden'); }
+            if (viewEmail) viewEmail.classList.remove('hidden');
         });
     }
 
@@ -317,14 +366,124 @@ export function initPopupLogic() {
     }
 
     if (formEmail) {
-        formEmail.addEventListener('submit', (e) => {
+        formEmail.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (inputEmail && inputEmail.value.trim() !== "") {
-                if (displayEmail) displayEmail.textContent = inputEmail.value;
-                viewEmail.classList.add('hidden');
-                viewOtp.classList.remove('hidden');
-                if (otpInputs[0]) otpInputs[0].focus();
-                startOtpTimer();
+            if (emailErrorMsg) { emailErrorMsg.textContent = ""; emailErrorMsg.classList.add('hidden'); }
+            const email = inputEmail ? inputEmail.value.trim() : "";
+            
+            if (email) {
+                try {
+                    const methods = await fetchSignInMethodsForEmail(auth, email);
+                    
+                    if (isLoginMode) {
+                        // SIGN IN
+                        if (methods && methods.includes('password')) {
+                            viewEmail.classList.add('hidden');
+                            viewPassword.classList.remove('hidden');
+                            if (passwordHeading) passwordHeading.textContent = "Enter your password";
+                            if (passwordChecklist) passwordChecklist.classList.add('hidden');
+                            
+                            const submitBtn = document.getElementById('btn-submit-password');
+                            if (submitBtn) {
+                                submitBtn.disabled = false;
+                                submitBtn.style.opacity = "1";
+                                submitBtn.style.cursor = "pointer";
+                            }
+                            if (inputPassword) inputPassword.focus();
+                        } else {
+                            emailErrorMsg.textContent = "No password account found. Please sign up or use Google/X.";
+                            emailErrorMsg.classList.remove('hidden');
+                        }
+                    } else {
+                        // SIGN UP
+                        if (methods && methods.includes('password')) {
+                            emailErrorMsg.textContent = "Email already registered. Please sign in.";
+                            emailErrorMsg.classList.remove('hidden');
+                        } else {
+                            // Proceed to OTP
+                            if (displayEmail) displayEmail.textContent = email;
+                            viewEmail.classList.add('hidden');
+                            viewOtp.classList.remove('hidden');
+                            if (otpInputs[0]) otpInputs[0].focus();
+                            sendOTP(email);
+                            startOtpTimer();
+                        }
+                    }
+                } catch (error) {
+                    console.error("Method fetch error:", error);
+                    // Fallback to directly prompting for password or OTP depending on mode
+                    if (isLoginMode) {
+                        viewEmail.classList.add('hidden');
+                        viewPassword.classList.remove('hidden');
+                        if (passwordHeading) passwordHeading.textContent = "Enter your password";
+                        
+                        if (passwordChecklist) passwordChecklist.classList.add('hidden');
+                        const submitBtn = document.getElementById('btn-submit-password');
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.style.opacity = "1";
+                            submitBtn.style.cursor = "pointer";
+                        }
+                    } else {
+                        if (displayEmail) displayEmail.textContent = email;
+                        viewEmail.classList.add('hidden');
+                        viewOtp.classList.remove('hidden');
+                        sendOTP(email);
+                        startOtpTimer();
+                    }
+                }
+            }
+        });
+    }
+
+    // Connect Password Listener
+    if (formPassword) {
+        formPassword.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = inputEmail ? inputEmail.value.trim() : "";
+            const password = inputPassword ? inputPassword.value : "";
+            if (passwordErrorMsg) { passwordErrorMsg.textContent = ""; passwordErrorMsg.classList.add('hidden'); }
+
+            if (email && password) {
+                try {
+                    let userCredential;
+                    const isSubscribed = (!isLoginMode && newsletterCheck) ? newsletterCheck.checked : false;
+
+                    const submitButton = document.getElementById('btn-submit-password');
+                    if(submitButton) submitButton.disabled = true;
+
+                    if (isLoginMode) {
+                        userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    } else {
+                        userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                        const derivedName = email.split('@')[0];
+                        await updateProfile(userCredential.user, { displayName: derivedName });
+                    }
+
+                    const user = userCredential.user;
+                    const userForDB = { ...user, email: user.email || email, displayName: user.displayName || email.split('@')[0] };
+                    
+                    await saveUserToDB(userForDB, isSubscribed);
+                    
+                    if (typeof updateUIForUser === "function") updateUIForUser(userForDB);
+                    resetPopupState();
+
+                    if(submitButton) submitButton.disabled = false;
+
+                } catch (error) {
+                    console.error("Email Auth Error:", error.code);
+                    let errMsg = "Authentication failed. Please try again.";
+                    if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') errMsg = "Incorrect password. Please try again.";
+                    else if (error.code === 'auth/weak-password') errMsg = "Password should be at least 6 characters.";
+                    else if (error.code === 'auth/email-already-in-use') errMsg = "Email already registered. Please sign in.";
+                    
+                    if (passwordErrorMsg) {
+                        passwordErrorMsg.textContent = errMsg;
+                        passwordErrorMsg.classList.remove('hidden');
+                    }
+                    const submitButton = document.getElementById('btn-submit-password');
+                    if(submitButton) submitButton.disabled = false;
+                }
             }
         });
     }
@@ -392,6 +551,66 @@ export function initPopupLogic() {
         });
     });
 
+    // Password View Toggle logic
+    if (togglePasswordView) {
+        togglePasswordView.addEventListener('click', () => {
+            if (inputPassword.type === 'password') {
+                inputPassword.type = 'text';
+                if (eyeOpen) eyeOpen.classList.remove('hidden');
+                if (eyeClosed) eyeClosed.classList.add('hidden');
+            } else {
+                inputPassword.type = 'password';
+                if (eyeOpen) eyeOpen.classList.add('hidden');
+                if (eyeClosed) eyeClosed.classList.remove('hidden');
+            }
+        });
+    }
+
+    // Live Password Validation logic
+    if (inputPassword) {
+        inputPassword.addEventListener('input', (e) => {
+            if (isLoginMode) return;
+            
+            const val = e.target.value;
+            const hasLength = val.length >= 6;
+            const hasUpper = /[A-Z]/.test(val);
+            const hasLower = /[a-z]/.test(val);
+            const hasNum = /[0-9]/.test(val);
+            const hasSym = /[!@#$%&]/.test(val);
+
+            const updateReq = (el, isValid) => {
+                if (!el) return;
+                const icon = el.querySelector('span');
+                if (isValid) {
+                    if (icon) icon.textContent = "✓";
+                    el.style.color = "black";
+                } else {
+                    if (icon) icon.textContent = "✕";
+                    el.style.color = "#d73634";
+                }
+            };
+
+            updateReq(reqLength, hasLength);
+            updateReq(reqUpper, hasUpper);
+            updateReq(reqLower, hasLower);
+            updateReq(reqNum, hasNum);
+            updateReq(reqSym, hasSym);
+            
+            const submitBtn = document.getElementById('btn-submit-password');
+            if (submitBtn) {
+                if (hasLength && hasUpper && hasLower && hasNum && hasSym) {
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = "1";
+                    submitBtn.style.cursor = "pointer";
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = "0.5";
+                    submitBtn.style.cursor = "not-allowed";
+                }
+            }
+        });
+    }
+
     // ==========================================
     // GOOGLE APPS SCRIPT AUTH LOGIC
     // ==========================================
@@ -435,70 +654,27 @@ export function initPopupLogic() {
         inputs.forEach(input => enteredCode += input.value);
 
         if (enteredCode === generatedOTP) {
-
-            // Start the Anonymous Login + Upgrade Flow
-            signInAnonymously(auth)
-                .then(async (result) => {
-                    const user = result.user;
-                    const userEmail = document.getElementById('email-input').value;
-                    const derivedName = userEmail.split('@')[0];
-                    const isSubscribed = (!isLoginMode && newsletterCheck) ? newsletterCheck.checked : false;
-
-                    try {
-                        // Force token refresh
-                        await user.getIdToken(true);
-
-                        // 1. Set Name
-                        await updateProfile(user, { displayName: derivedName });
-
-                        // 2. Set Email (THIS WILL FAIL IF EMAIL EXISTS)
-                        await updateEmail(user, userEmail);
-
-                        // 3. Save to DB
-                        const userWithEmail = { ...user, email: userEmail, displayName: derivedName };
-                        await saveUserToDB(userWithEmail, isSubscribed);
-
-                        // 4. Success UI
-                        if (typeof updateUIForUser === "function") updateUIForUser(userWithEmail);
-                        resetPopupState();
-                        if (isLoginMode) alert("Welcome back! You have successfully signed in.");
-
-                    } catch (error) {
-                        console.error("Link Error:", error.code);
-
-                        // --- CRITICAL ERROR HANDLING FOR EXISTING USERS ---
-                        if (error.code === 'auth/email-already-in-use') {
-
-                            // A. Check if they have Google linked
-                            try {
-                                const methods = await fetchSignInMethodsForEmail(auth, userEmail);
-                                if (methods && methods.includes('google.com')) {
-                                    alert(`You already have an account with Google for ${userEmail}. Please click 'Sign in with Google' instead.`);
-                                } else {
-                                    alert(`The email ${userEmail} is already registered. Please sign in with your Password or Google account.`);
-                                }
-                            } catch (e) {
-                                // Fallback if enumeration protection is on
-                                alert("This email is already registered. Please sign in using Google or your password.");
-                            }
-
-                            // B. CLEANUP: Delete the temp anonymous user so they aren't stuck
-                            try { await deleteUser(user); } catch (e) { console.log("Cleanup error", e); }
-
-                            // C. Reset UI
-                            resetPopupState();
-
-                        } else if (error.code === 'auth/operation-not-allowed') {
-                            alert("Config Error: Please enable Anonymous Auth & Email Auth in Firebase Console.");
-                        } else {
-                            alert("Error: " + error.message);
-                        }
-                    }
-                })
-                .catch((error) => {
-                    console.error("Auth Error:", error);
-                    alert("Login failed: " + error.message);
-                });
+            
+            // Advance to Create Password logic
+            const viewPwd = document.getElementById('view-password');
+            const viewOtpSec = document.getElementById('view-otp');
+            
+            if (viewOtpSec) viewOtpSec.classList.add('hidden');
+            if (viewPwd) viewPwd.classList.remove('hidden');
+            
+            const pwdHeading = document.getElementById('password-heading');
+            if (pwdHeading) pwdHeading.textContent = "Create a password";
+            
+            if (passwordChecklist) passwordChecklist.classList.remove('hidden');
+            const submitBtn = document.getElementById('btn-submit-password');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = "0.5";
+                submitBtn.style.cursor = "not-allowed";
+            }
+            
+            const pwdInput = document.getElementById('password-input');
+            if (pwdInput) pwdInput.focus();
 
         } else {
             alert("Incorrect Code. Please try again.");
@@ -507,19 +683,7 @@ export function initPopupLogic() {
         }
     }
 
-    // Connect Submit Listener
-    if (formEmail) {
-        formEmail.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = inputEmail.value.trim();
-            if (email) {
-                document.getElementById('view-email').classList.add('hidden');
-                document.getElementById('view-otp').classList.remove('hidden');
-                sendOTP(email);
-                startOtpTimer();
-            }
-        });
-    }
+    // (Deprecated double formEmail listener removed in favor of unified routing over line 319)
 
     // Auto-verify
     otpInputs.forEach((input, index) => {
@@ -571,7 +735,7 @@ function initProfilePopupLogic(user, isAdmin = false) {
         if (profileLink) {
             const dashboardLink = document.createElement('a');
             dashboardLink.className = 'profile-menu-item admin-dashboard-link';
-            dashboardLink.href = '/admin/dashboard.html'; // <--- New Dashboard Page
+            dashboardLink.href = '/dashboard'; // <--- New Dashboard Page
             dashboardLink.innerText = 'dashboard';
             dashboardLink.style.color = '#d73634'; // Red highlight
             dashboardLink.style.fontWeight = '500';
@@ -640,7 +804,7 @@ function updateMobileProfileOptions(user, isAdmin = false) {
 
     // Profile link (always present)
     const profileOption = document.createElement('a');
-    profileOption.href = '/profile pages/user.html';
+    profileOption.href = '/user';
     profileOption.className = 'mobile-profile-option';
     profileOption.innerHTML = `
         <span class="label">profile</span>
@@ -650,7 +814,7 @@ function updateMobileProfileOptions(user, isAdmin = false) {
     // Add Dashboard for Admin
     if (isAdmin) {
         const dashboardOption = document.createElement('a');
-        dashboardOption.href = '/admin/dashboard.html';
+        dashboardOption.href = '/dashboard';
         dashboardOption.className = 'mobile-profile-option';
         dashboardOption.innerHTML = `
             <span class="label" style="color: #d73634; font-weight: 500;">dashboard</span>

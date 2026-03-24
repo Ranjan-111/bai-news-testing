@@ -28,6 +28,9 @@ let originalTitle = "";
 let originalSummary = "";
 let originalContent = "";
 let originalImageSrc = "";
+
+// Image tag data — loaded dynamically from JSON (populated in DOMContentLoaded)
+let IMG_TAGS_DATA = [];
 let newImageBase64 = null;
 let isEditing = false;
 
@@ -47,6 +50,12 @@ let contentVersions = {
 // MAIN ARTICLE LOAD
 // ==========================================
 document.addEventListener('DOMContentLoaded', async () => {
+
+    // 0. LOAD IMAGE TAGS JSON
+    try {
+        const _res = await fetch('/assets/tags/img-tags.json');
+        IMG_TAGS_DATA = await _res.json();
+    } catch (e) { console.error('Error loading image tags:', e); }
 
     // 1. SELECT MAIN SKELETON ELEMENTS
     const skeletonView = document.getElementById('skeleton-view');
@@ -186,6 +195,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     const authorEmail = article.authorEmail || "priyanshuranjank@gmail.com";
     let authorPicUrl = article.authorImage || AUTHOR_DEFAULTS[authorName] || "/assets/default-user.png";
 
+    // Attempt to fetch profile photo from authors or users collection dynamically
+    try {
+        if (!article.authorImage) {
+            // First check the `authors` collection
+            const authorRef = doc(db, "authors", authorEmail);
+            const authorSnap = await getDoc(authorRef);
+            
+            if (authorSnap.exists() && authorSnap.data().photoURL) {
+                authorPicUrl = authorSnap.data().photoURL;
+            } else {
+                // Fallback to `users` collection
+                const userRef = doc(db, "users", authorEmail);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists() && userSnap.data().photoURL) {
+                    authorPicUrl = userSnap.data().photoURL;
+                }
+            }
+        }
+    } catch (e) {
+        console.warn("Could not fetch author profile photo dynamically:", e);
+    }
+
     const authorNameEl = document.querySelector('.author-name');
     const authorImgEl = document.querySelector('.author-avatar');
     const linkImg = document.getElementById('auth-link-img');
@@ -194,7 +226,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (authorNameEl) authorNameEl.innerText = authorName;
     if (authorImgEl) { authorImgEl.src = authorPicUrl; authorImgEl.alt = authorName; }
 
-    const profileUrl = `/profile pages/author.html?id=${encodeURIComponent(authorEmail)}`;
+    const profileUrl = `/author?id=${encodeURIComponent(authorEmail)}`;
     // if (linkImg) linkImg.href = profileUrl;
     // if (linkName) linkName.href = profileUrl;
 
@@ -207,8 +239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 4. INIT UTILS (Only if not in preview)
     if (!isPreview) {
-        initLikeButton(articleId);
-        initSaveButton(articleId, article);
+        initLikeButton(articleId, article);
 
         // 5. LOAD RELATED (This triggers the second skeleton logic)
         if (article.tags && article.tags.length > 0) {
@@ -289,10 +320,10 @@ async function loadRelated(tags, currentId) {
                 if (item.status === 'active') {
                     const html = `
                         <div>
-                            <a href="article.html?id=${item.id}">
+                            <a href="/article?id=${item.id}">
                                 <img class="rel-img" src="${item.imageUrl || '/assets/default.png'}" alt="Related Image" loading="lazy">
                             </a>
-                            <h3><a href="article.html?id=${item.id}">${item.title}</a></h3>
+                            <h3><a href="/article?id=${item.id}">${item.title}</a></h3>
                         </div>
                     `;
                     container.insertAdjacentHTML('beforeend', html);
@@ -409,7 +440,7 @@ function updateSocialMetaTags(article) {
     }
 }
 
-async function initLikeButton(articleId) {
+async function initLikeButton(articleId, articleData) {
     const likeBtn = document.getElementById('like-btn');
     const likeIcon = document.getElementById('like-icon');
 
@@ -457,6 +488,9 @@ async function initLikeButton(articleId) {
                 likeIcon.src = UNFILLED_IMAGE;
                 // Toggle text back to "Like"
                 likeBtn.childNodes[0].textContent = "Like";
+
+                // Also UNSAVE the article
+                await toggleSaveArticle(articleId, false, articleData);
             } else {
                 // LIKE: Update DB and UI
                 await updateDoc(userRef, { likedArticles: arrayUnion(articleId) });
@@ -465,55 +499,12 @@ async function initLikeButton(articleId) {
                 likeIcon.src = FILLED_IMAGE;
                 // Toggle text to "Liked"
                 likeBtn.childNodes[0].textContent = "Liked";
-            }
-        } catch (error) {
-            console.error("Error toggling like:", error);
-        }
-    });
-}
 
-async function initSaveButton(articleId, articleData) {
-    const saveBtn = document.getElementById('save-btn');
-    const saveIcon = document.getElementById('save-icon');
-
-    if (!saveBtn || !saveIcon) return;
-
-    // Check initial state from LocalStorage
-    try {
-        const saved = JSON.parse(localStorage.getItem('user_saves') || '[]');
-        if (saved.includes(articleId)) {
-            saveIcon.style.filter = "grayscale(0%) opacity(1)";
-            saveBtn.childNodes[0].textContent = "Saved";
-        }
-    } catch (e) { console.warn(e); }
-
-    saveBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-
-        if (!auth.currentUser) {
-            const overlay = document.getElementById('popupOverlay');
-            const viewOptions = document.getElementById('view-options');
-            if (overlay) overlay.classList.add('active');
-            if (viewOptions) viewOptions.classList.remove('hidden');
-            return;
-        }
-
-        const currentlySaved = saveBtn.childNodes[0].textContent === "Saved";
-
-        try {
-            if (currentlySaved) {
-                // UI optimistic update
-                saveIcon.style.filter = "grayscale(100%) opacity(0.5)";
-                saveBtn.childNodes[0].textContent = "Save";
-                // DB update
-                await toggleSaveArticle(articleId, false, articleData);
-            } else {
-                saveIcon.style.filter = "grayscale(0%) opacity(1)";
-                saveBtn.childNodes[0].textContent = "Saved";
+                // Also SAVE the article
                 await toggleSaveArticle(articleId, true, articleData);
             }
         } catch (error) {
-            console.error("Error toggling save:", error);
+            console.error("Error toggling like:", error);
         }
     });
 }
@@ -608,10 +599,26 @@ window.toggleEditMode = function () {
     overlay.onclick = () => document.getElementById('edit-img-input').click();
     wrapper.appendChild(overlay);
 
-    // 6. Show image suggestion radios
+    // 6. Show image suggestion radios — render dynamically from JSON
     const editImgSuggestions = document.getElementById('edit-img-suggestions');
     if (editImgSuggestions) {
         editImgSuggestions.classList.remove('hidden');
+
+        // Render radios dynamically into the container
+        const editImgContainer = document.getElementById('edit-img-suggest-options');
+        if (editImgContainer) {
+            editImgContainer.innerHTML = ''; // Clear previous
+            IMG_TAGS_DATA.forEach(tag => {
+                const id = 'edit-suggest-' + tag.name.toLowerCase().replace(/\s+/g, '-');
+                const div = document.createElement('div');
+                div.className = 'img-suggest-option';
+                div.innerHTML = `
+                    <input type="radio" name="edit-img-suggest" id="${id}" value="${tag.path}" data-tag="${tag.name}">
+                    <label for="${id}">${tag.name}</label>
+                `;
+                editImgContainer.appendChild(div);
+            });
+        }
 
         // Reset radios
         document.querySelectorAll('input[name="edit-img-suggest"]').forEach(r => r.checked = false);
@@ -741,20 +748,34 @@ window.saveArticleChanges = async function () {
             }
         }
 
-        // 2. COLLECT DATA
+        // 2. IMAGE TAG SWAP LOGIC
+        // Build image tag names from fetched JSON data
+        const IMAGE_TAG_NAMES = IMG_TAGS_DATA.map(t => t.name);
+        const selectedRadio = document.querySelector('input[name="edit-img-suggest"]:checked');
+
+        // If an image suggestion was selected, swap the image tag in the tags array
+        let editTags = window.currentEditTags || [];
+        if (selectedRadio && selectedRadio.dataset.tag) {
+            // Remove any previous image tags
+            editTags = editTags.filter(t => !IMAGE_TAG_NAMES.includes(t));
+            // Add the new image tag
+            editTags.push(selectedRadio.dataset.tag);
+            window.currentEditTags = editTags;
+        }
+
+        // 3. COLLECT DATA
         const updateData = {
             // FIX: Use .innerText for the <h1> tag, not .value
             title: document.getElementById('news-headline').innerText,
             content: document.getElementById('article-content').innerHTML,
             isFeatured: isFeaturedChecked,
-            tags: window.currentEditTags || []
+            tags: editTags
         };
 
         if (newImageBase64) {
             updateData.imageUrl = newImageBase64;
         } else {
             // Check if an image suggestion radio was selected
-            const selectedRadio = document.querySelector('input[name="edit-img-suggest"]:checked');
             if (selectedRadio) {
                 updateData.imageUrl = selectedRadio.value;
             }
@@ -834,7 +855,7 @@ window.deleteArticle = async function () {
 
         alert("Article deleted successfully.");
         // Redirect to main page after deletion
-        window.location.href = "/main/index.html";
+        window.location.href = "/";
 
     } catch (e) {
         console.error("Error deleting article:", e);
@@ -1484,3 +1505,26 @@ window.shareArticle = function (platform) {
     const popup = document.getElementById('share-popup');
     if (popup) popup.classList.add('hidden');
 };
+
+// --- PAGE NAVIGATION KEYBOARD SHORTCUTS ---
+document.addEventListener('keydown', function (e) {
+    const isTyping = e.target.tagName === 'INPUT' ||
+        e.target.tagName === 'TEXTAREA' ||
+        e.target.isContentEditable;
+    if (isTyping) return;
+
+    switch (e.key.toLowerCase()) {
+        case 'h':
+            window.location.href = '/';
+            break;
+        case 's':
+            window.location.href = '/students';
+            break;
+        case 'i':
+            window.location.href = '/error';
+            break;
+        case 'm':
+            window.location.href = '/news';
+            break;
+    }
+});

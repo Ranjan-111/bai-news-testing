@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Admin Dashboard - bitfeed</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
         <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="apple-touch-icon" href="/assets/favicon.png">
@@ -161,10 +162,10 @@
 
     <header class="admin-header">
         <!-- <a href="/" onclick="event.preventDefault(); if(history.length > 1){ history.back(); } else { window.location.href='/'; }" class="back-btn"> -->
-        <a href="/main/index.html" class="back-btn">
+        <a href="/" class="back-btn">
             <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="Back Icon"/>
         </a>
-        <h1><a href="/main/index.html">Admin Dashboard</a></h1>
+        <h1><a href="/">Admin Dashboard</a></h1>
     </header>
 
     <div class="dash-container">
@@ -176,25 +177,25 @@
 
         <div class="options-grid">
             
-            <a href="/admin/post-article.html" class="dash-card">
+            <a href="/post-article" class="dash-card">
                 <img src="https://img.icons8.com/ios/100/edit--v1.png" class="dash-icon" alt="Post">
                 <div class="dash-title">Post Article</div>
                 <div class="dash-desc">Manually write and publish a single new article.</div>
             </a>
 
-            <a href="/admin/article-requests.html" class="dash-card">
+            <a href="/article-requests" class="dash-card">
                 <img src="https://img.icons8.com/ios/100/news.png" class="dash-icon" alt="Articles">
                 <div class="dash-title">Review Articles</div>
                 <div class="dash-desc">Approve, Edit, or Reject pending submissions.</div>
             </a>
 
-            <a href="/admin/panel.html" class="dash-card">
+            <a href="/panel" class="dash-card">
                 <img src="https://img.icons8.com/ios/100/conference-call.png" class="dash-icon" alt="Reporters">
                 <div class="dash-title">Review Reporters</div>
                 <div class="dash-desc">Manage user roles and approve applications.</div>
             </a>
 
-            <a href="/admin/bulk-upload.html" class="dash-card">
+            <a href="/bulk-upload" class="dash-card">
                 <img src="https://img.icons8.com/ios/100/upload-to-cloud.png" class="dash-icon" alt="Upload">
                 <div class="dash-title">Bulk Upload</div>
                 <div class="dash-desc">Directly upload articles from a JSON file.</div>
@@ -214,7 +215,7 @@
 
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                window.location.href = "/main/index.html";
+                window.location.href = "/";
                 return;
             }
             
@@ -222,11 +223,11 @@
                 const snap = await getDoc(doc(db, "users", user.email));
                 if (!snap.exists() || snap.data().role !== 'admin') {
                     alert("Access Denied");
-                    window.location.href = "/main/index.html";
+                    window.location.href = "/";
                 }
             } catch (error) {
                 console.error("Auth check failed:", error);
-                window.location.href = "/main/index.html";
+                window.location.href = "/";
             }
         });
     </script>

@@ -238,10 +238,8 @@ footer h2 { margin-left: 8rem; font-size: 1.1rem; font-weight: 100; opacity: 0.8
 .close-icon-wrapper { cursor: pointer; color: #ff4444; transition: transform 0.2s ease; display: flex; align-items: center; justify-content: center; }
 .close-icon-wrapper:hover { transform: scale(1.1); color: #cc0000; }
 .pop-body { display: flex; flex-direction: column; align-items: center; gap: 1.2rem; margin-bottom: 30px; }
-#view-options { margin-top: 09px; }
 .sm-btn { display: flex; align-items: center; justify-content: center; width: 300px; max-width: 300px; padding: 12px 20px; background-color: white; border: 1px solid #777; border-radius: 50px; font-family: "Roboto", sans-serif; font-size: 0.89rem; color: #333; cursor: pointer; transition: background 0.2s ease; position: relative; height: 35px; }
 .sm-btn img { filter: grayscale(100%); }
-#btn-to-email { display: none;}
 .sm-btn:hover, #text-twitter:hover { background-color: #d73634; color: white; border-color: #d73634; }
 .btn-icon { width: 24px; height: 24px; position: absolute; left: 20px; }
 .email-icon { stroke: #444; stroke-width: 1.2px; }
@@ -266,7 +264,7 @@ footer h2 { margin-left: 8rem; font-size: 1.1rem; font-weight: 100; opacity: 0.8
 .checkbox-row label::after { content: ""; position: absolute; left: 6px; top: 4.5px; width: 5px; height: 10px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg) scale(0); opacity: 0; }
 .pop-check:checked+label::before { background-color: #1f1111; border-color: #2d1414; }
 .pop-check:checked+label::after { opacity: 1; transform: rotate(45deg) scale(1); }
-.pop-check:checked+label { color: #ab3232; }
+.pop-check:checked+label { color: #000; }
 
 /* OTP STYLES */
 .otp-heading { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; color: #000; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; }
@@ -537,17 +535,17 @@ const layoutHTML = `
             </label>
             <nav class="sidebar">
                 <hr class="hr1">
-                <a href="/main/index.html" class="menu-item">
+                <a href="/" class="menu-item">
                     <img src="/assets/icons/home.png" alt="img" class="icon4">
                     <span class="label">home</span>
                 </a>
                 <hr>
-                <a href="/students/Students.html" class="menu-item">
+                <a href="/students" class="menu-item">
                     <img src="/assets/icons/Student Icon.png" alt="img" class="icon4">
                     <span class="label">students</span>
                 </a>
                 <hr>
-                <a href="/others/x-error.html" class="menu-item">
+                <a href="/error" class="menu-item">
                     <img src="/assets/icons/Tech Icons.png" alt="img" class="icon4">
                     <span class="label">artificial intelligence</span>
                 </a>
@@ -564,13 +562,13 @@ const layoutHTML = `
                 </a>
                 <div class="profile-popup" id="profilePopup">
                     <div class="profile-header" id="profileName">Loading...</div>
-                    <a href="/profile pages/user.html" class="profile-menu-item">profile</a>
+                    <a href="/user" class="profile-menu-item">profile</a>
                     <hr class="profile-divider">
                     <a href="#" class="profile-menu-item" id="btn-signout">sign out</a>
                 </div>
             </nav>
         </div>
-        <a href="/main/index.html" class="LOGO">bitfeed</a>
+        <a href="/" class="LOGO">bitfeed</a>
         <button id="openPopupBtn" class="noselect"><span class="text">subscribe</span>
             <span class="icon"> <svg viewBox="0 0 448 512" class="bell"><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"></path></svg></span>
         </button>
@@ -599,7 +597,7 @@ const layoutHTML = `
                         <img src="https://img.icons8.com/?size=256w&id=xgCVUXwsgAmA&format=png" alt="X" class="btn-icon">
                         <span id="text-twitter">Sign up with X</span>
                     </button>
-                    <button class="sm-btn" id="btn-to-email">
+                    <button style="display: none;" class="sm-btn" id="btn-to-email">
                         <svg class="btn-icon email-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="4" width="18" height="16" rx="2" ry="2"></rect>
                             <path d="M16 2v4M8 2v4M3 10h18"></path>
@@ -620,6 +618,7 @@ const layoutHTML = `
                     <input type="email" id="email-input" placeholder="custmr.team@gmail.com" class="pop-input" required>
                     <button type="submit" class="pop-btn-continue" id="btn-continue">continue</button>
                 </form>
+                <p id="email-error-msg" class="pop-info hidden" style="margin-top: -15px; margin-bottom: 20px;"></p>
                 <p class="pop-info checkbox-row">
                     <input type="checkbox" id="newsletter-check" class="pop-check">
                     <label for="newsletter-check">
@@ -650,6 +649,32 @@ const layoutHTML = `
                     <span id="resend-timer"></span>
                 </div>
             </div>
+
+            <div id="view-password" class="hidden">
+                <h3 class="pop-label" id="password-heading" style="text-transform: uppercase; letter-spacing: 0.5px;">Create a password</h3>
+                <form class="pop-form" id="form-password" style="flex-wrap: wrap;">
+                    <div style="position: relative; flex-grow: 4; display: flex; align-items: center;">
+                        <input type="password" id="password-input" placeholder="Min 6 characters" class="pop-input" required minlength="6" style="width: 100%; padding-right: 40px; box-sizing: border-box;">
+                        <span id="toggle-password-view" style="position: absolute; right: 15px; cursor: pointer; color: #555; display: flex;">
+                            <svg id="eye-icon-open" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            <svg id="eye-icon-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                        </span>
+                    </div>
+                    <button type="submit" class="pop-btn-continue" id="btn-submit-password" style="flex-grow: 1; padding: 0 25px; margin-top: 0;">Submit</button>
+                    <div id="password-checklist" class="hidden" style="width: 100%; text-align: left; font-family: 'Roboto', sans-serif; font-size: 0.85rem; padding-left: 5px; margin-bottom: 5px; line-height: 1.6; color: #d73634;">
+                        <div id="req-length" class="req-item" style="display: flex; gap: 8px; align-items: center;"><span style="font-weight: bold;">✕</span> At least 6 characters</div>
+                        <div id="req-uppercase" class="req-item" style="display: flex; gap: 8px; align-items: center;"><span style="font-weight: bold;">✕</span> At least 1 uppercase</div>
+                        <div id="req-lowercase" class="req-item" style="display: flex; gap: 8px; align-items: center;"><span style="font-weight: bold;">✕</span> At least 1 lowercase</div>
+                        <div id="req-number" class="req-item" style="display: flex; gap: 8px; align-items: center;"><span style="font-weight: bold;">✕</span> At least 1 number</div>
+                        <div id="req-symbol" class="req-item" style="display: flex; gap: 8px; align-items: center;"><span style="font-weight: bold;">✕</span> At least 1 symbol (!@#$%&amp;)</div>
+                    </div>
+                </form>
+                <p id="password-error-msg" class="pop-info hidden" style="margin-top: 5px; margin-bottom: 0px;"></p>
+                <div class="pop-back-wrap" style="position: static; text-align: right; margin-top: 15px;">
+                    <span class="pop-back" id="btn-back-password">back</span>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
@@ -660,8 +685,8 @@ const layoutHTML = `
         <div class="footer-container">
             <div class="footer-left">
                 <ul>
-                    <li><a href="/main/index.html">Home</a></li>
-                    <li><a href="/students/Students.html">Students</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/students">Students</a></li>
                     <li><a href="#">Tech</a></li>
                     <li><a href="#">Investors</a></li>
                 </ul>
@@ -669,8 +694,8 @@ const layoutHTML = `
             <hr class="vertical-line l1">
             <div class="footer-middle">
                 <ul>
-                    <li><a href="/others/privacy-policy.html">Privacy Policy</a></li>
-                    <li><a href="/others/about.html">About us</a></li>
+                    <li><a href="/privacy-policy">Privacy Policy</a></li>
+                    <li><a href="/about">About us</a></li>
                 </ul>
             </div>
             <hr class="vertical-line l2">
@@ -695,26 +720,7 @@ const layoutHTML = `
     <div class="search-wrapper">
         <div id="search-results-box" class="search-results-box"></div>
         <div class="filter-options-container" id="filter-options-container">
-            <div class="filter-tag">
-                <input type="checkbox" id="filter-algorithms" name="filter-tags" value="algorithms">
-                <label for="filter-algorithms">Algorithms</label>
-            </div>
-            <div class="filter-tag">
-                <input type="checkbox" id="filter-image-modal" name="filter-tags" value="image modal">
-                <label for="filter-image-modal">Image Modal</label>
-            </div>
-            <div class="filter-tag">
-                <input type="checkbox" id="filter-video-modal" name="filter-tags" value="video modal">
-                <label for="filter-video-modal">Video Modal</label>
-            </div>
-            <div class="filter-tag">
-                <input type="checkbox" id="filter-llms" name="filter-tags" value="llms">
-                <label for="filter-llms">LLMs</label>
-            </div>
-            <div class="filter-tag">
-                <input type="checkbox" id="filter-research" name="filter-tags" value="research">
-                <label for="filter-research">Research</label>
-            </div>
+                <!-- Dynamically loaded from /assets/tags/img-tags.json -->
             <div class="filter-tag">
                 <input type="checkbox" id="filter-google" name="filter-tags" value="google">
                 <label for="filter-google">Google</label>
@@ -865,6 +871,30 @@ export function initSearchLogic() {
     const filterOptionsContainer = document.getElementById('filter-options-container');
     const searchInput = document.getElementById('searchInput');
     const resultsBox = document.getElementById('search-results-box');
+
+    // Dynamically populate filter tags from JSON
+    const dynamicFilterContainer = document.getElementById('filter-options-container');
+    if (dynamicFilterContainer) {
+        try {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/assets/tags/img-tags.json', false); // synchronous to ensure DOM is ready before querying checkboxes
+            xhr.send();
+            if (xhr.status === 200) {
+                const imgTags = JSON.parse(xhr.responseText);
+                imgTags.forEach(tag => {
+                    const id = 'filter-' + tag.name.toLowerCase().replace(/\s+/g, '-');
+                    const div = document.createElement('div');
+                    div.className = 'filter-tag';
+                    div.innerHTML = `
+                        <input type="checkbox" id="${id}" name="filter-tags" value="${tag.name.toLowerCase()}">
+                        <label for="${id}">${tag.name}</label>
+                    `;
+                    dynamicFilterContainer.appendChild(div);
+                });
+            }
+        } catch (e) { console.error('Error loading filter tags:', e); }
+    }
+
     const filterCheckboxes = document.querySelectorAll('input[name="filter-tags"]');
 
     if (!searchToggleBtn || !searchInput || !resultsBox) return;
@@ -1014,7 +1044,7 @@ export function initSearchLogic() {
             const hlSummary = highlightText(article.summary, query, 'bold');
 
             return `
-            <a href="/articles/article.html?id=${article.id}" class="result-card">
+            <a href="/article?id=${article.id}" class="result-card">
                 <h4 style="font-family: 'Inter', sans-serif;">${hlTitle}</h4>
                 <p style="font-family: sans-serif; font-weight: 300">${hlSummary}</p>
                 <span class="result-date">${dateStr}</span>
@@ -1025,7 +1055,7 @@ export function initSearchLogic() {
         scrollView.innerHTML = html;
 
         if (data.length >= 5) {
-            scrollView.addEventListener('scroll', function() {
+            scrollView.addEventListener('scroll', function () {
                 if (hasTyped && this.scrollTop > 0) {
                     const fadeDistance = 60;
                     let alpha = 1 - Math.min(this.scrollTop / fadeDistance, 1);
