@@ -1,5 +1,5 @@
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, doc, getDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { app } from '/Article/firebase-db.js';
 
 const auth = getAuth(app);
@@ -38,8 +38,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentPopupIndex = -1;
 
     // ==========================================
-    // 1. PROCESS JSON
+    // 1. PROCESS JSON & SANITIZE
     // ==========================================
+    function sanitizeJSON(str) {
+        let result = '';
+        for (let i = 0; i < str.length; i++) {
+            let char = str[i];
+            // Skip if already escaped
+            if (char === '"' && i > 0 && str[i-1] !== '\\') {
+                let prev = str.slice(0, i).trim().slice(-1);
+                let next = str.slice(i + 1).trim()[0];
+                
+                let isStructural = false;
+                if (prev === '{' || prev === '[' || prev === ',' || prev === ':') isStructural = true;
+                if (next === '}' || next === ']' || next === ',' || next === ':') isStructural = true;
+                
+                if (!isStructural) {
+                    result += '\\"';       // Escape internal quote
+                } else {
+                    result += char;         // Keep structural quote
+                }
+            } else {
+                result += char;
+            }
+        }
+        return result;
+    }
+
     function handleJSONData(rawData) {
         try {
             if (!Array.isArray(rawData)) throw new Error("JSON must be an array [ ... ]");
@@ -72,9 +97,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const reader = new FileReader();
         reader.onload = (ev) => {
             try {
-                const rawData = JSON.parse(ev.target.result);
+                const sanitizedStr = sanitizeJSON(ev.target.result);
+                const rawData = JSON.parse(sanitizedStr);
                 handleJSONData(rawData);
-            } catch (err) { alert("Invalid JSON file."); }
+            } catch (err) { 
+                console.error("JSON Error:", err);
+                alert("Invalid JSON file. Please ensure syntax is correct."); 
+            }
+            // Reset to allow re-uploading the same file
+            jsonInput.value = "";
         };
         reader.readAsText(file);
     };
@@ -84,9 +115,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!text) return alert("Please paste JSON text first.");
         jsonInput.value = "";
         try {
-            const rawData = JSON.parse(text);
+            const sanitizedStr = sanitizeJSON(text);
+            const rawData = JSON.parse(sanitizedStr);
             handleJSONData(rawData);
-        } catch (err) { alert("Invalid JSON syntax in text box."); }
+        } catch (err) { 
+            console.error("JSON Error:", err);
+            alert("Invalid JSON syntax in text box. Please check format."); 
+        }
     };
 
     // ==========================================
@@ -103,9 +138,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Image preview box
             let imgBoxContent;
             if (item.image && item.image.startsWith('http')) {
-                imgBoxContent = `<img src="${item.image}" alt="Preview">`;
+                imgBoxContent = `<img src="${item.image}" alt="Preview" loading="lazy">`;
             } else if (item.image && item.image.startsWith('/')) {
-                imgBoxContent = `<img src="${item.image}" alt="Preview">`;
+                imgBoxContent = `<img src="${item.image}" alt="Preview" loading="lazy">`;
             } else {
                 imgBoxContent = `<span class="no-preview">No Preview</span>`;
             }
@@ -209,13 +244,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         const logger = document.getElementById('status-log');
         let successCount = 0; let failCount = 0;
 
+        // FETCH HIGHEST SERIAL NUMBER ONCE
+        let currentHighestSerial = 0;
+        try {
+            const q = query(collection(db, "articles"), orderBy("serialNumber", "desc"), limit(1));
+            const snap = await getDocs(q);
+            if (!snap.empty) {
+                currentHighestSerial = snap.docs[0].data().serialNumber || 0;
+            }
+        } catch(e) { console.error("Error fetching max serialNumber:", e); }
+
         for (let i = 0; i < articleQueue.length; i++) {
             const item = articleQueue[i];
             const data = item.data;
 
             try {
                 // DEFAULT VALUES
-                let authorName = data.authorName || "Bai Team";
+                let authorName = data.authorName || "Bitfeed Team";
                 let authorId = data.authorId || "admin_default";
                 let authorEmail = data.authorEmail || "";
 
@@ -241,7 +286,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     status: "active",
                     isFeatured: data.isFeatured || false,
                     datePosted: new Date().toISOString(),
-                    serialNumber: Date.now() + i,
+                    updatedAt: Date.now(), // Added for Cache Sync
+                    serialNumber: currentHighestSerial + 1 + i, // Fixed pagination scaling
                     stats: { views: 0, likes: 0, saves: 0 }
                 };
 

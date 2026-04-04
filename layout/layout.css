@@ -257,13 +257,13 @@ footer {
   align-items: center;
   position: fixed;
   left: -17rem;
-  top: 0;
-  height: 95vh;
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height) - 0.6rem);
   width: var(--sidebar-width);
   transition: all 0.2s linear;
   z-index: var(--z-sidebar);
   border-radius: 1rem;
-  margin: 0.3rem 0 1vh;
+  margin: 0.3rem 0 0;
 }
 
 /* Slide in when checkbox is checked */

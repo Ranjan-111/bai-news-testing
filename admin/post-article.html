@@ -78,16 +78,53 @@
             </div> -->
 
             <div class="form-group">
-                <label>Target Audience Level</label>
-                <select id="inp-target-level" class="form-input">
-                    <option value="concise">Concise</option>
-                    <option value="intermediate" selected>Technical (Standard)</option>
-                </select>
+                <label>Concise Content</label>
+                <div class="md-editor-wrap">
+                    <button type="button" class="md-toolbar-toggle" onclick="this.parentElement.querySelector('.md-toolbar').classList.toggle('active')" title="Formatting">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    </button>
+                    <div class="md-toolbar">
+                        <button type="button" onclick="applyStyle('h1','inp-content-concise')">H1</button>
+                        <button type="button" onclick="applyStyle('h2','inp-content-concise')">H2</button>
+                        <button type="button" onclick="applyStyle('h3','inp-content-concise')">H3</button>
+                        <span class="md-toolbar-sep"></span>
+                        <button type="button" onclick="applyStyle('bold','inp-content-concise')"><b>B</b></button>
+                        <button type="button" onclick="applyStyle('italic','inp-content-concise')"><i>I</i></button>
+                        <button type="button" onclick="applyStyle('list','inp-content-concise')">• List</button>
+                        <button type="button" onclick="applyStyle('code','inp-content-concise')">&lt;/&gt;</button>
+                        <button type="button" onclick="applyStyle('quote','inp-content-concise')">" Quote</button>
+                        <button type="button" onclick="applyStyle('line','inp-content-concise')">― Line</button>
+                        <button type="button" onclick="applyStyle('table','inp-content-concise')">⊞ Table</button>
+                    </div>
+                    <textarea id="inp-content-concise" class="form-input textarea" placeholder="Write concise version using Markdown (### headings, **bold**, - lists)..."></textarea>
+                </div>
+                <label class="preview-label" id="preview-label-concise" style="display:none; margin-top: 15px; font-size: 0.85rem; color: #888;">Preview</label>
+                <div id="preview-concise" class="md-preview" style="display:none;"></div>
             </div>
 
             <div class="form-group">
-                <label>Content</label>
-                <textarea id="inp-content" class="form-input textarea" placeholder="Write..." required></textarea>
+                <label>Technical Content</label>
+                <div class="md-editor-wrap">
+                    <button type="button" class="md-toolbar-toggle" onclick="this.parentElement.querySelector('.md-toolbar').classList.toggle('active')" title="Formatting">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    </button>
+                    <div class="md-toolbar">
+                        <button type="button" onclick="applyStyle('h1','inp-content-technical')">H1</button>
+                        <button type="button" onclick="applyStyle('h2','inp-content-technical')">H2</button>
+                        <button type="button" onclick="applyStyle('h3','inp-content-technical')">H3</button>
+                        <span class="md-toolbar-sep"></span>
+                        <button type="button" onclick="applyStyle('bold','inp-content-technical')"><b>B</b></button>
+                        <button type="button" onclick="applyStyle('italic','inp-content-technical')"><i>I</i></button>
+                        <button type="button" onclick="applyStyle('list','inp-content-technical')">• List</button>
+                        <button type="button" onclick="applyStyle('code','inp-content-technical')">&lt;/&gt;</button>
+                        <button type="button" onclick="applyStyle('quote','inp-content-technical')">" Quote</button>
+                        <button type="button" onclick="applyStyle('line','inp-content-technical')">― Line</button>
+                        <button type="button" onclick="applyStyle('table','inp-content-technical')">⊞ Table</button>
+                    </div>
+                    <textarea id="inp-content-technical" class="form-input textarea" placeholder="Write technical version using Markdown (### headings, **bold**, - lists)..." required></textarea>
+                </div>
+                <label class="preview-label" id="preview-label-technical" style="display:none; margin-top: 15px; font-size: 0.85rem; color: #888;">Preview</label>
+                <div id="preview-technical" class="md-preview" style="display:none;"></div>
             </div>
 
             <div class="form-group">

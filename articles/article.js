@@ -7,6 +7,7 @@ import {
 import { getArticleById, getLocalRelatedArticles, auth, app, toggleSaveArticle } from '/Article/firebase-db.js';
 
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { marked } from 'https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js';
 
 // 3. Initialize DB
 const db = getFirestore(app);
@@ -102,20 +103,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- NEW: STORE CONTENT VERSIONS ---
-    // Helper: wrap plain text in <p> tags (split by newlines)
-    function wrapInParagraphs(text) {
+    // Configure marked for GFM and line breaks
+    marked.setOptions({ breaks: true, gfm: true });
+
+    // Render raw Markdown text into HTML
+    function renderMarkdown(text) {
         if (!text) return "";
-        // If already contains <p> tags, return as-is
-        if (text.trim().startsWith('<p>') || text.trim().startsWith('<p ')) return text;
-        return text.split('\n').filter(line => line.trim()).map(line => `<p>${line}</p>`).join('');
+        return marked.parse(text);
     }
 
     // We check if the specific field exists, otherwise fallback to standard content or a placeholder
-    contentVersions.intermediate = wrapInParagraphs(article.content) || "";
+    contentVersions.intermediate = renderMarkdown(article.content) || "";
 
     contentVersions.concise = article.conciseContent
-        ? wrapInParagraphs(article.conciseContent)
-        : "<p><em>(Concise version not available for this article. Showing standard content.)</em></p>" + wrapInParagraphs(article.content);
+        ? renderMarkdown(article.conciseContent)
+        : "<p><em>(Concise version not available for this article. Showing standard content.)</em></p>" + renderMarkdown(article.content);
     // -----------------------------------
 
 
@@ -566,16 +568,33 @@ window.toggleEditMode = function () {
     });
 
     // Save Originals
-    originalTitle = titleEl.value;
-    originalContent = contentEl.value;
+    originalTitle = titleEl.innerText;
+    originalContent = window.currentArticleData ? (window.currentArticleData.content || "") : "";
     originalImageSrc = imgEl.src;
 
-    // 1. Make tags editable without a toolbar
+    // 1. Make title editable
     titleEl.contentEditable = "true";
     titleEl.style.border = "2px dashed #ccc"; // Visual hint
 
-    contentEl.contentEditable = "true";
-    contentEl.style.border = "2px dashed #ccc"; // Visual hint
+    // 2. Replace rendered content div with a raw markdown textarea
+    // Hide level tabs during edit
+    const levelWrapper = document.querySelector('.level-selection-wrapper');
+    if (levelWrapper) levelWrapper.style.display = 'none';
+
+    const editTextarea = document.createElement('textarea');
+    editTextarea.id = 'article-content-edit';
+    editTextarea.value = originalContent; // Raw markdown from DB
+    editTextarea.style.cssText = 'width:100%; padding:16px; font-family:monospace; font-size:0.95rem; line-height:1.6; border:2px dashed #ccc; border-radius:8px; background:#fafafa; resize:vertical; box-sizing:border-box; color:#333; overflow:hidden;';
+    contentEl.style.display = 'none';
+    contentEl.parentNode.insertBefore(editTextarea, contentEl.nextSibling);
+
+    // Auto-size textarea to fit content
+    function autoResize() {
+        editTextarea.style.height = 'auto';
+        editTextarea.style.height = editTextarea.scrollHeight + 'px';
+    }
+    autoResize(); // Initial resize
+    editTextarea.addEventListener('input', autoResize);
 
     // 2. Show the Save/Cancel bar
     if (toolbar) toolbar.classList.remove('hidden');
@@ -763,13 +782,15 @@ window.saveArticleChanges = async function () {
             window.currentEditTags = editTags;
         }
 
-        // 3. COLLECT DATA
+        // 3. COLLECT DATA — Get raw markdown from the edit textarea
+        const editTextarea = document.getElementById('article-content-edit');
+        const rawContent = editTextarea ? editTextarea.value : document.getElementById('article-content').innerHTML;
         const updateData = {
-            // FIX: Use .innerText for the <h1> tag, not .value
             title: document.getElementById('news-headline').innerText,
-            content: document.getElementById('article-content').innerHTML,
+            content: rawContent, // Raw markdown, NOT rendered HTML
             isFeatured: isFeaturedChecked,
-            tags: editTags
+            tags: editTags,
+            updatedAt: Date.now() // For cache sync
         };
 
         if (newImageBase64) {
@@ -1122,22 +1143,27 @@ class ArticleReader {
         const contentEl = document.getElementById('article-content');
         if (!contentEl) return;
 
-        const textBlocks = contentEl.querySelectorAll('p, div, h1, h2, h3, h4, h5, h6, li, blockquote');
         this.words = [];
         this.wordElements = [];
 
-        const newContainer = document.createElement('div');
+        // NON-DESTRUCTIVE: Extract words for the speech reader without replacing the DOM.
+        // Only wrap text in <p> tags with <span> elements for highlighting.
+        // All other elements (tables, pre, code, charts, etc.) are left untouched.
+        const paragraphs = contentEl.querySelectorAll('p');
 
-        textBlocks.forEach(block => {
-            if (!block.textContent.trim()) return;
+        paragraphs.forEach(p => {
+            if (!p.textContent.trim()) return;
 
-            const newBlock = document.createElement(block.tagName);
-            newBlock.className = block.className;
-            newBlock.style.position = 'relative';
-            newBlock.style.zIndex = '2';
+            // Only process simple text paragraphs (skip those with complex children like tables inside)
+            if (p.querySelector('table, pre, img, figure')) return;
 
-            const text = block.textContent;
+            const text = p.textContent;
             const wordsArr = text.split(/(\s+)/);
+
+            // Clear the paragraph and rebuild with word spans
+            p.innerHTML = '';
+            p.style.position = 'relative';
+            p.style.zIndex = '2';
 
             wordsArr.forEach(word => {
                 if (word.trim()) {
@@ -1146,19 +1172,24 @@ class ArticleReader {
                     span.textContent = word;
                     this.wordElements.push(span);
                     this.words.push(word);
-                    newBlock.appendChild(span);
+                    p.appendChild(span);
                 } else {
-                    newBlock.appendChild(document.createTextNode(word));
+                    p.appendChild(document.createTextNode(word));
                 }
             });
-
-            newContainer.appendChild(newBlock);
         });
 
-        contentEl.innerHTML = '';
-        while (newContainer.firstChild) {
-            contentEl.appendChild(newContainer.firstChild);
-        }
+        // Also extract words from headings for the speech reader (read-only, no DOM change needed for highlighting)
+        const headings = contentEl.querySelectorAll('h1, h2, h3, h4, h5, h6, li, blockquote');
+        headings.forEach(el => {
+            if (!el.textContent.trim()) return;
+            const text = el.textContent;
+            const wordsArr = text.split(/\s+/).filter(w => w.trim());
+            wordsArr.forEach(word => {
+                this.words.push(word);
+                // No span wrapping for non-paragraph elements — they still get read aloud
+            });
+        });
     }
 
     startReading() {

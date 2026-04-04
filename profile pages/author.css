@@ -490,3 +490,10 @@ a {
     gap: var(--space-2xl);
   }
 }
+
+@media (max-width: 550px) {
+  .profile-img-container { margin-top: -30px; }
+  .profile-img-container img { width: 100px; border-width: 3px; }
+  .profile-info h1 { font-size: 1.6rem; }
+  .profile-container { padding: 0 1rem 2rem; }
+}

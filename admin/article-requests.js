@@ -4,6 +4,7 @@ import {
     query,
     getDocs,
     doc,
+    getDoc,
     updateDoc,
     deleteDoc,
     orderBy,
@@ -14,8 +15,50 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 import { app } from '/Article/firebase-db.js';
+import { marked } from 'https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js';
 
 const db = getFirestore(app);
+
+// Global formatting function for Markdown toolbar
+window.applyStyle = function(type, textareaId) {
+    const textarea = document.getElementById(textareaId);
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const before = text.substring(0, start);
+    const selected = text.substring(start, end);
+    const after = text.substring(end, text.length);
+
+    let newText = text;
+    let newCursorPos = end;
+
+    switch(type) {
+        case 'h1': newText = before + '# ' + selected + after; newCursorPos = end + 2; break;
+        case 'h2': newText = before + '## ' + selected + after; newCursorPos = end + 3; break;
+        case 'h3': newText = before + '### ' + selected + after; newCursorPos = end + 4; break;
+        case 'bold': newText = before + '**' + selected + '**' + after; newCursorPos = end + 2; break;
+        case 'italic': newText = before + '_' + selected + '_' + after; newCursorPos = end + 1; break;
+        case 'list': newText = before + '- ' + selected + after; newCursorPos = end + 2; break;
+        case 'code': newText = before + '`' + selected + '`' + after; newCursorPos = end + 1; break;
+        case 'quote': newText = before + '> ' + selected + after; newCursorPos = end + 2; break;
+        case 'line': newText = before + '\n---\n' + selected + after; newCursorPos = end + 5; break;
+        case 'table': 
+            const tableTemplate = "\n| Header 1 | Header 2 |\n| -------- | -------- |\n| Cell 1   | Cell 2   |\n";
+            newText = before + tableTemplate + selected + after; 
+            newCursorPos = start + tableTemplate.length; 
+            break;
+    }
+
+    textarea.value = newText;
+    textarea.focus();
+    textarea.selectionStart = newCursorPos;
+    textarea.selectionEnd = newCursorPos;
+
+    // Trigger preview update
+    textarea.dispatchEvent(new Event('input'));
+};
 
 // State
 let currentArticleId = null;
@@ -185,6 +228,45 @@ document.addEventListener('DOMContentLoaded', async () => {
             renderEditTags();
         }
     });
+
+    // MARKDOWN LIVE PREVIEW for both textareas
+    marked.setOptions({ breaks: true, gfm: true });
+
+    const conciseTA = document.getElementById('edit-content-concise');
+    const technicalTA = document.getElementById('edit-content-technical');
+    const concisePreview = document.getElementById('preview-content-concise');
+    const technicalPreview = document.getElementById('preview-content-technical');
+
+    if (conciseTA && concisePreview) {
+        conciseTA.addEventListener('input', () => {
+            const raw = conciseTA.value.trim();
+            const label = concisePreview.previousElementSibling;
+            if (raw) {
+                concisePreview.style.display = 'block';
+                if (label) label.style.display = 'block';
+                concisePreview.innerHTML = marked.parse(raw);
+            } else {
+                concisePreview.style.display = 'none';
+                if (label) label.style.display = 'none';
+                concisePreview.innerHTML = '';
+            }
+        });
+    }
+    if (technicalTA && technicalPreview) {
+        technicalTA.addEventListener('input', () => {
+            const raw = technicalTA.value.trim();
+            const label = technicalPreview.previousElementSibling;
+            if (raw) {
+                technicalPreview.style.display = 'block';
+                if (label) label.style.display = 'block';
+                technicalPreview.innerHTML = marked.parse(raw);
+            } else {
+                technicalPreview.style.display = 'none';
+                if (label) label.style.display = 'none';
+                technicalPreview.innerHTML = '';
+            }
+        });
+    }
 });
 
 // Helper: get selected image URL from radio
@@ -327,7 +409,7 @@ function createCard(data) {
     const statusColorClass = isPending ? 'status-red' : 'status-black';
 
     div.innerHTML = `
-        <img src="${data.imageUrl}" class="card-img" alt="${data.title}">
+        <img src="${data.imageUrl}" class="card-img" alt="${data.title}" loading="lazy">
         <div class="card-content">
             <div class="card-title">${data.title}</div>
             <div class="card-meta">by ${data.authorName} | ${dateStr}</div>
@@ -410,6 +492,35 @@ function openDetailView(data) {
     document.getElementById('list-view').classList.add('hidden');
     document.getElementById('detail-view').classList.remove('hidden');
     window.scrollTo(0, 0);
+
+    // Render Markdown previews for the loaded content (only show if non-empty)
+    const concisePreview = document.getElementById('preview-content-concise');
+    const technicalPreview = document.getElementById('preview-content-technical');
+    const conciseVal = document.getElementById('edit-content-concise').value.trim();
+    const technicalVal = document.getElementById('edit-content-technical').value.trim();
+
+    if (concisePreview) {
+        const cLabel = concisePreview.previousElementSibling;
+        if (conciseVal) {
+            concisePreview.style.display = 'block';
+            if (cLabel) cLabel.style.display = 'block';
+            concisePreview.innerHTML = marked.parse(conciseVal);
+        } else {
+            concisePreview.style.display = 'none';
+            if (cLabel) cLabel.style.display = 'none';
+        }
+    }
+    if (technicalPreview) {
+        const tLabel = technicalPreview.previousElementSibling;
+        if (technicalVal) {
+            technicalPreview.style.display = 'block';
+            if (tLabel) tLabel.style.display = 'block';
+            technicalPreview.innerHTML = marked.parse(technicalVal);
+        } else {
+            technicalPreview.style.display = 'none';
+            if (tLabel) tLabel.style.display = 'none';
+        }
+    }
 }
 
 function closeDetailView() {
@@ -460,6 +571,30 @@ async function approveAndPublish() {
 
         // Update & Publish
         const articleRef = doc(db, "articles", currentArticleId);
+
+        // Fetch current doc to see if it's already active
+        const currentDocSnap = await getDoc(articleRef);
+        let status = "pending";
+        let existingSerial = 0;
+        if(currentDocSnap.exists()) {
+             status = currentDocSnap.data().status;
+             existingSerial = currentDocSnap.data().serialNumber || 0;
+        }
+
+        let finalSerialNumber = existingSerial;
+        if (status !== 'active') {
+             // It's going from pending to active, assign new serial
+             try {
+                const qSerial = query(articlesRef, orderBy("serialNumber", "desc"), limit(1));
+                const snapSerial = await getDocs(qSerial);
+                if (!snapSerial.empty) {
+                    finalSerialNumber = (snapSerial.docs[0].data().serialNumber || 0) + 1;
+                } else {
+                    finalSerialNumber = 1;
+                }
+            } catch(e) { console.error("Error fetching max serialNumber:", e); }
+        }
+
         await updateDoc(articleRef, {
             title: document.getElementById('edit-title').value,
             summary: document.getElementById('edit-summary').value,
@@ -470,7 +605,8 @@ async function approveAndPublish() {
             status: "active",
             isFeatured: isFeatured,
             datePosted: new Date().toISOString(),
-            serialNumber: Date.now()
+            updatedAt: Date.now(), // Added for Cache Sync
+            serialNumber: finalSerialNumber // Fixed pagination
         });
 
         btn.innerText = "Done";

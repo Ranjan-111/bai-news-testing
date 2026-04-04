@@ -999,6 +999,8 @@ export function initSearchLogic() {
         }
 
         const filteredData = database.filter(article => {
+            // Skip deleted or inactive articles still in cache
+            if (article.status !== 'active') return false;
             const matchesText = !query ||
                 article.searchTitle.includes(query) ||
                 article.searchSummary.includes(query);

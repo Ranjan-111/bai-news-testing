@@ -28,7 +28,7 @@
             position: sticky;
             top: 0;
             width: 100%;
-            padding: 20px;
+            padding: 0 20px;
             background: #fff;
             height: 67px;
             box-shadow: 0 0 1px 0;
@@ -38,9 +38,12 @@
         .back-btn {
             position: absolute;
             left: 20px; 
+            top: 50%;
+            transform: translateY(-50%);
             color: #000;
             display: flex;
             align-items: center;
+            justify-content: center;
             cursor: pointer;
         }
 
@@ -183,9 +186,14 @@
         .btn-reject:hover { background: #c82333; }
 
         @media (max-width: 768px) {
-            .panel-header {
-                height: 50px;
-            }
+            .panel-header { height: 67px; }
+        }
+        @media (max-width: 550px) {
+            .panel-header { height: 50px; }
+            .container { padding: 20px 15px; }
+            .request-card { flex-direction: column; align-items: flex-start; text-align: left; }
+            .btn-approve, .btn-reject { width: 100%; margin: 5px 0 0 0; }
+            .modal-card { width: 95%; padding: 20px; }
         }
 
     </style>
@@ -254,7 +262,7 @@
                 div.onclick = () => openDetailModal(index);
 
                 div.innerHTML = `
-                    <img src="/admin/${photo}" class="req-thumb" alt="User">
+                    <img src="/admin/${photo}" class="req-thumb" alt="User" loading="lazy">
                     <div class="request-info">
                         <h3>${data.displayName}</h3>
                         <p>${data.email}</p>
@@ -289,7 +297,7 @@
             // UPDATED: Fields changed as requested
             content.innerHTML = `
                 <div class="detail-header">
-                    <img src="/admin/${photo}" class="detail-img">
+                    <img src="/admin/${photo}" class="detail-img" loading="lazy">
                     <div class="detail-name">${data.displayName}</div>
                     <div class="detail-email">${data.email}</div>
                 </div>

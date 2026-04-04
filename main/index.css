@@ -1,5 +1,5 @@
 /* =========================================
-   CSS CUSTOM PROPERTIES (VARIABLES)
+   CSS CUSTOM PROPERTIES (VARIABLES).
    ========================================= */
 :root {
   /* Colors */
@@ -279,7 +279,7 @@ h3 {
 
 .date+p {
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -822,38 +822,18 @@ h3 {
 
 
 /* =========================================
-   FEATURED SECTION REDESIGN (Above 600px)
+   FEATURED SECTION REDESIGN (Above 860px)
+   Grid-like layout: fixed-width images,
+   consistent vertical split between articles.
    ========================================= */
-@media (min-width: 601px) {
+
+/* --- Base layout for >=861px --- */
+@media (min-width: 861px) {
   #featured-section {
-    width: 50vw;
+    width: 100%;
   }
 
-  /* Skeleton styling matching new layout */
-  #featured-section .sk-feat-article {
-    align-items: stretch;
-    gap: 40px;
-    flex-direction: row;
-  }
-  #featured-section .sk-feat-article.right {
-    flex-direction: row-reverse;
-  }
-  #featured-section .sk-feat-img {
-    flex: 0 0 52%;
-    width: auto; 
-    aspect-ratio: 16 / 9;
-    border-radius: 4%;
-  }
-  #featured-section .sk-feat-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 8px 0;
-    width: auto;
-  }
-
-  /* Real Article styling */
+  /* Both articles: horizontal flex row, same gap */
   #featured-section .Article {
     align-items: stretch;
     gap: 40px;
@@ -862,14 +842,16 @@ h3 {
   #featured-section .Article.RIGHT {
     flex-direction: row-reverse;
   }
+
+  /* Image: fixed width (overridden per breakpoint below), never stretches */
   #featured-section .Article figure {
-    flex: 0 0 52%;
+    flex: 0 0 420px;
     aspect-ratio: 16 / 9;
     border-radius: 4%;
     overflow: hidden;
     position: relative;
     margin: 0;
-    width: auto;
+    width: 420px;
   }
   #featured-section .Article .img, 
   #featured-section .Article .img2 {
@@ -879,6 +861,8 @@ h3 {
     display: block;
     border-radius: 4%; 
   }
+
+  /* Content: fills remaining space */
   #featured-section .info {
     flex: 1;
     display: flex;
@@ -896,33 +880,88 @@ h3 {
     width: 45%;
     margin: 44px auto;
   }
+
+  /* Skeleton: match real articles */
+  #featured-section .sk-feat-article {
+    align-items: stretch;
+    gap: 40px;
+    flex-direction: row;
+  }
+  #featured-section .sk-feat-article.right {
+    flex-direction: row-reverse;
+  }
+  #featured-section .sk-feat-img {
+    flex: 0 0 420px;
+    width: 420px;
+    aspect-ratio: 16 / 9;
+    border-radius: 4%;
+  }
+  #featured-section .sk-feat-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 0;
+    width: auto;
+  }
 }
 
+/* --- Fixed image widths per screen-width range --- */
+
+/* Wide desktop: 1401px+ → image = 520px */
+@media (min-width: 1401px) {
+  #featured-section .Article figure,
+  #featured-section .sk-feat-img {
+    flex: 0 0 410px;
+    width: 410px;
+  }
+}
+
+/* Desktop: 1101–1400px → image = 420px */
 @media (min-width: 1101px) and (max-width: 1400px) {
   #featured-section {
-    width: 65vw;
-    margin-left: calc(-32.5vw + 50%);
+    width: 100%;
+  }
+  #featured-section .Article figure,
+  #featured-section .sk-feat-img {
+    flex: 0 0 400px;
+    width: 400px;
   }
 }
 
-@media (min-width: 601px) and (max-width: 1100px) {
+/* Small desktop: 971–1100px → image = 360px */
+@media (min-width: 971px) and (max-width: 1100px) {
   #featured-section {
-    width: 75vw;
-    margin-left: calc(-37.5vw + 50%);
+    width: 100%;
+  }
+  #featured-section .Article figure,
+  #featured-section .sk-feat-img {
+    flex: 0 0 370px;
+    width: 370px;
   }
 }
 
+/* Tablet landscape: 861–970px → image = 300px */
 @media (min-width: 861px) and (max-width: 970px) {
   #featured-section {
-    width: 85vw;
-    margin-left: calc(-42.5vw + 50%);
+    width: 100%;
+  }
+  #featured-section .Article figure,
+  #featured-section .sk-feat-img {
+    flex: 0 0 350px;
+    width: 350px;
   }
 }
 
+
+/* =========================================
+   FEATURED SECTION — STACKED (601–860px)
+   Below the grid threshold, articles stack
+   image-on-top / content-below.
+   ========================================= */
 @media (min-width: 601px) and (max-width: 860px) {
   #featured-section {
-    width: 88vw;
-    margin-left: calc(-44vw + 50%);
+    width: 100%;
   }
   
   #featured-section .Article,
@@ -944,9 +983,39 @@ h3 {
     aspect-ratio: 16 / 9;
   }
   
+  #featured-section .info {
+    text-align: left;
+    padding: 0;
+    margin: 0;
+  }
+
   #featured-section .RIGHT .info,
   #featured-section .sk-feat-article.right .sk-feat-info {
     text-align: left;
+  }
+
+  #featured-section .line3 {
+    width: 45%;
+    margin: 44px auto;
+  }
+
+  #featured-section .sk-feat-article {
+    align-items: center;
+    gap: 24px;
+    flex-direction: column;
+  }
+  #featured-section .sk-feat-article.right {
+    flex-direction: column;
+  }
+  #featured-section .sk-feat-img {
+    flex: none;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+  #featured-section .sk-feat-info {
+    flex: 1;
+    width: 100%;
+    padding: 8px 0;
   }
 }
 

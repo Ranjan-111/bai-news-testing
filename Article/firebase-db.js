@@ -243,53 +243,51 @@ export function debounce(func, wait) {
 // 1. The "Download Everything" Function (Smart Sync)
 export async function fetchAllSearchData() {
     const STORAGE_KEY = 'bai_news_search_cache';
-    const META_KEY = 'bai_news_last_serial';
+    const META_KEY = 'bai_news_last_sync'; // Tracker for updatedAt
 
     let localData = [];
-    let lastSerial = 0;
+    let lastSyncTime = 0;
 
     // Load from LocalStorage
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
-        const storedSerial = localStorage.getItem(META_KEY);
+        const storedSync = localStorage.getItem(META_KEY);
         if (stored) localData = JSON.parse(stored);
-        if (storedSerial) lastSerial = parseInt(storedSerial);
+        if (storedSync) lastSyncTime = parseInt(storedSync);
     } catch (e) { console.warn("Cache error", e); localData = []; }
 
     // Check Server for Updates (1 Read)
-    let latestServerSerial = 0;
+    let latestServerSync = 0;
     try {
-        console.log("🔥 [READ COST: 1] Checking latest Serial Number...");
+        console.log("🔥 [READ COST: 1] Checking latest UpdatedAt...");
 
-        // --- FIX 1: ADD status == active ---
+        // No status filter here, because we want to know if *any* article changed (including to inactive)
         const q = query(
             collection(db, "articles"),
-            where("status", "==", "active"), // <--- IMPORTANT
-            orderBy("serialNumber", "desc"),
+            orderBy("updatedAt", "desc"),
             limit(1)
         );
         const snapshot = await getDocs(q);
-        if (!snapshot.empty) latestServerSerial = snapshot.docs[0].data().serialNumber || 0;
+        if (!snapshot.empty) latestServerSync = snapshot.docs[0].data().updatedAt || 0;
     } catch (e) {
-        console.log("⚠️ Offline or Error. Using Cache.", e);
+        console.log("⚠️ Offline, no indexing, or Error. Using Cache.", e);
+        // If query fails (e.g. missing index), we can fallback to the old way or just use cache
         window.cachedSearchData = localData;
         return localData;
     }
 
     // Sync if needed
-    if (latestServerSerial > lastSerial) {
-        console.log("Downloading new articles...");
+    if (latestServerSync > lastSyncTime) {
+        console.log("Downloading updated articles...");
 
-        // --- FIX 2: ADD status == active ---
         const updateQ = query(
             collection(db, "articles"),
-            where("status", "==", "active"), // <--- IMPORTANT
-            where("serialNumber", ">", lastSerial)
+            where("updatedAt", ">", lastSyncTime) // Fetches edits and deletions too!
         );
         const updateSnapshot = await getDocs(updateQ);
 
         const count = updateSnapshot.size;
-        console.log(`🔥 [READ COST: ${count}] Downloading ${count} new articles...`);
+        console.log(`🔥 [READ COST: ${count}] Downloading ${count} updated articles...`);
 
         const newArticles = updateSnapshot.docs.map(doc => ({
             id: doc.id,
@@ -299,7 +297,14 @@ export async function fetchAllSearchData() {
             searchTags: (doc.data().tags || []).map(t => t.toLowerCase())
         }));
 
-        const mergedData = [...newArticles, ...localData];
+        // Merge: If ID exists in localData, replace it. Otherwise append.
+        let mergedMap = new Map();
+        localData.forEach(item => mergedMap.set(item.id, item));
+        newArticles.forEach(item => mergedMap.set(item.id, item));
+
+        let mergedData = Array.from(mergedMap.values())
+            .filter(a => a.status === 'active'); // Finally, remove deleted/inactive ones from cache
+
         // Sort by Date Descending (Newest First)
         mergedData.sort((a, b) => {
             const dateA = a.datePosted && a.datePosted.seconds ? a.datePosted.seconds : new Date(a.datePosted).getTime() / 1000;
@@ -309,7 +314,7 @@ export async function fetchAllSearchData() {
 
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedData));
-        localStorage.setItem(META_KEY, latestServerSerial.toString());
+        localStorage.setItem(META_KEY, latestServerSync.toString());
         localData = mergedData;
     } else {
         console.log("✅ [READ COST: 0] Cache is up to date. Using LocalStorage.");

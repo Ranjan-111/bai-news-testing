@@ -129,8 +129,32 @@ function showPromos() {
                 popup.classList.remove('hidden');
             }
         }, 1000); // 2 second delay
+    }
 
+    // 3. Dynamic Sidebar Height for Home Page Readers
+    // Only apply on desktop where the sidebar is fixed to the left
+    if (window.innerWidth > 550) {
+        // Since layout.js injects the sidebar, we wait a tick to ensure it's in the DOM
+        setTimeout(() => {
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) {
+                const handleSidebarScroll = () => {
+                    if (window.scrollY === 0) {
+                        sidebar.style.height = '91.5vh'; 
+                    } else {
+                        sidebar.style.height = '95vh';
+                        // Reset back to its original CSS margin
+                        sidebar.style.marginTop = '0.3rem'; 
+                    }
+                };
 
+                // Initialize immediately
+                handleSidebarScroll();
+                
+                // Add the listener for subsequent scrolls
+                window.addEventListener('scroll', handleSidebarScroll);
+            }
+        }, 100);
     }
 }
 
