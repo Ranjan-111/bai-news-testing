@@ -367,7 +367,7 @@ Reader clicks "Apply to Become a Reporter"
       {
         "source": "/articles/**",
         "headers": [
-          { "key": "X-Prerender-Token", "value": "..." }
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
         ]
       }
     ]
@@ -377,7 +377,8 @@ Reader clicks "Apply to Become a Reporter"
 
 - **Root redirect**: `/` → `/main/index.html` (301 permanent).
 - **SPA rewrite**: all unmatched routes fall back to `/main/index.html`.
-- **Prerender header**: added for article pages to support SEO crawlers.
+- **Cloudflare Worker**: Intercepts bot requests and injects dynamic Open Graph tags (Title, Description, Image) for social media sharing.
+- **Structured Data**: JSON-LD scripts on key pages enhance rich snippets.
 
 ### Firestore Collections
 

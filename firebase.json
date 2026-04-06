@@ -38,15 +38,6 @@
         ]
       },
       {
-        "source": "/articles/**",
-        "headers": [
-          {
-            "key": "X-Prerender-Token",
-            "value": "eztWjS8ISZ86ts9k1x0o"
-          }
-        ]
-      },
-      {
         "source": "**/*.css",
         "headers": [
           {
