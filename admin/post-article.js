@@ -1,51 +1,11 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { app } from '/Article/firebase-db.js';
-import { marked } from 'https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js';
+import { setupMarkdownPreview } from '/assets/js/markdown-renderer.js';
+import '/assets/js/markdown-editor.js';
 
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-// Global formatting function for Markdown toolbar
-window.applyStyle = function(type, textareaId) {
-    const textarea = document.getElementById(textareaId);
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = textarea.value;
-    const before = text.substring(0, start);
-    const selected = text.substring(start, end);
-    const after = text.substring(end, text.length);
-
-    let newText = text;
-    let newCursorPos = end;
-
-    switch(type) {
-        case 'h1': newText = before + '# ' + selected + after; newCursorPos = end + 2; break;
-        case 'h2': newText = before + '## ' + selected + after; newCursorPos = end + 3; break;
-        case 'h3': newText = before + '### ' + selected + after; newCursorPos = end + 4; break;
-        case 'bold': newText = before + '**' + selected + '**' + after; newCursorPos = end + 2; break;
-        case 'italic': newText = before + '_' + selected + '_' + after; newCursorPos = end + 1; break;
-        case 'list': newText = before + '- ' + selected + after; newCursorPos = end + 2; break;
-        case 'code': newText = before + '`' + selected + '`' + after; newCursorPos = end + 1; break;
-        case 'quote': newText = before + '> ' + selected + after; newCursorPos = end + 2; break;
-        case 'line': newText = before + '\n---\n' + selected + after; newCursorPos = end + 5; break;
-        case 'table': 
-            const tableTemplate = "\n| Header 1 | Header 2 |\n| -------- | -------- |\n| Cell 1   | Cell 2   |\n";
-            newText = before + tableTemplate + selected + after; 
-            newCursorPos = start + tableTemplate.length; 
-            break;
-    }
-
-    textarea.value = newText;
-    textarea.focus();
-    textarea.selectionStart = newCursorPos;
-    textarea.selectionEnd = newCursorPos;
-
-    // Trigger preview update
-    textarea.dispatchEvent(new Event('input'));
-};
 
 let currentUser = null;
 let tags = [];
@@ -66,29 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('inp-date').value = new Date().toISOString();
 
     // MARKDOWN LIVE PREVIEW — two separate textboxes
-    marked.setOptions({ breaks: true, gfm: true });
-
-    function setupPreview(textareaId, previewId, labelId) {
-        const ta = document.getElementById(textareaId);
-        const preview = document.getElementById(previewId);
-        const label = document.getElementById(labelId);
-        if (ta && preview) {
-            ta.addEventListener('input', () => {
-                const raw = ta.value.trim();
-                if (raw) {
-                    preview.style.display = 'block';
-                    if (label) label.style.display = 'block';
-                    preview.innerHTML = marked.parse(raw);
-                } else {
-                    preview.style.display = 'none';
-                    if (label) label.style.display = 'none';
-                    preview.innerHTML = '';
-                }
-            });
-        }
-    }
-    setupPreview('inp-content-concise', 'preview-concise', 'preview-label-concise');
-    setupPreview('inp-content-technical', 'preview-technical', 'preview-label-technical');
+    setupMarkdownPreview('inp-content-concise', 'preview-concise', 'preview-label-concise');
+    setupMarkdownPreview('inp-content-technical', 'preview-technical', 'preview-label-technical');
 
     // ==========================================
     // 2. COMPANY TAG CHECKBOXES (Max 2)

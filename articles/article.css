@@ -554,6 +554,41 @@ figure+p {
 
 
 /* ============================================================
+   Voice Download Status Indicator
+   Shows progress when downloading the Piper TTS voice model
+   for the first time.
+   ============================================================ */
+#voice-download-status {
+  background: #222;
+  color: #fff;
+  font-size: 0.75rem;
+  font-family: var(--font-display);
+  padding: 8px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+#voice-download-status::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--color-red);
+  border-radius: 50%;
+  margin-left: 6px;
+  vertical-align: middle;
+  animation: pulse-dot 1s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+
+/* ============================================================
    Audio Reader — Desktop (Vertical progress bar)
    Fixed to bottom-right, mirroring the search button position.
    ============================================================ */
@@ -1183,8 +1218,341 @@ figure+p {
 #article-content a { color: var(--color-red); text-decoration: underline; }
 #article-content a:hover { color: var(--color-red-hover); }
 #article-content img { max-width: 100%; height: auto; border-radius: 4px; margin: 0.6em 0; }
-#article-content table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.95rem; }
-#article-content thead { background: #f5f5f5; }
-#article-content th, #article-content td { border: 1px solid #ddd; padding: 10px 14px; text-align: left; }
-#article-content th { font-weight: 600; }
-#article-content tbody tr:nth-child(even) { background: #fafafa; }
+#article-content table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.95rem; font-family: 'Inter', sans-serif; }
+#article-content thead { background: #f5e5e5; }
+#article-content th, #article-content td { border: 1px solid #e8d5d5; padding: 10px 14px; text-align: left; }
+#article-content th { font-weight: 600; color: #2d1515; }
+#article-content tbody tr:nth-child(even) { background: #fdf8f8; }
+
+/* Premium Chart Container */
+.premium-chart-container {
+  background: #fff;
+  border: 1px solid #e8d5d5;
+  border-radius: 12px;
+  padding: 25px;
+  height: 400px;
+  margin: 2rem 0;
+  box-shadow: 0 2px 12px rgba(139, 58, 58, 0.04);
+  position: relative;
+  transition: box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+/* ── Hide chart settings & resize on article page (viewer mode) ── */
+#article-content .chart-settings-toggle,
+#article-content .chart-settings-panel,
+#article-content .chart-resize-handle {
+  display: none !important;
+}
+
+/* ── Show them when admin activates edit mode ── */
+#article-content.chart-edit-mode .chart-settings-toggle {
+  display: flex !important;
+}
+#article-content.chart-edit-mode .chart-settings-panel {
+  display: none !important;          /* panel is hidden by default, .active shows it */
+}
+#article-content.chart-edit-mode .chart-settings-panel.active {
+  display: block !important;
+}
+#article-content.chart-edit-mode .chart-resize-handle {
+  display: block !important;
+}
+
+.premium-chart-container canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Active resize feedback */
+.premium-chart-container.chart-resizing {
+  box-shadow: 0 4px 20px rgba(168, 60, 60, 0.12);
+  outline: 2px dashed #e8c5c5;
+  outline-offset: 2px;
+}
+
+
+/* ============================================================
+   Chart — Alignment Modes
+   Left: float left, text fills right.
+   Right: float right, text fills left.
+   ============================================================ */
+.premium-chart-container.chart-align-left {
+  float: left;
+  margin-right: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+.premium-chart-container.chart-align-right {
+  float: right;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Clearfix for float clearing */
+#article-content::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+
+/* ============================================================
+   Chart — Drag Resize Handle
+   Default: bottom-right.
+   .handle-left: flips to bottom-left (for right-aligned charts).
+   ============================================================ */
+.chart-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  cursor: nwse-resize;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 4;
+  border-bottom-right-radius: 12px;
+}
+
+/* Flip handle to bottom-left for right-aligned charts */
+.chart-resize-handle.handle-left {
+  right: auto;
+  left: 0;
+  cursor: nesw-resize;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 12px;
+}
+
+.premium-chart-container:hover .chart-resize-handle {
+  opacity: 0.5;
+}
+
+.chart-resize-handle:hover,
+.premium-chart-container.chart-resizing .chart-resize-handle {
+  opacity: 1 !important;
+}
+
+/* Diagonal lines indicator — default (bottom-right) */
+.chart-resize-handle::before,
+.chart-resize-handle::after {
+  content: '';
+  position: absolute;
+  background: #c26d6d;
+  border-radius: 1px;
+}
+
+.chart-resize-handle::before {
+  width: 10px;
+  height: 1.5px;
+  bottom: 5px;
+  right: 3px;
+  transform: rotate(-45deg);
+}
+
+.chart-resize-handle::after {
+  width: 6px;
+  height: 1.5px;
+  bottom: 4px;
+  right: 2px;
+  transform: rotate(-45deg);
+  transform-origin: bottom right;
+}
+
+/* Diagonal lines indicator — flipped (bottom-left) */
+.chart-resize-handle.handle-left::before {
+  right: auto;
+  left: 3px;
+  transform: rotate(45deg);
+}
+
+.chart-resize-handle.handle-left::after {
+  right: auto;
+  left: 2px;
+  transform: rotate(45deg);
+  transform-origin: bottom left;
+}
+
+
+/* ============================================================
+   Chart Settings — Toggle Button (gear icon)
+   ============================================================ */
+.chart-settings-toggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 5;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid #e8d5d5;
+  background: rgba(255, 255, 255, 0.9);
+  color: #8b6666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.15s, color 0.15s;
+  backdrop-filter: blur(4px);
+}
+
+.premium-chart-container:hover .chart-settings-toggle,
+.chart-settings-toggle.active {
+  opacity: 1;
+}
+
+.chart-settings-toggle:hover {
+  background: #a83c3c;
+  color: #fff;
+  border-color: #a83c3c;
+}
+
+.chart-settings-toggle.active {
+  background: #a83c3c;
+  color: #fff;
+  border-color: #a83c3c;
+}
+
+
+/* ============================================================
+   Chart Settings — Panel
+   ============================================================ */
+.chart-settings-panel {
+  position: absolute;
+  top: 44px;
+  right: 8px;
+  z-index: 10;
+  background: #fff;
+  border: 1px solid #e8d5d5;
+  border-radius: 10px;
+  padding: 14px 16px;
+  min-width: 190px;
+  box-shadow: 0 6px 24px rgba(139, 58, 58, 0.12);
+  display: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.chart-settings-panel.active {
+  display: block;
+  animation: csFadeIn 0.15s ease;
+}
+
+@keyframes csFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Checkbox toggles */
+.cs-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cs-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: #555;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cs-toggle input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: #a83c3c;
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   Chart Settings — Alignment Radio Group
+   Pill-style selector: Full | Left | Right
+   ============================================================ */
+.cs-align-group {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f0dede;
+}
+
+.cs-align-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #8b6666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.cs-align-options {
+  display: flex;
+  gap: 0;
+  border: 1px solid #e8d5d5;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.cs-align-opt {
+  flex: 1;
+  cursor: pointer;
+  margin: 0;
+}
+
+.cs-align-opt input[type="radio"] {
+  display: none;
+}
+
+.cs-align-pill {
+  display: block;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #8b6666;
+  background: #fdf8f8;
+  transition: background 0.15s, color 0.15s;
+  border-right: 1px solid #e8d5d5;
+  user-select: none;
+}
+
+.cs-align-opt:last-child .cs-align-pill {
+  border-right: none;
+}
+
+.cs-align-opt input[type="radio"]:checked + .cs-align-pill {
+  background: #a83c3c;
+  color: #fff;
+  font-weight: 600;
+}
+
+.cs-align-pill:hover {
+  background: #f5e5e5;
+}
+
+.cs-align-opt input[type="radio"]:checked + .cs-align-pill:hover {
+  background: #943535;
+}
+
+/* ============================================================
+   Chart Responsive Adaptations
+   ============================================================ */
+@media screen and (max-width: 768px) {
+  .premium-chart-container {
+      width: 100% !important;
+      max-width: 100% !important;
+      float: none !important;
+      margin: 1rem 0 !important; /* lessened vertical margin, zero horizontal */
+      padding: 10px !important;    /* lessened padding from 25px to 10px */
+      max-height: 500px !important;
+      min-height: 250px !important;
+  }
+  
+  .chart-resize-handle {
+      display: none !important;
+  }
+}

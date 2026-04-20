@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Generate — bitfeed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+    <style>
+        /* ── Reset & Global ── */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #fff;
+            color: #111;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* ── Header ── */
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 67px;
+            background: #fff;
+            box-shadow: 0 0 1px 0;
+            z-index: 100;
+            padding: 0 20px;
+        }
+
+        .admin-header h1 {
+            font-size: 1.25rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* ── Main Container ── */
+        .gen-container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 60px 20px 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        /* ── Intro ── */
+        .gen-intro {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .gen-intro h2 {
+            font-weight: 300;
+            font-size: 2rem;
+            color: #111;
+            margin-bottom: 10px;
+        }
+
+        .gen-intro p {
+            color: #666;
+            font-weight: 300;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        /* ── Control Card ── */
+        .gen-card {
+            width: 100%;
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 14px;
+            padding: 36px 32px;
+            text-align: center;
+        }
+
+        /* ── Slider ── */
+        .slider-group {
+            margin-bottom: 32px;
+        }
+
+        .slider-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #8b6666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .slider-value {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: #a83c3c;
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .gen-range {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #e8d5d5;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .gen-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #a83c3c;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 8px rgba(168, 60, 60, 0.3);
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+
+        .gen-range::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        .gen-range::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #a83c3c;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 8px rgba(168, 60, 60, 0.3);
+            cursor: pointer;
+        }
+
+        .slider-range-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+            font-size: 0.7rem;
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        /* ── Generate Button ── */
+        .gen-btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            background: #a83c3c;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(168, 60, 60, 0.2);
+            letter-spacing: 0.02em;
+        }
+
+        .gen-btn:hover {
+            background: #943535;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(168, 60, 60, 0.25);
+        }
+
+        .gen-btn:active {
+            transform: translateY(0);
+        }
+
+        .gen-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ── Loader ── */
+        .gen-loader {
+            display: none;
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .gen-loader.active {
+            display: block;
+        }
+
+        .loader-spinner {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            border: 3px solid #e8d5d5;
+            border-top: 3px solid #a83c3c;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loader-text {
+            font-size: 0.85rem;
+            color: #8b6666;
+            font-weight: 400;
+        }
+
+        .loader-subtext {
+            font-size: 0.75rem;
+            color: #bbb;
+            margin-top: 4px;
+        }
+
+        /* ── Success Banner ── */
+        .gen-success {
+            width: 100%;
+            margin-top: 28px;
+            background: #fdf8f8;
+            border: 1px solid #e8d5d5;
+            border-radius: 14px;
+            padding: 36px 20px;
+            text-align: center;
+            display: none;
+            animation: fadeSlide 0.35s ease;
+        }
+
+        .gen-success.active {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            background: #a83c3c;
+            color: #fff;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(168, 60, 60, 0.2);
+        }
+
+        .gen-success h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+
+        .gen-success p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 28px;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .review-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #a83c3c;
+            background: #fff;
+            border: 1px solid #a83c3c;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .review-btn:hover {
+            background: #a83c3c;
+            color: #fff;
+        }
+
+        /* ── Error Banner ── */
+        .gen-error {
+            width: 100%;
+            margin-top: 16px;
+            padding: 14px 18px;
+            background: #fff5f5;
+            border: 1px solid #f0dede;
+            border-radius: 10px;
+            color: #a83c3c;
+            font-size: 0.85rem;
+            display: none;
+            text-align: left;
+        }
+
+        .gen-error.active {
+            display: block;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .admin-header { height: 67px; }
+            .gen-container { padding: 40px 20px 60px; }
+        }
+
+        @media (max-width: 550px) {
+            .admin-header { height: 50px; }
+            .gen-card { padding: 28px 20px; }
+            .gen-intro h2 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <a href="/dashboard" class="back-btn">
+            <img width="25" height="25" src="https://img.icons8.com/pixels/32/u-turn-to-left.png" alt="Back">
+        </a>
+        <h1><a href="/">AI Generate</a></h1>
+    </header>
+
+    <div class="gen-container">
+
+        <div class="gen-intro">
+            <h2>AI Article Studio</h2>
+            <p>Generate AI-written articles powered by your n8n automation pipeline. Choose how many articles to create and let AI do the rest.</p>
+        </div>
+
+        <div class="gen-card">
+            <!-- Slider -->
+            <div class="slider-group">
+                <label class="slider-label">Articles to Generate</label>
+                <div class="slider-value" id="slider-value">5</div>
+                <input type="range" id="gen-range" class="gen-range" min="1" max="10" value="5">
+                <div class="slider-range-labels">
+                    <span>1</span>
+                    <span>5</span>
+                    <span>10</span>
+                </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button id="gen-btn" class="gen-btn">Generate Articles</button>
+
+            <!-- Loader -->
+            <div class="gen-loader" id="gen-loader">
+                <div class="loader-spinner"></div>
+                <div class="loader-text">AI is writing your articles…</div>
+                <div class="loader-subtext">This may take 2–5 minutes depending on the count.</div>
+            </div>
+        </div>
+
+        <!-- Error -->
+        <div class="gen-error" id="gen-error"></div>
+
+        <!-- Success Message -->
+        <div class="gen-success" id="gen-success">
+            <div class="success-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <h3>Process Initiated Successfully</h3>
+            <p id="success-msg-text"></p>
+            <a href="/article-requests" class="review-btn">Go to Review Articles</a>
+        </div>
+
+    </div>
+
+    <script type="module">
+        // Firebase Auth removed — page is open for direct access constraints
+
+        // ── Elements ──
+        const rangeEl    = document.getElementById('gen-range');
+        const valueEl    = document.getElementById('slider-value');
+        const btnEl      = document.getElementById('gen-btn');
+        const loaderEl   = document.getElementById('gen-loader');
+        const errorEl    = document.getElementById('gen-error');
+        const successEl  = document.getElementById('gen-success');
+        const successMsg = document.getElementById('success-msg-text');
+
+        // n8n webhook URL — same as tet.html
+        const WEBHOOK_URL = 'http://localhost:5678/webhook/4c4a3693-cc66-48b8-b9a4-7eee79d81a21';
+
+        // ── Slider ──
+        rangeEl.addEventListener('input', () => {
+            valueEl.textContent = rangeEl.value;
+        });
+
+        // ── Generate ──
+        btnEl.addEventListener('click', () => {
+            const count = Number(rangeEl.value);
+
+            // Reset UI
+            btnEl.disabled = true;
+            loaderEl.classList.add('active');
+            successEl.classList.remove('active');
+            errorEl.classList.remove('active');
+
+            // Fire and forget the n8n request (Ollama takes too much time to await it here)
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ value: count })
+            }).catch(err => console.error("Webhook error:", err));
+
+            // Determine estimated minutes
+            const minMins = count * 2;
+            const maxMins = minMins + 1;
+            const articleText = count === 1 ? 'article' : 'articles';
+
+            // Simulate a brief loading effect for UX, then show success
+            setTimeout(() => {
+                loaderEl.classList.remove('active');
+                successMsg.innerHTML = `Your request for <strong>${count} ${articleText}</strong> has been sent to the AI pipeline. They will be generated in approximately <strong>${minMins} to ${maxMins} minutes</strong>. Please check the Review Articles page once completed.`;
+                successEl.classList.add('active');
+                
+                // Keep the button disabled for a few seconds to prevent accidental double-clicks
+                setTimeout(() => { btnEl.disabled = false; }, 5000);
+            }, 1200);
+        });
+
+        function showError(msg) {
+            errorEl.textContent = '⚠ ' + msg;
+            errorEl.classList.add('active');
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+    </script>
+
+</body>
+</html>

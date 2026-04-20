@@ -500,11 +500,11 @@ label {
 .md-preview pre { background: #f0f0f0; padding: 12px; border-radius: 6px; overflow-x: auto; }
 .md-preview pre code { background: none; padding: 0; }
 .md-preview hr { border: none; border-top: 1px solid #ddd; margin: 1em 0; }
-.md-preview table { width: 100%; border-collapse: collapse; margin: 0.8em 0; font-size: 0.9rem; }
-.md-preview thead { background: #f5f5f5; }
-.md-preview th, .md-preview td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
-.md-preview th { font-weight: 600; }
-.md-preview tbody tr:nth-child(even) { background: #fafafa; }
+.md-preview table { width: 100%; border-collapse: collapse; margin: 0.8em 0; font-size: 0.9rem; font-family: 'Inter', sans-serif; }
+.md-preview thead { background: #f5e5e5; }
+.md-preview th, .md-preview td { border: 1px solid #e8d5d5; padding: 8px 12px; text-align: left; }
+.md-preview th { font-weight: 600; color: #2d1515; }
+.md-preview tbody tr:nth-child(even) { background: #fdf8f8; }
 
 
 /* ============================================================
@@ -605,4 +605,314 @@ label {
   background: #ddd;
   margin: 0 4px;
   align-self: center;
+}
+
+
+/* ============================================================
+   Premium Chart Container (inside editor preview)
+   ============================================================ */
+.premium-chart-container {
+  background: #fff;
+  border: 1px solid #e8d5d5;
+  border-radius: 12px;
+  padding: 25px;
+  height: 400px;
+  margin: 0.8em 0;
+  box-shadow: 0 2px 12px rgba(139, 58, 58, 0.04);
+  position: relative;
+  transition: box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.premium-chart-container canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Active resize feedback */
+.premium-chart-container.chart-resizing {
+  box-shadow: 0 4px 20px rgba(168, 60, 60, 0.12);
+  outline: 2px dashed #e8c5c5;
+  outline-offset: 2px;
+}
+
+
+/* ============================================================
+   Chart — Alignment Modes
+   ============================================================ */
+.premium-chart-container.chart-align-left {
+  float: left;
+  margin-right: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+.premium-chart-container.chart-align-right {
+  float: right;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Clearfix for float clearing in preview */
+.md-preview::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+
+/* ============================================================
+   Chart — Drag Resize Handle
+   ============================================================ */
+.chart-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  cursor: nwse-resize;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 4;
+  border-bottom-right-radius: 12px;
+}
+
+/* Flip handle to bottom-left for right-aligned charts */
+.chart-resize-handle.handle-left {
+  right: auto;
+  left: 0;
+  cursor: nesw-resize;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 12px;
+}
+
+.premium-chart-container:hover .chart-resize-handle {
+  opacity: 0.5;
+}
+
+.chart-resize-handle:hover,
+.premium-chart-container.chart-resizing .chart-resize-handle {
+  opacity: 1 !important;
+}
+
+/* Diagonal lines indicator — default (bottom-right) */
+.chart-resize-handle::before,
+.chart-resize-handle::after {
+  content: '';
+  position: absolute;
+  background: #c26d6d;
+  border-radius: 1px;
+}
+
+.chart-resize-handle::before {
+  width: 10px;
+  height: 1.5px;
+  bottom: 5px;
+  right: 3px;
+  transform: rotate(-45deg);
+}
+
+.chart-resize-handle::after {
+  width: 6px;
+  height: 1.5px;
+  bottom: 4px;
+  right: 2px;
+  transform: rotate(-45deg);
+  transform-origin: bottom right;
+}
+
+/* Diagonal lines indicator — flipped (bottom-left) */
+.chart-resize-handle.handle-left::before {
+  right: auto;
+  left: 3px;
+  transform: rotate(45deg);
+}
+
+.chart-resize-handle.handle-left::after {
+  right: auto;
+  left: 2px;
+  transform: rotate(45deg);
+  transform-origin: bottom left;
+}
+
+
+/* ============================================================
+   Chart Settings — Toggle Button (gear icon)
+   ============================================================ */
+.chart-settings-toggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 5;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid #e8d5d5;
+  background: rgba(255, 255, 255, 0.9);
+  color: #8b6666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.15s, color 0.15s;
+  backdrop-filter: blur(4px);
+}
+
+.premium-chart-container:hover .chart-settings-toggle,
+.chart-settings-toggle.active {
+  opacity: 1;
+}
+
+.chart-settings-toggle:hover {
+  background: #a83c3c;
+  color: #fff;
+  border-color: #a83c3c;
+}
+
+.chart-settings-toggle.active {
+  background: #a83c3c;
+  color: #fff;
+  border-color: #a83c3c;
+}
+
+
+/* ============================================================
+   Chart Settings — Panel
+   ============================================================ */
+.chart-settings-panel {
+  position: absolute;
+  top: 44px;
+  right: 8px;
+  z-index: 10;
+  background: #fff;
+  border: 1px solid #e8d5d5;
+  border-radius: 10px;
+  padding: 14px 16px;
+  min-width: 190px;
+  box-shadow: 0 6px 24px rgba(139, 58, 58, 0.12);
+  display: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.chart-settings-panel.active {
+  display: block;
+  animation: csFadeIn 0.15s ease;
+}
+
+@keyframes csFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Checkbox toggles */
+.cs-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cs-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: #555;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cs-toggle input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: #a83c3c;
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   Chart Settings — Alignment Radio Group
+   ============================================================ */
+.cs-align-group {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f0dede;
+}
+
+.cs-align-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #8b6666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.cs-align-options {
+  display: flex;
+  gap: 0;
+  border: 1px solid #e8d5d5;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.cs-align-opt {
+  flex: 1;
+  cursor: pointer;
+  margin: 0;
+}
+
+.cs-align-opt input[type="radio"] {
+  display: none;
+}
+
+.cs-align-pill {
+  display: block;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #8b6666;
+  background: #fdf8f8;
+  transition: background 0.15s, color 0.15s;
+  border-right: 1px solid #e8d5d5;
+  user-select: none;
+}
+
+.cs-align-opt:last-child .cs-align-pill {
+  border-right: none;
+}
+
+.cs-align-opt input[type="radio"]:checked + .cs-align-pill {
+  background: #a83c3c;
+  color: #fff;
+  font-weight: 600;
+}
+
+.cs-align-pill:hover {
+  background: #f5e5e5;
+}
+
+.cs-align-opt input[type="radio"]:checked + .cs-align-pill:hover {
+  background: #943535;
+}
+
+/* ============================================================
+   Chart Responsive Adaptations
+   ============================================================ */
+@media screen and (max-width: 768px) {
+  .premium-chart-container {
+      width: 100% !important;
+      max-width: 100% !important;
+      float: none !important;
+      margin: 1rem 0 !important; /* lessened vertical margin, zero horizontal */
+      padding: 10px !important;    /* lessened padding from 25px to 10px */
+      max-height: 500px !important;
+      min-height: 250px !important;
+  }
+  
+  .chart-resize-handle {
+      display: none !important;
+  }
 }

@@ -7,8 +7,15 @@
     <link rel="stylesheet" href="/layout/layout.css">
     <link rel="stylesheet" href="/admin/article-requests.css">
     <link rel="stylesheet" href="/admin/post-article.css">
-        <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+    <!-- Chart.js for premium data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <!-- Inter font for chart typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
 <body>
@@ -87,8 +94,20 @@
                             <button type="button" onclick="applyStyle('list','edit-content-concise')">• List</button>
                             <button type="button" onclick="applyStyle('code','edit-content-concise')">&lt;/&gt;</button>
                             <button type="button" onclick="applyStyle('quote','edit-content-concise')">" Quote</button>
-                            <button type="button" onclick="applyStyle('line','edit-content-concise')">― Line</button>
+                            <button type="button" onclick="applyStyle('hr','edit-content-concise')">― Line</button>
                             <button type="button" onclick="applyStyle('table','edit-content-concise')">⊞ Table</button>
+                            <span class="md-toolbar-sep"></span>
+                            <button type="button" onclick="applyStyle('bar','edit-content-concise')" title="Bar Chart">📊 Bar</button>
+                            <button type="button" onclick="applyStyle('hbar','edit-content-concise')" title="Horizontal Bar">📊 H-Bar</button>
+                            <button type="button" onclick="applyStyle('stacked','edit-content-concise')" title="Stacked Bar">📊 Stacked</button>
+                            <button type="button" onclick="applyStyle('line','edit-content-concise')" title="Line Graph">📈 Line</button>
+                            <button type="button" onclick="applyStyle('area','edit-content-concise')" title="Area Chart">📉 Area</button>
+                            <button type="button" onclick="applyStyle('pie','edit-content-concise')" title="Pie Chart">🥧 Pie</button>
+                            <button type="button" onclick="applyStyle('doughnut','edit-content-concise')" title="Doughnut Chart">🍩 Doughnut</button>
+                            <button type="button" onclick="applyStyle('radar','edit-content-concise')" title="Radar Chart">🕸 Radar</button>
+                            <button type="button" onclick="applyStyle('polar','edit-content-concise')" title="Polar Area">🎯 Polar</button>
+                            <button type="button" onclick="applyStyle('scatter','edit-content-concise')" title="Scatter Plot">⊙ Scatter</button>
+                            <button type="button" onclick="applyStyle('bubble','edit-content-concise')" title="Bubble Chart">◉ Bubble</button>
                         </div>
                         <textarea id="edit-content-concise" class="edit-input edit-textarea"></textarea>
                     </div>
@@ -112,8 +131,20 @@
                             <button type="button" onclick="applyStyle('list','edit-content-technical')">• List</button>
                             <button type="button" onclick="applyStyle('code','edit-content-technical')">&lt;/&gt;</button>
                             <button type="button" onclick="applyStyle('quote','edit-content-technical')">" Quote</button>
-                            <button type="button" onclick="applyStyle('line','edit-content-technical')">― Line</button>
+                            <button type="button" onclick="applyStyle('hr','edit-content-technical')">― Line</button>
                             <button type="button" onclick="applyStyle('table','edit-content-technical')">⊞ Table</button>
+                            <span class="md-toolbar-sep"></span>
+                            <button type="button" onclick="applyStyle('bar','edit-content-technical')" title="Bar Chart">📊 Bar</button>
+                            <button type="button" onclick="applyStyle('hbar','edit-content-technical')" title="Horizontal Bar">📊 H-Bar</button>
+                            <button type="button" onclick="applyStyle('stacked','edit-content-technical')" title="Stacked Bar">📊 Stacked</button>
+                            <button type="button" onclick="applyStyle('line','edit-content-technical')" title="Line Graph">📈 Line</button>
+                            <button type="button" onclick="applyStyle('area','edit-content-technical')" title="Area Chart">📉 Area</button>
+                            <button type="button" onclick="applyStyle('pie','edit-content-technical')" title="Pie Chart">🥧 Pie</button>
+                            <button type="button" onclick="applyStyle('doughnut','edit-content-technical')" title="Doughnut Chart">🍩 Doughnut</button>
+                            <button type="button" onclick="applyStyle('radar','edit-content-technical')" title="Radar Chart">🕸 Radar</button>
+                            <button type="button" onclick="applyStyle('polar','edit-content-technical')" title="Polar Area">🎯 Polar</button>
+                            <button type="button" onclick="applyStyle('scatter','edit-content-technical')" title="Scatter Plot">⊙ Scatter</button>
+                            <button type="button" onclick="applyStyle('bubble','edit-content-technical')" title="Bubble Chart">◉ Bubble</button>
                         </div>
                         <textarea id="edit-content-technical" class="edit-input edit-textarea"></textarea>
                     </div>
