@@ -1,7 +1,13 @@
 [
   { "name": "Algorithm", "path": "/assets/article-img/alg.png" },
+  { "name": "Amazon", "path": "/assets/article-img/amazon.png" },
+  { "name": "Claude", "path": "/assets/article-img/claude.png" },
+  { "name": "Gemini", "path": "/assets/article-img/gemini.png" },
+  { "name": "GPT", "path": "/assets/article-img/gpt.png" },
+  { "name": "Higgsfield", "path": "/assets/article-img/higgsfield.png" },
   { "name": "Image Model", "path": "/assets/article-img/img-m.png" },
   { "name": "LLM", "path": "/assets/article-img/llm.png" },
+  { "name": "Meta", "path": "/assets/article-img/meta.png" },
   { "name": "Research", "path": "/assets/article-img/research.png" },
   { "name": "Robotics", "path": "/assets/article-img/rob.png" },
   { "name": "Security", "path": "/assets/article-img/sec.png" },

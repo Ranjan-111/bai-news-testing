@@ -119,14 +119,22 @@ function buildChartConfig(config, overrides) {
         return base;
     });
 
+    // Resolve title — supports both string ("My Title") and v2 object ({display, text})
+    let titleText = '';
+    if (typeof userOptions.title === 'string') {
+        titleText = userOptions.title;
+    } else if (userOptions.title && typeof userOptions.title === 'object') {
+        titleText = userOptions.title.text || '';
+    }
+
     const fullOptions = {
         responsive: true,
         maintainAspectRatio: false,
         animation: { duration: 800, easing: 'easeOutQuart' },
         plugins: {
             title: {
-                display: !!userOptions.title,
-                text: userOptions.title || '',
+                display: !!titleText,
+                text: titleText,
                 font: { size: 16, weight: '600', family: 'Inter, sans-serif' },
                 color: '#333',
                 padding: { bottom: 16 }
@@ -212,8 +220,12 @@ function injectSettingsUI(container, canvas, config, chartIndex, sourceTa) {
     let isGridVisible = layoutConfig.grid !== undefined ? layoutConfig.grid : true;
 
     // Apply init dimensions to container immediately
-    if (layoutConfig.width) container.style.width = layoutConfig.width + 'px';
-    if (layoutConfig.height) container.style.height = layoutConfig.height + 'px';
+    if (layoutConfig.width) {
+        container.style.width = typeof layoutConfig.width === 'number' ? layoutConfig.width + 'px' : layoutConfig.width;
+    }
+    if (layoutConfig.height) {
+        container.style.height = typeof layoutConfig.height === 'number' ? layoutConfig.height + 'px' : layoutConfig.height;
+    }
 
     // ── Settings toggle button (gear icon) ──
     const toggleBtn = document.createElement('button');
@@ -436,9 +448,14 @@ function injectSettingsUI(container, canvas, config, chartIndex, sourceTa) {
         observerActive = true;
         if (canvas.__chartInstance) canvas.__chartInstance.resize();
         
+        // Calculate width as responsive percentage
+        const parentW = getMaxWidth();
+        const rawW = parseFloat(container.style.width) || container.offsetWidth;
+        const targetPercent = Math.round((rawW / parentW) * 1000) / 10; // e.g. 85.4
+        
         saveLayoutToMarkdown({
-            width: parseFloat(container.style.width) || container.offsetWidth,
-            height: parseFloat(container.style.height) || container.offsetHeight
+            width: targetPercent + "%",
+            height: Math.round(parseFloat(container.style.height) || container.offsetHeight)
         });
     }
 

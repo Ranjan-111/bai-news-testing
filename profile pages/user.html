@@ -25,10 +25,22 @@
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="apple-touch-icon" href="/assets/favicon.png">
 
+    <!-- Inline Critical CSS (prevents FOUC) -->
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -ms-overflow-style: none; scrollbar-width: none; }
+        body::-webkit-scrollbar { display: none; }
+        #global-header { position: sticky; top: 0; z-index: 1000; width: 100vw; min-height: 67px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); }
+        @media (max-width: 550px) { #global-header { min-height: 50px; } }
+        .container { flex: 1 0 auto; }
+        footer, #global-footer { flex-shrink: 0; }
+        a { text-decoration: none; color: black; }
+        .hidden { display: none !important; }
+    </style>
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/layout/layout.css">
-    <link rel="stylesheet" href="/articles/multi-article.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="/profile pages/user.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/articles/multi-article.css">
+    <link rel="stylesheet" href="/profile pages/user.css">
 
     <style>
         .menu__icon {

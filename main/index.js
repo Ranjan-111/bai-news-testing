@@ -30,27 +30,70 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     });
+    // --- SSR HYDRATION CHECK ---
+    // If the Cloudflare Worker already pre-rendered the content, skip re-fetching
+    const isSSR = !!document.querySelector('meta[name="ssr-rendered"]');
+
     // --- 2. FEATURED NEWS LOGIC ---
     const featSkeleton = document.getElementById('featured-skeleton');
     const featReal = document.getElementById('featured-real');
 
-    try {
-        const featuredArticles = await getFeaturedNews();
-        if (featuredArticles.length >= 1) updateFeaturedCard('.Article.LEFT', featuredArticles[0]);
-        if (featuredArticles.length >= 2) updateFeaturedCard('.Article.RIGHT', featuredArticles[1]);
+    if (isSSR && featReal && featReal.dataset.ssr === 'true') {
+        // Content already pre-rendered by Cloudflare Worker — skip Firestore fetch
+        console.log('✅ SSR: Featured articles already pre-rendered, skipping fetch.');
+        // Hide skeleton and show real view since the worker left them visible
+        if (featSkeleton) featSkeleton.classList.add('hidden');
+        featReal.classList.remove('hidden');
+        featReal.classList.add('fade-in');
+    } else {
+        try {
+            const featuredArticles = await getFeaturedNews();
+            if (featuredArticles.length >= 1) updateFeaturedCard('.Article.LEFT', featuredArticles[0]);
+            if (featuredArticles.length >= 2) updateFeaturedCard('.Article.RIGHT', featuredArticles[1]);
 
-        if (featSkeleton) featSkeleton.classList.add('hidden');
-        if (featReal) {
-            featReal.classList.remove('hidden');
-            featReal.classList.add('fade-in');
+            if (featSkeleton) featSkeleton.classList.add('hidden');
+            if (featReal) {
+                featReal.classList.remove('hidden');
+                featReal.classList.add('fade-in');
+            }
+        } catch (e) {
+            console.error("Featured News Error:", e);
+            if (featSkeleton) featSkeleton.classList.add('hidden');
         }
-    } catch (e) {
-        console.error("Featured News Error:", e);
-        if (featSkeleton) featSkeleton.classList.add('hidden');
     }
 
     // --- 3. LATEST NEWS TICKER ---
-    initLatestNews();
+    if (isSSR && document.getElementById('latest-real-view')?.dataset.ssr === 'true') {
+        console.log('✅ SSR: Latest articles already pre-rendered, skipping fetch.');
+        // Hide skeleton and show real view since the worker left them visible
+        const latestSkeleton = document.getElementById('latest-skeleton-view');
+        const latestReal = document.getElementById('latest-real-view');
+        if (latestSkeleton) latestSkeleton.style.display = 'none';
+        if (latestReal) {
+            latestReal.classList.remove('hidden');
+            latestReal.classList.add('fade-in');
+        }
+
+        // Still attach mobile tap logic to the pre-rendered cards
+        const container = document.getElementById('latest-news-container');
+        if (container) {
+            container.addEventListener('click', function (e) {
+                if (window.innerWidth > 600) return;
+                const card = e.target.closest('.news-card');
+                if (!card) return;
+                const link = card.querySelector('a');
+                if (link && link.contains(e.target)) {
+                    if (!card.classList.contains('active')) {
+                        e.preventDefault();
+                        document.querySelectorAll('.news-card.active').forEach(c => c.classList.remove('active'));
+                        card.classList.add('active');
+                    }
+                }
+            });
+        }
+    } else {
+        initLatestNews();
+    }
 
     // --- 4. PROMO LOGIC (Banner & Popup) ---
     initPromoSystem();

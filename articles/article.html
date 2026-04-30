@@ -6,10 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading Article... | bitfeed</title>
 
+    <!-- Inline Critical CSS (prevents FOUC) -->
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -ms-overflow-style: none; scrollbar-width: none; }
+        body::-webkit-scrollbar { display: none; }
+        #global-header { position: sticky; top: 0; z-index: 1000; width: 100vw; min-height: 67px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); }
+        @media (max-width: 550px) { #global-header { min-height: 50px; } }
+        .main { flex: 1 0 auto; }
+        footer, #global-footer { flex-shrink: 0; }
+        a { text-decoration: none; color: black; }
+        .hidden { display: none !important; }
+    </style>
+
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/main/index.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="/layout/layout.css">
-    <link rel="stylesheet" href="/articles/article.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/main/index.css">
+    <link rel="stylesheet" href="/articles/article.css">
 
     <!-- Chart.js for premium data visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>

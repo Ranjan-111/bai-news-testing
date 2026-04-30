@@ -23,8 +23,21 @@
     <link rel="canonical" href="https://bitfeed.in/students/" />
 
     <title>AI Learning & Free Student Resources - Bitfeed</title>
-    <link rel="stylesheet" href="/students/students.css" media="print" onload="this.media='all'">
+
+    <!-- Inline Critical CSS (prevents FOUC) -->
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -ms-overflow-style: none; scrollbar-width: none; }
+        body::-webkit-scrollbar { display: none; }
+        #global-header, header#global-header { position: sticky; top: 0; z-index: 1000; width: 100vw; min-height: 67px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); }
+        @media (max-width: 550px) { #global-header, header#global-header { min-height: 50px; } }
+        main { flex: 1 0 auto; }
+        footer, #global-footer, footer#global-footer { flex-shrink: 0; }
+        a { text-decoration: none; color: black; }
+        .hidden { display: none !important; }
+    </style>
+
     <link rel="stylesheet" href="/layout/layout.css">
+    <link rel="stylesheet" href="/students/students.css">
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="apple-touch-icon" href="/assets/favicon.png">
 
