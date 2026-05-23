@@ -67,23 +67,42 @@ document.addEventListener('DOMContentLoaded', async () => {
         const imgTagsRes = await fetch('/assets/tags/img-tags.json');
         const imgTags = await imgTagsRes.json();
 
-        imgTags.forEach(tag => {
-            const id = 'post-suggest-' + tag.name.toLowerCase().replace(/\s+/g, '-');
-            const div = document.createElement('div');
-            div.className = 'img-suggest-option';
-            div.innerHTML = `
-                <input type="radio" name="img-suggest" id="${id}" value="${tag.path}" data-tag="${tag.name}">
-                <label for="${id}">${tag.name}</label>
-            `;
-            imgSuggestContainer.appendChild(div);
+        // Group tags by category
+        const companyTags = imgTags.filter(t => t.category === 'company');
+        const domainTags = imgTags.filter(t => t.category === 'domain');
 
-            // Attach preview listener
-            div.querySelector('input').addEventListener('change', (e) => {
-                imgPreview.src = e.target.value;
-                imgPreview.classList.remove('hidden');
-                noImgText.style.display = 'none';
+        function renderTagGroup(tags, label, container) {
+            const group = document.createElement('div');
+            group.className = 'img-tag-category-group';
+
+            const categoryLabel = document.createElement('div');
+            categoryLabel.className = 'img-tag-category-label';
+            categoryLabel.textContent = label;
+            group.appendChild(categoryLabel);
+
+            tags.forEach(tag => {
+                const id = 'post-suggest-' + tag.name.toLowerCase().replace(/\s+/g, '-');
+                const div = document.createElement('div');
+                div.className = 'img-suggest-option';
+                div.innerHTML = `
+                    <input type="radio" name="img-suggest" id="${id}" value="${tag.path}" data-tag="${tag.name}">
+                    <label for="${id}">${tag.name}</label>
+                `;
+                group.appendChild(div);
+
+                // Attach preview listener
+                div.querySelector('input').addEventListener('change', (e) => {
+                    imgPreview.src = e.target.value;
+                    imgPreview.classList.remove('hidden');
+                    noImgText.style.display = 'none';
+                });
             });
-        });
+
+            container.appendChild(group);
+        }
+
+        renderTagGroup(companyTags, 'Company:', imgSuggestContainer);
+        renderTagGroup(domainTags, 'Domain:', imgSuggestContainer);
     } catch (e) { console.error('Error loading image tags:', e); }
 
     // ==========================================

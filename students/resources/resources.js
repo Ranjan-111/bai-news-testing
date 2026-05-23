@@ -1,148 +1,270 @@
-// resources.js - Dynamic table population with category filtering
+// resources.js — Hybrid filtering: Category tabs + Value-type chips + Search
 
-let allResources = {};
-let currentCategory = 'credits';
+// ──────────────────────────────────────────────
+//  State
+// ──────────────────────────────────────────────
+let allResources = [];              // Full flat array from JSON
+let filteredResources = [];         // After all filters applied
+let activeCategory = 'all';         // Primary category (single-select)
+let activeValueTypes = new Set();   // Value-type chips (multi-select OR)
+let searchTerm = '';                // Text search
 
-// Add these variables at the top
 const itemsPerPage = 16;
 let currentPage = 1;
-let filteredResources = []; // To hold current category items
 let centerPage = 1;
 
-// DOM Elements
+// Category mapping: tab data-category values
+const CATEGORIES = [
+    'all',
+    'Developer Tools',
+    'Cloud & Hosting',
+    'AI & Machine Learning',
+    'Design & Creative',
+    'Learning & Courses',
+    'Productivity & Collaboration',
+    'Security & Privacy',
+    'Entertainment & Wellness',
+    'Web3 & Crypto'
+];
+
+const VALUE_TYPES = ['Free', 'Discount', 'Trial', 'Credit', 'Grant'];
+
+// ──────────────────────────────────────────────
+//  DOM Elements
+// ──────────────────────────────────────────────
 const tableBody = document.getElementById('table-body');
 const resourcesTable = document.getElementById('resources-table');
 const loadingState = document.getElementById('loading');
 const noResults = document.getElementById('no-results');
-const totalValueDisplay = document.getElementById('total-value');
-const tabButtons = document.querySelectorAll('.tab-btn');
+const resultsCount = document.getElementById('results-count');
+const searchInput = document.getElementById('search-input');
+const categoryTabs = document.querySelectorAll('.tab-btn');
+const valueChips = document.querySelectorAll('.value-chip');
 
-// Initialize on page load
+
+// ──────────────────────────────────────────────
+//  Initialize
+// ──────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
     await loadResources();
-    setupTabListeners();
-
-    // --- KEYBOARD NAVIGATION FOR CATEGORIES ---
-
-    // Define the order of categories as they appear in your HTML
-    const categories = ['credits', 'discounts', 'courses'];
-
-    document.addEventListener('keydown', (e) => {
-        // 1. Identify current index
-        let currentIndex = categories.indexOf(currentCategory);
-
-        // 2. Handle Right Arrow (Next Category)
-        if (e.key === 'ArrowRight') {
-            if (currentIndex < categories.length - 1) {
-                const nextCategory = categories[currentIndex + 1];
-                switchCategory(nextCategory);
-            }
-        }
-
-        // 3. Handle Left Arrow (Previous Category)
-        if (e.key === 'ArrowLeft') {
-            if (currentIndex > 0) {
-                const prevCategory = categories[currentIndex - 1];
-                switchCategory(prevCategory);
-            }
-        }
-    });
-
-    /**
-     * Helper function to programmatically trigger a category switch
-     * This reuses your existing displayResources logic and updates UI state
-     */
-    function switchCategory(category) {
-        // Update the global state
-        currentCategory = category;
-
-        // Update the UI (Active Tab Styling)
-        tabButtons.forEach(btn => {
-            if (btn.getAttribute('data-category') === category) {
-                btn.classList.add('active');
-                // Ensure the tab is visible if it's a scrolling container on mobile
-                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-
-        // Reset pagination to page 1 for the new category
-        centerPage = 1;
-        currentPage = 1;
-
-        // Trigger the existing data display logic
-        displayResources(category);
-    }
+    setupCategoryListeners();
+    setupValueChipListeners();
+    setupSearchListener();
+    setupKeyboardNav();
 });
 
-// Load resources from JSON file
+
+// ──────────────────────────────────────────────
+//  Data Loading
+// ──────────────────────────────────────────────
 async function loadResources() {
     try {
         const response = await fetch('/students/resources/resources-data.json');
-        if (!response.ok) {
-            throw new Error('Failed to load resources');
-        }
-        allResources = await response.json();
-        displayResources(currentCategory);
+        if (!response.ok) throw new Error('Failed to load resources');
+
+        const data = await response.json();
+
+        // JSON is a flat array (not { all_items: [...] })
+        allResources = Array.isArray(data) ? data : (data.all_items || []);
+
+        updateTabCounts();
+        applyFilters();
     } catch (error) {
         console.error('Error loading resources:', error);
         showError();
     }
 }
 
-// Setup tab click listeners
-function setupTabListeners() {
-    tabButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active state from all tabs
-            tabButtons.forEach(b => {
-                b.classList.remove('active');
-            });
 
-            // Add active state to clicked tab
-            btn.classList.add('active');
+// ──────────────────────────────────────────────
+//  Tab Counts — show count on each category tab
+// ──────────────────────────────────────────────
+function updateTabCounts() {
+    categoryTabs.forEach(tab => {
+        const cat = tab.getAttribute('data-category');
+        let count;
+        if (cat === 'all') {
+            count = allResources.length;
+        } else {
+            count = allResources.filter(item =>
+                item.tags && item.tags.includes(cat)
+            ).length;
+        }
 
-            // Get category and display
-            currentCategory = btn.getAttribute('data-category');
-            displayResources(currentCategory);
+        // Add or update count badge
+        let badge = tab.querySelector('.tab-count');
+        if (!badge) {
+            badge = document.createElement('span');
+            badge.className = 'tab-count';
+            tab.appendChild(badge);
+        }
+        badge.textContent = count;
+    });
+}
+
+
+// ──────────────────────────────────────────────
+//  Category Tab Listeners (single-select)
+// ──────────────────────────────────────────────
+function setupCategoryListeners() {
+    categoryTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Deactivate all, activate clicked
+            categoryTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            activeCategory = tab.getAttribute('data-category');
+            resetPagination();
+            applyFilters();
+
+            // Ensure tab is visible on mobile
+            tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         });
     });
 }
 
-// Update displayResources to handle pagination logic
-function displayResources(category) {
+
+// ──────────────────────────────────────────────
+//  Value-Type Chip Listeners (multi-select OR)
+// ──────────────────────────────────────────────
+function setupValueChipListeners() {
+    valueChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            const value = chip.getAttribute('data-value');
+
+            if (activeValueTypes.has(value)) {
+                activeValueTypes.delete(value);
+                chip.classList.remove('active');
+            } else {
+                activeValueTypes.add(value);
+                chip.classList.add('active');
+            }
+
+            resetPagination();
+            applyFilters();
+        });
+    });
+}
+
+
+// ──────────────────────────────────────────────
+//  Search Listener (debounced)
+// ──────────────────────────────────────────────
+function setupSearchListener() {
+    let debounceTimer;
+
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            searchTerm = e.target.value.trim().toLowerCase();
+            resetPagination();
+            applyFilters();
+        }, 250);
+    });
+}
+
+
+// ──────────────────────────────────────────────
+//  Keyboard Navigation (Left/Right arrows)
+// ──────────────────────────────────────────────
+function setupKeyboardNav() {
+    document.addEventListener('keydown', (e) => {
+        // Don't hijack arrows when typing in search
+        if (document.activeElement === searchInput) return;
+
+        const currentIndex = CATEGORIES.indexOf(activeCategory);
+
+        if (e.key === 'ArrowRight' && currentIndex < CATEGORIES.length - 1) {
+            switchToCategory(CATEGORIES[currentIndex + 1]);
+        }
+        if (e.key === 'ArrowLeft' && currentIndex > 0) {
+            switchToCategory(CATEGORIES[currentIndex - 1]);
+        }
+    });
+}
+
+function switchToCategory(category) {
+    activeCategory = category;
+
+    categoryTabs.forEach(tab => {
+        if (tab.getAttribute('data-category') === category) {
+            tab.classList.add('active');
+            tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+            tab.classList.remove('active');
+        }
+    });
+
+    resetPagination();
+    applyFilters();
+}
+
+
+// ──────────────────────────────────────────────
+//  Filtering Pipeline
+//  Category (single) → Value Types (OR multi) → Search text
+// ──────────────────────────────────────────────
+function applyFilters() {
     loadingState.style.display = 'block';
     resourcesTable.style.display = 'none';
     noResults.style.display = 'none';
 
+    // Small delay for visual feedback
     setTimeout(() => {
-        // Guard: ensure data is loaded
-        if (!allResources.all_items) {
-            showError();
-            return;
+        let results = allResources;
+
+        // 1. Category filter (skip if "all")
+        if (activeCategory !== 'all') {
+            results = results.filter(item =>
+                item.tags && item.tags.includes(activeCategory)
+            );
         }
-        // Filter by tags (based on your previous request)
-        filteredResources = allResources.all_items.filter(item =>
-            item.tags.includes(category)
-        );
+
+        // 2. Value-type filter (OR logic — item must have at least one active type)
+        if (activeValueTypes.size > 0) {
+            results = results.filter(item =>
+                item.tags && item.tags.some(tag => activeValueTypes.has(tag))
+            );
+        }
+
+        // 3. Text search (matches resource name OR description)
+        if (searchTerm) {
+            results = results.filter(item =>
+                item.resource.toLowerCase().includes(searchTerm) ||
+                item.description.toLowerCase().includes(searchTerm) ||
+                item.value.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        filteredResources = results;
+
+        // Update results count
+        resultsCount.textContent = filteredResources.length;
 
         if (filteredResources.length === 0) {
             showNoResults();
             return;
         }
 
-        renderPage(1); // Always start at page 1 when switching tabs
+        renderPage(currentPage);
         loadingState.style.display = 'none';
         resourcesTable.style.display = 'table';
-    }, 300);
+    }, 150);
+}
+
+
+// ──────────────────────────────────────────────
+//  Pagination
+// ──────────────────────────────────────────────
+function resetPagination() {
+    currentPage = 1;
+    centerPage = 1;
 }
 
 function renderPage(page) {
     currentPage = page;
     tableBody.innerHTML = '';
 
-    // Calculate start and end indexes
     const start = (page - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     const pageItems = filteredResources.slice(start, end);
@@ -161,7 +283,7 @@ function renderPaginationButtons() {
     if (!container) return;
     container.innerHTML = '';
 
-    // If only 1 page, hide the whole bar
+    // Hide pagination bar if 1 or fewer pages
     const paginationBar = document.querySelector('.pagination-bar');
     if (totalPages <= 1) {
         paginationBar.style.display = 'none';
@@ -169,7 +291,6 @@ function renderPaginationButtons() {
     }
     paginationBar.style.display = 'flex';
 
-    // Helper to create the circles (Active, Inactive, or Placeholder)
     const createBtn = (text, type, onClick) => {
         const btn = document.createElement(type === 'placeholder' ? 'div' : 'button');
         btn.className = `page-circle ${type}`;
@@ -177,7 +298,6 @@ function renderPaginationButtons() {
             btn.textContent = text;
             btn.onclick = onClick;
         } else {
-            // Placeholder takes up space but is invisible
             btn.style.width = "3.5rem";
             btn.style.visibility = "hidden";
         }
@@ -192,7 +312,7 @@ function renderPaginationButtons() {
         createBtn('', 'placeholder', null);
     }
 
-    // Slot 2: Center Number (Active)
+    // Slot 2: Center Number
     createBtn(centerPage, (centerPage === currentPage) ? 'active' : 'inactive', () => goToPage(centerPage));
 
     // Slot 3: Next Number
@@ -203,50 +323,14 @@ function renderPaginationButtons() {
         createBtn('', 'placeholder', null);
     }
 
-    // Update Arrow Functionality
-    const totalPagesForArrows = totalPages; // Capture in closure
-    document.getElementById('prev-page').onclick = () => changePage('prev', totalPagesForArrows);
-    document.getElementById('next-page').onclick = () => changePage('next', totalPagesForArrows);
-}
-
-// Create a table row element
-function createTableRow(resource, index) {
-    const row = document.createElement('tr');
-    row.style.animation = `fadeIn 0.4s ease-in ${index * 0.05}s both`;
-
-    // Resource name cell
-    const nameCell = document.createElement('td');
-    nameCell.textContent = resource.resource;
-    row.appendChild(nameCell);
-
-    // Value cell
-    const valueCell = document.createElement('td');
-    valueCell.textContent = resource.value;
-    row.appendChild(valueCell);
-
-    // Description cell
-    const descCell = document.createElement('td');
-    descCell.textContent = resource.description;
-    row.appendChild(descCell);
-
-    // Updated Apply link cell
-    const actionCell = document.createElement('td');
-    const link = document.createElement('a');
-    link.href = resource.link || '#'; // Use the new link key
-    link.target = "_blank";           // Open in new tab
-    link.className = 'apply-link';
-    link.setAttribute('aria-label', `Apply for ${resource.resource}`);
-    link.textContent = 'Apply Now';
-
-    actionCell.appendChild(link);
-    row.appendChild(actionCell);
-
-    return row;
+    // Arrow buttons
+    document.getElementById('prev-page').onclick = () => changePage('prev', totalPages);
+    document.getElementById('next-page').onclick = () => changePage('next', totalPages);
 }
 
 function goToPage(num) {
-    centerPage = num; // Set the clicked number as the new center
-    currentPage = num; // Update actual page
+    centerPage = num;
+    currentPage = num;
     renderPage(num);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -261,83 +345,76 @@ function changePage(direction, totalPages) {
     }
 }
 
-// Calculate total value of resources
-function calculateTotalValue(resources) {
-    let total = 0;
-    let hasNonNumeric = false;
 
-    resources.forEach(resource => {
-        const value = resource.value;
-        // Extract numeric value from string like "$100", "$200K+", "85% off"
-        const numericMatch = value.match(/\$?([\d,]+)/);
-        if (numericMatch) {
-            let amount = parseFloat(numericMatch[1].replace(/,/g, ''));
-            // Handle K notation (thousands)
-            if (value.includes('K')) {
-                amount *= 1000;
-            }
-            total += amount;
-        } else {
-            hasNonNumeric = true;
-        }
-    });
+// ──────────────────────────────────────────────
+//  Table Row Creation
+// ──────────────────────────────────────────────
+function createTableRow(resource, index) {
+    const row = document.createElement('tr');
+    row.style.animation = `fadeIn 0.35s ease-in ${index * 0.03}s both`;
 
-    // Format and display total
-    if (total > 0) {
-        const formattedTotal = total >= 1000
-            ? `$${(total / 1000).toFixed(1)}K${hasNonNumeric ? '+' : ''}`
-            : `$${total.toFixed(0)}${hasNonNumeric ? '+' : ''}`;
-        totalValueDisplay.textContent = formattedTotal;
-    } else {
-        totalValueDisplay.textContent = 'Varies';
+    // Col 1 — Resource name
+    const nameCell = document.createElement('td');
+    nameCell.textContent = resource.resource;
+    // Add "changed" badge if status is changed
+    if (resource.status === 'changed') {
+        const badge = document.createElement('span');
+        badge.className = 'status-badge changed';
+        badge.textContent = 'Updated';
+        badge.title = 'This offer has been recently updated';
+        nameCell.appendChild(badge);
     }
+    row.appendChild(nameCell);
+
+    // Col 2 — Value
+    const valueCell = document.createElement('td');
+    valueCell.textContent = resource.value;
+    row.appendChild(valueCell);
+
+    // Col 3 — Description
+    const descCell = document.createElement('td');
+    descCell.textContent = resource.description;
+    row.appendChild(descCell);
+
+    // Col 4 — Apply link
+    const actionCell = document.createElement('td');
+    const link = document.createElement('a');
+    link.href = resource.link || '#';
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.className = 'apply-link';
+    link.setAttribute('aria-label', `Apply for ${resource.resource}`);
+    link.textContent = 'Apply Now';
+    actionCell.appendChild(link);
+    row.appendChild(actionCell);
+
+    return row;
 }
 
-// Handle apply button click
-function handleApplyClick(resource) {
-    console.log('Apply clicked for:', resource.resource);
-    // You can add your apply logic here
-    // For example: open a modal, redirect to application page, etc.
-    alert(`Application process for ${resource.resource} would start here.\n\nValue: ${resource.value}\n${resource.description}`);
-}
 
-// Show no results state
+// ──────────────────────────────────────────────
+//  Empty / Error States
+// ──────────────────────────────────────────────
 function showNoResults() {
     loadingState.style.display = 'none';
     resourcesTable.style.display = 'none';
     noResults.style.display = 'block';
-    totalValueDisplay.textContent = '$0';
+
+    // Hide pagination
+    const paginationBar = document.querySelector('.pagination-bar');
+    if (paginationBar) paginationBar.style.display = 'none';
 }
 
-// Show error state
 function showError() {
     loadingState.innerHTML = '<p style="color: #d73634;">Failed to load resources. Please try again later.</p>';
-    totalValueDisplay.textContent = '$0';
 }
 
-// Optional: Add search/filter functionality
-function filterResources(searchTerm) {
-    const resources = allResources[currentCategory];
-    if (!resources) return;
 
-    const filtered = resources.filter(resource =>
-        resource.resource.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        resource.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    // Clear and populate with filtered results
-    tableBody.innerHTML = '';
-    filtered.forEach((resource, index) => {
-        const row = createTableRow(resource, index);
-        tableBody.appendChild(row);
-    });
-
-    calculateTotalValue(filtered);
-}
-
-// Export functions if needed for external use
+// ──────────────────────────────────────────────
+//  Export for external use
+// ──────────────────────────────────────────────
 window.resourcesApp = {
-    filterResources,
+    applyFilters,
     loadResources,
-    displayResources
+    switchToCategory
 };

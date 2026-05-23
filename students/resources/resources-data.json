@@ -1,191 +1,4938 @@
-{
-  "all_items": [
+[
     {
-      "resource": "ElevenLabs",
-      "value": "$55",
-      "description": "via ElevenLabs AI Student Pack",
-      "tags": ["AI", "Voice Generation", "discounts"],
-      "link": "https://aistudentpack.com"
+        "resource": "Cryptolens",
+        "value": "10 free software licenses",
+        "description": "Software licensing system for developers to manage license keys.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Licensing",
+            "Software"
+        ],
+        "link": "https://app.cryptolens.io/user/githubstudent",
+        "status": "active"
     },
     {
-      "resource": "v0",
-      "value": "$60",
-      "description": "via ElevenLabs AI Student Pack",
-      "tags": ["AI", "Code Generation", "Web Development", "discounts"],
-      "link": "https://aistudentpack.com"
+        "resource": "Lightning AI",
+        "value": "80% off Pro + 15 free credits/month",
+        "description": "Cloud platform for building, training, and deploying ML models. Previously offered 100 annual credits — now provides 80% off the Pro plan plus 15 free monthly compute credits.",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "Credit"
+        ],
+        "link": "https://lightning.ai/pricing/",
+        "status": "changed"
     },
     {
-      "resource": "Lovable",
-      "value": "$150",
-      "description": "50% off Pro plan for a year - via ElevenLabs AI Student Pack",
-      "tags": ["AI", "Code Generation", "Web Development", "discounts"],
-      "link": "https://aistudentpack.com"
+        "resource": ".TECH Domain",
+        "value": "Free .tech domain for 1 year",
+        "description": "Get a free .tech domain name for one year — perfect for tech portfolios, side projects, and startup landing pages.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Web"
+        ],
+        "link": "https://get.tech/github-student-developer-pack",
+        "status": "active"
     },
     {
-      "resource": "Google Gemini Pro (Free for Students)",
-      "value": "$240",
-      "description": "Free for 1 year - unlimited chats, image uploads, Deep Research, 2TB storage, and Gemini Live",
-      "tags": ["AI", "Free for Students", "Research", "discounts"],
-      "link": "https://aistudentpack.com"
+        "resource": "ClickUp",
+        "value": "20% off all plans for students",
+        "description": "All-in-one project management platform combining tasks, docs, goals, and team collaboration — discounted for students.",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount"
+        ],
+        "link": "https://clickup.com/teams/student",
+        "status": "active"
     },
     {
-      "resource": "ChatGPT Plus (2 Months Free)",
-      "value": "$40",
-      "description": "2 months free ChatGPT Plus for US/Canada students with GPT-4o, image generation, and advanced research tools",
-      "tags": ["AI", "Free for Students", "Research", "discounts"],
-      "link": "https://aistudentpack.com"
+        "resource": "Flexibits Premium",
+        "value": "20% off for students",
+        "description": "Educational discount on Flexibits apps — includes Fantastical (smart calendar) and Cardhop (contact manager) for Mac and iOS.",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount"
+        ],
+        "link": "https://flexibits.com/pricing",
+        "status": "active"
     },
     {
-      "resource": "Free Framer Pro",
-      "value": "$180",
-      "description": "Framer is free for students! Just use your school email",
-      "tags": ["Design", "Web Development", "Productivity", "discounts"],
-      "link": "https://www.framer.com/students/"
+        "resource": "Aura AI",
+        "value": "30% off premium plans",
+        "description": "Create professional AI-generated videos using top models like Veo and Sora — 30% student discount on all premium plans.",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "AI"
+        ],
+        "link": "https://auraai.app/student-discount",
+        "status": "active"
     },
     {
-      "resource": "Claude Credits",
-      "value": "$50",
-      "description": "Access Claude credits for AI and productivity use",
-      "tags": ["API Credits", "AI", "credits"],
-      "link": "https://claude.com/programs/campus"
+        "resource": "Perplexity Pro",
+        "value": "50% off Pro for students",
+        "description": "AI-powered research assistant with access to multiple LLMs and advanced search. Previously free for 1 year — now 50% off at $10/month for verified students.",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "AI"
+        ],
+        "link": "https://perplexity.ai/students",
+        "status": "changed"
     },
     {
-      "resource": "OpenAI Credits",
-      "value": "$1000",
-      "description": "Via Microsoft for Startups (Azure)",
-      "tags": ["API Credits", "AI", "credits"],
-      "link": "https://foundershub.startups.microsoft.com/"
+        "resource": "Sentry",
+        "value": "1 year free error monitoring",
+        "description": "Real-time error tracking and app performance monitoring — free for one year via GitHub Student Pack. Includes 50K errors, 5GB logs, and $20/month Seer AI credits.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Credit"
+        ],
+        "link": "https://education.github.com/pack",
+        "status": "changed"
     },
     {
-      "resource": "Free Cursor Pro (1 Year)",
-      "value": "$240",
-      "description": "Sign up with .edu email",
-      "tags": ["AI", "discounts"],
-      "link": "https://cursor.com/students"
+        "resource": "Sunsama",
+        "value": "50% off for students",
+        "description": "Daily planning tool that combines tasks, calendar, and focus sessions into one calm workflow — half price for students.",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount"
+        ],
+        "link": "https://help.sunsama.com/docs/billing/overview/",
+        "status": "active"
     },
     {
-      "resource": "Google Colab (free compute)",
-      "value": "$120",
-      "description": "free with student email",
-      "tags": ["AI", "Compute", "Development", "credits"],
-      "link": "https://colab.research.google.com/signup"
+        "resource": "HazeOver",
+        "value": "Free license for students",
+        "description": "macOS focus utility that dims background windows so you can concentrate on one app at a time — free via GitHub Student Pack.",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free"
+        ],
+        "link": "https://hazeover.com/github-students.html",
+        "status": "active"
     },
     {
-      "resource": "Screen Studio",
-      "value": "$100",
-      "description": "40% off with student email",
-      "tags": ["Productivity", "Video Creation", "discounts"],
-      "link": "https://screen.studio/license/request-educational-discount"
-    },
-    
-    {
-      "resource": "Free Heroku Hosting (2 Years)",
-      "value": "$312",
-      "description": "2 years of hosting via Github Student Dev Pack",
-      "tags": ["Web Infrastructure", "Startups", "credits"],
-      "link": "https://education.github.com/pack"
+        "resource": "Monday.com",
+        "value": "Free for verified students",
+        "description": "Visual work management platform for tracking projects, tasks, and team workflows — completely free for students via StudentBeans verification.",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free"
+        ],
+        "link": "https://monday.com/education",
+        "status": "active"
     },
     {
-      "resource": "Free Perplexity Pro (1 Month)",
-      "value": "$20",
-      "description": "Sign up with .edu email",
-      "tags": ["AI", "Productivity", "discounts"],
-      "link": "https://www.perplexity.ai/"
-    },
-    
-    
-    {
-      "resource": "Free GPU Credits",
-      "value": "$10000",
-      "description": "Sign up via Hatch program",
-      "tags": ["GPU", "Web Infrastructure", "AI", "Startups", "credits"],
-      "link": "https://www.digitalocean.com/hatch"
-    },
-    
-    {
-      "resource": "Z Fellows",
-      "value": "$10000",
-      "description": "$10k grant & fellowship for young entrepreneurs",
-      "tags": ["Fellowship", "Grant", "Mentorship", "credits"],
-      "link": "https://www.zfellows.com/"
+        "resource": "Visual Studio Community",
+        "value": "Free full IDE for students",
+        "description": "Microsoft's fully featured IDE for building web, mobile, cloud, and desktop apps — free for all students, no credit card needed.",
+        "tags": [
+            "Developer Tools",
+            "Free"
+        ],
+        "link": "https://visualstudio.microsoft.com/students/",
+        "status": "active"
     },
     {
-      "resource": "Neo Scholars",
-      "value": "$25000",
-      "description": "Fellowship & grant for CS students",
-      "tags": ["Fellowship", "Grant", "Mentorship", "credits"],
-      "link": "https://neo.com/scholars"
+        "resource": "Aiven SQL Optimizer",
+        "value": "Free AI SQL query optimizer",
+        "description": "Paste any PostgreSQL or MySQL query and get instant AI-powered indexing recommendations to boost database performance — no signup needed.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "AI"
+        ],
+        "link": "https://aiven.io/tools/sql-query-optimizer",
+        "status": "active"
     },
     {
-      "resource": "Afore Capital Grants",
-      "value": "$1000",
-      "description": "$1,000 non-dilutive grant",
-      "tags": ["Fellowship", "Grant", "Mentorship", "credits"],
-      "link": "https://www.afore.vc/"
-    },
-    
-    {
-      "resource": "Notion AI",
-      "value": "$96",
-      "description": "Free AI access for students for 1 year",
-      "tags": ["credits", "discounts"],
-      "link": "https://www.notion.so/product/ai"
+        "resource": "Exploratory.io",
+        "value": "Free Academic Plan",
+        "description": "No-code data analytics and visualization platform — explore, analyze, and share datasets with an interactive interface, free for students and teachers.",
+        "tags": [
+            "Developer Tools",
+            "Free"
+        ],
+        "link": "https://exploratory.io/plan?plan=Community",
+        "status": "active"
     },
     {
-      "resource": "GitHub Copilot",
-      "value": "$120",
-      "description": "Free for verified students via GitHub Student Developer Pack",
-      "tags": ["credits"],
-      "link": "https://github.com/features/copilot"
+        "resource": "Shodan",
+        "value": "Free academic membership upgrade",
+        "description": "Search engine for internet-connected devices with enhanced API access.",
+        "tags": [
+            "Security & Privacy",
+            "Free",
+            "Security",
+            "API"
+        ],
+        "link": "https://help.shodan.io/the-basics/academic-upgrade",
+        "status": "active"
     },
     {
-      "resource": "Canva Pro",
-      "value": "$110",
-      "description": "Free premium design tools for students and educators",
-      "tags": ["discounts"],
-      "link": "https://www.canva.com/education/"
+        "resource": "Malwarebytes",
+        "value": "50% off student plans",
+        "description": "Device security and malware protection for your computers and devices.",
+        "tags": [
+            "Security & Privacy",
+            "Discount",
+            "Antivirus",
+            "Security"
+        ],
+        "link": "https://www.malwarebytes.com/student-discount",
+        "status": "active"
     },
     {
-      "resource": "JetBrains All Products Pack",
-      "value": "$249",
-      "description": "Free professional developer tools for students",
-      "tags": ["credits", "courses"],
-      "link": "https://www.jetbrains.com/community/education/"
+        "resource": "Calm",
+        "value": "40% off annual plan",
+        "description": "Meditation and sleep app with guided sessions for focus and relaxation.",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Meditation",
+            "Wellness"
+        ],
+        "link": "https://www.calm.com/c/education",
+        "status": "active"
     },
     {
-      "resource": "AWS Educate Credits",
-      "value": "$100",
-      "description": "Cloud credits for learning and building projects",
-      "tags": ["credits", "courses"],
-      "link": "https://aws.amazon.com/education/awseducate/"
+        "resource": "LearnSQL",
+        "value": "Free SQL Basics course",
+        "description": "Learn SQL with 129 interactive exercises. Free for students with school email.",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "SQL",
+            "Programming"
+        ],
+        "link": "https://learnsql.com/for-students/",
+        "status": "active"
     },
     {
-      "resource": "DigitalOcean Student Credits",
-      "value": "$100",
-      "description": "Cloud hosting credits for students",
-      "tags": ["credits"],
-      "link": "https://www.digitalocean.com/github-students"
+        "resource": "Surfshark VPN",
+        "value": "88% off student plans",
+        "description": "Up to 88% off + 15% extra discount on Surfshark VPN plans via StudentBeans verification",
+        "tags": [
+            "Security & Privacy",
+            "Discount",
+            "VPN",
+            "Privacy"
+        ],
+        "link": "https://surfshark.com/student-discount",
+        "status": "active"
     },
     {
-      "resource": "Coursera Plus",
-      "value": "$399",
-      "description": "Discounted access to courses and certifications for students",
-      "tags": ["courses", "discounts"],
-      "link": "https://www.coursera.org/courseraplus"
+        "resource": "freeCodeCamp",
+        "value": "Free coding curriculum",
+        "description": "Learn to code for free with 3,000 hours of interactive lessons and verified certifications.",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Coding",
+            "Certifications"
+        ],
+        "link": "https://www.freecodecamp.org/learn/",
+        "status": "active"
     },
     {
-      "resource": "MongoDB Atlas Credits",
-      "value": "$50",
-      "description": "Database credits for student developers",
-      "tags": ["credits"],
-      "link": "https://www.mongodb.com/students"
+        "resource": "LeetCode Explore",
+        "value": "Free coding practice problems",
+        "description": "Practice coding with 4,150+ problems and structured interview prep guides.",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Coding",
+            "Interview Prep"
+        ],
+        "link": "https://leetcode.com/explore/",
+        "status": "active"
     },
     {
-      "resource": "Unity Student Plan",
-      "value": "$150",
-      "description": "Free game development tools for students",
-      "tags": ["courses", "credits"],
-      "link": "https://unity.com/education"
+        "resource": "Gitpod",
+        "value": "$10 free cloud IDE credit",
+        "description": "Browser-based cloud development environment with VS Code Web integration.",
+        "tags": [
+            "Developer Tools",
+            "Credit",
+            "Cloud IDE",
+            "VS Code"
+        ],
+        "link": "https://ona.com/pricing",
+        "status": "changed"
+    },
+    {
+        "resource": "Codecademy Pro Student",
+        "value": "35% off Codecademy Pro",
+        "description": "Interactive coding courses with career paths and certificates.",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Coding",
+            "Certificates"
+        ],
+        "link": "https://www.codecademy.com/student-center",
+        "status": "active"
+    },
+    {
+        "resource": "ACM Digital Library",
+        "value": "$42/year student membership",
+        "description": "Computing publications, TechTalks, and O'Reilly courses for CS students.",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Computer Science",
+            "Research"
+        ],
+        "link": "https://www.acm.org/membership/membership-options",
+        "status": "active"
+    },
+    {
+        "resource": "Aiven SQL Optimizer",
+        "value": "Free SQL optimizer",
+        "description": "Paste your SQL and get AI-powered indexing recommendations to speed up queries.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "SQL",
+            "AI"
+        ],
+        "link": "https://aiven.io/tools/sql-query-optimizer",
+        "status": "active"
+    },
+    {
+        "resource": "Railway",
+        "value": "$5 free trial credit",
+        "description": "Deploy full-stack apps to the cloud with GitHub integration.",
+        "tags": [
+            "Cloud & Hosting",
+            "Trial",
+            "Cloud",
+            "Hosting"
+        ],
+        "link": "https://railway.com/pricing",
+        "status": "changed"
+    },
+    {
+        "resource": "Brain.fm",
+        "value": "20% off subscription",
+        "description": "Functional music for focus, work, and sleep",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Focus",
+            "Music"
+        ],
+        "link": "https://www.brain.fm/",
+        "status": "active"
+    },
+    {
+        "resource": "Gname",
+        "value": "3 free domain registrations",
+        "description": "Domain registrar offering.eu.cc and 100+ TLDs at discounted prices",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Domains",
+            "Hosting"
+        ],
+        "link": "https://www.gname.com/tld-eu-cc.html",
+        "status": "active"
+    },
+    {
+        "resource": "Ready.bd",
+        "value": "Free personal subdomains",
+        "description": "Free personal subdomain names for Bangladesh residents with DNS control and SSL",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Domains",
+            "SSL"
+        ],
+        "link": "https://ready.bd/",
+        "status": "active"
+    },
+    {
+        "resource": "Anthropic Academy",
+        "value": "17+ free AI courses",
+        "description": "Free AI courses from Anthropic on Claude, Claude Code, MCP, and more",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "AI",
+            "Claude"
+        ],
+        "link": "https://www.anthropic.com/learn",
+        "status": "active"
+    },
+    {
+        "resource": "Columbia+",
+        "value": "2 free AI courses",
+        "description": "Online courses from Columbia University faculty on AI, coding, climate, and more",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "AI",
+            "University"
+        ],
+        "link": "https://plus.columbia.edu/",
+        "status": "active"
+    },
+    {
+        "resource": "Envato Elements",
+        "value": "30% off student plan",
+        "description": "Subscription service for design assets including templates, graphics, fonts, photos, and video templates. Over 2 million creative assets for unlimited downloads.",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Design Assets",
+            "Templates"
+        ],
+        "link": "https://elements.envato.com/pricing/students",
+        "status": "active"
+    },
+    {
+        "resource": "Enscape",
+        "value": "Discounted educational license",
+        "description": "Real-time rendering plugin for ArchiCAD, Revit, SketchUp, and Rhino. Generates photorealistic visualizations and virtual walkthroughs directly within BIM and CAD software.",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Rendering",
+            "CAD"
+        ],
+        "link": "https://www.chaos.com/education/students",
+        "status": "changed"
+    },
+    {
+        "resource": "Vercel",
+        "value": "Free Hobby plan",
+        "description": "Platform for frontend frameworks and static sites. Free Hobby plan includes unlimited deployments, custom domains, and HTTPS. No credit card required.",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Hosting",
+            "Frontend"
+        ],
+        "link": "https://vercel.com/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "Netlify",
+        "value": "Free Starter plan",
+        "description": "Cloud platform for building, deploying, and managing web applications. Free Starter plan includes unlimited sites, team collaboration, deploy previews, and global CDN. No credit card required.",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Hosting",
+            "CDN"
+        ],
+        "link": "https://www.netlify.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Transloadit",
+        "value": "10GB free monthly encoding",
+        "description": "File uploading and encoding service for handling uploads, image processing, video transcoding, and document conversion. Integrate via REST API or SDKs.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "File Upload",
+            "API"
+        ],
+        "link": "https://transloadit.com/github-students/",
+        "status": "changed"
+    },
+    {
+        "resource": "Semaphore",
+        "value": "$15 monthly free credits",
+        "description": "CI/CD platform offering $15/month in free credits for students and developers. Unlimited pipelines, parallel execution, and integrations with GitHub, GitLab, and Bitbucket.",
+        "tags": [
+            "Developer Tools",
+            "Credit",
+            "CI/CD",
+            "DevOps"
+        ],
+        "link": "https://semaphore.io/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "Red Hat Developer Sandbox",
+        "value": "30-day free trial",
+        "description": "Cloud-based development environment with access to Red Hat OpenShift, AI tools, and enterprise Linux",
+        "tags": [
+            "Cloud & Hosting",
+            "Trial",
+            "OpenShift",
+            "Linux"
+        ],
+        "link": "https://developers.redhat.com/developer-sandbox",
+        "status": "active"
+    },
+    {
+        "resource": "Mailgun",
+        "value": "Free 100 emails daily",
+        "description": "Email API and SMTP relay service for sending, receiving, and tracking transactional emails",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Email",
+            "API"
+        ],
+        "link": "https://www.mailgun.com/pricing/",
+        "status": "active"
+    },
+    {
+        "resource": "LingoHub",
+        "value": "14-day free trial",
+        "description": "Translation management platform for localizing apps, websites, and software",
+        "tags": [
+            "Developer Tools",
+            "Trial",
+            "Localization",
+            "Translation"
+        ],
+        "link": "https://lingohub.com/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "Kodika",
+        "value": "Free plan with 5 screens",
+        "description": "No-code platform for building iOS and Android apps with drag-and-drop interface",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "No-Code",
+            "Mobile Apps"
+        ],
+        "link": "https://kodika.io/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "Astah",
+        "value": "Free student UML license",
+        "description": "UML diagram editor for software architecture and design planning",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "UML",
+            "Architecture"
+        ],
+        "link": "https://astah.net/pricing/student-license/",
+        "status": "active"
+    },
+    {
+        "resource": "Crowdin",
+        "value": "Free academic license",
+        "description": "Collaborative localization platform for translating apps, websites, and content.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Localization",
+            "Translation"
+        ],
+        "link": "https://crowdin.com/product/for-academic",
+        "status": "active"
+    },
+    {
+        "resource": "GitLab for Education",
+        "value": "Free Ultimate plan",
+        "description": "DevSecOps platform with version control, CI/CD pipelines, and built-in AI tools.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "DevSecOps",
+            "CI/CD"
+        ],
+        "link": "https://about.gitlab.com/solutions/education/join/",
+        "status": "active"
+    },
+    {
+        "resource": "Docker Desktop",
+        "value": "Free Docker Desktop",
+        "description": "Build, ship, and run containerized applications on your local machine.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Docker",
+            "Containers"
+        ],
+        "link": "https://www.docker.com/products/personal/",
+        "status": "active"
+    },
+    {
+        "resource": "DaVinci Resolve",
+        "value": "Free video editor",
+        "description": "Professional video editing color correction VFX motion graphics and audio post",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Video Editing",
+            "VFX"
+        ],
+        "link": "https://www.blackmagicdesign.com/support/",
+        "status": "active"
+    },
+    {
+        "resource": "Autograph",
+        "value": "Free motion graphics app",
+        "description": "Professional motion graphics and VFX tool combining 2D and 3D in one workflow",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Motion Graphics",
+            "VFX"
+        ],
+        "link": "https://www.maxon.net/en/autograph",
+        "status": "changed"
+    },
+    {
+        "resource": "Cavalry",
+        "value": "Free animation software",
+        "description": "Professional real-time 2D animation tool with procedural rigs and Lottie export",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Animation",
+            "2D"
+        ],
+        "link": "https://www.canva.com/help/free-cavalry-access/",
+        "status": "changed"
+    },
+    {
+        "resource": "Avira Prime",
+        "value": "30-day free premium trial",
+        "description": "Security suite with antivirus VPN password manager and optimization tools",
+        "tags": [
+            "Security & Privacy",
+            "Trial",
+            "Antivirus",
+            "VPN"
+        ],
+        "link": "https://www.avira.com/",
+        "status": "changed"
+    },
+    {
+        "resource": "Marvel Rivals",
+        "value": "10 free trial costumes",
+        "description": "6v6 superhero team shooter with 40+ Marvel heroes and destructible battlefields",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Gaming",
+            "Marvel"
+        ],
+        "link": "https://marvelrivals.gg/college-perks/",
+        "status": "changed"
+    },
+    {
+        "resource": "Google Cloud Free Trial",
+        "value": "$300 free cloud credits",
+        "description": "Build and deploy apps on Google Cloud with $300 in credits, valid for 90 days.",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "Cloud",
+            "GCP"
+        ],
+        "link": "https://cloud.google.com/free",
+        "status": "active"
+    },
+    {
+        "resource": "AWS Free Tier",
+        "value": "$200 free AWS credits",
+        "description": "Cloud computing platform with always-free compute, storage, and serverless services for new customers.",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "AWS",
+            "Cloud"
+        ],
+        "link": "https://aws.amazon.com/about-aws/whats-new/2025/07/aws-free-tier-credits-month-free-plan/",
+        "status": "changed"
+    },
+    {
+        "resource": "Zyte",
+        "value": "1 free Scrapy Cloud unit",
+        "description": "Cloud-based web scraping and crawler management platform",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Web Scraping",
+            "Cloud"
+        ],
+        "link": "https://www.zyte.com/scrapy-cloud-student-backpack/",
+        "status": "active"
+    },
+    {
+        "resource": "Zen Mode for macOS",
+        "value": "$6.99 student pricing",
+        "description": "Minimalist distraction-free app for deep writing and focus",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Writing",
+            "Focus"
+        ],
+        "link": "https://zenmode.app/",
+        "status": "active"
+    },
+    {
+        "resource": "Zed",
+        "value": "Free Zed Pro yearly",
+        "description": "AI-powered code editor with real-time collaboration, edit predictions, and $10/month in AI token credits",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "AI",
+            "Code Editor"
+        ],
+        "link": "https://zed.dev/education",
+        "status": "active"
+    },
+    {
+        "resource": "Zeabur",
+        "value": "20% off first month",
+        "description": "Cloud platform for deploying and managing web applications",
+        "tags": [
+            "Cloud & Hosting",
+            "Discount",
+            "Cloud",
+            "Hosting"
+        ],
+        "link": "https://zeabur.com/docs/en-US/rewards/referral",
+        "status": "active"
+    },
+    {
+        "resource": "YouTube Premium",
+        "value": "1 month free plus discount",
+        "description": "Ad-free YouTube with background play and YouTube Music access",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Streaming",
+            "Music"
+        ],
+        "link": "https://www.youtube.com/premium/student",
+        "status": "active"
+    },
+    {
+        "resource": "YNAB",
+        "value": "Free for 1 year",
+        "description": "Budgeting tool for managing expenses and building savings goals",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Budgeting",
+            "Finance"
+        ],
+        "link": "https://www.ynab.com/college",
+        "status": "active"
+    },
+    {
+        "resource": "Xojo",
+        "value": "Free Pro student license",
+        "description": "Build cross-platform apps for desktop, web, and mobile easily",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Cross-Platform",
+            "App Development"
+        ],
+        "link": "https://www.xojo.com/githubstudent/",
+        "status": "active"
+    },
+    {
+        "resource": "Xero",
+        "value": "Free 30-day student trial",
+        "description": "Cloud accounting software to manage invoices, bank reconciliation, and bookkeeping",
+        "tags": [
+            "Productivity & Collaboration",
+            "Trial",
+            "Accounting",
+            "Finance"
+        ],
+        "link": "https://www.xero.com/educators/students/",
+        "status": "active"
+    },
+    {
+        "resource": "Workona",
+        "value": "50% off Pro subscriptions",
+        "description": "Turn chaotic browser tabs into organized, dedicated project workspaces",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Workspace",
+            "Productivity"
+        ],
+        "link": "https://workona.com/help/subscriptions-billing/#edu-nonprofit",
+        "status": "active"
+    },
+    {
+        "resource": "WorkingCopy",
+        "value": "Free Pro for students",
+        "description": "Full-featured Git client for iPhone and iPad developers",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Git",
+            "iOS"
+        ],
+        "link": "https://workingcopy.app/education/",
+        "status": "active"
+    },
+    {
+        "resource": "Wix",
+        "value": "50% off premium plans",
+        "description": "Website builder with drag-and-drop editor for creating websites",
+        "tags": [
+            "Cloud & Hosting",
+            "Discount",
+            "Website Builder",
+            "Hosting"
+        ],
+        "link": "https://www.wix.com/students",
+        "status": "active"
+    },
+    {
+        "resource": "Wispr Flow",
+        "value": "3 months free Pro",
+        "description": "High-speed AI dictation with smart formatting, auto-edits, and instant transcription",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "AI",
+            "Transcription"
+        ],
+        "link": "https://wisprflow.ai/students",
+        "status": "active"
+    },
+    {
+        "resource": "Windsurf",
+        "value": "50% off Pro plan",
+        "description": "AI-powered coding environment for fast and intelligent development",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "AI",
+            "Coding"
+        ],
+        "link": "https://windsurf.com/editor/students",
+        "status": "active"
+    },
+    {
+        "resource": "Whimsical",
+        "value": "Free Pro plan access",
+        "description": "Collaborative workspace for docs, diagrams, and whiteboards",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Whiteboard",
+            "Collaboration"
+        ],
+        "link": "https://help.whimsical.com/billing/pricing#:~:text=To%20apply%20for%20the%20education%20discount%2C",
+        "status": "active"
+    },
+    {
+        "resource": "Weights & Biases",
+        "value": "Free academic Pro access",
+        "description": "Machine learning experiment tracking platform for researchers",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "Machine Learning",
+            "Research"
+        ],
+        "link": "https://wandb.ai/site/pricing/",
+        "status": "active"
+    },
+    {
+        "resource": "Walmart+",
+        "value": "30-day trial plus discount",
+        "description": "Free delivery and student-exclusive Walmart+ savings",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Shopping",
+            "Delivery"
+        ],
+        "link": "https://www.walmart.com/plus/student",
+        "status": "active"
+    },
+    {
+        "resource": "Vultr",
+        "value": "$300 free cloud credits",
+        "description": "Cloud compute and VPS hosting provider with scalable cloud servers",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "VPS",
+            "Cloud"
+        ],
+        "link": "https://www.vultr.com/coupons/",
+        "status": "active"
+    },
+    {
+        "resource": "VS Code Education",
+        "value": "Free coding learning environment",
+        "description": "Browser-based coding platform with built-in lessons and assessments",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Coding",
+            "Education"
+        ],
+        "link": "https://vscodeedu.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Visual Studio Code",
+        "value": "Free coding packs",
+        "description": "Lightweight code editor with rich extensions for multiple languages",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Code Editor",
+            "Programming"
+        ],
+        "link": "https://code.visualstudio.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Visme",
+        "value": "3 months free Starter",
+        "description": "Create infographics, reports, and visual presentations easily",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Presentations",
+            "Infographics"
+        ],
+        "link": "https://education.github.com/pack#:~:text=Visme-,About%20Visme,-The%20all%2Din",
+        "status": "active"
+    },
+    {
+        "resource": "Vaadin",
+        "value": "Free Pro subscription",
+        "description": "Java framework for building modern web and enterprise applications",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Java",
+            "Web Development"
+        ],
+        "link": "https://vaadin.com/student-program",
+        "status": "active"
+    },
+    {
+        "resource": "v0",
+        "value": "Free v0 Premium yearly",
+        "description": "Generate production-ready UI components and code from simple text prompts",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "UI Generation",
+            "AI"
+        ],
+        "link": "https://v0.app/students",
+        "status": "active"
+    },
+    {
+        "resource": "Unreal Engine",
+        "value": "Free for students",
+        "description": "Advanced 3D game engine for creating interactive experiences",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Game Development",
+            "3D"
+        ],
+        "link": "https://www.unrealengine.com/students-and-schools",
+        "status": "active"
+    },
+    {
+        "resource": "Unity Student",
+        "value": "Free Unity Student plan",
+        "description": "Game development platform for building 2D, 3D, and VR experiences",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Game Development",
+            "VR"
+        ],
+        "link": "https://store.unity.com/academic/unity-student",
+        "status": "active"
+    },
+    {
+        "resource": "UNiDAYS",
+        "value": "Exclusive student discounts",
+        "description": "Student platform offering exclusive brand discounts on fashion and tech",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Student Discounts",
+            "Shopping"
+        ],
+        "link": "https://www.myunidays.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Ulysses",
+        "value": "Student discounted subscription",
+        "description": "Markdown writing app for focused long-form writing and publishing",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Writing",
+            "Markdown"
+        ],
+        "link": "https://ulysses.app/students/",
+        "status": "active"
+    },
+    {
+        "resource": "Udemy",
+        "value": "10-60% off courses",
+        "description": "Learn from global instructors through expert-led online courses",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Online Courses",
+            "Education"
+        ],
+        "link": "https://www.udemy.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Uber One Student",
+        "value": "4-week free trial",
+        "description": "Free delivery and savings on Uber rides and Uber Eats",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Food Delivery",
+            "Transport"
+        ],
+        "link": "https://www.uber.com/us/en/uber-one/student/",
+        "status": "active"
+    },
+    {
+        "resource": "TryHackMe",
+        "value": "20% off subscriptions",
+        "description": "Learn cybersecurity through hands-on virtual labs.",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Cybersecurity",
+            "Labs"
+        ],
+        "link": "https://tryhackme.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Trello",
+        "value": "75% off student plans",
+        "description": "Visual project management and team organization with boards and cards.",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Project Management",
+            "Collaboration"
+        ],
+        "link": "https://www.studentbeans.com/student-discount/us/atlassian",
+        "status": "active"
+    },
+    {
+        "resource": "Travis CI",
+        "value": "Free private builds",
+        "description": "Continuous integration and testing platform for developers",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "CI/CD",
+            "Testing"
+        ],
+        "link": "https://www.travis-ci.com/education",
+        "status": "active"
+    },
+    {
+        "resource": "Tower",
+        "value": "Free Pro student license",
+        "description": "Git client with a powerful visual interface for developers",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Git",
+            "Version Control"
+        ],
+        "link": "https://www.git-tower.com/students",
+        "status": "active"
+    },
+    {
+        "resource": "Totum",
+        "value": "Hundreds of student discounts",
+        "description": "Official student discount card and app for UK students",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Student Discounts",
+            "Shopping"
+        ],
+        "link": "https://totum.com/",
+        "status": "active"
+    },
+    {
+        "resource": "ToDiagram",
+        "value": "Free Pro editor access",
+        "description": "Convert JSON, YAML, and CSV data into visual diagrams",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Diagrams",
+            "Visualization"
+        ],
+        "link": "https://todiagram.com/blog/todiagram-github-education",
+        "status": "active"
+    },
+    {
+        "resource": "Tinder",
+        "value": "50% off premium plans",
+        "description": "Dating app with student premium plans and unlimited features",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Dating",
+            "Premium"
+        ],
+        "link": "https://tinder.com/",
+        "status": "active"
+    },
+    {
+        "resource": "ThemeIsle",
+        "value": "Free WordPress theme yearly",
+        "description": "Premium WordPress themes for creating responsive websites",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "WordPress",
+            "Themes"
+        ],
+        "link": "https://themeisle.com/github-students/",
+        "status": "active"
+    },
+    {
+        "resource": "The Globe and Mail",
+        "value": "$1 weekly subscription",
+        "description": "Unlimited access to Canada's most trusted news and business analysis",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "News",
+            "Subscription"
+        ],
+        "link": "https://www.theglobeandmail.com/globecampus/students/",
+        "status": "active"
+    },
+    {
+        "resource": "Testmail",
+        "value": "Free Essential plan",
+        "description": "Automated email testing for app verification and workflows",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Email Testing",
+            "Automation"
+        ],
+        "link": "https://testmail.app/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Termius",
+        "value": "Free Pro student features",
+        "description": "Secure SSH client for managing servers on desktop and mobile",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "SSH",
+            "Servers"
+        ],
+        "link": "https://termius.com/education",
+        "status": "active"
+    },
+    {
+        "resource": "Tella",
+        "value": "Free for students",
+        "description": "Professional screen recorder with custom layouts, instant editing, and 4K export",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Screen Recording",
+            "Video"
+        ],
+        "link": "https://www.tella.tv/for-education",
+        "status": "active"
+    },
+    {
+        "resource": "Target Circle Student",
+        "value": "55% off membership",
+        "description": "Student membership for exclusive savings and same-day delivery",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Shopping",
+            "Delivery"
+        ],
+        "link": "https://www.target.com/l/target-circle-college-student-appreciation/-/N-6v01l",
+        "status": "active"
+    },
+    {
+        "resource": "TablePlus",
+        "value": "50% off for students",
+        "description": "Modern database GUI tool for macOS and Windows.",
+        "tags": [
+            "Developer Tools",
+            "Discount",
+            "Database",
+            "GUI"
+        ],
+        "link": "https://tableplus.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Tableau Desktop",
+        "value": "1 year Tableau access",
+        "description": "Visual analytics platform for exploring and presenting data interactively",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Data Analytics",
+            "Visualization"
+        ],
+        "link": "https://www.tableau.com/academic/students",
+        "status": "changed"
+    },
+    {
+        "resource": "SymfonyCasts",
+        "value": "3 months free subscription",
+        "description": "Learn Symfony framework development through hands-on video tutorials",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Symfony",
+            "PHP"
+        ],
+        "link": "https://symfonycasts.com/github-student",
+        "status": "active"
+    },
+    {
+        "resource": "Swiggy Student Rewards",
+        "value": "Up to 67% off",
+        "description": "Student perks on Swiggy One Lite and Instamart orders",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Food Delivery",
+            "Shopping"
+        ],
+        "link": "https://r.swiggy.com/swiggy/student-rewards/62695212",
+        "status": "active"
+    },
+    {
+        "resource": "SurveyHero",
+        "value": "Free student account",
+        "description": "Create and share online surveys, polls, and questionnaires easily",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Surveys",
+            "Forms"
+        ],
+        "link": "https://www.surveyhero.com/students",
+        "status": "active"
+    },
+    {
+        "resource": "Superhuman",
+        "value": "7-day free trial",
+        "description": "Blazing-fast email client with AI triage, shortcuts, and smart workflows",
+        "tags": [
+            "Productivity & Collaboration",
+            "Trial",
+            "Email",
+            "AI"
+        ],
+        "link": "https://superhuman.com/",
+        "status": "changed"
+    },
+    {
+        "resource": "Momen",
+        "value": "50% off Momen plans",
+        "description": "Build custom full-stack web apps and AI agents without writing a single line of code",
+        "tags": [
+            "Developer Tools",
+            "Discount",
+            "No-Code",
+            "AI"
+        ],
+        "link": "https://momen.app/education",
+        "status": "active"
+    },
+    {
+        "resource": "Miro",
+        "value": "Free Education plan",
+        "description": "Online collaborative whiteboard for brainstorming and workshops",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Whiteboard",
+            "Collaboration"
+        ],
+        "link": "https://miro.com/education/",
+        "status": "active"
+    },
+    {
+        "resource": "MiniMax",
+        "value": "10% off Minimax plans",
+        "description": "Multimodal AI platform with text, voice, image, video & music generation.",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "AI",
+            "Multimodal"
+        ],
+        "link": "https://platform.minimax.io/subscribe/token-plan",
+        "status": "active"
+    },
+    {
+        "resource": "Minecraft Education",
+        "value": "$5.04 yearly education license",
+        "description": "Game-based learning platform with coding, STEM, and teamwork lessons",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "STEM",
+            "Gaming"
+        ],
+        "link": "https://education.minecraft.net/en-us/licensing",
+        "status": "active"
+    },
+    {
+        "resource": "Minecraft Education",
+        "value": "Free educational license",
+        "description": "Game-based learning platform promoting creative and interactive education",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "STEM",
+            "Gaming"
+        ],
+        "link": "https://education.minecraft.net/en-us",
+        "status": "active"
+    },
+    {
+        "resource": "MindMac",
+        "value": "55% off yearly plan",
+        "description": "Minimal, privacy-first macOS ChatGPT client for students",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "macOS",
+            "ChatGPT"
+        ],
+        "link": "https://mindmac.app/",
+        "status": "active"
+    },
+    {
+        "resource": "Microsoft Azure",
+        "value": "Free Azure student services",
+        "description": "Free Azure services for young students under 18",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "API",
+            "Cloud"
+        ],
+        "link": "https://education.github.com/pack#:~:text=About%20Microsoft%20Azure%20(for%20ages%2013%2D17)",
+        "status": "active"
+    },
+    {
+        "resource": "Microsoft Azure for Students",
+        "value": "$100 Azure student credit",
+        "description": "Cloud platform with $100 signup credit, annual renewal, no card needed.",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "Cloud",
+            "API"
+        ],
+        "link": "https://azure.microsoft.com/en-us/free/students",
+        "status": "active"
+    },
+    {
+        "resource": "Microsoft 365",
+        "value": "Free Office 365 A1",
+        "description": "Cloud-based office suite including Word, Excel, and PowerPoint",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Office",
+            "Collaboration"
+        ],
+        "link": "https://www.microsoft.com/education/products/office",
+        "status": "active"
+    },
+    {
+        "resource": "Meta Blueprint",
+        "value": "Free courses plus certifications",
+        "description": "Digital marketing courses and certifications from Meta.",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Marketing",
+            "Certification"
+        ],
+        "link": "https://www.facebookblueprint.com/student/page/289993-certifications",
+        "status": "active"
+    },
+    {
+        "resource": "Meshy AI",
+        "value": "Free Pro for 1 month",
+        "description": "Generate realistic 3D assets and textures from text or images",
+        "tags": [
+            "AI & Machine Learning",
+            "Trial",
+            "3D",
+            "Generative AI"
+        ],
+        "link": "https://www.meshy.ai/education",
+        "status": "changed"
+    },
+    {
+        "resource": "Maxon One",
+        "value": "45% off student license",
+        "description": "Cinema 4D, Redshift, and more in a student plan",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "3D",
+            "Animation"
+        ],
+        "link": "https://www.maxon.net/en/buy/plan-pricing-for-students",
+        "status": "active"
+    },
+    {
+        "resource": "Max",
+        "value": "50% off Max student",
+        "description": "Student offer for Max with access to HBO originals",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Streaming",
+            "Movies"
+        ],
+        "link": "https://www.max.com/student",
+        "status": "active"
+    },
+    {
+        "resource": "MATLAB",
+        "value": "MATLAB student version discount",
+        "description": "Numerical computing environment for engineering calculations",
+        "tags": [
+            "Developer Tools",
+            "Discount",
+            "Engineering",
+            "Math"
+        ],
+        "link": "https://www.mathworks.com/products/matlab/student.html",
+        "status": "active"
+    },
+    {
+        "resource": "Mapbox",
+        "value": "Free for students",
+        "description": "Mapping and location services platform.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Maps",
+            "API"
+        ],
+        "link": "https://www.mapbox.com/education",
+        "status": "active"
+    },
+    {
+        "resource": "MacWhisper",
+        "value": "25% off MacWhisper Pro",
+        "description": "Transcribe audio on Mac using OpenAI Whisper and Nvidia Parakeet",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Transcription",
+            "macOS"
+        ],
+        "link": "https://goodsnooze.gumroad.com/l/macwhisper",
+        "status": "changed"
+    },
+    {
+        "resource": "Lunatask",
+        "value": "50% off all plans",
+        "description": "Private task manager with Pomodoro, habits, and mood tracking",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Task Management",
+            "Privacy"
+        ],
+        "link": "https://lunatask.app/education",
+        "status": "active"
+    },
+    {
+        "resource": "Lumion",
+        "value": "Free yearly student license",
+        "description": "Rendering software for creating realistic 3D architectural visualizations",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "3D",
+            "Rendering"
+        ],
+        "link": "https://lumion.com/product/educational-licenses",
+        "status": "active"
+    },
+    {
+        "resource": "LucidChart",
+        "value": "Free educational account",
+        "description": "Create flowcharts and technical diagrams collaboratively online",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Diagrams",
+            "Collaboration"
+        ],
+        "link": "https://help.lucid.co/hc/en-us/articles/360049831771-Sign-up-for-a-free-Educational-account",
+        "status": "active"
+    },
+    {
+        "resource": "Lovable",
+        "value": "50% off Pro plan",
+        "description": "AI app builder for creating full-stack applications instantly",
+        "tags": [
+            "Developer Tools",
+            "Discount",
+            "AI",
+            "No-Code"
+        ],
+        "link": "https://lovable.dev/students",
+        "status": "active"
+    },
+    {
+        "resource": "Loom",
+        "value": "75% off Business plan",
+        "description": "AI-powered screen recorder with video editing and cloud storage.",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Video",
+            "Collaboration"
+        ],
+        "link": "https://www.loom.com/education",
+        "status": "active"
+    },
+    {
+        "resource": "Logitech G",
+        "value": "20% off gaming gear",
+        "description": "Save on Logitech G headsets, keyboards, and accessories",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Gaming",
+            "Hardware"
+        ],
+        "link": "https://www.logitechg.com/en-us/programs/student-discount",
+        "status": "changed"
+    },
+    {
+        "resource": "Logitech",
+        "value": "Up to 30% off",
+        "description": "Exclusive student pricing on Logitech gear, keyboards, and accessories",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Hardware",
+            "Accessories"
+        ],
+        "link": "https://www.logitech.com/en-us/promo/student-discount.html",
+        "status": "active"
+    },
+    {
+        "resource": "LocalStack",
+        "value": "Free AWS emulator license",
+        "description": "Emulate AWS cloud services locally on your machine",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "AWS",
+            "Cloud"
+        ],
+        "link": "https://www.localstack.cloud/localstack-for-students",
+        "status": "active"
+    },
+    {
+        "resource": "Live2D",
+        "value": "80% off 3-year plan",
+        "description": "Professional 2D modeling and animation software for VTubers and games",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Animation",
+            "VTuber"
+        ],
+        "link": "https://student.live2d.com/en/student-discount/",
+        "status": "changed"
+    },
+    {
+        "resource": "LinkedIn Premium",
+        "value": "Free 30-day trial",
+        "description": "Access premium job tools, insights, and online professional learning resources",
+        "tags": [
+            "Learning & Courses",
+            "Trial",
+            "Career",
+            "Professional"
+        ],
+        "link": "https://premium.linkedin.com/",
+        "status": "active"
+    },
+    {
+        "resource": "LinkedIn Learning",
+        "value": "Free 1-month trial",
+        "description": "Platform offering professional development courses and certifications",
+        "tags": [
+            "Learning & Courses",
+            "Trial",
+            "Courses",
+            "Certification"
+        ],
+        "link": "https://www.linkedin.com/learning",
+        "status": "active"
+    },
+    {
+        "resource": "Linearity",
+        "value": "58% off Pro plan",
+        "description": "Vector design and animation software for Mac, iPad and iPhone",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Vector Design",
+            "Animation"
+        ],
+        "link": "https://www.linearity.io/blog/education-pricing/",
+        "status": "active"
+    },
+    {
+        "resource": "Linear",
+        "value": "Free one-year access",
+        "description": "Issue tracking and project management tool for software teams",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Project Management",
+            "Developers"
+        ],
+        "link": "https://linear.app/docs/billing-and-plans",
+        "status": "changed"
+    },
+    {
+        "resource": "Harvest",
+        "value": "25% off yearly plan",
+        "description": "Track billable hours, expenses, and invoices for every project",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Time Tracking",
+            "Invoices"
+        ],
+        "link": "https://www.studentbeans.com/student-discount/us/harvest",
+        "status": "active"
+    },
+    {
+        "resource": "Hack The Box",
+        "value": "Discounted student plans",
+        "description": "Cybersecurity penetration testing platform.",
+        "tags": [
+            "Security & Privacy",
+            "Discount",
+            "Cybersecurity",
+            "Penetration Testing"
+        ],
+        "link": "https://www.studentbeans.com/student-discount/us/hack-the-box",
+        "status": "active"
+    },
+    {
+        "resource": "H&M",
+        "value": "10% off student discount",
+        "description": "Student discounts on clothing via UNiDAYS or Student Beans",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Fashion",
+            "Shopping"
+        ],
+        "link": "https://www2.hm.com/en_ca/editorial/student-discount.html",
+        "status": "active"
+    },
+    {
+        "resource": "Gurobi",
+        "value": "Free academic license",
+        "description": "Optimization solver for complex engineering and business problems",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Optimization",
+            "Engineering"
+        ],
+        "link": "https://www.gurobi.com/academia/academic-program-and-licenses/",
+        "status": "active"
+    },
+    {
+        "resource": "Grammarly",
+        "value": "50% off Grammarly plans",
+        "description": "AI writing assistant for grammar, clarity, and tone correction",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Writing",
+            "AI"
+        ],
+        "link": "https://support.grammarly.com/hc/articles/39623389691021-Grammarly-promo-offers-on-SheerID",
+        "status": "active"
+    },
+    {
+        "resource": "Grab",
+        "value": "Free GrabUnlimited 12-month trial",
+        "description": "Savings on rides and food delivery in Southeast Asia",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Food Delivery",
+            "Transport"
+        ],
+        "link": "https://www.grab.com/my/grabunlimited/",
+        "status": "changed"
+    },
+    {
+        "resource": "GoRails",
+        "value": "Free 12-month access",
+        "description": "Web development tutorials for Ruby, Rails, JavaScript, and modern tools",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Web Development",
+            "Ruby"
+        ],
+        "link": "https://gorails.com/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Google Gemini Pro \u00d7 Jio",
+        "value": "Free 18-month Gemini Pro",
+        "description": "Gemini Pro bundled with select Jio 5G plans",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "Gemini",
+            "AI"
+        ],
+        "link": "https://jio.com/google-gemini-offer",
+        "status": "active"
+    },
+    {
+        "resource": "Google Colab Pro",
+        "value": "Free 1-year Colab Pro",
+        "description": "Cloud-based Jupyter notebooks for data science and ML",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "Jupyter",
+            "Machine Learning"
+        ],
+        "link": "https://colab.research.google.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Google Cloud Skills Boost",
+        "value": "$200 Qwiklabs credits",
+        "description": "Gamified cloud learning platform with swag rewards and certification prep.",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "Cloud",
+            "Certification"
+        ],
+        "link": "https://cloud.google.com/edu/students",
+        "status": "active"
+    },
+    {
+        "resource": "Google AI Pro",
+        "value": "Free 1-year AI Pro",
+        "description": "Google's AI suite featuring Gemini, Veo, Nano Banana, NotebookLM and more",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "Gemini",
+            "AI"
+        ],
+        "link": "https://www.google.com/chromebook/perks/",
+        "status": "active"
+    },
+    {
+        "resource": "GoodNotes",
+        "value": "Free for eligible schools",
+        "description": "Digital note-taking and annotation app for students",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Notes",
+            "iPad"
+        ],
+        "link": "https://www.goodnotes.com/schools",
+        "status": "changed"
+    },
+    {
+        "resource": "GLM Coding Plan",
+        "value": "50% off first subscription",
+        "description": "GLM-4.7 & GLM-5 AI coding models. Use via Claude Code, Cursor, Cline & more.",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "Coding",
+            "LLM"
+        ],
+        "link": "https://docs.z.ai/devpack/transition",
+        "status": "changed"
+    },
+    {
+        "resource": "GitLens",
+        "value": "6 months free GitLens",
+        "description": "Supercharge VS Code with visual Git history, inline blame, and GitHub integrations",
+        "tags": [
+            "Developer Tools",
+            "Trial",
+            "Git",
+            "VS Code"
+        ],
+        "link": "https://www.gitkraken.com/github-student-developer-pack-bundle",
+        "status": "active"
+    },
+    {
+        "resource": "GitKraken",
+        "value": "6 months free Pro",
+        "description": "Git client with a visual interface for managing repositories",
+        "tags": [
+            "Developer Tools",
+            "Trial",
+            "Git",
+            "Version Control"
+        ],
+        "link": "https://www.gitkraken.com/github-student-developer-pack",
+        "status": "active"
+    },
+    {
+        "resource": "GitHub Pages",
+        "value": "Free static site hosting",
+        "description": "Host static websites directly from your GitHub repository",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Hosting",
+            "Static Sites"
+        ],
+        "link": "https://education.github.com/pack#:~:text=GitHub%20Pages-,About%20GitHub%20Pages,-Websites%20for%20you",
+        "status": "active"
+    },
+    {
+        "resource": "GitHub Desktop",
+        "value": "Free for everyone",
+        "description": "Simplified Git workflow via desktop app for repositories",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Git",
+            "Desktop"
+        ],
+        "link": "https://desktop.github.com/",
+        "status": "active"
+    },
+    {
+        "resource": "GitHub Community Exchange",
+        "value": "Free community access",
+        "description": "Showcase student projects and connect with open-source contributors",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Open Source",
+            "Community"
+        ],
+        "link": "https://education.github.com/pack#:~:text=About%20GitHub%20Community%20Exchange",
+        "status": "active"
+    },
+    {
+        "resource": "GitHub Codespaces",
+        "value": "Free Pro cloud environments",
+        "description": "Cloud development environment for coding directly in the browser",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Cloud IDE",
+            "Development"
+        ],
+        "link": "https://education.github.com/pack#:~:text=About%20GitHub%20Codespaces",
+        "status": "active"
+    },
+    {
+        "resource": "GitHub Certification",
+        "value": "Free certification voucher",
+        "description": "Free certification for GitHub Foundations or Copilot exam",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Certification",
+            "GitHub"
+        ],
+        "link": "https://education.github.com/experiences/foundations_certificate",
+        "status": "active"
+    },
+    {
+        "resource": "GitHub Campus Experts",
+        "value": "Campus Experts program access",
+        "description": "Build student tech communities on campus with GitHub support",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Community",
+            "Leadership"
+        ],
+        "link": "https://github.com/education/students/campus-expert",
+        "status": "active"
+    },
+    {
+        "resource": "GitHub",
+        "value": "Free GitHub Pro",
+        "description": "Host code, collaborate, and manage projects",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "GitHub",
+            "Collaboration"
+        ],
+        "link": "https://github.com/education/students",
+        "status": "active"
+    },
+    {
+        "resource": "GEICO",
+        "value": "15% student insurance discount",
+        "description": "Affordable car insurance for college and high school students with good grades",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Insurance",
+            "Students"
+        ],
+        "link": "https://www.geico.com/save/discounts/student-discounts/",
+        "status": "active"
+    },
+    {
+        "resource": "Frontend Masters",
+        "value": "Free 6-month access",
+        "description": "Advanced JavaScript and frontend engineering video lessons",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Frontend",
+            "JavaScript"
+        ],
+        "link": "https://frontendmasters.com/welcome/github-student-developers/",
+        "status": "active"
+    },
+    {
+        "resource": "Framer",
+        "value": "Free Basic student plan",
+        "description": "Interactive design and prototyping platform with code export",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Prototyping",
+            "Web Design"
+        ],
+        "link": "https://www.framer.com/education/students",
+        "status": "active"
+    },
+    {
+        "resource": "Folk",
+        "value": "20% off student plans",
+        "description": "Lightweight CRM to manage relationships and contacts effortlessly",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "CRM",
+            "Contacts"
+        ],
+        "link": "https://www.folk.app/pricing",
+        "status": "changed"
+    },
+    {
+        "resource": "Flux",
+        "value": "Free Pro student plan",
+        "description": "Modern PCB design tool with AI assistance, real-time collaboration, and built-in simulation",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "PCB",
+            "Engineering"
+        ],
+        "link": "https://www.flux.ai/p/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "Flipkart",
+        "value": "Up to \u20b913,500 off",
+        "description": "Online marketplace for electronics, fashion, and lifestyle products",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Shopping",
+            "Electronics"
+        ],
+        "link": "https://www.flipkart.com/back-to-campus-laptops-2026-at-store",
+        "status": "active"
+    },
+    {
+        "resource": "LastPass",
+        "value": "Free student password manager",
+        "description": "Secure password manager that stores and autofills login credentials",
+        "tags": [
+            "Security & Privacy",
+            "Free",
+            "Password Manager",
+            "Security"
+        ],
+        "link": "https://www.lastpass.com/solutions/education",
+        "status": "active"
+    },
+    {
+        "resource": "LambdaTest",
+        "value": "Free Live plan yearly",
+        "description": "Cloud platform for cross-browser and OS compatibility testing",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Testing",
+            "Cloud"
+        ],
+        "link": "https://www.lambdatest.com/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Krita",
+        "value": "Free open-source art software",
+        "description": "Free open-source painting and animation software for artists",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Open Source",
+            "Digital Art"
+        ],
+        "link": "https://krita.org/",
+        "status": "active"
+    },
+    {
+        "resource": "Kiro for Students",
+        "value": "1,000 monthly free credits",
+        "description": "AI-native IDE with vibe coding and spec-driven development modes",
+        "tags": [
+            "AI & Machine Learning",
+            "Credit",
+            "IDE",
+            "Coding"
+        ],
+        "link": "https://kiro.dev/students/",
+        "status": "active"
+    },
+    {
+        "resource": "Kiro",
+        "value": "$20 upgrade bonus credit",
+        "description": "AI-native IDE with vibe coding and spec-driven development modes",
+        "tags": [
+            "AI & Machine Learning",
+            "Credit",
+            "IDE",
+            "Coding"
+        ],
+        "link": "https://kiro.dev/pricing/",
+        "status": "changed"
+    },
+    {
+        "resource": "Julius AI",
+        "value": "50% off AI subscription",
+        "description": "AI-powered data analysis and statistical assistant for research",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "Data Analysis",
+            "Research"
+        ],
+        "link": "https://julius.ai/docs/account/discounts",
+        "status": "active"
+    },
+    {
+        "resource": "JetBrains",
+        "value": "Free annual IDE subscription",
+        "description": "Professional IDEs for Java, Python, and more.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "IDE",
+            "Programming"
+        ],
+        "link": "https://www.jetbrains.com/community/education/#students",
+        "status": "active"
+    },
+    {
+        "resource": "Jatevo",
+        "value": "190M free LLM tokens",
+        "description": "Qwen 3.5 Plus AI API with 1M context window, vision & multimodal support",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "LLM",
+            "API"
+        ],
+        "link": "https://jatevo.id/",
+        "status": "active"
+    },
+    {
+        "resource": "Jasper AI",
+        "value": "20% off annual plan",
+        "description": "AI marketing co-pilot to generate on-brand content faster",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "Marketing",
+            "Content"
+        ],
+        "link": "https://www.jasper.ai/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "IRCTC",
+        "value": "Student railway concessions",
+        "description": "Railway booking and concession platform for travelers",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Travel",
+            "Railways"
+        ],
+        "link": "https://www.indianrail.gov.in/enquiry/StaticPages/StaticEnquiry.jsp?StaticPage=conc_Rules.html",
+        "status": "active"
+    },
+    {
+        "resource": "InterviewCake",
+        "value": "1-week prep course access",
+        "description": "Master coding interviews with structured algorithmic lessons",
+        "tags": [
+            "Learning & Courses",
+            "Trial",
+            "Interview Prep",
+            "Algorithms"
+        ],
+        "link": "https://www.interviewcake.com/github-students",
+        "status": "changed"
+    },
+    {
+        "resource": "Intel Developer Tools",
+        "value": "Free oneAPI toolkits",
+        "description": "Tools and libraries for optimizing code and software performance",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Performance",
+            "Libraries"
+        ],
+        "link": "https://www.intel.com/content/www/us/en/developer/students.html",
+        "status": "active"
+    },
+    {
+        "resource": "Indigo",
+        "value": "10% off student flights",
+        "description": "Airline offering discounted fares with additional baggage benefits",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Travel",
+            "Flights"
+        ],
+        "link": "https://www.goindigo.in/add-on-services/student-discount.html",
+        "status": "active"
+    },
+    {
+        "resource": "Imgbot",
+        "value": "Free image optimization",
+        "description": "Automatically compress and optimize images in GitHub repositories",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Images",
+            "GitHub"
+        ],
+        "link": "https://imgbot.net/github-students/",
+        "status": "active"
+    },
+    {
+        "resource": "IconScout",
+        "value": "60 free premium icons",
+        "description": "Access icons, illustrations, and 3D assets for design projects",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Icons",
+            "3D Assets"
+        ],
+        "link": "https://iconscout.com/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Icons8",
+        "value": "3 months free resources",
+        "description": "Icons, photos, and music resources for creative design work",
+        "tags": [
+            "Design & Creative",
+            "Trial",
+            "Icons",
+            "Photos"
+        ],
+        "link": "https://icons8.com/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "IBM SkillsBuild",
+        "value": "Free student learning platform",
+        "description": "Free digital skills platform with courses in AI, cloud, and more.",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "AI",
+            "Cloud"
+        ],
+        "link": "https://skillsbuild.org/",
+        "status": "active"
+    },
+    {
+        "resource": "IBM Cloud",
+        "value": "$200 IBM cloud credits",
+        "description": "IBM cloud computing platform for servers and analytics",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "Cloud",
+            "Servers"
+        ],
+        "link": "https://cloud.ibm.com/registration",
+        "status": "active"
+    },
+    {
+        "resource": "Humata",
+        "value": "200 free monthly pages",
+        "description": "Ask questions and summarize PDFs with AI-powered research assistant",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "PDF",
+            "Research"
+        ],
+        "link": "https://www.humata.ai/pricing",
+        "status": "changed"
+    },
+    {
+        "resource": "Hulu",
+        "value": "30-day trial plus discount",
+        "description": "Stream TV shows and films on the student discounted plan",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Streaming",
+            "TV"
+        ],
+        "link": "https://www.myunidays.com/US/en-US/partners/hulu/view",
+        "status": "active"
+    },
+    {
+        "resource": "Hugging Face",
+        "value": "Free student AI Hub",
+        "description": "AI model hub and community for machine learning models and datasets",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "Machine Learning",
+            "Open Source"
+        ],
+        "link": "https://huggingface.co/docs/hub/academia-hub",
+        "status": "active"
+    },
+    {
+        "resource": "Huddle01",
+        "value": "$250 free cloud credits",
+        "description": "High-performance cloud compute with GPUs, VMs & K8s.",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "GPU",
+            "Kubernetes"
+        ],
+        "link": "https://huddle01.com/solutions/cloud-for-edtech",
+        "status": "active"
+    },
+    {
+        "resource": "Honeybadger",
+        "value": "Free Small plan yearly",
+        "description": "Monitor exceptions and uptime across applications and services",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Monitoring",
+            "Uptime"
+        ],
+        "link": "https://www.honeybadger.io/github-students/",
+        "status": "active"
+    },
+    {
+        "resource": "Highland 2",
+        "value": "Free Pro for 1 year",
+        "description": "Professional screenwriting and writing app with automatic formatting tools",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Writing",
+            "Screenwriting"
+        ],
+        "link": "https://highland2.app/students",
+        "status": "active"
+    },
+    {
+        "resource": "Hexagon",
+        "value": "Free Student Edition access",
+        "description": "Professional simulation and CAD software suite for design and learning",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "CAD",
+            "Simulation"
+        ],
+        "link": "https://studentedition.mscsoftware.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Hexagon",
+        "value": "Free student MI tools",
+        "description": "Software for analyzing and visualizing geospatial and industrial data",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Geospatial",
+            "Visualization"
+        ],
+        "link": "https://hexagon.com/support-success/manufacturing-intelligence/design-engineering-support/student-editions",
+        "status": "active"
+    },
+    {
+        "resource": "Heroku",
+        "value": "$13 monthly platform credit",
+        "description": "Platform for deploying and running modern web apps and APIs",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "Hosting",
+            "APIs"
+        ],
+        "link": "https://www.heroku.com/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Headspace",
+        "value": "85% off student plan",
+        "description": "Mindfulness app for meditation, stress relief, and better sleep",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Meditation",
+            "Wellness"
+        ],
+        "link": "https://www.headspace.com/studentplan",
+        "status": "active"
+    },
+    {
+        "resource": "Studentwowdeals",
+        "value": "500+ student discounts",
+        "description": "Discover hundreds of exclusive student discounts on brands and local events",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Student Deals"
+        ],
+        "link": "https://studentwowdeals.com/",
+        "status": "active"
+    },
+    {
+        "resource": "StudentAI",
+        "value": "Free AI study plan",
+        "description": "AI study toolkit with flashcards, quizzes, and citation helpers",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "AI",
+            "Study Tools"
+        ],
+        "link": "https://studentai.app/en-US/pricing",
+        "status": "changed"
+    },
+    {
+        "resource": "Student Saviour",
+        "value": "Student discount platform",
+        "description": "UK-based student discount platform for brands and services",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Student Deals",
+            "UK"
+        ],
+        "link": "https://www.studentsaviour.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Student Price Card (SPC)",
+        "value": "Discount membership card",
+        "description": "Canadian discount card offering exclusive retail and dining offers",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Canada",
+            "Retail"
+        ],
+        "link": "https://www.spccard.ca/",
+        "status": "active"
+    },
+    {
+        "resource": "Student Edge",
+        "value": "Student deals and discounts",
+        "description": "Discount platform offering deals on tech, food, and fashion",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Student Deals"
+        ],
+        "link": "https://studentedge.org/deals",
+        "status": "active"
+    },
+    {
+        "resource": "Student Beans",
+        "value": "Student discount verification portal",
+        "description": "Platform verifying student status for exclusive brand and product deals",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Verification"
+        ],
+        "link": "https://www.studentbeans.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Student App Centre",
+        "value": "100+ app discounts",
+        "description": "Curated platform featuring premium app deals and offers for students",
+        "tags": [
+            "Developer Tools",
+            "Discount",
+            "Apps",
+            "Student Deals"
+        ],
+        "link": "https://www.studentappcentre.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Stripe",
+        "value": "Waived fees on $1000",
+        "description": "Process online payments and manage transactions in your web applications",
+        "tags": [
+            "Developer Tools",
+            "Credit",
+            "Payments",
+            "API"
+        ],
+        "link": "https://education.github.com/pack",
+        "status": "active"
+    },
+    {
+        "resource": "Strava",
+        "value": "30 days free + 50% off",
+        "description": "Track fitness activity with advanced performance metrics and route planning",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Fitness"
+        ],
+        "link": "https://www.strava.com/student",
+        "status": "active"
+    },
+    {
+        "resource": "State Farm",
+        "value": "30% student insurance discount",
+        "description": "Auto insurance discounts for students with good grades",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Insurance"
+        ],
+        "link": "https://www.statefarm.com/simple-insights/auto-and-vehicles/car-insurance-for-college-students",
+        "status": "active"
+    },
+    {
+        "resource": "Starbucks",
+        "value": "20% off selected items",
+        "description": "Student pricing on coffee and food in select markets",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Food",
+            "Coffee"
+        ],
+        "link": "https://www.starbucks.co.uk/unidays",
+        "status": "changed"
+    },
+    {
+        "resource": "Squarespace",
+        "value": "50% off first year",
+        "description": "Website builder for creating professional sites and online stores",
+        "tags": [
+            "Developer Tools",
+            "Discount",
+            "Website Builder"
+        ],
+        "link": "https://www.squarespace.com/students",
+        "status": "active"
+    },
+    {
+        "resource": "SQLGate",
+        "value": "Free Standard plan 1 year",
+        "description": "SQL IDE for writing and managing complex database queries",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Database",
+            "SQL"
+        ],
+        "link": "https://www.sqlgate.com/student-pack",
+        "status": "active"
+    },
+    {
+        "resource": "Spotify Premium Student",
+        "value": "50% off Spotify Premium",
+        "description": "Stream millions of ad-free songs with offline downloads for students",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Music Streaming"
+        ],
+        "link": "https://www.spotify.com/us/student/",
+        "status": "changed"
+    },
+    {
+        "resource": "SpiceJet",
+        "value": "10% off student flights",
+        "description": "Airline offering discounted fares and extra baggage for students",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Travel",
+            "Flights"
+        ],
+        "link": "https://corporate.spicejet.com/studentdiscountlanding.aspx",
+        "status": "active"
+    },
+    {
+        "resource": "Spaceship",
+        "value": "Cheap premium.com domains",
+        "description": "Domain registrar with fast search and WHOIS privacy included",
+        "tags": [
+            "Cloud & Hosting",
+            "Discount",
+            "Domains",
+            "Privacy"
+        ],
+        "link": "https://www.spaceship.com/promos/",
+        "status": "changed"
+    },
+    {
+        "resource": "Spaces for macOS",
+        "value": "Spaces Pro lifetime discount",
+        "description": "Window management tool for boosting concentration on Mac",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "macOS",
+            "Window Management"
+        ],
+        "link": "https://spacesformac.xyz/",
+        "status": "active"
+    },
+    {
+        "resource": "SoundCloud",
+        "value": "50% off SoundCloud Go+",
+        "description": "Stream and upload music with ad-free student pricing",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Music Streaming"
+        ],
+        "link": "https://checkout.soundcloud.com/student",
+        "status": "changed"
+    },
+    {
+        "resource": "SlideCoach",
+        "value": "2000 AI presentation credits",
+        "description": "Practice and improve presentations with AI coach",
+        "tags": [
+            "AI & Machine Learning",
+            "Credit",
+            "Presentations",
+            "AI"
+        ],
+        "link": "https://education.github.com/pack",
+        "status": "active"
+    },
+    {
+        "resource": "Slack",
+        "value": "85% off Slack plans",
+        "description": "Team communication platform for collaboration and project discussions",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Team Chat"
+        ],
+        "link": "https://slack.com/help/articles/206646877-Apply-for-the-Slack-for-Education-discount",
+        "status": "active"
+    },
+    {
+        "resource": "Skillshare",
+        "value": "30% off Skillshare",
+        "description": "Learn creative and business skills through thousands of online classes",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Online Learning"
+        ],
+        "link": "https://www.skillshare.com/",
+        "status": "changed"
+    },
+    {
+        "resource": "Sketchy",
+        "value": "20% off group plans",
+        "description": "Visual mnemonics for medical and pre-med exam prep",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Medical Education"
+        ],
+        "link": "https://www.sketchy.com/student-groups",
+        "status": "active"
+    },
+    {
+        "resource": "Sketch",
+        "value": "Free Education plan",
+        "description": "Professional design tool for creating and sharing digital interfaces",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "macOS",
+            "UI Design"
+        ],
+        "link": "https://www.sketch.com/education/",
+        "status": "active"
+    },
+    {
+        "resource": "SimpleAnalytics",
+        "value": "Free Starter plan 1 year",
+        "description": "Privacy-friendly analytics platform without cookies, personal tracking, or complexity",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Analytics",
+            "Privacy"
+        ],
+        "link": "https://dashboard.simpleanalytics.com/students",
+        "status": "active"
+    },
+    {
+        "resource": "SheerID",
+        "value": "Student verification platform",
+        "description": "Identity verification platform for student, teacher, and military discounts",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Verification"
+        ],
+        "link": "https://shop.sheerid.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Shapr3D",
+        "value": "Free educational license",
+        "description": "Intuitive 3D modeling software built for tablets and stylus use",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "3D Modeling"
+        ],
+        "link": "https://www.shapr3d.com/education",
+        "status": "active"
+    },
+    {
+        "resource": "Setapp",
+        "value": "20% off annual plan",
+        "description": "Access 240+ curated Mac and iOS apps for students",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "macOS",
+            "iOS"
+        ],
+        "link": "https://app.setapp.com/educational-discount",
+        "status": "active"
+    },
+    {
+        "resource": "Scrivener",
+        "value": "15% off educational license",
+        "description": "Long-form writing and research app for Mac and Windows",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Writing"
+        ],
+        "link": "https://www.literatureandlatte.com/store/scrivener",
+        "status": "active"
+    },
+    {
+        "resource": "Scrimba",
+        "value": "Free Scrimba Pro month",
+        "description": "Interactive frontend coding courses with live code editing",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Coding",
+            "Frontend"
+        ],
+        "link": "https://scrimba.com/github-education",
+        "status": "active"
+    },
+    {
+        "resource": "SciSpace",
+        "value": "40% off AI plans",
+        "description": "AI research assistant for reading, annotating, and summarizing papers",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "Research",
+            "AI"
+        ],
+        "link": "https://scispace.com/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "Scira",
+        "value": "Scira Pro student pricing",
+        "description": "AI assistant for research, writing, and workflow automation",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "AI Assistant"
+        ],
+        "link": "https://scira.ai/pricing",
+        "status": "changed"
+    },
+    {
+        "resource": "SaveTheStudent",
+        "value": "Student discount directory",
+        "description": "Directory of verified student discounts and financial saving tips",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Student Deals"
+        ],
+        "link": "https://www.savethestudent.org/student-discounts",
+        "status": "active"
+    },
+    {
+        "resource": "Samsung",
+        "value": "Up to 30% off",
+        "description": "Student pricing on phones, laptops, and wearable devices",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Electronics"
+        ],
+        "link": "https://www.samsung.com/us/shop/offer-program/education/",
+        "status": "active"
+    },
+    {
+        "resource": "Roboflow",
+        "value": "Extra platform credits",
+        "description": "Computer vision platform for building and deploying ML models",
+        "tags": [
+            "AI & Machine Learning",
+            "Credit",
+            "Computer Vision",
+            "ML"
+        ],
+        "link": "https://research.roboflow.com/credits",
+        "status": "active"
+    },
+    {
+        "resource": "Rhino3D",
+        "value": "80% off Rhino license",
+        "description": "3D modeling software for industrial design and architecture",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "3D Modeling",
+            "CAD"
+        ],
+        "link": "https://www.rhino3d.com/edu/",
+        "status": "active"
+    },
+    {
+        "resource": "Requestly",
+        "value": "Free lifetime Pro plan",
+        "description": "Intercept, modify, and test HTTP requests and APIs easily",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "API",
+            "Testing"
+        ],
+        "link": "https://requestly.com/github-education/",
+        "status": "changed"
+    },
+    {
+        "resource": "Replit",
+        "value": "50% off Replit Core",
+        "description": "AI-powered coding platform with premium features for students.",
+        "tags": [
+            "Developer Tools",
+            "Discount",
+            "Coding",
+            "AI"
+        ],
+        "link": "https://replit.com/edu/students",
+        "status": "changed"
+    },
+    {
+        "resource": "Red Hat Academy",
+        "value": "50% off certification exams",
+        "description": "Enterprise Linux and open-source technologies.",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Linux",
+            "Open Source"
+        ],
+        "link": "https://www.redhat.com/en/services/red-hat-academy-faq",
+        "status": "active"
+    },
+    {
+        "resource": "Reclaim AI",
+        "value": "50% off for 12 months",
+        "description": "Smart calendar that schedules tasks, meetings, and habits automatically",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Calendar",
+            "AI"
+        ],
+        "link": "https://reclaim.ai/pricing/education-discount",
+        "status": "active"
+    },
+    {
+        "resource": "Raycast",
+        "value": "50% off Pro plan",
+        "description": "macOS launcher with AI and workflow automation",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "macOS",
+            "Automation"
+        ],
+        "link": "https://raycastapp.typeform.com/to/hSoIknLJ",
+        "status": "active"
+    },
+    {
+        "resource": "QuillBot",
+        "value": "25% off QuillBot Premium",
+        "description": "AI paraphrasing and rewriting tool with grammar and citation features",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Writing",
+            "AI"
+        ],
+        "link": "https://quillbot.com/premium/student-discount",
+        "status": "active"
+    },
+    {
+        "resource": "QT",
+        "value": "Free educational license",
+        "description": "Framework for building cross-platform GUI and mobile applications",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Framework",
+            "GUI"
+        ],
+        "link": "https://www.qt.io/qt-educational-license",
+        "status": "active"
+    },
+    {
+        "resource": "PTC Creo",
+        "value": "Free Creo University Edition",
+        "description": "Professional 3D CAD software for mechanical and industrial design",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "CAD",
+            "3D Modeling"
+        ],
+        "link": "https://www.ptc.com/en/products/education/free-software/creo-college-download",
+        "status": "active"
+    },
+    {
+        "resource": "ProWritingAid",
+        "value": "67% off Premium plan",
+        "description": "Grammar checker and style editor to improve your writing",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Writing",
+            "Grammar"
+        ],
+        "link": "https://www.studentappcentre.com/App/ProWritingAid",
+        "status": "changed"
+    },
+    {
+        "resource": "ProtoPie",
+        "value": "50% off student license",
+        "description": "Advanced interaction prototyping for mobile, web, and IoT apps",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Prototyping",
+            "UI Design"
+        ],
+        "link": "https://www.protopie.io/plans/education",
+        "status": "changed"
+    },
+    {
+        "resource": "Progressive",
+        "value": "Student car insurance savings",
+        "description": "Student auto insurance discounts and safe driving rewards",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Insurance"
+        ],
+        "link": "https://www.progressive.com/answers/student-information/",
+        "status": "active"
+    },
+    {
+        "resource": "Prezi",
+        "value": "Free Basic EDU plan",
+        "description": "Dynamic presentation tool with engaging zoomable canvas",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Presentations"
+        ],
+        "link": "https://prezi.com/students/",
+        "status": "active"
+    },
+    {
+        "resource": "Postman",
+        "value": "Free API certification",
+        "description": "API platform for building, testing, and documenting APIs",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "API",
+            "Certification"
+        ],
+        "link": "https://academy.postman.com/path/postman-api-fundamentals-student-expert",
+        "status": "active"
+    },
+    {
+        "resource": "Portfolio Box",
+        "value": "90% off Pro plan",
+        "description": "Create customizable online portfolios for creative professionals",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Portfolio"
+        ],
+        "link": "https://www.portfoliobox.net/students",
+        "status": "active"
+    },
+    {
+        "resource": "PopSQL",
+        "value": "Free Premium subscription",
+        "description": "Collaborative SQL editor for writing, sharing, and analyzing queries",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "SQL",
+            "Database"
+        ],
+        "link": "https://popsql.com/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "PomoDone",
+        "value": "Free Lite plan 2 years",
+        "description": "Pomodoro timer to manage tasks and boost concentration",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Pomodoro",
+            "Focus"
+        ],
+        "link": "https://app.getbeamer.com/roundpie/en/pomodoro-timer-for-students-with-github",
+        "status": "active"
+    },
+    {
+        "resource": "Polypane",
+        "value": "Free license for 1 year",
+        "description": "Browser for testing responsive designs across multiple devices",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Browser",
+            "Responsive Design"
+        ],
+        "link": "https://polypane.app/github-students/",
+        "status": "active"
+    },
+    {
+        "resource": "POEditor",
+        "value": "Free Plus plan 1 year",
+        "description": "Translate and manage localization projects with collaborative tools",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Localization",
+            "Translation"
+        ],
+        "link": "https://poeditor.com/register/github_education",
+        "status": "active"
+    },
+    {
+        "resource": "Perplexity Pro",
+        "value": "50% off Perplexity Pro",
+        "description": "AI research assistant powered by multiple LLMs",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "AI Assistant",
+            "Research"
+        ],
+        "link": "https://shop.sheerid.com/offers/50-off-perplexity-pro-for-students-and-educators/",
+        "status": "changed"
+    },
+    {
+        "resource": "Peacock",
+        "value": "66% off Peacock plan",
+        "description": "Stream sports, movies, and Peacock Originals on ad-supported plans",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Streaming"
+        ],
+        "link": "https://www.studentbeans.com/student-discount/us/peacock",
+        "status": "active"
+    },
+    {
+        "resource": "Pdf Pals",
+        "value": "50% off for students",
+        "description": "Chat with PDFs using AI for faster study help",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "PDF",
+            "AI"
+        ],
+        "link": "https://pdfpals.com/faqs",
+        "status": "active"
+    },
+    {
+        "resource": "Paramount+",
+        "value": "50% off any plan",
+        "description": "Stream movies, series, and sports with Essential or Premium plans",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Streaming"
+        ],
+        "link": "https://www.paramountplus.com/account/signup/edu-offer/",
+        "status": "active"
+    },
+    {
+        "resource": "Pandora",
+        "value": "60-day free music trial",
+        "description": "Ad-free personalized music streaming and offline listening",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Music Streaming"
+        ],
+        "link": "https://www.pandora.com/upgrade/premium/student",
+        "status": "active"
+    },
+    {
+        "resource": "Pagecord",
+        "value": "50% off Premium",
+        "description": "Minimal blogging app for effortless note-taking and publishing",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Blogging",
+            "Notes"
+        ],
+        "link": "https://blog.pagecord.com/announcing-the-pagecord-discount-for-students",
+        "status": "active"
+    },
+    {
+        "resource": "Pageclip",
+        "value": "Free student basic plan",
+        "description": "Form backend for collecting submissions from static websites",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Forms",
+            "Backend"
+        ],
+        "link": "https://pageclip.co/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Otter.ai",
+        "value": "20% off Otter Pro",
+        "description": "AI transcription and meeting notes tool with real-time collaboration",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Transcription",
+            "AI"
+        ],
+        "link": "https://otter.ai/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "Oracle Cloud",
+        "value": "Free tier + $300",
+        "description": "Cloud infrastructure and platform services with free tier.",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "Cloud",
+            "Infrastructure"
+        ],
+        "link": "https://www.oracle.com/cloud/free/",
+        "status": "active"
+    },
+    {
+        "resource": "OpenSauced",
+        "value": "Free courses and tools",
+        "description": "Track open-source contributions and discover developer opportunities",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Open Source",
+            "Developer"
+        ],
+        "link": "https://education.github.com/experiences/intro_to_open_source",
+        "status": "active"
+    },
+    {
+        "resource": "OpenCV University",
+        "value": "30% off OpenCV courses",
+        "description": "Master computer vision and AI with official OpenCV certification courses",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Computer Vision",
+            "AI"
+        ],
+        "link": "https://opencv.org/university/student-offer-opencv-university/",
+        "status": "active"
+    },
+    {
+        "resource": "OpenCode Go",
+        "value": "Discounted AI coding API",
+        "description": "Open-source AI coding API \u2014 Kimi K2.5, MiniMax M2.5/M2.7 & GLM-5 models.",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "API",
+            "Open Source"
+        ],
+        "link": "https://opencode.ai/go",
+        "status": "active"
+    },
+    {
+        "resource": "OpenAI Codex",
+        "value": "$100 Codex credits",
+        "description": "OpenAI's AI coding partner that reads, writes and debugs code",
+        "tags": [
+            "AI & Machine Learning",
+            "Credit",
+            "Coding",
+            "AI"
+        ],
+        "link": "https://help.openai.com/en/articles/20001147-codex-credits-for-students-terms-of-service",
+        "status": "active"
+    },
+    {
+        "resource": "OnTheHub",
+        "value": "95% off academic software",
+        "description": "Platform offering discounted software licenses for students and educators",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Software"
+        ],
+        "link": "https://onthehub.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Octicons",
+        "value": "Open-source icon library",
+        "description": "Official open-source GitHub icon set for developers",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Icons",
+            "Open Source"
+        ],
+        "link": "https://primer.style/octicons/",
+        "status": "active"
+    },
+    {
+        "resource": "Obsidian",
+        "value": "40% off Sync features",
+        "description": "Knowledge base and note-taking app with linked notes",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Notes",
+            "Knowledge Base"
+        ],
+        "link": "https://obsidian.md/help/discounts",
+        "status": "active"
+    },
+    {
+        "resource": "NY Times",
+        "value": "Student news subscription",
+        "description": "Digital news and magazine platform with articles and podcasts",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "News"
+        ],
+        "link": "https://www.studentbeans.com/student-discount/us/the-new-york-times",
+        "status": "active"
+    },
+    {
+        "resource": "Notion Templates",
+        "value": "Free Notion templates",
+        "description": "Pre-built Notion templates for courses, hackathons, and portfolios",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Templates",
+            "Notion"
+        ],
+        "link": "https://www.notion.com/templates/collections/github-student-developer-pack",
+        "status": "active"
+    },
+    {
+        "resource": "Notion",
+        "value": "Free Plus student plan",
+        "description": "All-in-one workspace for notes, projects, and team collaboration",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Notes",
+            "AI"
+        ],
+        "link": "https://www.notion.com/product/notion-for-education",
+        "status": "changed"
+    },
+    {
+        "resource": "Notepad.exe",
+        "value": "Free annual subscription",
+        "description": "Minimal macOS note app with markdown, sync, and quick capture",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "macOS",
+            "Notes"
+        ],
+        "link": "https://notepadexe.com/education/discount/",
+        "status": "active"
+    },
+    {
+        "resource": "Newegg",
+        "value": "Student tech discounts",
+        "description": "Online marketplace for computer components and tech accessories",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Electronics"
+        ],
+        "link": "https://www.newegg.com/students",
+        "status": "active"
+    },
+    {
+        "resource": "New Relic",
+        "value": "Free student monitoring tools",
+        "description": "Track app performance and errors in cloud infrastructure",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Monitoring",
+            "Cloud"
+        ],
+        "link": "https://newrelic.com/students",
+        "status": "active"
+    },
+    {
+        "resource": "Nebula",
+        "value": "$35 AI platform credits",
+        "description": "AI agent platform to build and orchestrate AI workers with 300+ models",
+        "tags": [
+            "AI & Machine Learning",
+            "Credit",
+            "AI Agents"
+        ],
+        "link": "https://www.nebula.gg/",
+        "status": "active"
+    },
+    {
+        "resource": "Navicat",
+        "value": "Free NFR license 1 year",
+        "description": "Database management tool for connecting databases visually",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Database",
+            "SQL"
+        ],
+        "link": "https://www.navicat.com/en/sponsorship/education/student",
+        "status": "active"
+    },
+    {
+        "resource": "Namecheap",
+        "value": "Free .me domain + SSL",
+        "description": "Domain registration and hosting tools for developers and students",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Domains",
+            "SSL"
+        ],
+        "link": "https://nc.me/",
+        "status": "active"
+    },
+    {
+        "resource": "Name.com",
+        "value": "Free domain + SSL",
+        "description": "Register a free custom domain from 15 available extension options",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Domains",
+            "SSL"
+        ],
+        "link": "https://www.name.com/partner/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "MUBI",
+        "value": "Free trial + discount",
+        "description": "Curated streaming platform for international and classic films",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Streaming",
+            "Movies"
+        ],
+        "link": "https://mubi.com/en/us/student",
+        "status": "changed"
+    },
+    {
+        "resource": "MS Visual Studio",
+        "value": "Free tools + Azure credit",
+        "description": "Free developer tools, cloud services and training from Microsoft",
+        "tags": [
+            "Developer Tools",
+            "Credit",
+            "IDE",
+            "Cloud"
+        ],
+        "link": "https://visualstudio.microsoft.com/dev-essentials/",
+        "status": "active"
+    },
+    {
+        "resource": "Morgen",
+        "value": "25% off Morgen Pro",
+        "description": "Consolidate calendars, tasks, and scheduling into one unified interface",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Calendar",
+            "Tasks"
+        ],
+        "link": "https://www.morgen.so/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "Monomail",
+        "value": "40% off email app",
+        "description": "Minimal email app focused on clarity, speed, and distraction-free use",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Email",
+            "macOS"
+        ],
+        "link": "https://www.studentappcentre.com/App/SendSimple",
+        "status": "active"
+    },
+    {
+        "resource": "Audible",
+        "value": "30-day free trial + 30% off",
+        "description": "Audiobook and podcast platform with monthly listening credits",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Audiobooks",
+            "Podcasts"
+        ],
+        "link": "https://www.studentbeans.com/student-discount/us/audible",
+        "status": "changed"
+    },
+    {
+        "resource": "AT&T Student",
+        "value": "20% off Premium 2.0 plan",
+        "description": "Student wireless savings via participating AT&T programs",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Mobile",
+            "Wireless"
+        ],
+        "link": "https://www.att.com/verification/signaturehub/#student",
+        "status": "changed"
+    },
+    {
+        "resource": "AstraSecurity",
+        "value": "6-month firewall and scanner access",
+        "description": "Website security suite with malware scanning, firewall, and protection tools",
+        "tags": [
+            "Security & Privacy",
+            "Free",
+            "Cybersecurity",
+            "Firewall"
+        ],
+        "link": "https://www.getastra.com/github-student-developer-pack",
+        "status": "active"
+    },
+    {
+        "resource": "Asana",
+        "value": "Free Starter plan for 12 months",
+        "description": "Manage team projects with lists, boards, and timelines",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Project Management"
+        ],
+        "link": "https://asana.com/industry/students",
+        "status": "active"
+    },
+    {
+        "resource": "Arrow",
+        "value": "20% off electronics components",
+        "description": "Exclusive discounts on electronic components, sensors, and development boards",
+        "tags": [
+            "Developer Tools",
+            "Discount",
+            "Hardware",
+            "IoT"
+        ],
+        "link": "https://www.studentbeans.com/student-discount/us/arrow",
+        "status": "active"
+    },
+    {
+        "resource": "Arduino",
+        "value": "6 months free Arduino Cloud",
+        "description": "Build and test IoT projects with open-source hardware boards",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "IoT",
+            "Hardware",
+            "Open Source"
+        ],
+        "link": "https://www.arduino.cc/education/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Appwrite",
+        "value": "Free Education plan access",
+        "description": "Build secure backends for web and mobile apps",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Backend",
+            "Open Source"
+        ],
+        "link": "https://appwrite.io/education",
+        "status": "changed"
+    },
+    {
+        "resource": "Apple TV+",
+        "value": "Free with Apple Music Student",
+        "description": "Stream Apple Originals included with Apple Music Student plan",
+        "tags": [
+            "Entertainment & Wellness",
+            "Free",
+            "Streaming"
+        ],
+        "link": "https://www.apple.com/apple-music/",
+        "status": "active"
+    },
+    {
+        "resource": "Apple Pro Apps Bundle",
+        "value": "Creator Studio at $2.99/month",
+        "description": "Discounted bundle with Final Cut Pro and Logic Pro",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Video Editing",
+            "Music Production"
+        ],
+        "link": "https://creatorstudio.apple.com/info/student",
+        "status": "changed"
+    },
+    {
+        "resource": "Apple Music",
+        "value": "1 month free + student pricing",
+        "description": "Stream 100M+ songs with offline playback and curated playlists",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Music Streaming"
+        ],
+        "link": "https://music.apple.com/us/student",
+        "status": "active"
+    },
+    {
+        "resource": "Apple Education",
+        "value": "Up to 10% off Apple devices",
+        "description": "Student pricing on Macs, iPads, and accessories",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Hardware",
+            "macOS"
+        ],
+        "link": "https://www.apple.com/us-edu/store",
+        "status": "active"
+    },
+    {
+        "resource": "Appfigures",
+        "value": "Free analytics reports for 1 year",
+        "description": "Track app downloads, performance, and rankings across app stores",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Analytics",
+            "Mobile Apps"
+        ],
+        "link": "https://appfigures.com/landing/github-student",
+        "status": "active"
+    },
+    {
+        "resource": "Apify",
+        "value": "50% off plans for 4 months",
+        "description": "Build and run web scrapers, crawlers, and data extraction bots at scale in the cloud.",
+        "tags": [
+            "Developer Tools",
+            "Discount",
+            "Web Scraping",
+            "Automation"
+        ],
+        "link": "https://apify.com/resources/universities",
+        "status": "active"
+    },
+    {
+        "resource": "AnyDesk",
+        "value": "Free unlimited private use",
+        "description": "Remote desktop software for accessing and controlling computers securely",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Remote Desktop"
+        ],
+        "link": "https://anydesk.com/en/students",
+        "status": "active"
+    },
+    {
+        "resource": "Antares",
+        "value": "75% off Auto-Tune tools",
+        "description": "Suite of professional vocal processing tools including Auto-Tune",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Audio",
+            "Music Production"
+        ],
+        "link": "https://www.studentbeans.com/student-discount/us/antares",
+        "status": "changed"
+    },
+    {
+        "resource": "Amtrak",
+        "value": "15% off train fares",
+        "description": "Save on train tickets across the US with a valid student ID",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Travel"
+        ],
+        "link": "https://www.amtrak.com/deals/student-discounts.html",
+        "status": "changed"
+    },
+    {
+        "resource": "Amazon Prime",
+        "value": "6-month free trial + 50% off",
+        "description": "Prime membership with streaming, delivery, and exclusive perks",
+        "tags": [
+            "Entertainment & Wellness",
+            "Trial",
+            "Streaming",
+            "Shopping"
+        ],
+        "link": "https://www.amazon.com/amazonprime",
+        "status": "changed"
+    },
+    {
+        "resource": "Alibaba Cloud",
+        "value": "Free cloud servers for students",
+        "description": "Alibabas cloud computing platform offering scalable cloud services",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Cloud Computing"
+        ],
+        "link": "https://www.alibabacloud.com/en/developer/students",
+        "status": "active"
+    },
+    {
+        "resource": "AlgoExpert",
+        "value": "Free questions + 10% off",
+        "description": "Practice coding problems and algorithms for interviews",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Coding Interview",
+            "Algorithms"
+        ],
+        "link": "https://www.algoexpert.io/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Akiflow",
+        "value": "Student access for $9.99/year",
+        "description": "Centralize tasks from every app into a single calendar view",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Calendar",
+            "Task Management"
+        ],
+        "link": "https://akiflow.com/pricing",
+        "status": "changed"
+    },
+    {
+        "resource": "Airtable",
+        "value": "Free access for 6\u201324 months",
+        "description": "Collaborative database platform for organizing and managing projects",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Database",
+            "Collaboration"
+        ],
+        "link": "https://support.airtable.com/docs/nonprofit-and-educational-plans-faqs",
+        "status": "changed"
+    },
+    {
+        "resource": "Air India",
+        "value": "Up to 10% off fares",
+        "description": "Airline offering special discounted fares for academic travelers",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Travel",
+            "Flights"
+        ],
+        "link": "https://www.airindia.com/in/en/book/exclusive-deals/student-flight-offer.html",
+        "status": "active"
+    },
+    {
+        "resource": "AiApply",
+        "value": "40% off Premium plan",
+        "description": "AI tools to auto-apply for jobs and generate tailored resumes",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "Career",
+            "Resume"
+        ],
+        "link": "https://aiapply.co/en-GB/students",
+        "status": "active"
+    },
+    {
+        "resource": "Affinity",
+        "value": "Free creative apps for everyone",
+        "description": "Professional photo, design, and layout apps free for everyone",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Photo Editing",
+            "Design"
+        ],
+        "link": "https://www.affinity.studio/",
+        "status": "active"
+    },
+    {
+        "resource": "Adidas",
+        "value": "15% off full-price items",
+        "description": "Exclusive student pricing on clothing, sneakers, and other accessories",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Fashion"
+        ],
+        "link": "https://www.myunidays.com/partners/adidas/view",
+        "status": "changed"
+    },
+    {
+        "resource": "Adafruit",
+        "value": "1 year Adafruit IO+ free",
+        "description": "Electronics platform for building smart hardware and IoT devices",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Hardware",
+            "IoT"
+        ],
+        "link": "https://www.adafruit.com/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "1Password",
+        "value": "1 year free + 50% off",
+        "description": "Manage passwords and sensitive credentials securely",
+        "tags": [
+            "Security & Privacy",
+            "Trial",
+            "Password Manager"
+        ],
+        "link": "https://1password.com/developers/students",
+        "status": "active"
+    },
+    {
+        "resource": "1001 TVs",
+        "value": "50% off first year",
+        "description": "Screen mirroring and sharing software for Mac and iOS",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Screen Sharing",
+            "macOS"
+        ],
+        "link": "https://www.1001tvs.com/education/",
+        "status": "active"
+    },
+    {
+        "resource": "1001 Record",
+        "value": "First year for $9.99",
+        "description": "Screen recorder for Mac with annotation features",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Screen Recording",
+            "macOS"
+        ],
+        "link": "https://1001record.com/educational-discount",
+        "status": "active"
+    },
+    {
+        "resource": "Fireflies",
+        "value": "10% off paid plans",
+        "description": "AI-powered notetaker that transcribes and summarizes meetings automatically",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "Meetings",
+            "Transcription"
+        ],
+        "link": "https://fireflies.ai/partnership",
+        "status": "active"
+    },
+    {
+        "resource": "Firecrawl",
+        "value": "1,000 free monthly credits",
+        "description": "AI-powered web scraping and data extraction platform",
+        "tags": [
+            "Developer Tools",
+            "Credit",
+            "Web Scraping",
+            "AI"
+        ],
+        "link": "https://www.firecrawl.dev/pricing",
+        "status": "changed"
+    },
+    {
+        "resource": "Exa AI",
+        "value": "$10 credits + $1000 grant",
+        "description": "Developer search API powered by AI with free starter credits",
+        "tags": [
+            "AI & Machine Learning",
+            "Grant",
+            "API",
+            "Search"
+        ],
+        "link": "https://exa.ai/pricing",
+        "status": "changed"
+    },
+    {
+        "resource": "Evernote",
+        "value": "40% off annual Advanced plan",
+        "description": "Note-taking and task management tool for organizing your work",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Notes"
+        ],
+        "link": "https://evernote.com/unidays",
+        "status": "changed"
+    },
+    {
+        "resource": "ESNcard",
+        "value": "\u20ac10\u2013\u20ac20 yearly membership",
+        "description": "Erasmus membership card offering global partner discounts and travel perks",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Travel",
+            "Student Benefits"
+        ],
+        "link": "https://esncard.org/",
+        "status": "active"
+    },
+    {
+        "resource": "Emirates",
+        "value": "Up to 10% off flights",
+        "description": "International airline with student discounts on flights.",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Travel",
+            "Flights"
+        ],
+        "link": "https://www.emirates.com/us/english/special-offers/student-special-fares/",
+        "status": "active"
+    },
+    {
+        "resource": "ElevenReader",
+        "value": "1 year Ultra free",
+        "description": "Turn notes and textbooks into natural AI audio and podcasts",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "Text To Speech",
+            "Audio"
+        ],
+        "link": "https://elevenreader.io/students",
+        "status": "changed"
+    },
+    {
+        "resource": "Educative",
+        "value": "6 months free + 30% off",
+        "description": "Interactive coding courses with browser-based environments",
+        "tags": [
+            "Learning & Courses",
+            "Trial",
+            "Coding",
+            "Programming"
+        ],
+        "link": "https://www.educative.io/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Dvina",
+        "value": "1 month Plus plan free",
+        "description": "Connects 120+ apps and live databases with AI for real-time answers",
+        "tags": [
+            "AI & Machine Learning",
+            "Trial",
+            "Automation",
+            "Database"
+        ],
+        "link": "https://dvina.ai/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "Duolingo",
+        "value": "1 week Super trial",
+        "description": "Learn 40+ languages through gamified lessons and challenges",
+        "tags": [
+            "Learning & Courses",
+            "Trial",
+            "Language Learning"
+        ],
+        "link": "https://www.duolingo.com/super",
+        "status": "active"
+    },
+    {
+        "resource": "Drime",
+        "value": "Free 500GB cloud storage",
+        "description": "500GB secure cloud storage for students and educators",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Cloud Storage"
+        ],
+        "link": "https://drime.cloud/solutions/education",
+        "status": "active"
+    },
+    {
+        "resource": "Doppler",
+        "value": "Free Team subscription",
+        "description": "Manage environment variables and secrets securely across teams",
+        "tags": [
+            "Security & Privacy",
+            "Free",
+            "Secrets Management",
+            "DevOps"
+        ],
+        "link": "https://www.doppler.com/secretsops-for-students",
+        "status": "active"
+    },
+    {
+        "resource": "DoorDash",
+        "value": "DashPass student plan discount",
+        "description": "$0 delivery fees on eligible orders (over $12), 5% credits back on pickup & exclusive promos",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Food Delivery"
+        ],
+        "link": "https://help.doordash.com/consumers/s/article/DashPass-for-Students",
+        "status": "active"
+    },
+    {
+        "resource": "DevCycle",
+        "value": "Free Starter plan for 1 year",
+        "description": "Feature flag management and rollout control for development teams",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Feature Flags",
+            "DevOps"
+        ],
+        "link": "https://devcycle.com/github-education",
+        "status": "active"
+    },
+    {
+        "resource": "Desearch",
+        "value": "$5 free API credits",
+        "description": "AI search APIs for web & Twitter/X data.",
+        "tags": [
+            "AI & Machine Learning",
+            "Credit",
+            "API",
+            "Search"
+        ],
+        "link": "https://www.desearch.ai/",
+        "status": "active"
+    },
+    {
+        "resource": "Dell",
+        "value": "Up to 10% off devices",
+        "description": "Laptops, monitors, and PCs with special student pricing",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Hardware",
+            "Laptops"
+        ],
+        "link": "https://www.dell.com/en-us/shop/deals/student-offer-deals",
+        "status": "active"
+    },
+    {
+        "resource": "DeepScan",
+        "value": "Free 6-month trial",
+        "description": "Detect and fix JavaScript code issues with static analysis",
+        "tags": [
+            "Developer Tools",
+            "Trial",
+            "JavaScript",
+            "Code Analysis"
+        ],
+        "link": "https://deepscan.io/github-student-pack/",
+        "status": "active"
+    },
+    {
+        "resource": "Deepnote",
+        "value": "Free Team plan access",
+        "description": "Collaborate in Jupyter notebooks for data and analytics work",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "Jupyter",
+            "Data Science"
+        ],
+        "link": "https://deepnote.com/github-student-pack",
+        "status": "active"
+    },
+    {
+        "resource": "Datadog",
+        "value": "10 servers free for 2 years",
+        "description": "Monitor infrastructure and logs in cloud applications",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Monitoring",
+            "DevOps"
+        ],
+        "link": "https://studentpack.datadoghq.com/",
+        "status": "active"
+    },
+    {
+        "resource": "DataCamp",
+        "value": "3 months free subscription",
+        "description": "Learn data and AI skills through interactive, guided practice",
+        "tags": [
+            "Learning & Courses",
+            "Trial",
+            "Data Science",
+            "AI"
+        ],
+        "link": "https://www.datacamp.com/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Dashlane",
+        "value": "6 months Premium free",
+        "description": "Store and autofill passwords securely across devices",
+        "tags": [
+            "Security & Privacy",
+            "Trial",
+            "Password Manager"
+        ],
+        "link": "https://www.dashlane.com/students",
+        "status": "changed"
+    },
+    {
+        "resource": "DailyBot",
+        "value": "Free Business plan for 6 months",
+        "description": "Automate daily standups and team check-ins across chat platforms",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Automation",
+            "Team Communication"
+        ],
+        "link": "https://www.dailybot.com/programs/github-students/",
+        "status": "active"
+    },
+    {
+        "resource": "Coveralls",
+        "value": "Free via GitHub Student Pack",
+        "description": "Code coverage tracking for GitHub repositories.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Code Coverage",
+            "GitHub"
+        ],
+        "link": "https://coveralls.io/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "ConfigCat",
+        "value": "Free Pro plan access",
+        "description": "Manage feature flags to control releases and experiments easily",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Feature Flags"
+        ],
+        "link": "https://configcat.com/student/",
+        "status": "active"
+    },
+    {
+        "resource": "CodeScene",
+        "value": "Free Student account",
+        "description": "Analyze code quality and identify technical debt in projects",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Code Analysis"
+        ],
+        "link": "https://codescene.com/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Codedex",
+        "value": "6 months premium Club free",
+        "description": "Gamified coding lessons to learn Python, web development and more",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Coding",
+            "Python"
+        ],
+        "link": "https://www.codedex.io/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Codecov",
+        "value": "Free for private repos",
+        "description": "Measure and track code coverage across test suites",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Code Coverage"
+        ],
+        "link": "https://about.codecov.io/for/education/",
+        "status": "active"
+    },
+    {
+        "resource": "Coda",
+        "value": "Free Pro or 80% off",
+        "description": "All-in-one workspace combining docs, tables, workflows, and AI",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Workspace",
+            "Collaboration"
+        ],
+        "link": "https://coda.io/solutions/role/students",
+        "status": "changed"
+    },
+    {
+        "resource": "Cloudflare",
+        "value": "1 year Workers plan free",
+        "description": "Serverless platform for building, deploying, and scaling applications",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Serverless",
+            "Hosting"
+        ],
+        "link": "https://www.cloudflare.com/students/",
+        "status": "active"
+    },
+    {
+        "resource": "CleanShot X",
+        "value": "30% educational discount",
+        "description": "Capture and annotate screenshots and screen recordings on Mac",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Screenshots",
+            "macOS"
+        ],
+        "link": "https://cleanshot.com/edu",
+        "status": "active"
+    },
+    {
+        "resource": "Clean Clip",
+        "value": "30% off with student email",
+        "description": "Fast clipboard manager for Mac with pinning and search features",
+        "tags": [
+            "Productivity & Collaboration",
+            "Discount",
+            "Clipboard",
+            "macOS"
+        ],
+        "link": "https://cleanclip.cc/students",
+        "status": "active"
+    },
+    {
+        "resource": "ChatGPT Go",
+        "value": "3 months free access",
+        "description": "OpenAI's ChatGPT Go plan with extended GPT-5 access, image generation & more.",
+        "tags": [
+            "AI & Machine Learning",
+            "Trial",
+            "Chatbot",
+            "OpenAI"
+        ],
+        "link": "https://www.bbva.mx/chatgpt.html",
+        "status": "active"
+    },
+    {
+        "resource": "Chaos",
+        "value": "Up to 80% off products",
+        "description": "Industry-leading rendering and visualization tools for 3D professionals",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "3D",
+            "Rendering"
+        ],
+        "link": "https://www.chaos.com/education/students",
+        "status": "active"
+    },
+    {
+        "resource": "CARTO",
+        "value": "2 years premium features free",
+        "description": "Analyze and visualize location data with interactive maps",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Maps",
+            "Analytics"
+        ],
+        "link": "https://docs.carto.com/faqs/carto-for-education",
+        "status": "active"
+    },
+    {
+        "resource": "Canva",
+        "value": "Free Canva for students",
+        "description": "Design platform for creating graphics, videos, and social media posts",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Graphic Design"
+        ],
+        "link": "https://www.canva.com/education/students/",
+        "status": "active"
+    },
+    {
+        "resource": "Camber",
+        "value": "Free student cloud resources",
+        "description": "Cloud platform for testing, computing, and analysis projects",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Cloud",
+            "Storage",
+            "LLM"
+        ],
+        "link": "https://www.cambercloud.com/github-student-pack",
+        "status": "active"
+    },
+    {
+        "resource": "Bubble",
+        "value": "30% off paid plans",
+        "description": "Full-stack platform to build web apps and AI agents without code",
+        "tags": [
+            "Developer Tools",
+            "Discount",
+            "No-Code",
+            "AI",
+            "Web Apps"
+        ],
+        "link": "https://bubble.io/pricing",
+        "status": "active"
+    },
+    {
+        "resource": "BrowserStack",
+        "value": "Free mobile plan 1 year",
+        "description": "Test websites on 2000+ real browsers and mobile devices",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Testing",
+            "Mobile",
+            "Browsers"
+        ],
+        "link": "https://www.browserstack.com/github-students",
+        "status": "active"
+    },
+    {
+        "resource": "Bootstrap Studio",
+        "value": "Free student license",
+        "description": "Drag-and-drop builder for responsive websites",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Web Design",
+            "Responsive Design"
+        ],
+        "link": "https://education.github.com/pack",
+        "status": "active"
+    },
+    {
+        "resource": "BoltAI",
+        "value": "50% off first year",
+        "description": "Native macOS AI assistant integrating GPT into your workflow",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "AI",
+            "macOS",
+            "Productivity"
+        ],
+        "link": "https://docs.boltai.com/docs/license",
+        "status": "active"
+    },
+    {
+        "resource": "Blockchair",
+        "value": "100K free API requests",
+        "description": "Access blockchain data and insights via public APIs",
+        "tags": [
+            "Web3 & Crypto",
+            "Free",
+            "Blockchain",
+            "API"
+        ],
+        "link": "https://blockchair.com/student-pack",
+        "status": "active"
+    },
+    {
+        "resource": "Blinkist",
+        "value": "40% off annual plan",
+        "description": "Bite-sized summaries of books and podcasts",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Books",
+            "Podcasts"
+        ],
+        "link": "https://www.studentbeans.com/student-discount/us/blinkist",
+        "status": "active"
+    },
+    {
+        "resource": "Blender",
+        "value": "Free open-source 3D software",
+        "description": "Free 3D modeling and animation software for design and VFX",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "3D",
+            "Animation",
+            "Open Source"
+        ],
+        "link": "https://www.blender.org/",
+        "status": "active"
+    },
+    {
+        "resource": "Blackfire",
+        "value": "Free developer subscription",
+        "description": "Profile code performance and identify bottlenecks in applications",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Performance",
+            "Profiling"
+        ],
+        "link": "https://www.blackfire.io/students",
+        "status": "changed"
+    },
+    {
+        "resource": "Blackbox AI",
+        "value": "80% off Pro first month",
+        "description": "AI code editor with autocomplete, chat, and agent features",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "AI",
+            "Code Editor"
+        ],
+        "link": "https://www.blackbox.ai/pricing",
+        "status": "changed"
+    },
+    {
+        "resource": "BlackBerry QNX",
+        "value": "Free academic license",
+        "description": "Real-time embedded operating system for automotive and industrial use",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Embedded Systems",
+            "Operating System"
+        ],
+        "link": "https://qnx.software/en/developers/get-started/qnx-everywhere",
+        "status": "active"
+    },
+    {
+        "resource": "Black Sheep Coffee",
+        "value": "20% student discount",
+        "description": "UK coffee chain with verified student drink discounts",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Coffee",
+            "Students"
+        ],
+        "link": "https://blacksheepcoffee.co.uk/pages/student-discount",
+        "status": "active"
+    },
+    {
+        "resource": "Bitbucket",
+        "value": "Free private repositories",
+        "description": "Git code repository with unlimited private repos and collaborators.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "Git",
+            "Repositories"
+        ],
+        "link": "https://bitbucket.org/product/education",
+        "status": "active"
+    },
+    {
+        "resource": "Beautiful.ai",
+        "value": "Free Pro subscription yearly",
+        "description": "Generative AI presentation maker for professional slides in minutes",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "AI",
+            "Presentations"
+        ],
+        "link": "https://www.beautiful.ai/education",
+        "status": "active"
+    },
+    {
+        "resource": "Basecamp",
+        "value": "Free student team accounts",
+        "description": "Project management tool for organizing tasks, teams, and communication",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Project Management",
+            "Collaboration"
+        ],
+        "link": "https://basecamp.com/discounts",
+        "status": "active"
+    },
+    {
+        "resource": "Babbel",
+        "value": "65% off language lessons",
+        "description": "Learn languages quickly with conversation-based lessons and review sessions",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Languages",
+            "Education"
+        ],
+        "link": "https://hosted-pages.id.me/babbel-student",
+        "status": "active"
+    },
+    {
+        "resource": "B&H Photo Video",
+        "value": "Student discounted pricing",
+        "description": "Retailer for professional photo, video, and creative gear",
+        "tags": [
+            "Entertainment & Wellness",
+            "Discount",
+            "Photography",
+            "Video"
+        ],
+        "link": "https://www.bhphotovideo.com/find/eduAdvantage.jsp",
+        "status": "active"
+    },
+    {
+        "resource": "Axure",
+        "value": "Free annual RP license",
+        "description": "Tool for creating interactive wireframes and high-fidelity prototypes",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Wireframing",
+            "Prototyping"
+        ],
+        "link": "https://www.axure.com/edu",
+        "status": "active"
+    },
+    {
+        "resource": "AWS Educate",
+        "value": "Free AWS learning tracks",
+        "description": "Self-paced cloud computing courses with labs and a student job board.",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Cloud",
+            "AWS"
+        ],
+        "link": "https://aws.amazon.com/education/awseducate/",
+        "status": "active"
+    },
+    {
+        "resource": "Avid Pro Tools",
+        "value": "Discounted education pricing",
+        "description": "Professional software for music production and sound engineering",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Audio",
+            "Music Production"
+        ],
+        "link": "https://www.avid.com/pro-tools/students",
+        "status": "active"
+    },
+    {
+        "resource": "Autodesk",
+        "value": "Free Autodesk student access",
+        "description": "Professional 3D design, modeling, and engineering software suite",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "3D Design",
+            "Engineering"
+        ],
+        "link": "https://www.autodesk.com/education/edu-software/overview",
+        "status": "active"
+    },
+    {
+        "resource": "ElevenLabs",
+        "value": "$55 AI student pack",
+        "description": "via ElevenLabs AI Student Pack (Vol. 1 Ended – Vol. 2 Coming Soon! – Join the waitlist now!)",
+        "tags": [
+            "AI & Machine Learning",
+            "Credit",
+            "AI",
+            "Voice AI"
+        ],
+        "link": "https://aistudentpack.com",
+        "status": "changed"
+    },
+    {
+        "resource": "Jio Gemini Bundle",
+        "value": "Free Gemini Pro bundle",
+        "description": "Get 18 months of free Gemini Pro and 2TB storage for eligible Jio users.",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "Gemini",
+            "Cloud Storage"
+        ],
+        "link": "https://www.jio.com/help/faq/mobile/offers/google-gemini-offer/",
+        "status": "active"
+    },
+    {
+        "resource": "Free Framer Pro",
+        "value": "Free Framer student access",
+        "description": "Framer is free for students! Just use your school email",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "UI Design",
+            "Web Design"
+        ],
+        "link": "https://www.framer.com/students/",
+        "status": "changed"
+    },
+    {
+        "resource": "Claude for Education",
+        "value": "Institutional AI education access",
+        "description": "Institutional AI access for universities; individual student credit programs are currently officially ended.",
+        "tags": [
+            "AI & Machine Learning",
+            "Trial",
+            "AI",
+            "Education"
+        ],
+        "link": "https://claude.ai/education",
+        "status": "changed"
+    },
+    {
+        "resource": "Microsoft Founders Hub",
+        "value": "$3500+ startup AI credits",
+        "description": "Access $2,500 in OpenAI credits plus $1,000 for Azure OpenAI Service startup projects.",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "AI",
+            "Azure",
+            "Startups"
+        ],
+        "link": "https://foundershub.startups.microsoft.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Google Colab (free compute)",
+        "value": "Free Colab student compute",
+        "description": "free with student email",
+        "tags": [
+            "AI & Machine Learning",
+            "Free",
+            "GPU",
+            "Python"
+        ],
+        "link": "https://colab.research.google.com/signup",
+        "status": "active"
+    },
+    {
+        "resource": "Screen Studio",
+        "value": "40% off annual plan",
+        "description": "40% off with student email",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Screen Recording",
+            "macOS"
+        ],
+        "link": "https://screen.studio/license/request-educational-discount",
+        "status": "changed"
+    },
+    {
+        "resource": "Free Heroku Hosting (2 Years)",
+        "value": "Free Heroku hosting 2 years",
+        "description": "2 years of hosting via Github Student Dev Pack",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Hosting",
+            "Heroku"
+        ],
+        "link": "https://education.github.com/pack",
+        "status": "active"
+    },
+    {
+        "resource": "Perplexity Education Pro",
+        "value": "50% off Pro plan",
+        "description": "Verified students get 50% off Pro ($10/month) for advanced research and unlimited file uploads.",
+        "tags": [
+            "AI & Machine Learning",
+            "Discount",
+            "AI",
+            "Research"
+        ],
+        "link": "https://www.perplexity.ai/hub/blog/perplexity-for-education",
+        "status": "active"
+    },
+    {
+        "resource": "Free GPU Credits",
+        "value": "$100k startup GPU credits",
+        "description": "Startups get $100k credits and 3 months free GPU access. Must have business email.",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "GPU",
+            "Startups"
+        ],
+        "link": "https://www.digitalocean.com/hatch",
+        "status": "active"
+    },
+    {
+        "resource": "Z Fellows",
+        "value": "$10k entrepreneur fellowship",
+        "description": "$10k grant & fellowship for young entrepreneurs",
+        "tags": [
+            "Learning & Courses",
+            "Grant",
+            "Fellowship",
+            "Mentorship"
+        ],
+        "link": "https://www.zfellows.com/",
+        "status": "active"
+    },
+    {
+        "resource": "Neo Scholars",
+        "value": "$40k CS fellowship grant",
+        "description": "Fellowship & grant for CS students",
+        "tags": [
+            "Learning & Courses",
+            "Grant",
+            "Fellowship",
+            "Mentorship"
+        ],
+        "link": "https://neo.com/scholars",
+        "status": "changed"
+    },
+    {
+        "resource": "Afore Capital Grants",
+        "value": "$1000 startup grant",
+        "description": "$1,000 non-dilutive grant",
+        "tags": [
+            "Learning & Courses",
+            "Grant",
+            "Startups",
+            "Mentorship"
+        ],
+        "link": "https://www.afore.vc/",
+        "status": "active"
+    },
+    {
+        "resource": "Notion Education Plus",
+        "value": "Free Notion Plus access",
+        "description": "Free Notion Plus for students; unlimited blocks and file uploads. Notion AI is now a paid-only add-on.",
+        "tags": [
+            "Productivity & Collaboration",
+            "Free",
+            "Notes",
+            "Collaboration"
+        ],
+        "link": "https://www.notion.so/help/notion-for-education",
+        "status": "active"
+    },
+    {
+        "resource": "GitHub Copilot",
+        "value": "Free Copilot for students",
+        "description": "Free for verified students via GitHub Student Developer Pack (Temporarily Paused for new sign-ups)",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "AI",
+            "Coding Assistant"
+        ],
+        "link": "https://github.com/features/copilot",
+        "status": "changed"
+    },
+    {
+        "resource": "Canva Pro for Campus",
+        "value": "Free Canva Pro access",
+        "description": "Free Canva Pro access for university students whose institutions have a campus-wide agreement.",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "Design",
+            "Presentations"
+        ],
+        "link": "https://www.canva.com/en_in/education/higher-education/",
+        "status": "active"
+    },
+    {
+        "resource": "JetBrains All Products Pack",
+        "value": "Free JetBrains tools",
+        "description": "Free professional developer tools for students",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "IDE",
+            "Programming"
+        ],
+        "link": "https://www.jetbrains.com/community/education/",
+        "status": "active"
+    },
+    {
+        "resource": "AWS Educate Credits",
+        "value": "$100 AWS student credits",
+        "description": "Access free hands-on labs and cloud career pathways without requiring a credit card.",
+        "tags": [
+            "Learning & Courses",
+            "Credit",
+            "AWS",
+            "Cloud"
+        ],
+        "link": "https://aws.amazon.com/education/awseducate/",
+        "status": "active"
+    },
+    {
+        "resource": "DigitalOcean Student Credits",
+        "value": "$200 cloud hosting credits",
+        "description": "Cloud hosting credits for students",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "Hosting",
+            "Cloud"
+        ],
+        "link": "https://www.digitalocean.com/github-students",
+        "status": "changed"
+    },
+    {
+        "resource": "Coursera Plus",
+        "value": "Discounted Coursera Plus access",
+        "description": "Discounted access to courses and certifications for students",
+        "tags": [
+            "Learning & Courses",
+            "Discount",
+            "Courses",
+            "Certifications"
+        ],
+        "link": "https://www.coursera.org/courseraplus",
+        "status": "active"
+    },
+    {
+        "resource": "MongoDB Atlas Credits",
+        "value": "$50 database credits",
+        "description": "Database credits for student developers",
+        "tags": [
+            "Developer Tools",
+            "Credit",
+            "Database",
+            "MongoDB"
+        ],
+        "link": "https://www.mongodb.com/students",
+        "status": "active"
+    },
+    {
+        "resource": "Unity Student Plan",
+        "value": "Free Unity student tools",
+        "description": "Free game development tools for students",
+        "tags": [
+            "Learning & Courses",
+            "Free",
+            "Game Development",
+            "Unity"
+        ],
+        "link": "https://unity.com/education",
+        "status": "active"
+    },
+    {
+        "resource": "Firecrawl Student Program",
+        "value": "Free website scraping credits",
+        "description": "Claim 20,000 free credits to scrape any website for your projects.",
+        "tags": [
+            "AI & Machine Learning",
+            "Credit",
+            "Web Scraping",
+            "API"
+        ],
+        "link": "https://www.firecrawl.dev/student-program",
+        "status": "changed"
+    },
+    {
+        "resource": "Free Landing Page Builder(Name.com)",
+        "value": "Free landing page builder",
+        "description": "Create and host professional landing pages for free using your student email.",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Landing Pages",
+            "Hosting"
+        ],
+        "link": "https://www.landingbuilder.live/",
+        "status": "active"
+    },
+    {
+        "resource": "Free Cursor Pro (1 Year)",
+        "value": "Free Cursor Pro yearly",
+        "description": "Get a free year of premium AI-powered coding features for your projects.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "AI",
+            "Code Editor"
+        ],
+        "link": "https://cursor.com/students",
+        "status": "active"
+    },
+    {
+        "resource": "Screen Studio",
+        "value": "40% off screen recorder",
+        "description": "Get 40% off the easiest screen recorder for stunning tutorial videos.",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Screen Recording",
+            "Video"
+        ],
+        "link": "https://screen.studio/license/request-educational-discount",
+        "status": "active"
+    },
+    {
+        "resource": "Free Figma Pro",
+        "value": "Free Figma Pro tools",
+        "description": "Free pro design tools and 3,000 monthly AI credits for students.",
+        "tags": [
+            "Design & Creative",
+            "Free",
+            "UI Design",
+            "Figma",
+            "AI"
+        ],
+        "link": "https://www.figma.com/education/",
+        "status": "active"
+    },
+    {
+        "resource": "Namecheap Student Bundle",
+        "value": "Free domain and SSL",
+        "description": "Get a free.me domain and SSL for your personal portfolio.",
+        "tags": [
+            "Cloud & Hosting",
+            "Free",
+            "Domain",
+            "SSL"
+        ],
+        "link": "https://nc.me/landing/github",
+        "status": "active"
+    },
+    {
+        "resource": "GitHub Student Developer Pack",
+        "value": "$200k+ developer tools",
+        "description": "Access the world's best free developer toolkit with thousands in professional software.",
+        "tags": [
+            "Developer Tools",
+            "Free",
+            "GitHub",
+            "Software"
+        ],
+        "link": "https://education.github.com/pack",
+        "status": "active"
+    },
+    {
+        "resource": "AWS Activate Founders",
+        "value": "Free AWS startup credits",
+        "description": "Get massive free cloud credits to build and launch your startup.",
+        "tags": [
+            "Cloud & Hosting",
+            "Credit",
+            "AWS",
+            "Startups"
+        ],
+        "link": "https://aws.amazon.com/activate/",
+        "status": "active"
+    },
+    {
+        "resource": "Adobe Creative Cloud",
+        "value": "71% off Creative Cloud",
+        "description": "Access 20+ professional creative apps including Photoshop and Premiere at massive discounts.",
+        "tags": [
+            "Design & Creative",
+            "Discount",
+            "Adobe",
+            "Creative Suite"
+        ],
+        "link": "https://www.adobe.com/creativecloud/buy/students.html",
+        "status": "changed"
+    },
+    {
+        "resource": "Superteam Crypto Grants",
+        "value": "Up to $10k grants",
+        "description": "Fast equity-free funding for building your own crypto apps and projects.",
+        "tags": [
+            "Web3 & Crypto",
+            "Grant",
+            "Crypto",
+            "Blockchain"
+        ],
+        "link": "https://superteam.fun/earn/grants",
+        "status": "active"
     }
-  ]
-}
+]

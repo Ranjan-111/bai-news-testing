@@ -9,11 +9,6 @@
     <meta name="keywords"
         content="student discounts, free resources, AI credits, student courses, bitfeed, education, savings" />
     <meta name="author" content="Bitfeed" />
-    <meta property="og:image" content="https://bitfeed.in/assets/favicon.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Free Student Resources & Discounts - Bitfeed" />
-    <meta name="twitter:description" content="Access free student resources, exclusive discounts, and credits." />
-    <meta name="twitter:image" content="https://bitfeed.in/assets/favicon.png" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://bitfeed.in/students/resources/" />
 
@@ -24,21 +19,8 @@
     <meta property="og:type" content="website" />
 
     <title>Free Student Resources & Discounts - Bitfeed</title>
-
-    <!-- Inline Critical CSS (prevents FOUC) -->
-    <style>
-        body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -ms-overflow-style: none; scrollbar-width: none; }
-        body::-webkit-scrollbar { display: none; }
-        #global-header, header#global-header { position: sticky; top: 0; z-index: 1000; width: 100vw; min-height: 67px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); }
-        @media (max-width: 550px) { #global-header, header#global-header { min-height: 50px; } }
-        .main-container { flex: 1 0 auto; }
-        footer, #global-footer, footer#global-footer { flex-shrink: 0; }
-        a { text-decoration: none; color: black; }
-        .hidden { display: none !important; }
-    </style>
-
+    <link rel="stylesheet" href="resources.css">
     <link rel="stylesheet" href="/layout/layout.css">
-    <link rel="stylesheet" href="/students/resources/resources.css">
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="apple-touch-icon" href="/assets/favicon.png">
 
@@ -104,50 +86,17 @@
             </ol>
         </nav>
 
-        <!-- ═══════════════════════════════════════
-             FILTER BAR — Categories + Value Types + Search
-             ═══════════════════════════════════════ -->
-        <div class="filter-bar" id="filter-bar">
-
-            <!-- Category Navigation Tabs -->
-            <nav class="category-tabs" id="category-tabs" aria-label="Resource Categories">
-                <button class="tab-btn active" data-category="all" id="tab-all" aria-label="Show all resources">All</button>
-                <button class="tab-btn" data-category="Developer Tools" id="tab-dev" aria-label="Developer Tools">Dev Tools</button>
-                <button class="tab-btn" data-category="Cloud & Hosting" id="tab-cloud" aria-label="Cloud & Hosting">Cloud</button>
-                <button class="tab-btn" data-category="AI & Machine Learning" id="tab-ai" aria-label="AI & Machine Learning">AI & ML</button>
-                <button class="tab-btn" data-category="Design & Creative" id="tab-design" aria-label="Design & Creative">Design</button>
-                <button class="tab-btn" data-category="Learning & Courses" id="tab-learn" aria-label="Learning & Courses">Learning</button>
-                <button class="tab-btn" data-category="Productivity & Collaboration" id="tab-prod" aria-label="Productivity & Collaboration">Productivity</button>
-                <button class="tab-btn" data-category="Security & Privacy" id="tab-sec" aria-label="Security & Privacy">Security</button>
-                <button class="tab-btn" data-category="Entertainment & Wellness" id="tab-life" aria-label="Entertainment & Wellness">Lifestyle</button>
-                <button class="tab-btn" data-category="Web3 & Crypto" id="tab-web3" aria-label="Web3 & Crypto">Web3</button>
-            </nav>
-
-            <!-- Value-Type Filter Chips -->
-            <div class="value-chips-row" id="value-chips-row">
-                <span class="value-chips-label">Filter by:</span>
-                <button class="value-chip" data-value="Free" id="chip-free">Free</button>
-                <button class="value-chip" data-value="Discount" id="chip-discount">Discount</button>
-                <button class="value-chip" data-value="Trial" id="chip-trial">Trial</button>
-                <button class="value-chip" data-value="Credit" id="chip-credit">Credit</button>
-                <button class="value-chip" data-value="Grant" id="chip-grant">Grant</button>
-            </div>
-
-            <!-- Search + Result Count -->
-            <div class="search-results-row">
-                <div class="search-input-wrapper">
-                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <input type="text" class="search-input" id="search-input"
-                        placeholder="Search resources..." aria-label="Search resources">
-                </div>
-                <div class="results-info" id="results-info">
-                    Showing <span id="results-count">0</span> resources
-                </div>
-            </div>
+        <div style="display: none;" class="value-summary">
+            Total Value: <span id="total-value">$0</span>
         </div>
+
+        <!-- Category Navigation Tabs -->
+        <nav class="category-tabs" aria-label="Resource Categories">
+            <button class="tab-btn active" data-category="credits" aria-label="View Credit Resources">Credit</button>
+            <button class="tab-btn" data-category="discounts" aria-label="View Discount Resources">Discounts</button>
+            <button class="tab-btn" data-category="courses" aria-label="View Course Resources">Courses
+                (Selected)</button>
+        </nav>
 
         <!-- Resources Table Container -->
         <section class="resources-section">
@@ -170,8 +119,7 @@
             </table>
 
             <div class="no-results" id="no-results" style="display: none;">
-                <div class="no-results-icon">🔍</div>
-                <p>No resources found matching your filters.</p>
+                <p>No resources found in this category.</p>
             </div>
 
             <noscript>
@@ -207,7 +155,7 @@
     <footer id="global-footer"></footer>
 
     <script defer type="module" src="/layout/layout.js"></script>
-    <script defer src="/students/resources/resources.js"></script>
+    <script defer src="resources.js"></script>
 
 </body>
 

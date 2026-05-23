@@ -660,16 +660,36 @@ window.toggleEditMode = function () {
         const editImgContainer = document.getElementById('edit-img-suggest-options');
         if (editImgContainer) {
             editImgContainer.innerHTML = ''; // Clear previous
-            IMG_TAGS_DATA.forEach(tag => {
-                const id = 'edit-suggest-' + tag.name.toLowerCase().replace(/\s+/g, '-');
-                const div = document.createElement('div');
-                div.className = 'img-suggest-option';
-                div.innerHTML = `
-                    <input type="radio" name="edit-img-suggest" id="${id}" value="${tag.path}" data-tag="${tag.name}">
-                    <label for="${id}">${tag.name}</label>
-                `;
-                editImgContainer.appendChild(div);
-            });
+
+            // Group tags by category
+            const companyTags = IMG_TAGS_DATA.filter(t => t.category === 'company');
+            const domainTags = IMG_TAGS_DATA.filter(t => t.category === 'domain');
+
+            function renderEditTagGroup(tags, label, container) {
+                const group = document.createElement('div');
+                group.className = 'img-tag-category-group';
+
+                const categoryLabel = document.createElement('div');
+                categoryLabel.className = 'img-tag-category-label';
+                categoryLabel.textContent = label;
+                group.appendChild(categoryLabel);
+
+                tags.forEach(tag => {
+                    const id = 'edit-suggest-' + tag.name.toLowerCase().replace(/\s+/g, '-');
+                    const div = document.createElement('div');
+                    div.className = 'img-suggest-option';
+                    div.innerHTML = `
+                        <input type="radio" name="edit-img-suggest" id="${id}" value="${tag.path}" data-tag="${tag.name}">
+                        <label for="${id}">${tag.name}</label>
+                    `;
+                    group.appendChild(div);
+                });
+
+                container.appendChild(group);
+            }
+
+            renderEditTagGroup(companyTags, 'Company:', editImgContainer);
+            renderEditTagGroup(domainTags, 'Domain:', editImgContainer);
         }
 
         // Reset radios

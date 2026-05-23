@@ -1,4 +1,4 @@
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";import { app } from '/Article/firebase-db.js'; 
+import { getFirestore, doc, setDoc, getDoc, updateDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";import { app } from '/Article/firebase-db.js'; 
 
 const db = getFirestore(app);
 
@@ -16,25 +16,35 @@ export async function saveUserToDB(user, subscribedToNewsletter) {
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
-            // UPDATE EXISTING READER
+            // UPDATE EXISTING USER — ONLY touch safe fields, NEVER touch role
             const existingData = userSnap.data();
             
-            // Logic: If they were 'guest', upgrade to 'reader'. Otherwise keep existing role (e.g. 'reader' or 'admin')
-            const currentRole = existingData.role === 'guest' ? 'reader' : existingData.role;
-
-            await setDoc(userRef, {
-                uid: user.uid, 
-                email: cleanEmail,
-                displayName: user.displayName || existingData.displayName || "Anonymous",
-                photoURL: user.photoURL || existingData.photoURL || "/assets/default-user.png",
-                authProvider: user.providerData[0]?.providerId || "anonymous/otp",
-                role: currentRole, 
+            // Build update payload — role is NEVER overwritten (prevents admin/author → reader bug)
+            const updatePayload = {
                 lastLogin: serverTimestamp(),
-                // Keep subscription unless changed
-                isNewsletterSubscribed: subscribedToNewsletter || existingData.isNewsletterSubscribed || false
-            }, { merge: true });
+            };
+            
+            // Only update display info if Firebase provides better data
+            if (user.displayName && user.displayName !== "Anonymous") {
+                updatePayload.displayName = user.displayName;
+            }
+            if (user.photoURL) {
+                updatePayload.photoURL = user.photoURL;
+            }
+            
+            // Upgrade guest → reader (the ONLY safe role transition on login)
+            if (existingData.role === 'guest') {
+                updatePayload.role = 'reader';
+            }
+            
+            // Only update newsletter if explicitly subscribing (not on regular login)
+            if (subscribedToNewsletter === true) {
+                updatePayload.isNewsletterSubscribed = true;
+            }
+            
+            await updateDoc(userRef, updatePayload);
 
-            console.log(`✅ Reader Updated: ${currentRole}`);
+            console.log(`✅ User Updated (role preserved: ${existingData.role})`);
         } else {
             // CREATE NEW READER
             await setDoc(userRef, {

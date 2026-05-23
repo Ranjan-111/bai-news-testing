@@ -81,18 +81,6 @@ a { text-decoration: none; color: var(--color-text); }
   padding: 0 1rem;
 }
 
-@media (max-width: 568px) {
-  .main-container { width: 95%; padding: 0 0.3rem; }
-}
-
-
-/* ============================================================
-   Filter Bar — Wrapper for all filter controls
-   ============================================================ */
-.filter-bar {
-  margin-bottom: 1.5rem;
-}
-
 
 /* ============================================================
    Category Tabs
@@ -103,22 +91,14 @@ a { text-decoration: none; color: var(--color-text); }
 .category-tabs {
   display: flex;
   gap: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 50px;
   border-bottom: 2px solid var(--color-border);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.category-tabs::-webkit-scrollbar {
-  display: none;
 }
 
 .tab-btn {
-  padding: 1rem 2rem;
+  padding: 1rem 2.5rem;
   font-family: var(--font-system);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 400;
   background-color: transparent;
   border: none;
@@ -128,8 +108,6 @@ a { text-decoration: none; color: var(--color-text); }
   color: var(--color-text-muted);
   position: relative;
   bottom: -2px; /* overlaps the container border to create a flush underline */
-  white-space: nowrap;
-  flex-shrink: 0;
 }
 
 .tab-btn:hover { color: #333; }
@@ -138,136 +116,6 @@ a { text-decoration: none; color: var(--color-text); }
   color: var(--color-tab-active);
   border-bottom: 1.5px solid var(--color-tab-active);
   font-weight: 500;
-}
-
-/* Tab count badge */
-.tab-count {
-  display: inline-block;
-  margin-left: 0.3rem;
-  font-size: 0.78rem;
-  font-weight: 400;
-  opacity: 0.55;
-}
-
-.tab-btn.active .tab-count {
-  opacity: 0.75;
-}
-
-
-/* ============================================================
-   Value-Type Chips
-   Small outlined toggle chips for secondary filtering.
-   Multiple can be active at once (OR logic).
-   ============================================================ */
-.value-chips-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.85rem;
-  flex-wrap: wrap;
-}
-
-.value-chips-label {
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  margin-right: 0.25rem;
-  white-space: nowrap;
-}
-
-.value-chip {
-  padding: 0.35rem 0.9rem;
-  font-family: var(--font-system);
-  font-size: 0.82rem;
-  font-weight: 450;
-  background-color: transparent;
-  border: 1.5px solid #d0d0d0;
-  border-radius: 100px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--color-text-muted);
-  white-space: nowrap;
-}
-
-.value-chip:hover {
-  border-color: #c49090;
-  color: var(--color-red-dark);
-  background-color: #fdf5f5;
-}
-
-.value-chip.active {
-  background-color: #f5e5e5;
-  border-color: var(--color-red-dark);
-  color: var(--color-red-dark);
-  font-weight: 500;
-}
-
-
-/* ============================================================
-   Search & Results Info Row
-   ============================================================ */
-.search-results-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1.1rem;
-  margin-bottom: 1.5rem;
-}
-
-.search-input-wrapper {
-  position: relative;
-  flex: 1;
-  max-width: 320px;
-}
-
-.search-input-wrapper svg {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-  stroke: #999;
-  fill: none;
-  pointer-events: none;
-}
-
-.search-input {
-  width: 100%;
-  padding: 0.6rem 0.75rem 0.6rem 2.3rem;
-  font-family: var(--font-system);
-  font-size: 0.9rem;
-  border: 1.5px solid var(--color-border);
-  border-radius: 8px;
-  outline: none;
-  background-color: #fafafa;
-  color: var(--color-text);
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-  box-sizing: border-box;
-}
-
-.search-input:focus {
-  border-color: #c49090;
-  background-color: #fff;
-}
-
-.search-input::placeholder {
-  color: #bbb;
-  font-weight: 300;
-}
-
-.results-info {
-  font-size: 0.85rem;
-  color: var(--color-text-faint);
-  font-weight: 400;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.results-info span {
-  font-weight: 600;
-  color: var(--color-red-dark);
 }
 
 
@@ -287,11 +135,11 @@ a { text-decoration: none; color: var(--color-text); }
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-system);
-  animation: fadeIn 0.4s ease-in;
+  animation: fadeIn 0.5s ease-in;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -304,12 +152,13 @@ a { text-decoration: none; color: var(--color-text); }
   color: var(--color-table-head-text);
   text-transform: capitalize;
   background-color: #e8c5c5;
+
 }
 
-/* Column widths — value column increased to 20% */
+/* Column widths */
 .resources-table thead th:nth-child(1) { width: 22%; }
-.resources-table thead th:nth-child(2) { width: 20%; }
-.resources-table thead th:nth-child(3) { width: 43%; }
+.resources-table thead th:nth-child(2) { width: 15%; }
+.resources-table thead th:nth-child(3) { width: 48%; }
 .resources-table thead th:nth-child(4) { width: 15%; }
 
 .resources-table thead th:nth-child(3) {
@@ -337,12 +186,12 @@ a { text-decoration: none; color: var(--color-text); }
   width: 22%;
 }
 
-/* Col 2 — Value / price (white, bold) — wider */
+/* Col 2 — Value / price (white, bold) */
 .resources-table tbody td:nth-child(2) {
   background-color: var(--color-table-row-gap);
   font-weight: 700;
-  font-size: 1.2rem;
-  width: 20%;
+  font-size: 1.25rem;
+  width: 15%;
 }
 
 /* Col 3 — Description (white) */
@@ -350,7 +199,7 @@ a { text-decoration: none; color: var(--color-text); }
   background-color: var(--color-table-row-gap);
   font-size: 1rem;
   line-height: 1.5;
-  width: 43%;
+  width: 48%;
 }
 
 /* Col 4 — Apply link (soft red, centred) */
@@ -369,24 +218,6 @@ a { text-decoration: none; color: var(--color-text); }
 
 .apply-link:hover { color: var(--color-red); }
 
-/* Status badge on resource name */
-.status-badge {
-  display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04rem;
-  padding: 0.15rem 0.45rem;
-  border-radius: 3px;
-  margin-left: 0.4rem;
-  vertical-align: middle;
-}
-
-.status-badge.changed {
-  background-color: #fff3cd;
-  color: #856404;
-}
-
 
 /* ============================================================
    Loading & Empty States
@@ -398,12 +229,6 @@ a { text-decoration: none; color: var(--color-text); }
   font-family: var(--font-body);
   font-size: 1.2rem;
   color: var(--color-text-faint);
-}
-
-.no-results-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  opacity: 0.5;
 }
 
 
@@ -500,21 +325,13 @@ a { text-decoration: none; color: var(--color-text); }
 @media (max-width: 768px) {
   .main-container { width: 95%; }
 
-  /* Category tabs scroll horizontally */
-  .tab-btn { padding: 0.9rem 1.3rem; font-size: 0.95rem; }
-
-  /* Value chips */
-  .value-chips-row { gap: 0.4rem; }
-  .value-chip { padding: 0.3rem 0.7rem; font-size: 0.78rem; }
-
-  /* Search row */
-  .search-results-row { flex-direction: column; align-items: stretch; gap: 0.6rem; }
-  .search-input-wrapper { max-width: 100%; }
-  .results-info { text-align: right; }
+  /* Allow tabs to scroll horizontally without wrapping */
+  .category-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tab-btn       { padding: 0.9rem 1.5rem; font-size: 1rem; white-space: nowrap; }
 
   .resources-table thead th          { padding: 1rem 0.8rem;   font-size: 1rem; }
   .resources-table tbody td          { padding: 1.2rem 0.8rem; font-size: 0.95rem; }
-  .resources-table tbody td:nth-child(2) { font-size: 1.05rem; }
+  .resources-table tbody td:nth-child(2) { font-size: 1.1rem; }
   .resources-table tbody td:nth-child(3) { font-size: 0.9rem; }
   .apply-link                        { font-size: 0.95rem; }
 
@@ -526,11 +343,6 @@ a { text-decoration: none; color: var(--color-text); }
 
 /* Small mobile */
 @media (max-width: 480px) {
-  .tab-btn { padding: 0.7rem 1rem; font-size: 0.85rem; }
-  .tab-count { font-size: 0.7rem; }
-
-  .value-chips-label { font-size: 0.75rem; }
-
   .pagination-bar {
     padding: 1rem 0 1.25rem;
     background: linear-gradient(to top, #f9fafb 90%, transparent);

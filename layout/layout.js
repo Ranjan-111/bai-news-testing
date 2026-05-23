@@ -720,15 +720,7 @@ const layoutHTML = `
     <div class="search-wrapper">
         <div id="search-results-box" class="search-results-box"></div>
         <div class="filter-options-container" id="filter-options-container">
-                <!-- Dynamically loaded from /assets/tags/img-tags.json -->
-            <div class="filter-tag">
-                <input type="checkbox" id="filter-google" name="filter-tags" value="google">
-                <label for="filter-google">Google</label>
-            </div>
-            <div class="filter-tag">
-                <input type="checkbox" id="filter-ai-agents" name="filter-tags" value="ai agents">
-                <label for="filter-ai-agents">AI Agents</label>
-            </div>
+                <!-- Dynamically loaded from JSON -->
         </div>
         <div class="search-popup-container" id="search-popup-container">
             <input type="text" placeholder="Search..." id="searchInput" class="search-input">
@@ -872,26 +864,49 @@ export function initSearchLogic() {
     const searchInput = document.getElementById('searchInput');
     const resultsBox = document.getElementById('search-results-box');
 
-    // Dynamically populate filter tags from JSON
+    // Dynamically populate filter tags from BOTH JSON sources
     const dynamicFilterContainer = document.getElementById('filter-options-container');
     if (dynamicFilterContainer) {
         try {
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', '/assets/tags/img-tags.json', false); // synchronous to ensure DOM is ready before querying checkboxes
-            xhr.send();
-            if (xhr.status === 200) {
-                const imgTags = JSON.parse(xhr.responseText);
-                imgTags.forEach(tag => {
-                    const id = 'filter-' + tag.name.toLowerCase().replace(/\s+/g, '-');
-                    const div = document.createElement('div');
-                    div.className = 'filter-tag';
-                    div.innerHTML = `
-                        <input type="checkbox" id="${id}" name="filter-tags" value="${tag.name.toLowerCase()}">
-                        <label for="${id}">${tag.name}</label>
-                    `;
-                    dynamicFilterContainer.appendChild(div);
-                });
-            }
+            // 1. Load img-tags.json (synchronous for DOM readiness)
+            const xhr1 = new XMLHttpRequest();
+            xhr1.open('GET', '/assets/tags/img-tags.json', false);
+            xhr1.send();
+            const imgTags = xhr1.status === 200 ? JSON.parse(xhr1.responseText) : [];
+
+            // 2. Load tag-suggestions.json
+            const xhr2 = new XMLHttpRequest();
+            xhr2.open('GET', '/assets/tags/tag-suggestions.json', false);
+            xhr2.send();
+            const tagSuggestions = xhr2.status === 200 ? JSON.parse(xhr2.responseText) : [];
+
+            // 3. Build a deduplicated set of all tag names (lowercase for value, original for display)
+            const tagMap = new Map(); // key = lowercase name, value = display name
+
+            // Add img-tags first
+            imgTags.forEach(tag => {
+                tagMap.set(tag.name.toLowerCase(), tag.name);
+            });
+
+            // Add tag-suggestions (skip if already present from img-tags)
+            tagSuggestions.forEach(tagName => {
+                const key = tagName.toLowerCase();
+                if (!tagMap.has(key)) {
+                    tagMap.set(key, tagName);
+                }
+            });
+
+            // 4. Render all tags as filter checkboxes (NO category labels)
+            tagMap.forEach((displayName, lowerName) => {
+                const id = 'filter-' + lowerName.replace(/\s+/g, '-');
+                const div = document.createElement('div');
+                div.className = 'filter-tag';
+                div.innerHTML = `
+                    <input type="checkbox" id="${id}" name="filter-tags" value="${lowerName}">
+                    <label for="${id}">${displayName}</label>
+                `;
+                dynamicFilterContainer.appendChild(div);
+            });
         } catch (e) { console.error('Error loading filter tags:', e); }
     }
 

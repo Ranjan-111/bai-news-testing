@@ -73,24 +73,42 @@ document.addEventListener('DOMContentLoaded', async () => {
             IMAGE_TAG_MAP[tag.name] = tag.path;
         });
 
-        // Render radio buttons
-        IMG_TAGS_DATA.forEach(tag => {
-            const id = 'suggest-' + tag.name.toLowerCase().replace(/\s+/g, '-');
-            const div = document.createElement('div');
-            div.className = 'img-suggest-option';
-            div.innerHTML = `
-                <input type="radio" name="img-suggest" id="${id}" value="${tag.path}" data-tag="${tag.name}">
-                <label for="${id}">${tag.name}</label>
-            `;
-            imgSuggestContainer.appendChild(div);
+        // Group tags by category
+        const companyTags = IMG_TAGS_DATA.filter(t => t.category === 'company');
+        const domainTags = IMG_TAGS_DATA.filter(t => t.category === 'domain');
 
-            // Attach preview listener
-            div.querySelector('input').addEventListener('change', (e) => {
-                imgPreview.src = e.target.value;
-                imgPreview.classList.remove('hidden');
-                noImgText.style.display = 'none';
+        function renderTagGroup(tags, label, container) {
+            const group = document.createElement('div');
+            group.className = 'img-tag-category-group';
+
+            const categoryLabel = document.createElement('div');
+            categoryLabel.className = 'img-tag-category-label';
+            categoryLabel.textContent = label;
+            group.appendChild(categoryLabel);
+
+            tags.forEach(tag => {
+                const id = 'suggest-' + tag.name.toLowerCase().replace(/\s+/g, '-');
+                const div = document.createElement('div');
+                div.className = 'img-suggest-option';
+                div.innerHTML = `
+                    <input type="radio" name="img-suggest" id="${id}" value="${tag.path}" data-tag="${tag.name}">
+                    <label for="${id}">${tag.name}</label>
+                `;
+                group.appendChild(div);
+
+                // Attach preview listener
+                div.querySelector('input').addEventListener('change', (e) => {
+                    imgPreview.src = e.target.value;
+                    imgPreview.classList.remove('hidden');
+                    noImgText.style.display = 'none';
+                });
             });
-        });
+
+            container.appendChild(group);
+        }
+
+        renderTagGroup(companyTags, 'Company:', imgSuggestContainer);
+        renderTagGroup(domainTags, 'Domain:', imgSuggestContainer);
     } catch (e) { console.error('Error loading image tags:', e); }
 
     // 2c. TAG SUGGESTIONS (dynamic via typing)

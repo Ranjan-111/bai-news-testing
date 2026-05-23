@@ -424,6 +424,10 @@ TxtType.prototype.tick = function () {
 
     // Convert dots to red spans
     let displayTxt = this.txt.replace(/\./g, '<span class="red-dot">.</span>');
+    // Wrap individual words in spans for mobile vertical layout (only for non-dot text)
+    if (!this.txt.includes('.')) {
+        displayTxt = this.txt.split(' ').map(w => w ? '<span class="tw-word">' + w + '</span>' : '').join(' ');
+    }
     this.el.innerHTML = '<span class="wrap">' + displayTxt + '</span>';
 
     var that = this;

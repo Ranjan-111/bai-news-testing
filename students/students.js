@@ -9,11 +9,12 @@ async function loadStudentResources() {
         const response = await fetch('/students/resources/resources-data.json');
         const data = await response.json();
 
-        // 1. Filter by a specific tag (e.g., 'credits')
-        // 2. Use .slice(-3) to get the LAST 3 items
-        // 3. .reverse() if you want the very latest item at the top
-        const latestResources = data.all_items
-            .filter(item => item.tags.includes('credits'))
+        // Handle both flat array and { all_items: [...] } formats
+        const items = Array.isArray(data) ? data : (data.all_items || []);
+
+        // Show the 5 most recent resources with Credit value-type
+        const latestResources = items
+            .filter(item => item.tags && item.tags.includes('Credit'))
             .slice(-5)
             .reverse();
 

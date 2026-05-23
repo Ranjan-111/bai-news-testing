@@ -1034,7 +1034,7 @@ h3 {
   }
 
   .name {
-    text-align: left;
+    text-align: center;
     display: flex;
     justify-content: center;
   }
@@ -1047,6 +1047,10 @@ h3 {
   .typewrite .red-dot::after {
     content: "\A";
     white-space: pre;
+  }
+
+  .typewrite .tw-word {
+    display: block;
   }
 
   #team {

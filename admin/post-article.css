@@ -205,6 +205,24 @@ label {
   color: #fff;
 }
 
+/* ── Image Tag Category Labels ── */
+.img-tag-category-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.img-tag-category-label {
+  font-size: 0.8rem;
+  color: #888;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
+  text-transform: capitalize;
+}
+
 /* ============================================================
    Company Tags (Secondary Tag)
    Checkbox buttons styled similarly — max 2 enforced by JS.
