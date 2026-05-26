@@ -12,10 +12,10 @@ async function loadStudentResources() {
         // Handle both flat array and { all_items: [...] } formats
         const items = Array.isArray(data) ? data : (data.all_items || []);
 
-        // Show the 5 most recent resources with Credit value-type
+        // Show the 4 most recent resources with credits tag
         const latestResources = items
-            .filter(item => item.tags && item.tags.includes('Credit'))
-            .slice(-5)
+            .filter(item => item.tags && item.tags.includes('credits'))
+            .slice(-4)
             .reverse();
 
         tableBody.innerHTML = '';

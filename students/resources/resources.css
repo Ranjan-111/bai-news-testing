@@ -96,19 +96,19 @@ a { text-decoration: none; color: var(--color-text); }
 
 /* ============================================================
    Category Tabs
-   Horizontally scrollable on mobile. The active tab gets a
-   red underline that sits flush on the shared border-bottom
-   by using position: relative; bottom: -2px.
+   Horizontally scrollable on mobile. Uses a sliding indicator
+   bar that sits flush ON the shared border-bottom line.
    ============================================================ */
 .category-tabs {
   display: flex;
   gap: 0;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  position: relative;
 }
 
 .category-tabs::-webkit-scrollbar {
@@ -122,12 +122,10 @@ a { text-decoration: none; color: var(--color-text); }
   font-weight: 400;
   background-color: transparent;
   border: none;
-  border-bottom: 3px solid transparent;
   cursor: pointer;
-  transition: all var(--transition-slow);
+  transition: color var(--transition-slow), font-weight 0.15s ease;
   color: var(--color-text-muted);
   position: relative;
-  bottom: -2px; /* overlaps the container border to create a flush underline */
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -136,8 +134,22 @@ a { text-decoration: none; color: var(--color-text); }
 
 .tab-btn.active {
   color: var(--color-tab-active);
-  border-bottom: 1.5px solid var(--color-tab-active);
   font-weight: 500;
+}
+
+/* Sliding underline indicator — sits ON the grey border, covering it */
+.tab-indicator {
+  position: absolute;
+  bottom: -2px;  /* push down to overlap the border-bottom of .category-tabs */
+  left: 0;
+  height: 3px;   /* slightly thicker than the 2px grey border so it fully covers it */
+  background-color: var(--color-tab-active);
+  border-radius: 0;
+  transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  will-change: left, width;
+  z-index: 1;
 }
 
 /* Tab count badge */

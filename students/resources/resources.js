@@ -16,18 +16,13 @@ let centerPage = 1;
 // Category mapping: tab data-category values
 const CATEGORIES = [
     'all',
-    'Developer Tools',
-    'Cloud & Hosting',
-    'AI & Machine Learning',
-    'Design & Creative',
-    'Learning & Courses',
-    'Productivity & Collaboration',
-    'Security & Privacy',
-    'Entertainment & Wellness',
-    'Web3 & Crypto'
+    'software',
+    'credits',
+    'api credits',
+    'courses'
 ];
 
-const VALUE_TYPES = ['Free', 'Discount', 'Trial', 'Credit', 'Grant'];
+const VALUE_TYPES = ['free', 'discount', 'trial'];
 
 // ──────────────────────────────────────────────
 //  DOM Elements
@@ -40,6 +35,7 @@ const resultsCount = document.getElementById('results-count');
 const searchInput = document.getElementById('search-input');
 const categoryTabs = document.querySelectorAll('.tab-btn');
 const valueChips = document.querySelectorAll('.value-chip');
+const tabIndicator = document.getElementById('tab-indicator');
 
 
 // ──────────────────────────────────────────────
@@ -51,6 +47,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupValueChipListeners();
     setupSearchListener();
     setupKeyboardNav();
+
+    // Position indicator on initial active tab
+    moveIndicator();
+
+    // Reposition on window resize
+    window.addEventListener('resize', moveIndicator);
 });
 
 
@@ -116,6 +118,9 @@ function setupCategoryListeners() {
             activeCategory = tab.getAttribute('data-category');
             resetPagination();
             applyFilters();
+
+            // Slide the indicator to the new tab
+            moveIndicator();
 
             // Ensure tab is visible on mobile
             tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -195,8 +200,29 @@ function switchToCategory(category) {
         }
     });
 
+    moveIndicator();
     resetPagination();
     applyFilters();
+}
+
+
+// ──────────────────────────────────────────────
+//  Sliding Indicator — moves under the active tab
+// ──────────────────────────────────────────────
+function moveIndicator() {
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (!activeTab || !tabIndicator) return;
+
+    const nav = document.getElementById('category-tabs');
+    const navRect = nav.getBoundingClientRect();
+    const tabRect = activeTab.getBoundingClientRect();
+
+    // Calculate position relative to the nav container (accounts for scroll)
+    const left = tabRect.left - navRect.left + nav.scrollLeft;
+    const width = tabRect.width;
+
+    tabIndicator.style.left = left + 'px';
+    tabIndicator.style.width = width + 'px';
 }
 
 
