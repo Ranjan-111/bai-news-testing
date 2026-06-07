@@ -1,0 +1,588 @@
+/* ============================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-bg:             #ffffff;
+  --color-text:           #000000;
+  --color-text-muted:     #666;
+  --color-text-faint:     #888;
+  --color-border:         #e0e0e0;
+  --color-red:            #d73634;
+  --color-red-dark:       #a83c3c;
+  --color-tab-active:     #a83c3c;
+  --color-table-head-bg:  #e8c5c5;
+  --color-table-head-text:#a83c3c;
+  --color-table-cell-red: #f5e5e5;
+  --color-table-row-gap:  #ffffff;
+  --color-page-inactive:  #e5e7eb;
+  --color-page-inactive-hover: #d1d5db;
+  --color-page-text:      #6b7280;
+  --color-page-arrow:     #9ca3af;
+  --color-page-arrow-hover: #4b5563;
+  --color-page-placeholder: #f3f4f6;
+
+  /* Typography */
+  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body:   "Roboto", sans-serif;
+
+  /* Transitions */
+  --transition-fast: 0.2s;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
+}
+
+
+/* ============================================================
+   Base
+   ============================================================ */
+body {
+  font-family: var(--font-system);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+a { text-decoration: none; color: var(--color-text); }
+
+/* These sections exist in the shared HTML but are not shown on this page */
+.total-value-section,
+.HOME,
+.subtitle { display: none; }
+
+/* Floating search button from layout.css not needed here */
+.search-wrapper { display: none; }
+
+/* Screen-reader-only text for accessibility */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* ============================================================
+   Page Container
+   ============================================================ */
+.main-container {
+  max-width: 1100px;
+  width: 90%;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+@media (max-width: 568px) {
+  .main-container { width: 95%; padding: 0 0.3rem; }
+}
+
+
+/* ============================================================
+   Filter Bar — Wrapper for all filter controls
+   ============================================================ */
+.filter-bar {
+  margin-bottom: 1.5rem;
+}
+
+
+/* ============================================================
+   Category Tabs
+   Horizontally scrollable on mobile. Uses a sliding indicator
+   bar that sits flush ON the shared border-bottom line.
+   ============================================================ */
+.category-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+}
+
+.category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  padding: 1rem 2rem;
+  font-family: var(--font-system);
+  font-size: 1.05rem;
+  font-weight: 400;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition-slow), font-weight 0.15s ease;
+  color: var(--color-text-muted);
+  position: relative;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tab-btn:hover { color: #333; }
+
+.tab-btn.active {
+  color: var(--color-tab-active);
+  font-weight: 500;
+}
+
+/* Sliding underline indicator — sits ON the grey border, covering it */
+.tab-indicator {
+  position: absolute;
+  bottom: -2px;  /* push down to overlap the border-bottom of .category-tabs */
+  left: 0;
+  height: 3px;   /* slightly thicker than the 2px grey border so it fully covers it */
+  background-color: var(--color-tab-active);
+  border-radius: 0;
+  transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  will-change: left, width;
+  z-index: 1;
+}
+
+/* Tab count badge */
+.tab-count {
+  display: inline-block;
+  margin-left: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 400;
+  opacity: 0.55;
+}
+
+.tab-btn.active .tab-count {
+  opacity: 0.75;
+}
+
+
+/* ============================================================
+   Value-Type Chips
+   Small outlined toggle chips for secondary filtering.
+   Multiple can be active at once (OR logic).
+   ============================================================ */
+.value-chips-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.value-chips-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-right: 0.25rem;
+  white-space: nowrap;
+}
+
+.value-chip {
+  padding: 0.35rem 0.9rem;
+  font-family: var(--font-system);
+  font-size: 0.82rem;
+  font-weight: 450;
+  background-color: transparent;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.value-chip:hover {
+  border-color: #c49090;
+  color: var(--color-red-dark);
+  background-color: #fdf5f5;
+}
+
+.value-chip.active {
+  background-color: #f5e5e5;
+  border-color: var(--color-red-dark);
+  color: var(--color-red-dark);
+  font-weight: 500;
+}
+
+
+/* ============================================================
+   Search & Results Info Row
+   ============================================================ */
+.search-results-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 320px;
+}
+
+.search-input-wrapper svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  stroke: #999;
+  fill: none;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem 0.6rem 2.3rem;
+  font-family: var(--font-system);
+  font-size: 0.9rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: 8px;
+  outline: none;
+  background-color: #fafafa;
+  color: var(--color-text);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  border-color: #c49090;
+  background-color: #fff;
+}
+
+.search-input::placeholder {
+  color: #bbb;
+  font-weight: 300;
+}
+
+.results-info {
+  font-size: 0.85rem;
+  color: var(--color-text-faint);
+  font-weight: 400;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.results-info span {
+  font-weight: 600;
+  color: var(--color-red-dark);
+}
+
+
+/* ============================================================
+   Resources Section & Table
+   Four-column layout: Resource | Value | Description | Apply.
+   Columns 1 & 4 use a soft red tint; 2 & 3 are white.
+   White row gaps (border-bottom on tr) create a card-row look.
+   ============================================================ */
+.resources-section {
+  width: 100%;
+  min-height: 400px;
+}
+
+/* Fades in when the active tab switches */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+  width: 100%;
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.course-card {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+  position: relative;
+  overflow: hidden;
+  min-height: 240px;
+  text-decoration: none;
+}
+
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+  border-color: #c49090;
+}
+
+/* Subtle gradient top border accent on hover */
+.course-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #d73634, #ff8a8a);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.course-card:hover::before {
+  opacity: 1;
+}
+
+.course-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.course-uni {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-red-dark);
+  background: #f5e5e5;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+}
+
+.course-provider {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.course-title {
+  font-size: 1.3rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+  transition: color 0.2s ease;
+}
+
+.course-card:hover .course-title {
+  color: var(--color-red-dark);
+}
+
+.course-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 1.2rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.course-topic {
+  font-size: 0.85rem;
+  color: #555;
+  background: #f8f9fa;
+  padding: 0.35rem 0.8rem;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  font-weight: 500;
+}
+
+.course-btn {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-red);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s ease;
+}
+
+.course-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.course-card:hover .course-btn {
+  color: var(--color-red-dark);
+}
+
+.course-card:hover .course-btn svg {
+  transform: translateX(4px);
+}
+
+
+/* ============================================================
+   Loading & Empty States
+   ============================================================ */
+.loading-state,
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  color: var(--color-text-faint);
+}
+
+.no-results-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+
+/* ============================================================
+   Pagination
+   Identical pattern to articles.css — page circles with
+   prev/next arrows. Active circle is larger and red.
+   ============================================================ */
+.pagination-bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 0;
+  margin-top: 1rem;
+}
+
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  user-select: none;
+}
+
+.arrow-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-page-arrow);
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-base);
+}
+
+.arrow-btn:hover { color: var(--color-page-arrow-hover); }
+
+.arrow-btn svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+#pages-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.page-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.page-circle.inactive {
+  background-color: var(--color-page-inactive);
+  color: var(--color-page-text);
+}
+
+.page-circle.inactive:hover { background-color: var(--color-page-inactive-hover); }
+
+.page-circle.active {
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: #A93836;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  z-index: 2;
+  transform: scale(1.1);
+}
+
+.page-circle.placeholder {
+  background-color: var(--color-page-placeholder);
+  cursor: default;
+}
+
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .main-container { width: 95%; }
+
+  /* Category tabs scroll horizontally */
+  .tab-btn { padding: 0.9rem 1.3rem; font-size: 0.95rem; }
+
+  /* Value chips */
+  .value-chips-row { gap: 0.4rem; }
+  .value-chip { padding: 0.3rem 0.7rem; font-size: 0.78rem; }
+
+  /* Search row */
+  .search-results-row { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+  .search-input-wrapper { max-width: 100%; }
+  .results-info { text-align: right; }
+
+  /* Courses Grid */
+  .courses-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .course-card { padding: 1.5rem; }
+
+  .pagination-bar     { padding: 1.5rem 0; }
+  .pagination-wrapper { gap: 0.75rem; }
+  .page-circle        { width: 2.25rem; height: 2.25rem; }
+  .page-circle.active { width: 3rem; height: 3rem; font-size: 1.1rem; }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .tab-btn { padding: 0.7rem 1rem; font-size: 0.85rem; }
+  .tab-count { font-size: 0.7rem; }
+
+  .value-chips-label { font-size: 0.75rem; }
+
+  .pagination-bar {
+    padding: 1rem 0 1.25rem;
+    background: linear-gradient(to top, #f9fafb 90%, transparent);
+  }
+
+  .pagination-wrapper { gap: 0.5rem; }
+  #pages-container    { gap: 0.25rem; }
+
+  .page-circle        { width: 2rem;    height: 2rem;    font-size: 0.9rem; }
+  .page-circle.active { width: 2.75rem; height: 2.75rem; font-size: 1rem; transform: scale(1.05); }
+  .arrow-btn          { padding: 0.25rem; }
+}

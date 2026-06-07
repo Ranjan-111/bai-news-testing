@@ -13,13 +13,13 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 
 // 2. CONFIGURATION
 const firebaseConfig = {
-    apiKey: "AIzaSyC_Q3p2dyKwUOUv5O-gIMNI8vv6RrD0IZY",
-    authDomain: "bitfeed.in",
-    projectId: "bai-news-9e4cf",
-    storageBucket: "bai-news-9e4cf.firebasestorage.app",
-    messagingSenderId: "1056453543830",
-    appId: "1:1056453543830:web:c40a8c1e5bb582f2c63fb7",
-    measurementId: "G-MY4FQNR5YV"
+  apiKey: "AIzaSyAFkDJnp1Oq7mBzSAwpOyWVziq9tzVLRrA",
+  authDomain: "bitfeed-team.firebaseapp.com",
+  projectId: "bitfeed-team",
+  storageBucket: "bitfeed-team.firebasestorage.app",
+  messagingSenderId: "282116619994",
+  appId: "1:282116619994:web:185a74b8a80ea6b9ad6fe3",
+  measurementId: "G-H99Z6H811S"
 };
 
 // 3. INITIALIZE

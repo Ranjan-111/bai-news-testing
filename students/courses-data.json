@@ -1,0 +1,322 @@
+[
+  {
+    "courseName": "6.0001: Introduction to Computer Science and Programming in Python",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "Computer Science",
+    "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+    "tags": ["cs", "mit"]
+  },
+  {
+    "courseName": "6.0002: Introduction to Computational Thinking and Data Science",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "Data Science",
+    "url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/",
+    "tags": ["math-data", "cs", "mit"]
+  },
+  {
+    "courseName": "6.006: Introduction to Algorithms",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "Computer Science",
+    "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+    "tags": ["cs", "mit"]
+  },
+  {
+    "courseName": "18.06: Linear Algebra",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "Math",
+    "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/",
+    "tags": ["math-data", "mit"]
+  },
+  {
+    "courseName": "6.036: Introduction to Machine Learning",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "Machine Learning",
+    "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+    "tags": ["ai-ml", "mit"]
+  },
+  {
+    "courseName": "6.034: Artificial Intelligence",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "Artificial Intelligence",
+    "url": "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/",
+    "tags": ["ai-ml", "mit"]
+  },
+  {
+    "courseName": "6.S191: Introduction to Deep Learning",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "Deep Learning",
+    "url": "http://introtodeeplearning.com/",
+    "tags": ["ai-ml", "mit"]
+  },
+  {
+    "courseName": "6.042J: Mathematics for Computer Science",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "Math & CS",
+    "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/",
+    "tags": ["cs", "math-data", "mit"]
+  },
+  {
+    "courseName": "6.867: Machine Learning",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "Machine Learning",
+    "url": "https://ocw.mit.edu/courses/6-867-machine-learning-fall-2006/",
+    "tags": ["ai-ml", "mit"]
+  },
+  {
+    "courseName": "6.801 / 6.866: Machine Vision",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "Machine Vision",
+    "url": "https://ocw.mit.edu/courses/6-801-machine-vision-fall-2020/",
+    "tags": ["ai-ml", "mit"]
+  },
+  {
+    "courseName": "9.110J / 9.572J: Natural Language and the Computer Representation of Knowledge",
+    "provider": "MIT OpenCourseWare",
+    "university": "MIT",
+    "topic": "NLP",
+    "url": "https://ocw.mit.edu/courses/9-110j-natural-language-and-the-computer-representation-of-knowledge-spring-2003/",
+    "tags": ["ai-ml", "cs", "mit"]
+  },
+  {
+    "courseName": "CS50: Introduction to Computer Science",
+    "provider": "Class Central",
+    "university": "Harvard University",
+    "topic": "Computer Science",
+    "url": "https://www.classcentral.com/course/harvardx-cs50-s-introduction-to-computer-science-442",
+    "tags": ["cs", "harvard"]
+  },
+  {
+    "courseName": "Machine Learning Specialization",
+    "provider": "Class Central",
+    "university": "Stanford University & DeepLearning.AI",
+    "topic": "Machine Learning",
+    "url": "https://www.classcentral.com/course/machine-learning-835",
+    "tags": ["ai-ml", "stanford"]
+  },
+  {
+    "courseName": "Deep Learning Specialization",
+    "provider": "Class Central",
+    "university": "DeepLearning.AI",
+    "topic": "Deep Learning",
+    "url": "https://www.classcentral.com/course/deep-learning-specialization-9042",
+    "tags": ["ai-ml"]
+  },
+  {
+    "courseName": "Python for Everybody",
+    "provider": "Class Central",
+    "university": "University of Michigan",
+    "topic": "Programming",
+    "url": "https://www.classcentral.com/course/python-everybody-2224",
+    "tags": ["cs"]
+  },
+  {
+    "courseName": "AI For Everyone",
+    "provider": "Class Central",
+    "university": "DeepLearning.AI",
+    "topic": "Artificial Intelligence",
+    "url": "https://www.classcentral.com/course/ai-for-everyone-14561",
+    "tags": ["ai-ml"]
+  },
+  {
+    "courseName": "Algorithms, Part I",
+    "provider": "Class Central",
+    "university": "Princeton University",
+    "topic": "Algorithms",
+    "url": "https://www.classcentral.com/course/algs4partI-434",
+    "tags": ["cs", "princeton"]
+  },
+  {
+    "courseName": "CS50's Introduction to Artificial Intelligence with Python",
+    "provider": "Class Central",
+    "university": "Harvard University",
+    "topic": "Artificial Intelligence",
+    "url": "https://www.classcentral.com/course/harvardx-cs50-s-introduction-to-artificial-intelligence-with-python-20835",
+    "tags": ["ai-ml", "cs", "harvard"]
+  },
+  {
+    "courseName": "Generative AI for Everyone",
+    "provider": "Class Central",
+    "university": "DeepLearning.AI",
+    "topic": "Generative AI",
+    "url": "https://www.classcentral.com/course/generative-ai-for-everyone-142805",
+    "tags": ["ai-ml"]
+  },
+  {
+    "courseName": "Google Data Analytics Professional Certificate",
+    "provider": "Class Central",
+    "university": "Google",
+    "topic": "Data Analytics",
+    "url": "https://www.classcentral.com/course/google-data-analytics-25087",
+    "tags": ["math-data", "google"]
+  },
+  {
+    "courseName": "Prompt Engineering for ChatGPT",
+    "provider": "Class Central",
+    "university": "Vanderbilt University",
+    "topic": "AI Tools",
+    "url": "https://www.classcentral.com/course/prompt-engineering-for-chatgpt-121516",
+    "tags": ["ai-ml"]
+  },
+  {
+    "courseName": "Google IT Support Professional Certificate",
+    "provider": "Class Central",
+    "university": "Google",
+    "topic": "IT Support",
+    "url": "https://www.classcentral.com/course/google-it-support-10499",
+    "tags": ["cloud-it", "google"]
+  },
+  {
+    "courseName": "AWS Cloud Technical Essentials",
+    "provider": "Class Central",
+    "university": "Amazon Web Services",
+    "topic": "Cloud",
+    "url": "https://www.classcentral.com/course/aws-cloud-technical-essentials-69533",
+    "tags": ["cloud-it", "aws"]
+  },
+  {
+    "courseName": "Principles of Computation with Python",
+    "provider": "OLI",
+    "university": "Carnegie Mellon University",
+    "topic": "Computer Science",
+    "url": "https://oli.cmu.edu/courses/principles-of-computation-with-python/",
+    "tags": ["cs", "cmu"]
+  },
+  {
+    "courseName": "Introduction to Programming in Java",
+    "provider": "OLI",
+    "university": "Carnegie Mellon University",
+    "topic": "Computer Science",
+    "url": "https://oli.cmu.edu/courses/introduction-to-programming-in-java/",
+    "tags": ["cs", "cmu"]
+  },
+  {
+    "courseName": "Logic & Proofs",
+    "provider": "OLI",
+    "university": "Carnegie Mellon University",
+    "topic": "Math & Logic",
+    "url": "https://oli.cmu.edu/courses/logic-proofs/",
+    "tags": ["math-data", "cmu"]
+  },
+  {
+    "courseName": "Causal and Statistical Reasoning",
+    "provider": "OLI",
+    "university": "Carnegie Mellon University",
+    "topic": "Data Science",
+    "url": "https://oli.cmu.edu/courses/causal-and-statistical-reasoning/",
+    "tags": ["math-data", "cmu"]
+  },
+  {
+    "courseName": "Graphical Causal Models",
+    "provider": "OLI",
+    "university": "Carnegie Mellon University",
+    "topic": "Data Science",
+    "url": "https://oli.cmu.edu/courses/graphical-causal-models/",
+    "tags": ["math-data", "cmu"]
+  },
+  {
+    "courseName": "“AI for Learning”: Integrating Artificial Intelligence Into Your Teaching",
+    "provider": "OLI",
+    "university": "Carnegie Mellon University",
+    "topic": "AI",
+    "url": "https://oli.cmu.edu/courses/ai-for-learning/",
+    "tags": ["ai-ml", "cmu"]
+  },
+  {
+    "courseName": "Cyber Technology",
+    "provider": "OLI",
+    "university": "Carnegie Mellon University",
+    "topic": "Cybersecurity",
+    "url": "https://oli.cmu.edu/courses/cyber-technology/",
+    "tags": ["cloud-it", "cmu"]
+  },
+  {
+    "courseName": "Media Programming",
+    "provider": "OLI",
+    "university": "Carnegie Mellon University",
+    "topic": "Programming",
+    "url": "https://oli.cmu.edu/courses/media-programming/",
+    "tags": ["cs", "cmu"]
+  },
+  {
+    "courseName": "An introduction to artificial intelligence",
+    "provider": "OpenLearn",
+    "university": "The Open University",
+    "topic": "Artificial Intelligence",
+    "url": "https://www.open.edu/openlearn/science-maths-technology/computing-ict/an-introduction-artificial-intelligence/content-section-0",
+    "tags": ["ai-ml", "open-u"]
+  },
+  {
+    "courseName": "Introduction to cyber security: stay safe online",
+    "provider": "OpenLearn",
+    "university": "The Open University",
+    "topic": "Cybersecurity",
+    "url": "https://www.open.edu/openlearn/science-maths-technology/computing-ict/introduction-cyber-security-stay-safe-online/content-section-overview",
+    "tags": ["cloud-it", "open-u"]
+  },
+  {
+    "courseName": "An introduction to software development",
+    "provider": "OpenLearn",
+    "university": "The Open University",
+    "topic": "Software Engineering",
+    "url": "https://www.open.edu/openlearn/science-maths-technology/computing-ict/an-introduction-software-development/content-section-0",
+    "tags": ["cs", "open-u"]
+  },
+  {
+    "courseName": "AI fluency",
+    "provider": "OpenLearn",
+    "university": "The Open University",
+    "topic": "Artificial Intelligence",
+    "url": "https://www.open.edu/openlearn/science-maths-technology/computing-ict/ai-fluency/content-section-overview",
+    "tags": ["ai-ml", "open-u"]
+  },
+  {
+    "courseName": "Internet of everything",
+    "provider": "OpenLearn",
+    "university": "The Open University",
+    "topic": "IoT",
+    "url": "https://www.open.edu/openlearn/science-maths-technology/computing-ict/internet-everything/content-section-0",
+    "tags": ["cloud-it", "open-u"]
+  },
+  {
+    "courseName": "Digital skills: succeeding in a digital world",
+    "provider": "OpenLearn",
+    "university": "The Open University",
+    "topic": "Digital Skills",
+    "url": "https://www.open.edu/openlearn/science-maths-technology/computing-ict/digital-skills-succeeding-digital-world/content-section-overview",
+    "tags": ["cloud-it", "open-u"]
+  },
+  {
+    "courseName": "An introduction to computers and computer systems",
+    "provider": "OpenLearn",
+    "university": "The Open University",
+    "topic": "Computer Science",
+    "url": "https://www.open.edu/openlearn/science-maths-technology/computing-ict/an-introduction-computers-and-computer-systems/content-section-0",
+    "tags": ["cs", "open-u"]
+  },
+  {
+    "courseName": "Gamified Intelligent Cyber Aptitude and Skills Training / GICAST",
+    "provider": "OpenLearn",
+    "university": "The Open University",
+    "topic": "Cybersecurity",
+    "url": "https://www.open.edu/openlearn/science-maths-technology/computing-ict/gamified-intelligent-cyber-aptitude-and-skills-training-gicast/content-section-overview",
+    "tags": ["cloud-it", "open-u"]
+  },
+  {
+    "courseName": "Machine translation in language learning and teaching",
+    "provider": "OpenLearn",
+    "university": "The Open University",
+    "topic": "AI & Language",
+    "url": "https://www.open.edu/openlearn/languages/machine-translation-language-learning-and-teaching/content-section-overview",
+    "tags": ["ai-ml", "open-u"]
+  }
+]

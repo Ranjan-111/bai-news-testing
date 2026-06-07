@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Access top university courses from MIT, Harvard, Stanford and more. Filter by topics and universities." />
+    <meta name="keywords"
+        content="university courses, free courses, computer science, ai, machine learning, mit ocw, class central" />
+    <meta name="author" content="Bitfeed" />
+    <meta property="og:image" content="https://bitfeed.in/assets/favicon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Top University Courses - Bitfeed" />
+    <meta name="twitter:description" content="Access top university courses from MIT, Harvard, Stanford and more." />
+    <meta name="twitter:image" content="https://bitfeed.in/assets/favicon.png" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://bitfeed.in/students/courses/" />
+
+    <meta property="og:title" content="Top University Courses - Bitfeed" />
+    <meta property="og:description"
+        content="Access top university courses from MIT, Harvard, Stanford and more. Filter by topics and universities." />
+    <meta property="og:url" content="https://bitfeed.in/students/courses/" />
+    <meta property="og:type" content="website" />
+
+    <title>Top University Courses - Bitfeed</title>
+
+    <!-- Inline Critical CSS (prevents FOUC) -->
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -ms-overflow-style: none; scrollbar-width: none; }
+        body::-webkit-scrollbar { display: none; }
+        #global-header, header#global-header { position: sticky; top: 0; z-index: 1000; width: 100vw; min-height: 67px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); }
+        @media (max-width: 550px) { #global-header, header#global-header { min-height: 50px; } }
+        .main-container { flex: 1 0 auto; }
+        footer, #global-footer, footer#global-footer { flex-shrink: 0; }
+        a { text-decoration: none; color: black; }
+        .hidden { display: none !important; }
+    </style>
+
+    <link rel="stylesheet" href="/layout/layout.css">
+    <link rel="stylesheet" href="/students/courses/courses.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Top University Courses",
+        "description": "Access top university courses from MIT, Harvard, Stanford and more.",
+        "url": "https://bitfeed.in/students/courses/",
+        "provider": {
+            "@type": "Organization",
+            "name": "Bitfeed",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://bitfeed.in/assets/favicon.png"
+            }
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://bitfeed.in/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Students",
+                    "item": "https://bitfeed.in/students/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Courses",
+                    "item": "https://bitfeed.in/students/courses/"
+                }
+            ]
+        }
+    }
+    </script>
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header id="global-header"></header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <h1 class="visually-hidden">Top University Courses</h1>
+
+        <!-- Breadcrumb Navigation -->
+        <nav class="visually-hidden" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="/">Home</a></li>
+                <li><a href="/students/">Students</a></li>
+                <li>Courses</li>
+            </ol>
+        </nav>
+
+        <!-- ═══════════════════════════════════════
+             FILTER BAR — Categories + Value Types + Search
+             ═══════════════════════════════════════ -->
+        <div class="filter-bar" id="filter-bar">
+
+            <!-- Category Navigation Tabs -->
+            <nav class="category-tabs" id="category-tabs" aria-label="Course Topics">
+                <button class="tab-btn active" data-category="all" id="tab-all" aria-label="Show all courses">All</button>
+                <button class="tab-btn" data-category="cs" id="tab-cs" aria-label="Computer Science courses">Computer Science</button>
+                <button class="tab-btn" data-category="ai-ml" id="tab-aiml" aria-label="AI & ML courses">AI & ML</button>
+                <button class="tab-btn" data-category="math-data" id="tab-math" aria-label="Math & Data courses">Math & Data</button>
+                <button class="tab-btn" data-category="cloud-it" id="tab-cloud" aria-label="Cloud & IT courses">Cloud & IT</button>
+                <!-- Sliding underline indicator -->
+                <div class="tab-indicator" id="tab-indicator"></div>
+            </nav>
+
+            <!-- Value-Type Filter Chips -->
+            <div class="value-chips-row" id="value-chips-row">
+                <span class="value-chips-label">University:</span>
+                <button class="value-chip" data-value="mit" id="chip-mit">MIT</button>
+                <button class="value-chip" data-value="harvard" id="chip-harvard">Harvard</button>
+                <button class="value-chip" data-value="stanford" id="chip-stanford">Stanford</button>
+                <button class="value-chip" data-value="cmu" id="chip-cmu">CMU</button>
+                <button class="value-chip" data-value="open-u" id="chip-openu">Open University</button>
+                <button class="value-chip" data-value="princeton" id="chip-princeton">Princeton</button>
+            </div>
+
+            <!-- Search + Result Count -->
+            <div class="search-results-row">
+                <div class="search-input-wrapper">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" class="search-input" id="search-input"
+                        placeholder="Search courses..." aria-label="Search courses">
+                </div>
+                <div class="results-info" id="results-info">
+                    Showing <span id="results-count">0</span> courses
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses Grid Container -->
+        <section class="resources-section">
+            <div class="loading-state" id="loading">
+                <p>Loading courses...</p>
+            </div>
+
+            <div class="courses-grid" id="courses-grid" style="display: none;">
+                <!-- Course cards will be dynamically inserted here -->
+            </div>
+
+            <div class="no-results" id="no-results" style="display: none;">
+                <div class="no-results-icon">🔍</div>
+                <p>No courses found matching your filters.</p>
+            </div>
+
+            <noscript>
+                <p>Please enable JavaScript to view the courses.</p>
+            </noscript>
+        </section>
+
+
+        <!-- Pagination Container -->
+        <div class="pagination-bar">
+            <div class="pagination-wrapper">
+
+                <button id="prev-page" class="arrow-btn" aria-label="Previous Page">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M2 12l20 10V2z" />
+                    </svg>
+                </button>
+
+                <div id="pages-container"></div>
+
+                <button id="next-page" class="arrow-btn" aria-label="Next Page">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M22 12l-20 10V2z" />
+                    </svg>
+                </button>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="global-footer"></footer>
+
+    <script defer type="module" src="/layout/layout.js"></script>
+    <script defer src="/students/courses/courses.js"></script>
+
+</body>
+
+</html>
