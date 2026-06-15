@@ -4,11 +4,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
-    getFirestore, collection, query, where, orderBy, limit, startAt, endAt,
+    getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
+    collection, query, where, orderBy, limit, startAt, endAt,
     getDocs, getDoc, doc, onSnapshot, updateDoc, arrayUnion, arrayRemove, increment,
-    enableIndexedDbPersistence, getCountFromServer, setDoc, deleteDoc
+    getCountFromServer, setDoc, deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-// 1. ADD THIS IMPORT LINE (Keep the version matching your other imports, e.g., 10.7.1)
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
 // 2. CONFIGURATION
@@ -25,17 +25,29 @@ const firebaseConfig = {
 // 3. INITIALIZE
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getFirestore(app);
-// 2. ADD THIS LINE TO START ANALYTICS
-const analytics = getAnalytics(app);
 
-// 3. (Optional) Export it if you need to log specific events later
-export { analytics };
-
-// 4. OFFLINE CACHE (Protocol #5)
+// 4. OFFLINE CACHE — Use new persistentLocalCache API (replaces deprecated enableIndexedDbPersistence)
+// This also works correctly in Safari's ITP environment.
+let db;
 try {
-    enableIndexedDbPersistence(db).catch(err => console.log("Persistence:", err.code));
-} catch (e) { }
+    db = initializeFirestore(app, {
+        cache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+    });
+} catch (e) {
+    // Fallback: if persistentLocalCache fails (e.g. private browsing / IndexedDB blocked)
+    db = getFirestore(app);
+}
+export { db };
+
+// 5. Analytics — wrapped in try/catch so Safari's ITP tracker blocking
+// doesn't propagate a module-level error that freezes the whole page.
+let analytics = null;
+try {
+    analytics = getAnalytics(app);
+} catch (e) {
+    console.warn('Analytics blocked (likely Safari ITP or private browsing):', e.message);
+}
+export { analytics };
 
 
 // ======================================================

@@ -79,5 +79,9 @@
         "destination": "/main/index.html"
       }
     ]
+  },
+  "firestore": {
+    "indexes": "firestore.indexes.json"
   }
 }
+

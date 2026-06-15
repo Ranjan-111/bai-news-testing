@@ -390,9 +390,12 @@ function updateSocialMetaTags(article) {
     const authorName = article.authorName || article.authorId || "bitfeed";
 
     // 2. CONVERT TO ABSOLUTE URLs (Critical for bots/crawlers)
-    const absoluteImageUrl = article.imageUrl.startsWith('http')
-        ? article.imageUrl
-        : `${siteBaseUrl}${article.imageUrl}`;
+    // NOTE: Guard against null/undefined imageUrl — Safari throws a hard TypeError
+    // on null.startsWith() which crashes the entire DOMContentLoaded handler,
+    // leaving the skeleton permanently visible (unlike Chrome which is more lenient).
+    const absoluteImageUrl = article.imageUrl
+        ? (article.imageUrl.startsWith('http') ? article.imageUrl : `${siteBaseUrl}${article.imageUrl}`)
+        : `${siteBaseUrl}/assets/favicon.png`;
 
     const currentAbsoluteUrl = window.location.href;
 

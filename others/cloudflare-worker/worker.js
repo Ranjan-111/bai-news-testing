@@ -11,25 +11,25 @@
  * 1. ALL requests are proxied through Cloudflare (DNS set up via Cloudflare).
  * 2. For /article?id=xxx → fetch article from Firestore REST API, inject content.
  * 3. For / (homepage) → fetch featured + latest articles, inject into HTML.
- * 4. Responses are cached at the edge (10 min TTL) to minimize Firestore reads.
+ * 4. Responses are cached at the edge 5 min TTL) to minimize Firestore reads.
  * 5. Client-side JS detects pre-rendered content and skips re-fetching.
  *
  * CACHE STRATEGY:
- * - Cache TTL: 10 minutes (fresh enough for 2-5 daily articles)
+ * - Cache TTL: 5 minutes (fresh enough for 2-5 daily articles)
  * - Cache key: URL pathname + search params
  * - Cache is per-PoP (each Cloudflare edge location has its own cache)
  * - Stale responses are served while revalidating in background
  *
  * SETUP:
- * - Firebase project ID: bai-news-9e4cf
+ * - Firebase project ID: bitfeed-team
  * - Site domain: bitfeed.in
  * - Firestore collection: articles
  */
 
 // ─── CONFIGURATION ──────────────────────────────────────────────
-const FIREBASE_PROJECT_ID = "bai-news-9e4cf";
+const FIREBASE_PROJECT_ID = "bitfeed-team";
 const SITE_DOMAIN = "https://bitfeed.in";
-const CACHE_TTL_SECONDS = 600; // 10 minutes
+const CACHE_TTL_SECONDS = 300; // 5 minutes
 
 // Firestore REST API base URL
 const FIRESTORE_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
