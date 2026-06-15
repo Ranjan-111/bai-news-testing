@@ -55,11 +55,11 @@ let contentVersions = {
 // ==========================================
 document.addEventListener('DOMContentLoaded', async () => {
 
-    // 0. LOAD IMAGE TAGS JSON
-    try {
-        const _res = await fetch('/assets/tags/img-tags.json');
-        IMG_TAGS_DATA = await _res.json();
-    } catch (e) { console.error('Error loading image tags:', e); }
+    // 0. LOAD IMAGE TAGS JSON (Non-blocking background fetch)
+    fetch('/assets/tags/img-tags.json')
+        .then(res => res.json())
+        .then(data => { IMG_TAGS_DATA = data; })
+        .catch(e => console.error('Error loading image tags:', e));
 
     // 1. SELECT MAIN SKELETON ELEMENTS
     const skeletonView = document.getElementById('skeleton-view');
@@ -136,17 +136,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     // -----------------------------------
 
 
-    // --- NEW: INCREMENT VIEW COUNT ---
+    // --- NEW: INCREMENT VIEW COUNT (Non-blocking) ---
     if (!isPreview) {
-        try {
-            const articleRef = doc(db, "articles", articleId);
-            await updateDoc(articleRef, {
-                "stats.views": increment(1)
-            });
+        const articleRef = doc(db, "articles", articleId);
+        updateDoc(articleRef, {
+            "stats.views": increment(1)
+        }).then(() => {
             console.log("📈 View recorded");
-        } catch (e) {
+        }).catch(e => {
             console.error("Error updating view count:", e);
-        }
+        });
     }
     // ---------------------------------
 
@@ -216,29 +215,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const authorEmail = article.authorEmail || "priyanshuranjank@gmail.com";
     let authorPicUrl = article.authorImage || AUTHOR_DEFAULTS[authorName] || "/assets/default-user.png";
 
-    // Attempt to fetch profile photo from authors or users collection dynamically
-    try {
-        if (!article.authorImage) {
-            // First check the `authors` collection
-            const authorRef = doc(db, "authors", authorEmail);
-            const authorSnap = await getDoc(authorRef);
-            
-            if (authorSnap.exists() && authorSnap.data().photoURL) {
-                authorPicUrl = authorSnap.data().photoURL;
-            } else {
-                // Fallback to `users` collection
-                const userRef = doc(db, "users", authorEmail);
-                const userSnap = await getDoc(userRef);
-                
-                if (userSnap.exists() && userSnap.data().photoURL) {
-                    authorPicUrl = userSnap.data().photoURL;
-                }
-            }
-        }
-    } catch (e) {
-        console.warn("Could not fetch author profile photo dynamically:", e);
-    }
-
     const authorNameEl = document.querySelector('.author-name');
     const authorImgEl = document.querySelector('.author-avatar');
     const linkImg = document.getElementById('auth-link-img');
@@ -246,6 +222,34 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (authorNameEl) authorNameEl.innerText = authorName;
     if (authorImgEl) { authorImgEl.src = authorPicUrl; authorImgEl.alt = authorName; }
+
+    // Attempt to fetch profile photo dynamically in the background (Non-blocking)
+    if (!article.authorImage) {
+        (async () => {
+            try {
+                // First check the `authors` collection
+                const authorRef = doc(db, "authors", authorEmail);
+                const authorSnap = await getDoc(authorRef);
+                
+                if (authorSnap.exists() && authorSnap.data().photoURL) {
+                    authorPicUrl = authorSnap.data().photoURL;
+                } else {
+                    // Fallback to `users` collection
+                    const userRef = doc(db, "users", authorEmail);
+                    const userSnap = await getDoc(userRef);
+                    
+                    if (userSnap.exists() && userSnap.data().photoURL) {
+                        authorPicUrl = userSnap.data().photoURL;
+                    }
+                }
+                if (authorImgEl) {
+                    authorImgEl.src = authorPicUrl;
+                }
+            } catch (e) {
+                console.warn("Could not fetch author profile photo dynamically:", e);
+            }
+        })();
+    }
 
     const profileUrl = `/author?id=${encodeURIComponent(authorEmail)}`;
     // if (linkImg) linkImg.href = profileUrl;
@@ -547,7 +551,7 @@ async function initLikeButton(articleId, articleData) {
 
 
 
-window.toggleEditMode = function () {
+window.toggleEditMode = async function () {
     const headerBtn = document.getElementById('openPopupBtn');
     if (headerBtn) headerBtn.style.visibility = 'hidden';
     if (isEditing) return;
@@ -663,6 +667,16 @@ window.toggleEditMode = function () {
         const editImgContainer = document.getElementById('edit-img-suggest-options');
         if (editImgContainer) {
             editImgContainer.innerHTML = ''; // Clear previous
+
+            // Ensure image tags data is loaded
+            if (IMG_TAGS_DATA.length === 0) {
+                try {
+                    const _res = await fetch('/assets/tags/img-tags.json');
+                    IMG_TAGS_DATA = await _res.json();
+                } catch (e) {
+                    console.error('Error loading image tags in edit mode:', e);
+                }
+            }
 
             // Group tags by category
             const companyTags = IMG_TAGS_DATA.filter(t => t.category === 'company');
@@ -824,6 +838,15 @@ window.saveArticleChanges = async function () {
         }
 
         // 2. IMAGE TAG SWAP LOGIC
+        // Ensure image tags data is loaded
+        if (IMG_TAGS_DATA.length === 0) {
+            try {
+                const _res = await fetch('/assets/tags/img-tags.json');
+                IMG_TAGS_DATA = await _res.json();
+            } catch (e) {
+                console.error('Error loading image tags in save mode:', e);
+            }
+        }
         // Build image tag names from fetched JSON data
         const IMAGE_TAG_NAMES = IMG_TAGS_DATA.map(t => t.name);
         const selectedRadio = document.querySelector('input[name="edit-img-suggest"]:checked');
