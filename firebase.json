@@ -55,6 +55,10 @@
         "destination": "/others/about.html"
       },
       {
+        "source": "/links",
+        "destination": "/Linktree.html"
+      },
+      {
         "source": "/dashboard",
         "destination": "/admin/dashboard.html"
       },
