@@ -272,13 +272,13 @@ function initLatestNews() {
                     <section class="timeline-item">
                         <section class="time">${timeAgo}</section>
                         <section class="news-card">
-                            <a href="/article?id=${article.id}" style="text-decoration:none; color:inherit;">
+                            <a href="/article?id=${article.id}" style="text-decoration:none; color:inherit; display:block;">
                                 <h3>${capitalizeWords(article.title)}</h3>
+                                <section class="details">
+                                    <p><em>Reported: ${dateString}</em></p>
+                                    <p><em>${article.summary}</em></p>
+                                </section>
                             </a>
-                            <section class="details">
-                                <p><em>Reported: ${dateString}</em></p>
-                                <p><em>${article.summary}</em></p>
-                            </section>
                         </section>
                     </section>
                 `;

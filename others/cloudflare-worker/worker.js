@@ -270,15 +270,15 @@ function injectArticlePage(html, article, relatedArticles) {
   // Replace <title>
   html = html.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(article.title || "bitfeed")} | bitfeed</title>`);
 
-  // Replace meta tags
-  html = html.replace(/<meta\s+name="description"[^>]*>/i, `<meta name="description" id="meta-description-tag" content="${summary}">`);
-  html = html.replace(/<meta\s+property="og:title"[^>]*>/i, `<meta property="og:title" id="og-title" content="${title}">`);
-  html = html.replace(/<meta\s+property="og:description"[^>]*>/i, `<meta property="og:description" id="og-description" content="${summary}">`);
-  html = html.replace(/<meta\s+property="og:image"\s+id="og-image"[^>]*>/i, `<meta property="og:image" id="og-image" content="${absoluteImageUrl}">`);
-  html = html.replace(/<meta\s+property="og:image:alt"[^>]*>/i, `<meta property="og:image:alt" content="${title}">`);
-  html = html.replace(/<meta\s+name="twitter:title"[^>]*>/i, `<meta name="twitter:title" id="twitter-title" content="${title}">`);
-  html = html.replace(/<meta\s+name="twitter:description"[^>]*>/i, `<meta name="twitter:description" id="twitter-description" content="${summary}">`);
-  html = html.replace(/<meta\s+name="twitter:image"[^>]*>/i, `<meta name="twitter:image" id="twitter-image" content="${absoluteImageUrl}">`);
+  // Replace meta tags (robust regex matching attributes in any order)
+  html = html.replace(/<meta\s+[^>]*name="description"[^>]*>/i, `<meta name="description" id="meta-description-tag" content="${summary}">`);
+  html = html.replace(/<meta\s+[^>]*property="og:title"[^>]*>/i, `<meta property="og:title" id="og-title" content="${title}">`);
+  html = html.replace(/<meta\s+[^>]*property="og:description"[^>]*>/i, `<meta property="og:description" id="og-description" content="${summary}">`);
+  html = html.replace(/<meta\s+[^>]*property="og:image"\s+id="og-image"[^>]*>/i, `<meta property="og:image" id="og-image" content="${absoluteImageUrl}">`);
+  html = html.replace(/<meta\s+[^>]*property="og:image:alt"[^>]*>/i, `<meta property="og:image:alt" content="${title}">`);
+  html = html.replace(/<meta\s+[^>]*name="twitter:title"[^>]*>/i, `<meta name="twitter:title" id="twitter-title" content="${title}">`);
+  html = html.replace(/<meta\s+[^>]*name="twitter:description"[^>]*>/i, `<meta name="twitter:description" id="twitter-description" content="${summary}">`);
+  html = html.replace(/<meta\s+[^>]*name="twitter:image"[^>]*>/i, `<meta name="twitter:image" id="twitter-image" content="${absoluteImageUrl}">`);
 
   // ── 2. INJECT SSR MARKER ──
   // Client-side JS checks for this to know content is pre-rendered
@@ -441,13 +441,13 @@ function injectHomePage(html, featuredArticles, latestArticles) {
       return `<section class="timeline-item">
         <section class="time">${timeAgo}</section>
         <section class="news-card">
-          <a href="/article?id=${escapeHtml(a.id)}" style="text-decoration:none; color:inherit;">
+          <a href="/article?id=${escapeHtml(a.id)}" style="text-decoration:none; color:inherit; display:block;">
             <h3>${escapeHtml(capitalizeWords(a.title))}</h3>
+            <section class="details">
+              <p><em>Reported: ${dateString}</em></p>
+              <p><em>${escapeHtml(a.summary || "")}</em></p>
+            </section>
           </a>
-          <section class="details">
-            <p><em>Reported: ${dateString}</em></p>
-            <p><em>${escapeHtml(a.summary || "")}</em></p>
-          </section>
         </section>
       </section>`;
     }).join("\n");
