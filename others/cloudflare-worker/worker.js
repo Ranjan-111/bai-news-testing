@@ -271,17 +271,17 @@ function injectArticlePage(html, article, relatedArticles) {
   // Replace <title>
   html = html.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(article.title || "bitfeed")} | bitfeed</title>`);
 
-  // Replace meta tags (robust regex matching attributes in any order)
-  html = html.replace(/<meta\s+[^>]*name="description"[^>]*>/i, `<meta name="description" id="meta-description-tag" content="${summary}">`);
-  html = html.replace(/<meta\s+[^>]*property="og:title"[^>]*>/i, `<meta property="og:title" id="og-title" content="${title}">`);
-  html = html.replace(/<meta\s+[^>]*property="og:description"[^>]*>/i, `<meta property="og:description" id="og-description" content="${summary}">`);
-  html = html.replace(/<meta\s+[^>]*property="og:image"\s+id="og-image"[^>]*>/i, `<meta property="og:image" id="og-image" content="${absoluteImageUrl}">`);
-  html = html.replace(/<meta\s+[^>]*property="og:image:alt"[^>]*>/i, `<meta property="og:image:alt" content="${title}">`);
-  html = html.replace(/<meta\s+[^>]*name="twitter:title"[^>]*>/i, `<meta name="twitter:title" id="twitter-title" content="${title}">`);
-  html = html.replace(/<meta\s+[^>]*name="twitter:description"[^>]*>/i, `<meta name="twitter:description" id="twitter-description" content="${summary}">`);
-  html = html.replace(/<meta\s+[^>]*name="twitter:image"[^>]*>/i, `<meta name="twitter:image" id="twitter-image" content="${absoluteImageUrl}">`);
-  html = html.replace(/<meta\s+[^>]*property="og:url"[^>]*>/i, `<meta property="og:url" id="og-url" content="${canonicalUrl}">`);
-  html = html.replace(/<link\s+[^>]*rel="canonical"[^>]*>/i, `<link rel="canonical" id="canonical-link" href="${canonicalUrl}">`);
+  // Replace meta tags (robust regex matching attributes in any order with precise quotes matching)
+  html = html.replace(/<meta\s+[^>]*name=["']description["'][^>]*>/i, `<meta name="description" id="meta-description-tag" content="${summary}">`);
+  html = html.replace(/<meta\s+[^>]*property=["']og:title["'][^>]*>/i, `<meta property="og:title" id="og-title" content="${title}">`);
+  html = html.replace(/<meta\s+[^>]*property=["']og:description["'][^>]*>/i, `<meta property="og:description" id="og-description" content="${summary}">`);
+  html = html.replace(/<meta\s+[^>]*property=["']og:image["'][^>]*>/i, `<meta property="og:image" id="og-image" content="${absoluteImageUrl}">`);
+  html = html.replace(/<meta\s+[^>]*property=["']og:image:alt["'][^>]*>/i, `<meta property="og:image:alt" content="${title}">`);
+  html = html.replace(/<meta\s+[^>]*name=["']twitter:title["'][^>]*>/i, `<meta name="twitter:title" id="twitter-title" content="${title}">`);
+  html = html.replace(/<meta\s+[^>]*name=["']twitter:description["'][^>]*>/i, `<meta name="twitter:description" id="twitter-description" content="${summary}">`);
+  html = html.replace(/<meta\s+[^>]*name=["']twitter:image["'][^>]*>/i, `<meta name="twitter:image" id="twitter-image" content="${absoluteImageUrl}">`);
+  html = html.replace(/<meta\s+[^>]*property=["']og:url["'][^>]*>/i, `<meta property="og:url" id="og-url" content="${canonicalUrl}">`);
+  html = html.replace(/<link\s+[^>]*rel=["']canonical["'][^>]*>/i, `<link rel="canonical" id="canonical-link" href="${canonicalUrl}">`);
 
   // ── 2. INJECT SSR MARKER ──
   // Client-side JS checks for this to know content is pre-rendered
