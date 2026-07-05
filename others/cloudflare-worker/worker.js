@@ -266,6 +266,7 @@ function injectArticlePage(html, article, relatedArticles) {
   const summary = escapeHtml(article.summary || "Read this article on bitfeed — clean, minimal insights.");
   const authorName = escapeHtml(article.authorName || article.authorId || "bitfeed");
   const dateStr = formatDate(article.datePosted);
+  const canonicalUrl = `${SITE_DOMAIN}/article?id=${article.id}`;
 
   // Replace <title>
   html = html.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(article.title || "bitfeed")} | bitfeed</title>`);
@@ -279,6 +280,8 @@ function injectArticlePage(html, article, relatedArticles) {
   html = html.replace(/<meta\s+[^>]*name="twitter:title"[^>]*>/i, `<meta name="twitter:title" id="twitter-title" content="${title}">`);
   html = html.replace(/<meta\s+[^>]*name="twitter:description"[^>]*>/i, `<meta name="twitter:description" id="twitter-description" content="${summary}">`);
   html = html.replace(/<meta\s+[^>]*name="twitter:image"[^>]*>/i, `<meta name="twitter:image" id="twitter-image" content="${absoluteImageUrl}">`);
+  html = html.replace(/<meta\s+[^>]*property="og:url"[^>]*>/i, `<meta property="og:url" id="og-url" content="${canonicalUrl}">`);
+  html = html.replace(/<link\s+[^>]*rel="canonical"[^>]*>/i, `<link rel="canonical" id="canonical-link" href="${canonicalUrl}">`);
 
   // ── 2. INJECT SSR MARKER ──
   // Client-side JS checks for this to know content is pre-rendered
